@@ -1,5 +1,3 @@
-
-
 <ion-content no-bounce>
     <div class="intro-slider">
         <ion-slides [options]="{pager: true}" (ionWillChange)="onSlideChangeStart($event)">
@@ -25,8 +23,11 @@
 </ion-content>
 
 <ion-footer>
-    <div class="row">
-        <button ion-button color="primary" full >Login</button>
-        <button ion-button color="primary" full >Cadastro</button>
-    </div>
+    <ion-row>
+        <ion-col><button ion-button color="primary" full>Facebook Login</button></ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col><button ion-button color="primary" block (click)="onUserLogin()">Login</button></ion-col>
+        <ion-col><button ion-button color="primary" block (click)="onUserRegister()">Cadastro</button></ion-col>
+    </ion-row>
 </ion-footer>

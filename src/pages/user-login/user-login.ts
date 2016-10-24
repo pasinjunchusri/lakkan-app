@@ -3,24 +3,28 @@ import {ViewController, Platform} from 'ionic-angular';
 
 
 @Component({
-    selector   : 'page-user-forgot',
-    templateUrl: 'user-forgot.html'
+    selector   : 'page-user-login',
+    templateUrl: 'user-login.html'
 })
-export class UserForgotPage {
-    signup: {username?: string, password?: string} = {};
-    submitted                                      = false;
+export class UserLoginPage {
+
+    login: {username?: string, password?: string} = {};
+    submitted                                     = false;
 
     constructor(private viewCtrl: ViewController, private platform: Platform) { }
 
-    onForgotPassword(form) {
+
+    onLogin(form) {
         this.submitted = true;
 
         if (form.valid) {
             console.log(form);
+            //this.navCtrl.push(TabsPage);
         }
     }
 
     dismiss() {
         this.viewCtrl.dismiss();
     }
+
 }
