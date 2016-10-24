@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>Forgot Password</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span color="primary" showWhen="ios">Cancel</span>
+                <ion-icon name="close" showWhen="android,windows"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="login-page">
+
+    <ion-list>
+
+        <form #rForm="ngForm" novalidate>
+            <ion-item>
+                <ion-label floating color="primary">Email</ion-label>
+                <ion-input [(ngModel)]="form.email" name="email" type="email" #email="ngModel" required>
+                </ion-input>
+            </ion-item>
+            <p [hidden]="email.valid || submitted == false" color="danger" padding-left>
+                Email is required
+            </p>
+
+            <div padding>
+                <button ion-button (click)="onForgotPassword(rForm)" type="submit" block color="primary">Reset Password</button>
+            </div>
+        </form>
+    </ion-list>
+
+</ion-content>

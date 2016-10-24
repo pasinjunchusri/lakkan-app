@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Home</ion-title>
+    </ion-navbar>
+
+    <ion-toolbar>
+        <ion-segment color="primary" [(ngModel)]="pet">
+            <ion-segment-button value="public">Public</ion-segment-button>
+            <ion-segment-button value="followers">Follower</ion-segment-button>
+            <ion-segment-button value="me">Me</ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content parallax-header>
+
+    <div id="parallax-header" class="background-image"></div>
+
+    <div class="content" padding>
+        <ion-fab right bottom>
+            <button ion-fab color="primary">
+                <ion-icon name="add"></ion-icon>
+            </button>
+            <ion-fab-list side="top">
+                <button ion-fab>
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </button>
+                <button ion-fab>
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </button>
+                <button ion-fab>
+                    <ion-icon name="logo-vimeo"></ion-icon>
+                </button>
+                <button ion-fab>
+                    <ion-icon name="logo-googleplus"></ion-icon>
+                </button>
+            </ion-fab-list>
+        </ion-fab>
+
+        <ion-card>
+
+            <ion-item>
+                <ion-avatar item-left>
+                    <img src="img/marty-avatar.png">
+                </ion-avatar>
+                <h2>Marty McFly</h2>
+                <p>November 5, 1955</p>
+            </ion-item>
+
+            <img src="img/advance-card-bttf.png">
+
+            <ion-card-content>
+                <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of
+                    a DeLorean?! Whoa. This is heavy.</p>
+            </ion-card-content>
+
+            <ion-row>
+                <ion-col>
+                    <button primary clear small>
+                        <ion-icon name="thumbs-up"></ion-icon>
+                        <div>12 Likes</div>
+                    </button>
+                </ion-col>
+                <ion-col>
+                    <button primary clear small>
+                        <ion-icon name="text"></ion-icon>
+                        <div>4 Comments</div>
+                    </button>
+                </ion-col>
+                <ion-col center text-center>
+                    <ion-note>
+                        11h ago
+                    </ion-note>
+                </ion-col>
+            </ion-row>
+
+        </ion-card>
+    </div>
+
+</ion-content>
