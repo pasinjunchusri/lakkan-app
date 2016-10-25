@@ -1,17 +1,41 @@
-<ion-header >
-  <ion-navbar color="primary">
-    <ion-title>Activity</ion-title>
-  </ion-navbar>
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Activity</ion-title>
+    </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content>
+
+    <loader *ngIf="loading && !data.length" text="Carregando..."></loader>
+
+    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="data.length">
+        <ion-list>
+
+            <ion-item *ngFor="let item of data">
+                <ion-avatar item-left>
+                    <img *ngIf="item.user.photo" src="{{item.user.photo.url()}}">
+                    <img *ngIf="!item.user.photo" src="assets/img/user.png">
+                </ion-avatar>
+                <h2>{{item.user.username}}</h2>
+                <div class="text">{{item.action }}</div>
+                <div item-right>
+                    <button ion-button>
+                        <span *ngIf="!item.user.isFollow">follow</span>
+                        <span *ngIf="item.user.isFollow">unfollow</span>
+                    </button>
+                </div>
+            </ion-item>
+
+        </ion-list>
+    </div>
+
+    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
 </ion-content>
+

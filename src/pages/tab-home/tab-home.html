@@ -4,7 +4,7 @@
     </ion-navbar>
 
     <ion-toolbar>
-        <ion-segment color="primary" [(ngModel)]="pet">
+        <ion-segment color="primary" [(ngModel)]="typeFeed">
             <ion-segment-button value="public">Public</ion-segment-button>
             <ion-segment-button value="followers">Follower</ion-segment-button>
             <ion-segment-button value="me">Me</ion-segment-button>
@@ -22,7 +22,7 @@
 
     <div *ngIf="data.length">
         <ion-list>
-            <ion-card *ngFor="let item of data">
+            <ion-card *ngFor="let item of data  ">
 
                 <ion-item>
                     <ion-avatar item-left>
@@ -54,7 +54,7 @@
                     </ion-col>
                     <ion-col center text-center>
                         <ion-note>
-                            {{item.createdAt}}
+                            {{item.createdAt | amTimeAgo}}
                         </ion-note>
                     </ion-col>
                 </ion-row>

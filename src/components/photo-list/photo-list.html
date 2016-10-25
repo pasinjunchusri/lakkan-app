@@ -1,8 +1,43 @@
-<!--
-  Generated template for the PhotoList component.
+<div *ngIf="data.length">
+    <ion-list>
+        <ion-card *ngFor="let item of data">
 
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
--->
+            <ion-item>
+                <ion-avatar item-left>
+                    <img *ngIf="item.user.get('photo')" src="{{item.user.get('photo').url()}}">
+                    <img *ngIf="!item.user.get('photo')" src="assets/img/user.png">
+                </ion-avatar>
+                <h2>{{item.user.get('name')}}</h2>
+                <p>{{item.user.get('status')}}</p>
+            </ion-item>
 
-{{text}}
+            <img class="img-gallery" src="{{item.image.url()}}">
+
+            <ion-card-content>
+                <p>{{item.title}}</p>
+            </ion-card-content>
+
+            <ion-row>
+                <ion-col>
+                    <button ion-button color="primary" clear small>
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <div>{{item.likesTotal}} Likes</div>
+                    </button>
+                </ion-col>
+                <ion-col>
+                    <button ion-button color="primary" clear small>
+                        <ion-icon name="text"></ion-icon>
+                        <div>{{item.commentsTotal}} Comments</div>
+                    </button>
+                </ion-col>
+                <ion-col center text-center>
+                    <ion-note>
+                        {{item.createdAt}}
+                    </ion-note>
+                </ion-col>
+            </ion-row>
+
+        </ion-card>
+
+    </ion-list>
+</div>

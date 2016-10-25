@@ -11,13 +11,14 @@ export class TabHomePage {
     data: any         = [];
     moreItem: boolean = true;
     loading: boolean  = true;
+    typeFeed: string  = 'public';
 
     params = {
         limit: 5,
         page : 1
     }
 
-    constructor(private navCtrl: NavController, private Gallery: Gallery) {
+    constructor(private navCtrl: NavController, private provider: Gallery) {
 
     }
 
@@ -29,8 +30,8 @@ export class TabHomePage {
         console.log('Load Feed', this.params);
         return new Promise((resolve, reject) => {
             this.loading = true;
-            this.Gallery.feed(this.params).then(data => {
-                if (data.length) {
+            this.provider.feed(this.params).then(data => {
+                if (data && data.length) {
                     data.map(item => {
                         this.data.push(item);
                     });
@@ -45,7 +46,7 @@ export class TabHomePage {
     }
 
     doInfinite(event) {
-        if(!this.loading) {
+        if (!this.loading) {
             this.params.page++;
             this.feed().then(() => event.complete());
         }
@@ -53,7 +54,8 @@ export class TabHomePage {
 
     doRefresh(event) {
         if (!this.loading) {
-            this.data = [];
+            this.data        = [];
+            this.params.page = 1;
             this.feed().then(() => event.complete());
         }
     }

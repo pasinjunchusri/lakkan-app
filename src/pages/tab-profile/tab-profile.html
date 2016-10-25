@@ -1,17 +1,47 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Profile</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>Profile</ion-title>
+    </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content>
+
+    <div class="profile-top">
+        <ion-row>
+            <ion-col width-25>
+                <img class="avatar" *ngIf="user.photo" src="{{ user.photo.url() }}"/>
+                <img class="avatar" *ngIf="!user.photo" src="{{ 'assets/img/user.png' }}"/>
+            </ion-col>
+            <ion-col width-75>
+                <ion-row>
+                    <ion-col>
+                        <span class="text-center">{{ user.attributes.galleriesTotal || 0}}</span>
+
+                        <h3>postsText</h3>
+                    </ion-col>
+                    <ion-col>
+                        <span class="text-center">{{ user.attributes.followersTotal || 0}}</span>
+                        <h3>followersText</h3>
+                    </ion-col>
+                    <ion-col>
+                        <span class="text-center">{{ user.attributes.followingsTotal  || 0}}</span>
+                        <h3>followingText</h3>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <button ion-button color="primary">
+                            <div>editProfile</div>
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+        <ion-row >
+            <h3>{{ user.attributes.name }}</h3>
+            <p >{{ user.attributes.status }}</p>
+        </ion-row>
+    </div>
+
+
 </ion-content>

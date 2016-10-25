@@ -1,22 +1,61 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Gallery} from "../../providers/gallery";
 
-/*
-  Generated class for the PhotoList component.
-
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
-*/
 @Component({
-  selector: 'photo-list',
-  templateUrl: 'photo-list.html'
+    selector   : 'photo-list',
+    templateUrl: 'photo-list.html'
 })
 export class PhotoList {
 
-  text: string;
+    data: any         = [];
+    moreItem: boolean = true;
+    loading: boolean  = true;
 
-  constructor() {
-    console.log('Hello PhotoList Component');
-    this.text = 'Hello World';
-  }
+    params = {
+        limit: 5,
+        page : 1
+    }
+
+    constructor(private provider: Gallery) {
+
+    }
+
+    ngOnInit() {
+        this.feed()
+    }
+
+    feed() {
+        console.log('Load Feed', this.params);
+        return new Promise((resolve, reject) => {
+            this.loading = true;
+            this.provider.feed(this.params).then(data => {
+                if (data && data.length) {
+                    data.map(item => {
+                        this.data.push(item);
+                    });
+                } else {
+                    this.moreItem = false;
+                }
+
+                this.loading = false;
+                resolve();
+            });
+        });
+    }
+
+    doInfinite(event) {
+        if (!this.loading) {
+            this.params.page++;
+            this.feed().then(() => event.complete());
+        }
+    }
+
+    doRefresh(event) {
+        if (!this.loading) {
+            this.data        = [];
+            this.params.page = 1;
+            this.feed().then(() => event.complete());
+        }
+    }
 
 }

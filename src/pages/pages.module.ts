@@ -22,6 +22,12 @@ import {PipesModule} from "../pipes/pipes.module";
 
 // Providers
 import {Gallery} from "../providers/gallery";
+import {Auth} from "../providers/auth";
+import {GalleryActivity} from "../providers/gallery-activity";
+import {ParseFile} from "../providers/parse-file";
+import {ParsePush} from "../providers/parse-push";
+import {User} from "../providers/user";
+import {PhotoList} from "../components/photo-list/photo-list";
 
 export const APP_PAGES = [
     IntroPage,
@@ -33,6 +39,7 @@ export const APP_PAGES = [
     TabSharePage,
     TabActivityPage,
     TabProfilePage,
+    PhotoList
 ];
 
 @NgModule({
@@ -50,7 +57,14 @@ export const APP_PAGES = [
         Loader,
 
     ],
-    providers   : [],
+    providers   : [
+        Auth,
+        User,
+        Gallery,
+        GalleryActivity,
+        ParseFile,
+        ParsePush,
+    ],
 })
 export class PagesModule {
 }

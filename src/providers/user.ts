@@ -36,6 +36,10 @@ export class User {
         });
     }
 
+    current() {
+        return Parse.User.current();
+    }
+
     fetch() {
         return new Promise((resolve, reject) => {
             if (Parse.User.current()) {
