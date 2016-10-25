@@ -1,3 +1,11 @@
+<ion-header no-shadow>
+    <ion-navbar color="primary">
+        <ion-buttons end *ngIf="showSkip">
+            <button ion-button (click)="startApp()">Skip</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
 <ion-content no-bounce>
     <div class="intro-slider">
         <ion-slides [options]="{pager: true}" (ionWillChange)="onSlideChangeStart($event)">
@@ -21,13 +29,3 @@
         </ion-slides>
     </div>
 </ion-content>
-
-<ion-footer>
-    <ion-row>
-        <ion-col><button ion-button color="primary" full>Facebook Login</button></ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col><button ion-button color="primary" block (click)="onUserLogin()">Login</button></ion-col>
-        <ion-col><button ion-button color="primary" block (click)="onUserRegister()">Cadastro</button></ion-col>
-    </ion-row>
-</ion-footer>

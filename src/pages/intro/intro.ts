@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {MenuController, NavController, ModalController} from 'ionic-angular';
-import {TabsPage} from '../tabs/tabs';
-import {UserLoginPage} from "../user-login/user-login";
-import {UserRegisterPage} from "../user-register/user-register";
+import {AuthPage} from "../auth/auth";
 
 export interface Slide {
     title: string;
@@ -52,28 +50,13 @@ export class IntroPage {
     }
 
     startApp() {
-        this.navCtrl.push(TabsPage);
+        this.navCtrl.push(AuthPage);
     }
 
     onSlideChangeStart(slider) {
         this.showSkip = !slider.isEnd;
     }
 
-    onUserLogin() {
-        let modal = this.modalCtrl.create(UserLoginPage, {});
-        modal.present();
-
-        modal.onDidDismiss((data: any[]) => {
-            if (data) {
-                data
-            }
-        });
-    }
-
-    onUserRegister() {
-        let modal = this.modalCtrl.create(UserRegisterPage);
-        modal.present();
-    }
 
     ionViewDidLoad() {
         console.log('Hello TestPage Page');

@@ -1,0 +1,66 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Auth</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content >
+    <ion-segment [(ngModel)]="authType">
+        <ion-segment-button value="login">
+            Login
+        </ion-segment-button>
+        <ion-segment-button value="signup">
+            Signup
+        </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="authType">
+        <form *ngSwitchCase="'login'" #loginCreds="ngForm"  (ngSubmit)="login(loginCreds)" novalidate>
+            <ion-item>
+                <ion-label floating color="primary">Username</ion-label>
+                <ion-input [(ngModel)]="formLogin.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
+                </ion-input>
+            </ion-item>
+            <p [hidden]="username.valid || submitted == false" color="danger" padding-left>
+                Username is required
+            </p>
+
+            <ion-item>
+                <ion-label floating color="primary">Password</ion-label>
+                <ion-input [(ngModel)]="formLogin.password" name="password" type="password" #password="ngModel" required></ion-input>
+            </ion-item>
+            <p [hidden]="password.valid || submitted == false" color="danger" padding-left>
+                Password is required
+            </p>
+
+            <div padding>
+                <button ion-button block type="submit">Login</button>
+                <a ion-button block (click)="loginFacebook()"  >Login with Facebook</a>
+            </div>
+
+        </form>
+
+        <form *ngSwitchCase="'signup'" #signupCreds="ngForm" (ngSubmit)="signup(signupCreds.value)">
+            <ion-item>
+                <ion-label>Username</ion-label>
+                <ion-input type="text" ngControl="username"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Password</ion-label>
+                <ion-input type="password" ngControl="password"></ion-input>
+            </ion-item>
+
+            <div padding>
+                <button ion-button="" block type="submit">Signup</button>
+                <a ion-button block (click)="signupFacebook()"  >Signup with Facebook</a>
+            </div>
+
+        </form>
+    </div>
+
+    <div padding>
+        <p *ngIf="error" class="error">{{ error._body }}</p>
+    </div>
+
+</ion-content>
