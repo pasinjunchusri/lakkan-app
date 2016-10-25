@@ -1,4 +1,7 @@
 import {NgModule} from '@angular/core';
+import {IonicModule} from "ionic-angular";
+
+// Pages
 import {TabsPage} from '../pages/tabs/tabs';
 import {TabHomePage} from "../pages/tab-home/tab-home";
 import {TabSearchPage} from "../pages/tab-search/tab-search";
@@ -7,21 +10,23 @@ import {TabActivityPage} from "../pages/tab-activity/tab-activity";
 import {TabProfilePage} from "../pages/tab-profile/tab-profile";
 
 import {IntroPage} from "../pages/intro/intro";
-import {UserLoginPage} from "../pages/user-login/user-login";
-import {UserRegisterPage} from "../pages/user-register/user-register";
+import {AuthPage} from "./auth/auth";
 import {UserForgotPage} from "../pages/user-forgot/user-forgot";
 import {CommonModule} from "@angular/common";
-import {PipesModule} from "../pipes/pipes.module";
-import {Auth} from "../providers/auth";
+
+// Components
 import {Loader} from "../components/loader/loader";
-import {IonicModule} from "ionic-angular";
+
+// Pipes
+import {PipesModule} from "../pipes/pipes.module";
+
+// Providers
+import {Gallery} from "../providers/gallery";
 
 export const APP_PAGES = [
     IntroPage,
-    UserLoginPage,
-    UserRegisterPage,
     UserForgotPage,
-
+    AuthPage,
     TabsPage,
     TabHomePage,
     TabSearchPage,
@@ -45,9 +50,7 @@ export const APP_PAGES = [
         Loader,
 
     ],
-    providers   : [
-        Auth
-    ],
+    providers   : [],
 })
 export class PagesModule {
 }

@@ -1,3 +1,14 @@
-page-home {
+page-tab-home {
+  .scroll-content {
+    background-color: #f7f7f7;
 
+    .img-gallery {
+      min-height: 425px;
+      background-color: #f1f1f1;
+    }
+  }
+
+  ion-col {
+    padding: 0;
+  }
 }
