@@ -6,6 +6,11 @@ page-tab-home {
       min-height: 425px;
       background-color: #f1f1f1;
     }
+
+    ion-card {
+      margin: 0 !important;
+      width: 100% !important;
+    }
   }
 
   ion-col {

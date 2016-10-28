@@ -43,5 +43,20 @@
         </ion-row>
     </div>
 
+    <ion-segment [(ngModel)]="type" color="primary">
+        <ion-segment-button (ionSelect)="onSelectType('list')" value="list"><ion-icon name="ios-list-outline"></ion-icon></ion-segment-button>
+        <ion-segment-button (ionSelect)="onSelectType('grid')" value="grid" ><ion-icon name="ios-apps-outline"></ion-icon></ion-segment-button>
+        <ion-segment-button (ionSelect)="onSelectType('map')" value="map"><ion-icon name="ios-pin-outline"></ion-icon></ion-segment-button>
+    </ion-segment>
+
+    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <photo-list *ngIf="type=='list'" ></photo-list>
+
+    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
 </ion-content>

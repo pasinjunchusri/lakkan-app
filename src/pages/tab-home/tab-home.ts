@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {Gallery} from "../../providers/gallery";
+import {NavController, Events} from 'ionic-angular';
 
 @Component({
     selector   : 'page-tab-home',
@@ -8,55 +7,50 @@ import {Gallery} from "../../providers/gallery";
 })
 export class TabHomePage {
 
-    data: any         = [];
-    moreItem: boolean = true;
-    loading: boolean  = true;
-    typeFeed: string  = 'public';
+    privacity: string = 'public';
+    loading: boolean  = false;
 
     params = {
-        limit: 5,
-        page : 1
+        limit    : 5,
+        page     : 1,
+        privacity: 'public'
     }
 
-    constructor(private navCtrl: NavController, private provider: Gallery) {
-
+    constructor(public navCtrl: NavController,
+                public events: Events
+    ) {
     }
 
-    ngOnInit() {
-        this.feed()
-    }
-
-    feed() {
-        console.log('Load Feed', this.params);
-        return new Promise((resolve, reject) => {
-            this.loading = true;
-            this.provider.feed(this.params).then(data => {
-                if (data && data.length) {
-                    data.map(item => {
-                        this.data.push(item);
-                    });
-                } else {
-                    this.moreItem = false;
-                }
-
-                this.loading = false;
-                resolve();
-            });
-        });
+    onSelectPrivacity(privacity: string) {
+        this.privacity        = privacity;
+        this.params.page      = 1;
+        this.params.privacity = privacity;
+        this.events.publish('photolist:params', this.params);
     }
 
     doInfinite(event) {
         if (!this.loading) {
             this.params.page++;
-            this.feed().then(() => event.complete());
+
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', () => {
+                this.loading = false;
+                event.complete();
+            });
         }
     }
 
     doRefresh(event) {
         if (!this.loading) {
-            this.data        = [];
             this.params.page = 1;
-            this.feed().then(() => event.complete());
+
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', () => {
+                this.loading = false;
+                event.complete();
+            });
         }
     }
 

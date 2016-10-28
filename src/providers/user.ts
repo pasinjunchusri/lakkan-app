@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ParsePush} from "./parse-push";
-import {Device} from 'ionic-native';
 
 @Injectable()
 export class User {
@@ -136,31 +135,11 @@ export class User {
 
     signIn(obj) {
         return new Promise((resolve, reject) => {
-            Parse.User.logIn(obj.username.toLowerCase(), obj.password).then((currentUser) => {
+            Parse.User.logIn(obj.username.toLowerCase(), obj.password).then(currentUser => {
 
-                // device
-                var updateUser;
-                if (window['cordova']) {
-                    updateUser = {
-                        device  : Device.device,
-                        cordova : Device.device.cordova,
-                        model   : Device.device.model,
-                        platform: Device.device.platform,
-                        uuid    : Device.device.uuid,
-                        version : Device.device.version
-                    };
-                } else {
-                    var userAgent = window.navigator.userAgent.match(/(?:Chrom(?:e|ium)|Firefox)\/([0-9]+)\./);
+                console.log('currentUser', currentUser);
+                console.log('cordova', window['cordova']);
 
-                    updateUser = {
-                        device  : {device: (userAgent) ? userAgent[0] : 'emulator'},
-                        cordova : '',
-                        model   : (userAgent) ? userAgent[0] : 'emulator',
-                        platform: window.navigator.platform,
-                        uuid    : '',
-                        version : (userAgent) ? userAgent[0] : 'emulator'
-                    };
-                }
 
 
                 if (window['cordova']) {
@@ -169,11 +148,7 @@ export class User {
                 }
 
 
-                let user = Parse.User.current();
-                updateUser.each((value, key) => {
-                    user.set(key, value);
-                });
-                user.save(updateUser).then(resolve, reject);
+                resolve(currentUser);
 
             }, reject);
         });

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, ToastController, LoadingController} from 'ionic-angular';
 import {User} from "../../providers/user";
 import {TabsPage} from "../tabs/tabs";
 
@@ -9,9 +9,9 @@ import {TabsPage} from "../tabs/tabs";
     providers  : [User]
 })
 export class AuthPage {
-    authType: string = 'login';
+    authType: string   = 'login';
     error: string;
-    submitted: false;
+    submitted: boolean = false;
 
     formLogin: {
         username?: string,
@@ -27,27 +27,61 @@ export class AuthPage {
         password?: string
     } = {};
 
-    constructor(public navCtrl: NavController, public User: User) {}
+    constructor(public navCtrl: NavController,
+                public User: User,
+                public toastCtrl: ToastController,
+                public loadingCtrl: LoadingController
+    ) {
+    }
 
     login(form) {
-        console.log(form);
+        this.submitted = true;
         if (form.valid) {
+            let loading = this.loadingCtrl.create({
+                content: 'Please wait...'
+            });
+
+            loading.present();
+
             this.User.signIn(this.formLogin).then(user => {
                 console.log(user);
+                loading.dismiss();
                 this.onPageTabs();
-            }).catch(error => {
+            }, error => {
                 console.log(error);
-            })
+                loading.dismiss();
+                this.onError(error)
+            });
         }
     }
 
     signup(form) {
+        this.submitted = true;
         if (form.valid) {
+            let loading = this.loadingCtrl.create({
+                content: 'Please wait...'
+            });
+
+            loading.present();
+
             this.User.signUp(this.formSignup).then(user => {
                 console.log(user);
+                loading.dismiss();
                 this.onPageTabs();
+            }, error => {
+                loading.dismiss();
+                this.onError(error)
             });
         }
+    }
+
+
+    onError(error: any) {
+        let toast = this.toastCtrl.create({
+            message : error.message,
+            duration: 3000,
+        });
+        toast.present();
     }
 
     onPageTabs() {

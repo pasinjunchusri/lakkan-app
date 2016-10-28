@@ -1,68 +1,24 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>Home</ion-title>
+        <ion-title>Photogram</ion-title>
     </ion-navbar>
 
     <ion-toolbar>
-        <ion-segment color="primary" [(ngModel)]="typeFeed">
-            <ion-segment-button value="public">Public</ion-segment-button>
-            <ion-segment-button value="followers">Follower</ion-segment-button>
-            <ion-segment-button value="me">Me</ion-segment-button>
+        <ion-segment color="primary" [(ngModel)]="privacity">
+            <ion-segment-button (ionSelect)="onSelectPrivacity('public')" value="public">{{'public' | translate}}</ion-segment-button>
+            <ion-segment-button (ionSelect)="onSelectPrivacity('followers')" value="followers">{{'followers' | translate}}</ion-segment-button>
+            <ion-segment-button (ionSelect)="onSelectPrivacity('me')" value="me"> {{'me' | translate}}</ion-segment-button>
         </ion-segment>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <loader *ngIf="loading && !data.length" text="Carregando..."></loader>
-
     <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngIf="data.length">
-        <ion-list>
-            <ion-card *ngFor="let item of data  ">
-
-                <ion-item>
-                    <ion-avatar item-left>
-                        <img *ngIf="item.user.get('photo')" src="{{item.user.get('photo').url()}}">
-                        <img *ngIf="!item.user.get('photo')" src="assets/img/user.png">
-                    </ion-avatar>
-                    <h2>{{item.user.get('name')}}</h2>
-                    <p>{{item.user.get('status')}}</p>
-                </ion-item>
-
-                <img class="img-gallery" src="{{item.image.url()}}">
-
-                <ion-card-content>
-                    <p>{{item.title}}</p>
-                </ion-card-content>
-
-                <ion-row>
-                    <ion-col>
-                        <button ion-button color="primary" clear small>
-                            <ion-icon name="heart-outline"></ion-icon>
-                            <div>{{item.likesTotal}} Likes</div>
-                        </button>
-                    </ion-col>
-                    <ion-col>
-                        <button ion-button color="primary" clear small>
-                            <ion-icon name="text"></ion-icon>
-                            <div>{{item.commentsTotal}} Comments</div>
-                        </button>
-                    </ion-col>
-                    <ion-col center text-center>
-                        <ion-note>
-                            {{item.createdAt | amTimeAgo}}
-                        </ion-note>
-                    </ion-col>
-                </ion-row>
-
-            </ion-card>
-
-        </ion-list>
-    </div>
+    <photo-list ></photo-list>
 
     <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

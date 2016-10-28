@@ -8,9 +8,15 @@ import {User} from "../../providers/user";
 })
 export class TabProfilePage {
     user: any;
+    type: string = 'list';
 
     constructor(public navCtrl: NavController, public User:User) {
         this.user = User.current();
     }
 
+
+    onSelectType(type: string) {
+        this.type = type;
+        console.log(this.type);
+    }
 }

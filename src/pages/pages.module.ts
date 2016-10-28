@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from "ionic-angular";
+import {TranslateModule, TranslateLoader, TranslateStaticLoader} from 'ng2-translate';
+import {Http, HttpModule} from "@angular/http";
 
 // Pages
 import {TabsPage} from '../pages/tabs/tabs';
@@ -28,6 +30,7 @@ import {ParseFile} from "../providers/parse-file";
 import {ParsePush} from "../providers/parse-push";
 import {User} from "../providers/user";
 import {PhotoList} from "../components/photo-list/photo-list";
+import {BrowserModule} from "@angular/platform-browser";
 
 export const APP_PAGES = [
     IntroPage,
@@ -45,17 +48,26 @@ export const APP_PAGES = [
 @NgModule({
     imports     : [
         CommonModule,
+        BrowserModule,
+        HttpModule,
         PipesModule,
+        TranslateModule.forRoot({
+            provide   : TranslateLoader,
+            useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+            deps      : [Http]
+        }),
         IonicModule.forRoot(TabsPage),
         IonicModule.forRoot(IntroPage),
     ],
     exports     : [
-        APP_PAGES
+        APP_PAGES,
+        BrowserModule,
+        HttpModule,
+        TranslateModule
     ],
     declarations: [
         APP_PAGES,
         Loader,
-
     ],
     providers   : [
         Auth,
