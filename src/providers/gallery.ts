@@ -8,6 +8,7 @@ export class Gallery {
     fields = [
         'title',
         'commentsTotal',
+        'views',
         'likesTotal',
         'user',
         'profile',
@@ -24,6 +25,8 @@ export class Gallery {
     ];
 
     ParseObject: any = Parse.Object.extend('Gallery', {});
+    tempParams: any;
+    tempCache: any   = [];
 
     constructor() {
         this.fields.map(field => {
@@ -59,6 +62,21 @@ export class Gallery {
 
     feed(params) {
         return Parse.Cloud.run('feedGallery', params);
+    }
+
+    feedCache(params) {
+        return new Promise((resolve, reject) => {
+            console.log(params.page, this.tempParams['page']);
+            if (params.page == this.tempParams['page']) {
+                resolve(this.tempCache);
+            } else {
+                Parse.Cloud.run('feedGallery', params).then(result => {
+                    this.tempParams = params;
+                    this.tempCache  = result;
+                    resolve(result);
+                }, reject);
+            }
+        });
     }
 
     comments(params) {

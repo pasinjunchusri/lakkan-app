@@ -4,7 +4,7 @@ import {TabHomePage} from "../tab-home/tab-home";
 import {TabSearchPage} from "../tab-search/tab-search";
 import {TabSharePage} from "../tab-share/tab-share";
 import {TabActivityPage} from "../tab-activity/tab-activity";
-import {TabProfilePage} from "../tab-profile/tab-profile";
+import {TabAccountPage} from "../tab-account/tab-account";
 
 @Component({
     templateUrl: 'tabs.html'
@@ -17,7 +17,7 @@ export class TabsPage {
     tabSearch: any   = TabSearchPage;
     tabShare: any    = TabSharePage;
     tabActivity: any = TabActivityPage;
-    tabProfile: any  = TabProfilePage;
+    tabProfile: any  = TabAccountPage;
 
     constructor() {
 

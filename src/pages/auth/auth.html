@@ -16,6 +16,7 @@
 
     <div [ngSwitch]="authType">
         <form *ngSwitchCase="'login'" #loginCreds="ngForm" (ngSubmit)="login(loginCreds)" novalidate>
+
             <ion-item>
                 <ion-label floating color="primary">Username</ion-label>
                 <ion-input [(ngModel)]="formLogin.username" name="username" type="text" #username="ngModel"
@@ -35,10 +36,14 @@
                 Password is required
             </p>
 
-            <div padding>
-                <button ion-button block type="submit">Login</button>
-                <a ion-button block (click)="loginFacebook()">Login with Facebook</a>
-            </div>
+            <ion-row >
+                <ion-col><a ion-button block clear (click)="resetPass()">Reset Pass</a></ion-col>
+                <ion-col><button ion-button block type="submit">Login</button></ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col><a ion-button block (click)="loginFacebook()">Login with Facebook</a></ion-col>
+            </ion-row>
 
         </form>
 
@@ -81,11 +86,12 @@
                 Password is required
             </p>
 
-            <div padding>
-                <button ion-button="" block type="submit">Signup</button>
-                <a ion-button block (click)="signupFacebook()">Signup with Facebook</a>
-            </div>
-
+            <ion-row>
+                <ion-col><button ion-button block type="submit">Signup</button></ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col><a ion-button block (click)="signupFacebook()">Signup with Facebook</a></ion-col>
+            </ion-row>
         </form>
     </div>
 

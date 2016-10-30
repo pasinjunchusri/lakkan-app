@@ -6,10 +6,9 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
 import {TranslateService} from "ng2-translate";
 
-export const parseServer = {
-    appId    : 'myAppId',
-    serverUrl: 'https://photogram.codevibe.io/parse/'
-};
+import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
+import {ImageLoaderConfig} from "ionic-image-loader";
+
 
 declare var Parse: any;
 
@@ -21,16 +20,27 @@ export class MyApp implements OnInit {
     rootPage: any;
 
     ngOnInit() {
-        Parse.initialize(parseServer.appId);
-        Parse.serverURL = parseServer.serverUrl;
+        Parse.initialize(PARSE_APP_ID);
+        Parse.serverURL = PARSE_SERVER_URL;
     }
 
-    constructor(platform: Platform, translate: TranslateService) {
+    constructor(platform: Platform,
+                translate: TranslateService,
+                imageLoaderConfig: ImageLoaderConfig
+    ) {
         // Translate
         translate.setDefaultLang('en');
         translate.use('pt');
 
         console.log(translate.currentLang);
+
+        // Image Cache
+        // enable debug mode to get console errors/warnings/logs
+        // this could be useful while trying to debug issues with the component
+        imageLoaderConfig.enableDebugMode();
+
+        // disable spinners by default, you can add [spinner]="true" to a specific component instance later on to override this
+        imageLoaderConfig.enableSpinner(true);
 
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.

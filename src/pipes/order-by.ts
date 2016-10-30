@@ -9,6 +9,7 @@ import _ from 'underscore';
 export class OrderBy {
 
     transform(value, args) {
+        console.log(value, args);
         return _.sortBy(value, args);
     }
 }

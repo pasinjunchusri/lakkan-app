@@ -1,12 +1,15 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-title>Activity</ion-title>
-    </ion-navbar>
+    <ion-toolbar  no-border-top>
+        <ion-segment>
+            <ion-segment-button  value="public">{{'Following' | translate}}</ion-segment-button>
+            <ion-segment-button  value="followers">{{'You' | translate}}</ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <loader *ngIf="loading && !data.length" text="Carregando..."></loader>
+    <loader *ngIf="loading && !data.length" ></loader>
 
     <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>

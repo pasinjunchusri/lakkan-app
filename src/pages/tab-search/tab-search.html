@@ -1,19 +1,18 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Search</ion-title>
-  </ion-navbar>
-
-  <ion-toolbar>
-    <ion-segment color="primary" [(ngModel)]="typeFeed">
-      <ion-segment-button value="public">{{'public' | translate}}</ion-segment-button>
-      <ion-segment-button value="followers">{{'followers' | translate}}</ion-segment-button>
-      <ion-segment-button value="me"> {{'me' | translate}}</ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
+    <ion-navbar color="primary">
+        <ion-title>Search</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content>
+    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
+    <photo-grid [params]="params" ></photo-grid>
 
+    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
 </ion-content>

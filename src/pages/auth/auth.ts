@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {NavController, ToastController, LoadingController} from 'ionic-angular';
+import {NavController, AlertController} from 'ionic-angular';
 import {User} from "../../providers/user";
 import {TabsPage} from "../tabs/tabs";
+import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-auth',
-    templateUrl: 'auth.html',
-    providers  : [User]
+    templateUrl: 'auth.html'
 })
+
 export class AuthPage {
     authType: string   = 'login';
     error: string;
@@ -29,28 +30,24 @@ export class AuthPage {
 
     constructor(public navCtrl: NavController,
                 public User: User,
-                public toastCtrl: ToastController,
-                public loadingCtrl: LoadingController
+                public alertCtrl: AlertController,
+                public util: IonicUtil
     ) {
     }
 
     login(form) {
         this.submitted = true;
         if (form.valid) {
-            let loading = this.loadingCtrl.create({
-                content: 'Please wait...'
-            });
-
-            loading.present();
+            this.util.onLoading();
 
             this.User.signIn(this.formLogin).then(user => {
                 console.log(user);
-                loading.dismiss();
+                this.util.endLoading();
                 this.onPageTabs();
             }, error => {
                 console.log(error);
-                loading.dismiss();
-                this.onError(error)
+                this.util.endLoading();
+                this.util.toast(error.message);
             });
         }
     }
@@ -58,30 +55,17 @@ export class AuthPage {
     signup(form) {
         this.submitted = true;
         if (form.valid) {
-            let loading = this.loadingCtrl.create({
-                content: 'Please wait...'
-            });
-
-            loading.present();
+            this.util.onLoading();
 
             this.User.signUp(this.formSignup).then(user => {
                 console.log(user);
-                loading.dismiss();
+                this.util.endLoading();
                 this.onPageTabs();
             }, error => {
-                loading.dismiss();
-                this.onError(error)
+                this.util.endLoading();
+                this.util.toast(error.message);
             });
         }
-    }
-
-
-    onError(error: any) {
-        let toast = this.toastCtrl.create({
-            message : error.message,
-            duration: 3000,
-        });
-        toast.present();
     }
 
     onPageTabs() {
@@ -94,6 +78,36 @@ export class AuthPage {
 
     signupFacebook() {
 
+    }
+
+    resetPass() {
+        let alert = this.alertCtrl.create({
+            title  : 'Recovery your password',
+            message: 'Enter your email so we can send you a link to reset your password',
+            inputs : [
+                {
+                    name       : 'email',
+                    placeholder: 'Email',
+                    type       : 'email'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                },
+                {
+                    text   : 'Submit',
+                    handler: data => {
+                        this.User.recoverPassword(data.email).then(result => {
+                            console.log(result);
+                            return false;
+                        })
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
 }

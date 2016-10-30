@@ -1,7 +1,17 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from "ionic-angular";
-import {TranslateModule, TranslateLoader, TranslateStaticLoader} from 'ng2-translate';
-import {Http, HttpModule} from "@angular/http";
+import {HttpModule} from "@angular/http";
+import {BrowserModule} from "@angular/platform-browser";
+import {CommonModule} from "@angular/common";
+
+import {TranslateModule} from 'ng2-translate';
+import {IonicImageLoader} from "ionic-image-loader";
+
+// Pipes
+import {PipesModule} from "../pipes/pipes.module";
+
+// Providers
+import {ProvidersModule} from "../providers/providers.module";
 
 // Pages
 import {TabsPage} from '../pages/tabs/tabs';
@@ -9,28 +19,21 @@ import {TabHomePage} from "../pages/tab-home/tab-home";
 import {TabSearchPage} from "../pages/tab-search/tab-search";
 import {TabSharePage} from "../pages/tab-share/tab-share";
 import {TabActivityPage} from "../pages/tab-activity/tab-activity";
-import {TabProfilePage} from "../pages/tab-profile/tab-profile";
-
 import {IntroPage} from "../pages/intro/intro";
 import {AuthPage} from "./auth/auth";
 import {UserForgotPage} from "../pages/user-forgot/user-forgot";
-import {CommonModule} from "@angular/common";
-
-// Components
+import {TabAccountPage} from "./tab-account/tab-account";
+import {TabAccountPopoverPage} from "./tab-account-popover/tab-account-popover";
+import {AccountEditModal} from "./account-edit-modal/account-edit-modal";
+import {TabAccountSettingsPage} from "./tab-account-settings/tab-account-settings";
 import {Loader} from "../components/loader/loader";
-
-// Pipes
-import {PipesModule} from "../pipes/pipes.module";
-
-// Providers
-import {Gallery} from "../providers/gallery";
-import {Auth} from "../providers/auth";
-import {GalleryActivity} from "../providers/gallery-activity";
-import {ParseFile} from "../providers/parse-file";
-import {ParsePush} from "../providers/parse-push";
-import {User} from "../providers/user";
+import {PhotoCommentModal} from "../components/photo-comment-modal/photo-comment-modal";
+import {PhotoFeedbackModal} from "../components/photo-feedback-modal/photo-feedback-modal";
+import {PhotoGrid} from "../components/photo-grid/photo-grid";
 import {PhotoList} from "../components/photo-list/photo-list";
-import {BrowserModule} from "@angular/platform-browser";
+import {PhotoCard} from "../components/photo-card/photo-card";
+import {PhotoPage} from "./photo/photo";
+import {UserPage} from "./user/user";
 
 export const APP_PAGES = [
     IntroPage,
@@ -41,8 +44,20 @@ export const APP_PAGES = [
     TabSearchPage,
     TabSharePage,
     TabActivityPage,
-    TabProfilePage,
-    PhotoList
+    TabAccountPage,
+    TabAccountPopoverPage,
+    TabAccountSettingsPage,
+    AccountEditModal,
+    PhotoPage,
+    UserPage,
+
+    // Components
+    Loader,
+    PhotoCommentModal,
+    PhotoFeedbackModal,
+    PhotoGrid,
+    PhotoList,
+    PhotoCard,
 ];
 
 @NgModule({
@@ -51,11 +66,9 @@ export const APP_PAGES = [
         BrowserModule,
         HttpModule,
         PipesModule,
-        TranslateModule.forRoot({
-            provide   : TranslateLoader,
-            useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
-            deps      : [Http]
-        }),
+        ProvidersModule,
+        IonicImageLoader,
+        TranslateModule.forRoot(),
         IonicModule.forRoot(TabsPage),
         IonicModule.forRoot(IntroPage),
     ],
@@ -67,16 +80,8 @@ export const APP_PAGES = [
     ],
     declarations: [
         APP_PAGES,
-        Loader,
     ],
-    providers   : [
-        Auth,
-        User,
-        Gallery,
-        GalleryActivity,
-        ParseFile,
-        ParsePush,
-    ],
+    providers   : []
 })
 export class PagesModule {
 }

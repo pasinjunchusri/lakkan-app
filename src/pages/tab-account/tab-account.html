@@ -1,6 +1,11 @@
 <ion-header>
     <ion-navbar color="primary">
         <ion-title>Profile</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="onPageSettings()">
+                <ion-icon name="more"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -30,8 +35,8 @@
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        <button ion-button color="primary">
-                            <div>editProfile</div>
+                        <button (click)="onEditProfile()" ion-button color="primary">
+                            Edit Profile
                         </button>
                     </ion-col>
                 </ion-row>
@@ -53,7 +58,8 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <photo-list *ngIf="type=='list'" ></photo-list>
+    <photo-list [username]="username" *ngIf="type=='list'" ></photo-list>
+    <photo-grid [params]="params" *ngIf="type=='grid'" ></photo-grid>
 
     <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

@@ -1,46 +1,7 @@
 <loader *ngIf="loading && !data.length"></loader>
 
 <div *ngIf="data.length">
-    <ion-list>
-        <ion-card *ngFor="let item of data  ">
-
-            <ion-item>
-                <ion-avatar item-left>
-                    <img *ngIf="item.user.get('photo')" src="{{item.user.get('photo').url()}}">
-                    <img *ngIf="!item.user.get('photo')" src="assets/img/user.png">
-                </ion-avatar>
-                <h2>{{item.user.get('name')}}</h2>
-                <p>{{item.user.get('status')}}</p>
-            </ion-item>
-
-            <img class="img-gallery" src="{{item.image.url()}}">
-
-            <ion-card-content>
-                <p>{{item.title}}</p>
-            </ion-card-content>
-
-            <ion-row>
-                <ion-col>
-                    <button ion-button color="primary" clear small>
-                        <ion-icon *ngIf="!item.liked" name="heart-outline"></ion-icon>
-                        <ion-icon *ngIf="item.liked" name="heart"></ion-icon>
-                        <div>{{item.likesTotal}} {{'like' | translate}}</div>
-                    </button>
-                </ion-col>
-                <ion-col>
-                    <button ion-button color="primary" clear small>
-                        <ion-icon name="text"></ion-icon>
-                        <div>{{item.commentsTotal}} {{'commentPhotoText' | translate}}</div>
-                    </button>
-                </ion-col>
-                <ion-col center text-center>
-                    <ion-note>
-                        {{item.createdAt | amTimeAgo}}
-                    </ion-note>
-                </ion-col>
-            </ion-row>
-
-        </ion-card>
-
-    </ion-list>
+    <div *ngFor="let item of data  ">
+        <photo-card [item]="item"></photo-card>
+    </div>
 </div>

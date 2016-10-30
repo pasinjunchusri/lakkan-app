@@ -27,6 +27,7 @@
     <preference name="FadeSplashScreen" value="false" />
     <preference name="FadeSplashScreenDuration" value="0" />
     <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -34,4 +35,6 @@
         <variable name="APP_ID" value="1024016557617380" />
         <variable name="APP_NAME" value="Photogram" />
     </plugin>
+    <plugin name="cordova-plugin-file" spec="~4.3.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.6.0" />
 </widget>

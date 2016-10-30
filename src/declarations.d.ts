@@ -12,10 +12,3 @@
   https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
 */
 declare module '*';
-//declare var Parse: any;
-//declare var require: any;
-//declare var System: any;
-//declare var expect: any;
-//declare var it: any;
-//declare var describe: any;
-//declare var beforeEach: any;

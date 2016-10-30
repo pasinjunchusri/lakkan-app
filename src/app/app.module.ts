@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {IonicApp, IonicModule} from 'ionic-angular';
+import {CommonModule} from "@angular/common";
 import {MyApp} from './app.component';
 import {APP_PAGES, PagesModule} from "../pages/pages.module";
-import {CommonModule} from "@angular/common";
 
 
 @NgModule({
@@ -14,12 +14,12 @@ import {CommonModule} from "@angular/common";
         PagesModule,
         IonicModule.forRoot(MyApp)
     ],
-    bootstrap      : [IonicApp],
     entryComponents: [
         APP_PAGES,
         MyApp
     ],
-    providers      : []
+    providers      : [],
+    bootstrap      : [IonicApp],
 })
 export class AppModule {
 }

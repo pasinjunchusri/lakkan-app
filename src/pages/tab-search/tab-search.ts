@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {Gallery} from "../../providers/gallery";
+import {Component} from '@angular/core';
+import {NavController, Events} from 'ionic-angular';
 
 @Component({
     selector   : 'page-tab-search',
@@ -8,38 +7,42 @@ import {Gallery} from "../../providers/gallery";
 })
 export class TabSearchPage {
 
-    @Output() sendParams: any = new EventEmitter();
-
-    data: any         = [];
-    moreItem: boolean = true;
-    loading: boolean  = false;
-    typeFeed: string  = 'public';
-
+    loading: boolean = false;
     params = {
-        limit: 5,
+        limit: 24,
         page : 1
     }
 
-    constructor(private navCtrl: NavController, private provider: Gallery) {
-
-    }
-
-    onLoading () {
-        this.loading = !this.loading;
+    constructor(public navCtrl: NavController,
+                public events: Events
+    ) {
+        this.events.publish('photolist:params', this.params);
     }
 
     doInfinite(event) {
-        //if (!this.loading) {
-        this.params.page++;
-        this.sendParams.next(this.params);
-        //}
+        if (!this.loading) {
+            this.params.page++;
+
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', () => {
+                this.loading = false;
+                event.complete();
+            });
+        }
     }
 
     doRefresh(event) {
-        //if (!this.loading) {
-        this.params.page = 1;
-        this.sendParams.next(this.params);
-        //}
+        if (!this.loading) {
+            this.params.page = 1;
+
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', () => {
+                this.loading = false;
+                event.complete();
+            });
+        }
     }
 
 }

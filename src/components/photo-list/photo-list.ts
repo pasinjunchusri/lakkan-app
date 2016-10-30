@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
+import {Events, ModalController} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
-import {Events} from "ionic-angular";
 
 @Component({
     selector   : 'photo-list',
@@ -8,16 +8,20 @@ import {Events} from "ionic-angular";
 })
 export class PhotoList implements OnInit {
 
-    loading: boolean;
+    @Input() username?: string;
 
     data: any = [];
     moreItem: boolean;
+    loading: boolean;
     params    = {
         limit: 5,
         page : 1
     };
 
-    constructor(private provider: Gallery, public events: Events) {
+    constructor(public provider: Gallery,
+                public events: Events,
+                public modalCtrl: ModalController
+    ) {
 
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
@@ -26,17 +30,8 @@ export class PhotoList implements OnInit {
         });
     }
 
-
     ngOnInit() {
         this.feed()
-    }
-
-    onLoading() {
-        this.loading = !this.loading;
-    }
-
-    onChangeParams(event) {
-        console.log(event);
     }
 
     feed() {
@@ -45,8 +40,7 @@ export class PhotoList implements OnInit {
             this.loading = true;
 
             if (this.params.page == 1) {
-                this.loading = false;
-                this.data    = [];
+                this.data = [];
             }
 
             this.provider.feed(this.params).then(data => {

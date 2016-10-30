@@ -1,16 +1,11 @@
 page-tab-home {
+  ion-toolbar {
+    .segment-md .segment-button {
+      color: #fff;
+    }
+  }
   .scroll-content {
     background-color: #f7f7f7;
-
-    .img-gallery {
-      min-height: 425px;
-      background-color: #f1f1f1;
-    }
-
-    ion-card {
-      margin: 0 !important;
-      width: 100% !important;
-    }
   }
 
   ion-col {
