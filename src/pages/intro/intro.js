@@ -47,17 +47,6 @@ var IntroPage = (function () {
     IntroPage.prototype.onSlideChangeStart = function (slider) {
         this.showSkip = !slider.isEnd;
     };
-    IntroPage.prototype.ionViewDidLoad = function () {
-        console.log('Hello TestPage Page');
-    };
-    IntroPage.prototype.ionViewDidEnter = function () {
-        // the root left menu should be disabled on the tutorial page
-        this.menu.enable(false);
-    };
-    IntroPage.prototype.ionViewWillLeave = function () {
-        // enable the root left menu when leaving the tutorial page
-        this.menu.enable(true);
-    };
     IntroPage = __decorate([
         core_1.Component({
             selector: 'page-intro',

@@ -6,14 +6,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var user_1 = require("../../providers/user");
 var tabs_1 = require("../tabs/tabs");
 var AuthPage = (function () {
-    function AuthPage(navCtrl, User, toastCtrl, loadingCtrl) {
+    function AuthPage(navCtrl, User, alertCtrl, util) {
         this.navCtrl = navCtrl;
         this.User = User;
-        this.toastCtrl = toastCtrl;
-        this.loadingCtrl = loadingCtrl;
+        this.alertCtrl = alertCtrl;
+        this.util = util;
         this.authType = 'login';
         this.submitted = false;
         this.formLogin = {};
@@ -23,18 +22,15 @@ var AuthPage = (function () {
         var _this = this;
         this.submitted = true;
         if (form.valid) {
-            var loading_1 = this.loadingCtrl.create({
-                content: 'Please wait...'
-            });
-            loading_1.present();
+            this.util.onLoading();
             this.User.signIn(this.formLogin).then(function (user) {
                 console.log(user);
-                loading_1.dismiss();
+                _this.util.endLoading();
                 _this.onPageTabs();
             }, function (error) {
                 console.log(error);
-                loading_1.dismiss();
-                _this.onError(error);
+                _this.util.endLoading();
+                _this.util.toast(error.message);
             });
         }
     };
@@ -42,26 +38,16 @@ var AuthPage = (function () {
         var _this = this;
         this.submitted = true;
         if (form.valid) {
-            var loading_2 = this.loadingCtrl.create({
-                content: 'Please wait...'
-            });
-            loading_2.present();
+            this.util.onLoading();
             this.User.signUp(this.formSignup).then(function (user) {
                 console.log(user);
-                loading_2.dismiss();
+                _this.util.endLoading();
                 _this.onPageTabs();
             }, function (error) {
-                loading_2.dismiss();
-                _this.onError(error);
+                _this.util.endLoading();
+                _this.util.toast(error.message);
             });
         }
-    };
-    AuthPage.prototype.onError = function (error) {
-        var toast = this.toastCtrl.create({
-            message: error.message,
-            duration: 3000,
-        });
-        toast.present();
     };
     AuthPage.prototype.onPageTabs = function () {
         this.navCtrl.push(tabs_1.TabsPage);
@@ -71,11 +57,40 @@ var AuthPage = (function () {
     };
     AuthPage.prototype.signupFacebook = function () {
     };
+    AuthPage.prototype.resetPass = function () {
+        var _this = this;
+        var alert = this.alertCtrl.create({
+            title: 'Recovery your password',
+            message: 'Enter your email so we can send you a link to reset your password',
+            inputs: [
+                {
+                    name: 'email',
+                    placeholder: 'Email',
+                    type: 'email'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Submit',
+                    handler: function (data) {
+                        _this.User.recoverPassword(data.email).then(function (result) {
+                            console.log(result);
+                            return false;
+                        });
+                    }
+                }
+            ]
+        });
+        alert.present();
+    };
     AuthPage = __decorate([
         core_1.Component({
             selector: 'page-auth',
-            templateUrl: 'auth.html',
-            providers: [user_1.User]
+            templateUrl: 'auth.html'
         })
     ], AuthPage);
     return AuthPage;

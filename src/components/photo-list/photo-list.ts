@@ -8,12 +8,10 @@ import {Gallery} from "../../providers/gallery";
 })
 export class PhotoList implements OnInit {
 
-    @Input() username?: string;
-
     data: any = [];
     moreItem: boolean;
     loading: boolean;
-    params    = {
+    @Input() params    = {
         limit: 5,
         page : 1
     };

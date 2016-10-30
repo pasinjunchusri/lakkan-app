@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var common_1 = require("@angular/common");
+// Providers
 var ionic_util_1 = require("./ionic-util");
 var auth_1 = require("./auth");
 var user_1 = require("./user");
@@ -15,7 +16,7 @@ var gallery_activity_1 = require("./gallery-activity");
 var gallery_comment_1 = require("./gallery-comment");
 var parse_file_1 = require("./parse-file");
 var parse_push_1 = require("./parse-push");
-// Providers
+var gallery_feedback_1 = require("./gallery-feedback");
 exports.sharedProviders = [
     ionic_util_1.IonicUtil,
     auth_1.Auth,
@@ -23,6 +24,7 @@ exports.sharedProviders = [
     gallery_1.Gallery,
     gallery_activity_1.GalleryActivity,
     gallery_comment_1.GalleryComment,
+    gallery_feedback_1.GallerFeedback,
     parse_file_1.ParseFile,
     parse_push_1.ParsePush,
 ];

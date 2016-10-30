@@ -14,52 +14,64 @@
     <div class="profile-top">
         <ion-row>
             <ion-col width-25>
-                <img class="avatar" *ngIf="user.photo" src="{{ user.photo.url() }}"/>
-                <img class="avatar" *ngIf="!user.photo" src="{{ 'assets/img/user.png' }}"/>
+                <div class="img-avatar">
+                    <img *ngIf="user.get('photo')" src="{{ user.get('photo').url() }}"/>
+                    <img *ngIf="!user.get('photo')" src="{{ 'assets/img/user.png' }}"/>
+                </div>
             </ion-col>
             <ion-col width-75>
                 <ion-row>
-                    <ion-col>
-                        <span class="text-center">{{ user.attributes.galleriesTotal || 0}}</span>
-
-                        <h3>postsText</h3>
+                    <ion-col class="text-center">
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.galleriesTotal || 0}}</b>
+                        <p>posts</p>
                     </ion-col>
-                    <ion-col>
-                        <span class="text-center">{{ user.attributes.followersTotal || 0}}</span>
-                        <h3>followersText</h3>
+                    <ion-col class="text-center">
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.followersTotal || 0}}</b>
+                        <p>followers</p>
                     </ion-col>
-                    <ion-col>
-                        <span class="text-center">{{ user.attributes.followingsTotal  || 0}}</span>
-                        <h3>followingText</h3>
+                    <ion-col class="text-center">
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.followingsTotal  || 0}}</b>
+                        <p>following</p>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        <button (click)="onEditProfile()" ion-button color="primary">
+                        <button (click)="onEditProfile()" ion-button block color="primary" small>
                             Edit Profile
                         </button>
                     </ion-col>
                 </ion-row>
             </ion-col>
         </ion-row>
-        <ion-row >
-            <h3>{{ user.attributes.name }}</h3>
-            <p >{{ user.attributes.status }}</p>
+        <ion-row>
+            <ion-col>
+                <h3>{{ user.name }}</h3>
+                <p>{{ user.status }}</p>
+            </ion-col>
         </ion-row>
     </div>
 
     <ion-segment [(ngModel)]="type" color="primary">
-        <ion-segment-button (ionSelect)="onSelectType('list')" value="list"><ion-icon name="ios-list-outline"></ion-icon></ion-segment-button>
-        <ion-segment-button (ionSelect)="onSelectType('grid')" value="grid" ><ion-icon name="ios-apps-outline"></ion-icon></ion-segment-button>
-        <ion-segment-button (ionSelect)="onSelectType('map')" value="map"><ion-icon name="ios-pin-outline"></ion-icon></ion-segment-button>
+        <ion-segment-button (ionSelect)="onSelectType('list')" value="list">
+            <ion-icon name="ios-list-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button (ionSelect)="onSelectType('grid')" value="grid">
+            <ion-icon name="ios-apps-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button (ionSelect)="onSelectType('map')" value="map">
+            <ion-icon name="ios-pin-outline"></ion-icon>
+        </ion-segment-button>
     </ion-segment>
 
     <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <photo-list [username]="username" *ngIf="type=='list'" ></photo-list>
-    <photo-grid [params]="params" *ngIf="type=='grid'" ></photo-grid>
+    <photo-list [params]="params" *ngIf="type=='list'"></photo-list>
+    <photo-grid [params]="params" *ngIf="type=='grid'"></photo-grid>
 
     <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

@@ -13,11 +13,15 @@ var core_1 = require('@angular/core');
   Ionic pages and navigation.
 */
 var AccountEditModal = (function () {
-    function AccountEditModal(navCtrl) {
+    function AccountEditModal(navCtrl, viewCtrl) {
         this.navCtrl = navCtrl;
+        this.viewCtrl = viewCtrl;
     }
     AccountEditModal.prototype.ionViewDidLoad = function () {
         console.log('Hello AccountEditModal Page');
+    };
+    AccountEditModal.prototype.dismiss = function () {
+        this.viewCtrl.dismiss();
     };
     AccountEditModal = __decorate([
         core_1.Component({

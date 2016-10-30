@@ -6,24 +6,60 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var tab_account_popover_1 = require("../tab-account-popover/tab-account-popover");
+var account_edit_modal_1 = require("../account-edit-modal/account-edit-modal");
+var tab_account_settings_1 = require("../tab-account-settings/tab-account-settings");
 var TabAccountPage = (function () {
-    function TabAccountPage(navCtrl, User, popoverCtrl) {
+    function TabAccountPage(navCtrl, User, events, modalCtrl) {
         this.navCtrl = navCtrl;
         this.User = User;
-        this.popoverCtrl = popoverCtrl;
+        this.events = events;
+        this.modalCtrl = modalCtrl;
+        this.loading = true;
         this.type = 'list';
+        this.params = {
+            limit: 5,
+            page: 1,
+            privacity: 'public',
+            username: ''
+        };
         this.user = User.current();
         this.username = User.current().get('username');
-        console.log(this.username);
+        this.params.username = this.username;
     }
+    TabAccountPage.prototype.onEditProfile = function () {
+        var modal = this.modalCtrl.create(account_edit_modal_1.AccountEditModal);
+        modal.present();
+    };
     TabAccountPage.prototype.onSelectType = function (type) {
         this.type = type;
         console.log(this.type);
     };
-    TabAccountPage.prototype.presentPopover = function (ev) {
-        var popover = this.popoverCtrl.create(tab_account_popover_1.TabAccountPopoverPage);
-        popover.present({ ev: ev });
+    TabAccountPage.prototype.onPageSettings = function () {
+        this.navCtrl.push(tab_account_settings_1.TabAccountSettingsPage);
+    };
+    TabAccountPage.prototype.doInfinite = function (event) {
+        var _this = this;
+        if (!this.loading) {
+            this.params.page++;
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', function () {
+                _this.loading = false;
+                event.complete();
+            });
+        }
+    };
+    TabAccountPage.prototype.doRefresh = function (event) {
+        var _this = this;
+        if (!this.loading) {
+            this.params.page = 1;
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', function () {
+                _this.loading = false;
+                event.complete();
+            });
+        }
     };
     TabAccountPage = __decorate([
         core_1.Component({
