@@ -13,7 +13,6 @@ var PhotoList = (function () {
         this.events = events;
         this.modalCtrl = modalCtrl;
         this.data = [];
-        this.loadingLike = false;
         this.params = {
             limit: 5,
             page: 1

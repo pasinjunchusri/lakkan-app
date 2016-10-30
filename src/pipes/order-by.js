@@ -11,6 +11,7 @@ var OrderBy = (function () {
     function OrderBy() {
     }
     OrderBy.prototype.transform = function (value, args) {
+        console.log(value, args);
         return underscore_1.default.sortBy(value, args);
     };
     OrderBy = __decorate([

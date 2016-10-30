@@ -7,37 +7,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var TabSearchPage = (function () {
-    function TabSearchPage(navCtrl, provider) {
+    function TabSearchPage(navCtrl, events) {
         this.navCtrl = navCtrl;
-        this.provider = provider;
-        this.sendParams = new core_1.EventEmitter();
-        this.data = [];
-        this.moreItem = true;
+        this.events = events;
         this.loading = false;
-        this.typeFeed = 'public';
         this.params = {
-            limit: 5,
+            limit: 24,
             page: 1
         };
+        this.events.publish('photolist:params', this.params);
     }
-    TabSearchPage.prototype.onLoading = function () {
-        this.loading = !this.loading;
-    };
     TabSearchPage.prototype.doInfinite = function (event) {
-        //if (!this.loading) {
-        this.params.page++;
-        this.sendParams.next(this.params);
-        //}
+        var _this = this;
+        if (!this.loading) {
+            this.params.page++;
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', function () {
+                _this.loading = false;
+                event.complete();
+            });
+        }
     };
     TabSearchPage.prototype.doRefresh = function (event) {
-        //if (!this.loading) {
-        this.params.page = 1;
-        this.sendParams.next(this.params);
-        //}
+        var _this = this;
+        if (!this.loading) {
+            this.params.page = 1;
+            this.loading = true;
+            this.events.publish('photolist:params', this.params);
+            this.events.subscribe('photolist:complete', function () {
+                _this.loading = false;
+                event.complete();
+            });
+        }
     };
-    __decorate([
-        core_1.Output()
-    ], TabSearchPage.prototype, "sendParams", void 0);
     TabSearchPage = __decorate([
         core_1.Component({
             selector: 'page-tab-search',

@@ -6,22 +6,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var PhotoPage = (function () {
-    function PhotoPage(navCtrl, navParams) {
+/*
+  Generated class for the User page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+*/
+var UserPage = (function () {
+    function UserPage(navCtrl) {
         this.navCtrl = navCtrl;
-        this.navParams = navParams;
     }
-    PhotoPage.prototype.ionViewDidLoad = function () {
-        this.item = this.navParams.get('item');
-        console.log(this.item);
-        console.log('Hello Photo Page');
+    UserPage.prototype.ionViewDidLoad = function () {
+        console.log('Hello User Page');
     };
-    PhotoPage = __decorate([
+    UserPage = __decorate([
         core_1.Component({
-            selector: 'page-photo',
-            templateUrl: 'photo.html'
+            selector: 'page-user',
+            templateUrl: 'user.html'
         })
-    ], PhotoPage);
-    return PhotoPage;
+    ], UserPage);
+    return UserPage;
 }());
-exports.PhotoPage = PhotoPage;
+exports.UserPage = UserPage;

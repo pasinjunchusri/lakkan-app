@@ -177,10 +177,7 @@ export class User {
     findByEmail(email) {
         return Parse.Cloud.run('findUserByEmail', {email: email});
     }
-
-    profile(username) {
-        return Parse.Cloud.run('profile', {username: username})
-    }
+    
 
     list(params) {
         return Parse.Cloud.run('listUsers', params)

@@ -30,7 +30,7 @@ var PhotoGrid = (function () {
     };
     PhotoGrid.prototype.openPhoto = function (item) {
         console.log(item);
-        this.navCtrl.push(photo_1.PhotoPage, item);
+        this.navCtrl.push(photo_1.PhotoPage, { item: item });
     };
     PhotoGrid.prototype.feed = function () {
         var _this = this;

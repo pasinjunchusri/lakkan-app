@@ -1,4 +1,4 @@
-photo-card{
+photo-card {
   .img-gallery {
     display: block;
     min-height: 425px;
@@ -10,8 +10,21 @@ photo-card{
     margin: 0 !important;
     width: 100% !important;
 
+    ion-card-content {
+      padding: 10px !important;
+    }
+
     .item-buttons {
-      padding-left:0;
+      padding-left: 0;
+      height: 50px !important;
+
+      .button-large-ios, .button-large-md {
+        padding: 0 .5em;
+      }
+
+      .label-ios, .label-md {
+        margin: 0;
+      }
     }
 
     ion-list {
