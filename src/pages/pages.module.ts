@@ -36,6 +36,8 @@ import {PhotoPage} from "./photo/photo";
 import {Loader} from "../components/loader/loader";
 import {UserPassword} from "./user-password/user-password";
 import {ProfilePage} from "./profile/profile";
+import {PhotoCaptureModal} from "../components/photo-capture-modal/photo-capture-modal";
+import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal";
 
 export const APP_PAGES = [
     IntroPage,
@@ -60,6 +62,8 @@ export const APP_PAGES = [
     PhotoGrid,
     PhotoList,
     PhotoCard,
+    PhotoCaptureModal,
+    PhotoShareModal
 ];
 
 @NgModule({

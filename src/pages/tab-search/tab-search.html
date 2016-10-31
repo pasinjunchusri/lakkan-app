@@ -1,6 +1,10 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>Search</ion-title>
+        <ion-searchbar
+                [(ngModel)]="searchInput"
+                (ionInput)="onInput($event)"
+                (ionCancel)="onCancel($event)">
+        </ion-searchbar>
     </ion-navbar>
 </ion-header>
 

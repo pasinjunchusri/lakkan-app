@@ -12,12 +12,14 @@ import {ParseFile} from "./parse-file";
 import {ParsePush} from "./parse-push";
 import {GallerFeedback} from "./gallery-feedback";
 import {UserData} from "./user-data";
+import {PhotoService} from "./photo-service";
 
 export const sharedProviders = [
     IonicUtil,
     Auth,
     User,
     UserData,
+    PhotoService,
     Gallery,
     GalleryActivity,
     GalleryComment,

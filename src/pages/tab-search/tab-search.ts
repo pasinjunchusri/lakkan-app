@@ -7,8 +7,9 @@ import {NavController, Events} from 'ionic-angular';
 })
 export class TabSearchPage {
 
+    searchInput: string;
     loading: boolean = false;
-    params = {
+    params           = {
         limit: 24,
         page : 1
     }
@@ -16,7 +17,16 @@ export class TabSearchPage {
     constructor(public navCtrl: NavController,
                 public events: Events
     ) {
+        this.searchInput = '';
         this.events.publish('photolist:params', this.params);
+    }
+
+    onInput(ev) {
+        console.log('Search', this.searchInput);
+    }
+
+    onCancel(ev) {
+        this.searchInput = null;
     }
 
     doInfinite(event) {
