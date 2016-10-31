@@ -4,6 +4,8 @@ import {HttpModule} from "@angular/http";
 import {BrowserModule} from "@angular/platform-browser";
 import {CommonModule} from "@angular/common";
 
+
+import {MomentModule} from "angular2-moment";
 import {TranslateModule} from 'ng2-translate';
 import {IonicImageLoader} from "ionic-image-loader";
 
@@ -21,23 +23,22 @@ import {TabSharePage} from "../pages/tab-share/tab-share";
 import {TabActivityPage} from "../pages/tab-activity/tab-activity";
 import {IntroPage} from "../pages/intro/intro";
 import {AuthPage} from "./auth/auth";
-import {UserForgotPage} from "../pages/user-forgot/user-forgot";
 import {TabAccountPage} from "./tab-account/tab-account";
 import {TabAccountPopoverPage} from "./tab-account-popover/tab-account-popover";
 import {AccountEditModal} from "./account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "./tab-account-settings/tab-account-settings";
-import {Loader} from "../components/loader/loader";
 import {PhotoCommentModal} from "../components/photo-comment-modal/photo-comment-modal";
 import {PhotoFeedbackModal} from "../components/photo-feedback-modal/photo-feedback-modal";
 import {PhotoGrid} from "../components/photo-grid/photo-grid";
 import {PhotoList} from "../components/photo-list/photo-list";
 import {PhotoCard} from "../components/photo-card/photo-card";
 import {PhotoPage} from "./photo/photo";
-import {UserPage} from "./user/user";
+import {Loader} from "../components/loader/loader";
+import {UserPassword} from "./user-password/user-password";
+import {ProfilePage} from "./profile/profile";
 
 export const APP_PAGES = [
     IntroPage,
-    UserForgotPage,
     AuthPage,
     TabsPage,
     TabHomePage,
@@ -49,7 +50,8 @@ export const APP_PAGES = [
     TabAccountSettingsPage,
     AccountEditModal,
     PhotoPage,
-    UserPage,
+    ProfilePage,
+    UserPassword,
 
     // Components
     Loader,
@@ -68,6 +70,7 @@ export const APP_PAGES = [
         PipesModule,
         ProvidersModule,
         IonicImageLoader,
+        MomentModule,
         TranslateModule.forRoot(),
         IonicModule.forRoot(TabsPage),
         IonicModule.forRoot(IntroPage),

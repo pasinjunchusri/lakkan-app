@@ -10,11 +10,9 @@ var common_1 = require("@angular/common");
 // Pipes
 var capitalize_1 = require("./capitalize");
 var order_by_1 = require("./order-by");
-var angular2_moment_1 = require("angular2-moment");
 exports.sharedPipes = [
     capitalize_1.Capitalize,
     order_by_1.OrderBy,
-    angular2_moment_1.TimeAgoPipe
 ];
 var PipesModule = (function () {
     function PipesModule() {

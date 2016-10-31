@@ -1,6 +1,16 @@
 import {Injectable} from '@angular/core';
 import {ParsePush} from "./parse-push";
 
+export interface IUser {
+    name: string;
+    username: string;
+    email: string;
+    gender?: string;
+    brithday?: string;
+    phone?: string;
+    website?: string;
+}
+
 @Injectable()
 export class User {
     fields      = [
@@ -50,14 +60,10 @@ export class User {
     }
 
 
-    update(params) {
-        var user = Parse.User.current();
+    update(form: IUser) {
+        let user = Parse.User.current();
         // User Language
-
-        params.each((value, key) => {
-            user.set(key, value);
-        })
-        return user.save();
+        return user.save(form);
     }
 
     setPhoto(parseFile) {
@@ -141,7 +147,6 @@ export class User {
                 console.log('cordova', window['cordova']);
 
 
-
                 if (window['cordova']) {
                     // Parse Push
                     this.ParsePush.init();
@@ -177,7 +182,7 @@ export class User {
     findByEmail(email) {
         return Parse.Cloud.run('findUserByEmail', {email: email});
     }
-    
+
 
     list(params) {
         return Parse.Cloud.run('listUsers', params)

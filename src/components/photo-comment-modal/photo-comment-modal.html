@@ -23,8 +23,7 @@
                 <img *ngIf="item.get('user').get('photo')" [src]="item.get('user').get('photo').url()">
                 <img *ngIf="!item.get('user').get('photo')" src="assets/img/user.png">
             </ion-avatar>
-            <h2>{{item.get('user').get('username')}}</h2>
-            {{item.get('text')}}
+            <p><b>{{item.get('user').get('username')}}</b> {{item.get('text')}}</p>
 
             <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
         </ion-item>

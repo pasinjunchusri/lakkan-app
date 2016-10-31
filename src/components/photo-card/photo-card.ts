@@ -1,7 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {Events, ModalController} from "ionic-angular";
+import {Events, ModalController, NavController} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
 import {PhotoCommentModal} from "../photo-comment-modal/photo-comment-modal";
+import {ProfilePage} from "../../pages/profile/profile";
 
 @Component({
     selector   : 'photo-card',
@@ -15,6 +16,7 @@ export class PhotoCard {
 
     constructor(public provider: Gallery,
                 public events: Events,
+                public navCtrl: NavController,
                 public modalCtrl: ModalController
     ) {
 
@@ -25,6 +27,11 @@ export class PhotoCard {
         console.log(item);
         let modal = this.modalCtrl.create(PhotoCommentModal, item);
         modal.present();
+    }
+
+    profile(username: string) {
+        console.log('username', username);
+        this.navCtrl.push(ProfilePage, {username: username})
     }
 
     onLike(item) {

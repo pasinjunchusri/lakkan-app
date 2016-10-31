@@ -3,7 +3,6 @@ import {NavParams, ViewController} from "ionic-angular";
 import {GalleryComment} from "../../providers/gallery-comment";
 import {IonicUtil} from "../../providers/ionic-util";
 
-
 @Component({
     selector   : 'photo-comment-modal',
     templateUrl: 'photo-comment-modal.html'
@@ -53,7 +52,6 @@ export class PhotoCommentModal {
                 } else {
                     this.noData = true;
                 }
-
                 resolve(comments)
             });
 
@@ -65,7 +63,6 @@ export class PhotoCommentModal {
     }
 
     onComment(form) {
-
         if (form.valid) {
             this.util.onLoading();
             this.provider.create(this.form).then(result => {

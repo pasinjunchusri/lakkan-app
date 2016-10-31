@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {NavController, App} from 'ionic-angular';
+import {NavController, App, ModalController} from 'ionic-angular';
 import {Auth} from "../../providers/auth";
 import {IntroPage} from "../intro/intro";
+import {UserPassword} from "../user-password/user-password";
+import {AccountEditModal} from "../account-edit-modal/account-edit-modal";
 
 /*
  Generated class for the TabAccountSettings page.
@@ -17,11 +19,22 @@ export class TabAccountSettingsPage {
 
     constructor(public navCtrl: NavController,
                 public Auth: Auth,
-                public app: App
+                public app: App,
+                public modalCtrl: ModalController,
     ) {}
 
     ionViewDidLoad() {
         console.log('Hello TabAccountSettings Page');
+    }
+
+    changePassword(){
+        let modal = this.modalCtrl.create(UserPassword);
+        modal.present();
+    }
+
+    editModal(){
+        let modal = this.modalCtrl.create(AccountEditModal);
+        modal.present();
     }
 
     logout() {

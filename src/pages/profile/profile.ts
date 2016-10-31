@@ -1,41 +1,50 @@
 import {Component} from '@angular/core';
-import {NavController, ModalController, Events} from 'ionic-angular';
-import {AccountEditModal} from "../account-edit-modal/account-edit-modal";
-import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
+import {NavController, Events, ModalController, NavParams} from 'ionic-angular';
 import {UserData} from "../../providers/user-data";
+import {AccountEditModal} from "../account-edit-modal/account-edit-modal";
+
 
 @Component({
-    selector   : 'page-tab-account',
-    templateUrl: 'tab-account.html'
+    selector   : 'page-profile',
+    templateUrl: 'profile.html'
 })
-export class TabAccountPage {
+export class ProfilePage {
+
     user: any;
     username: string;
-    loadingProfile: boolean = true;
-    loading: boolean        = true;
-    type: string            = 'list';
+    loading: boolean = true;
+    type: string     = 'list';
     profile: any;
-
-    params = {
-        limit    : 12,
-        page     : 1,
-        privacity: 'public',
-        username : ''
-    }
+    params: any;
 
     constructor(public navCtrl: NavController,
                 public User: UserData,
                 public events: Events,
+                public navParams: NavParams,
                 public modalCtrl: ModalController
     ) {
-        this.user            = User.current();
-        this.username        = User.current().get('username');
-        this.params.username = this.username;
 
-        this.loadingProfile = true;
+        this.username = this.navParams.get('username');
+        this.params   = {
+            limit    : 5,
+            page     : 1,
+            privacity: 'public',
+            username : this.username
+        };
+        this.profile = {
+            name: '',
+            username: '',
+            photo: '',
+            status: '',
+            galleriesTotal: 0,
+            followersTotal: 0,
+            followingsTotal: 0,
+        }
+
         this.User.profile(this.username).then(profile => {
-            this.profile        = profile;
-            this.loadingProfile = false;
+            console.log(profile);
+            this.profile = profile;
+            this.loading = false;
         });
     }
 
@@ -48,11 +57,6 @@ export class TabAccountPage {
     onSelectType(type: string) {
         this.type = type;
         console.log(this.type);
-    }
-
-    onPageSettings() {
-        this.navCtrl.push(TabAccountSettingsPage)
-
     }
 
     doInfinite(event) {
@@ -80,4 +84,5 @@ export class TabAccountPage {
             });
         }
     }
+
 }

@@ -1,4 +1,4 @@
-page-tab-account {
+page-profile {
   $avatar-size: 80px;
 
   .profile-top {
@@ -40,5 +40,9 @@ page-tab-account {
     b {
       font-size: 1.3em;
     }
+  }
+
+  .text-center {
+    text-align: center;
   }
 }

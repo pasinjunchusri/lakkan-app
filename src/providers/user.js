@@ -153,9 +153,6 @@ var User = (function () {
     User.prototype.findByEmail = function (email) {
         return Parse.Cloud.run('findUserByEmail', { email: email });
     };
-    User.prototype.profile = function (username) {
-        return Parse.Cloud.run('profile', { username: username });
-    };
     User.prototype.list = function (params) {
         return Parse.Cloud.run('listUsers', params);
     };

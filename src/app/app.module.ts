@@ -11,6 +11,8 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {TabSearchPage} from '../pages/tab-search/tab-search';
 import {TabAccountPage} from '../pages/tab-account/tab-account';
 import {TabActivityPage} from '../pages/tab-activity/tab-activity';
+import {PhotoPage} from "../pages/photo/photo";
+import {ProfilePage} from "../pages/profile/profile";
 
 @NgModule({
     declarations   : [
@@ -22,12 +24,14 @@ import {TabActivityPage} from '../pages/tab-activity/tab-activity';
         IonicModule.forRoot(MyApp, {}, {
             links: [
                 {component: AuthPage, name: 'Auth', segment: 'auth'},
-                {component: TabsPage, name: 'Intro', segment: 'intro'},
-                {component: IntroPage, name: 'Tabs', segment: 'tab'},
+                {component: IntroPage, name: 'Tabs', segment: 'intro'},
+                {component: TabsPage, name: 'Intro', segment: 'tab'},
                 {component: TabHomePage, name: 'Home', segment: 'home'},
                 {component: TabSearchPage, name: 'Search', segment: 'search'},
                 {component: TabActivityPage, name: 'Activity', segment: 'activity'},
                 {component: TabAccountPage, name: 'Account', segment: 'account'},
+                {component: PhotoPage, name: 'Photo', segment: 'photo'},
+                {component: ProfilePage, name: 'Profile', segment: 'profile'},
             ]
         })
     ],

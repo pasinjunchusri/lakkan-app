@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
+var common_1 = require("@angular/common");
 // Components
 var loader_1 = require("./loader/loader");
 var photo_grid_1 = require("./photo-grid/photo-grid");
@@ -26,10 +27,9 @@ var ComponentsModule = (function () {
     }
     ComponentsModule = __decorate([
         core_1.NgModule({
-            imports: [],
-            exports: [],
+            imports: [common_1.CommonModule],
+            exports: [exports.sharedComponents],
             declarations: [exports.sharedComponents],
-            providers: [],
         })
     ], ComponentsModule);
     return ComponentsModule;

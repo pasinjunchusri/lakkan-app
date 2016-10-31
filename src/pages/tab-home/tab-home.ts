@@ -21,7 +21,7 @@ export class TabHomePage {
     ) {
     }
 
-    onSelectPrivacity(privacity: string) {
+    onSelectType(privacity: string) {
         this.privacity        = privacity;
         this.params.page      = 1;
         this.params.privacity = privacity;

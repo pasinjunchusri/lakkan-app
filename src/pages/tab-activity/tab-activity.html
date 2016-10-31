@@ -1,15 +1,18 @@
 <ion-header>
-    <ion-toolbar  no-border-top>
-        <ion-segment>
-            <ion-segment-button  value="public">{{'Following' | translate}}</ion-segment-button>
-            <ion-segment-button  value="followers">{{'You' | translate}}</ion-segment-button>
+
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="type">
+            <ion-segment-button (ionSelect)="selectType('follow')" value="follow">{{'Follow' | translate}}
+            </ion-segment-button>
+            <ion-segment-button (ionSelect)="selectType('you')" value="you">{{'You' | translate}}</ion-segment-button>
         </ion-segment>
     </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
 
-    <loader *ngIf="loading && !data.length" ></loader>
+    <loader *ngIf="loading && !data.length"></loader>
 
     <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
@@ -19,16 +22,20 @@
         <ion-list>
 
             <ion-item *ngFor="let item of data">
-                <ion-avatar item-left>
+                <ion-avatar (click)="profile(item.user.username)" item-left>
                     <img *ngIf="item.user.photo" src="{{item.user.photo.url()}}">
                     <img *ngIf="!item.user.photo" src="assets/img/user.png">
                 </ion-avatar>
-                <h2>{{item.user.username}}</h2>
-                <div class="text">{{item.action }}</div>
-                <div item-right>
+                <h3 (click)="profile(item.user.username)">{{item.user.username}}</h3>
+                <p>{{item.action }}</p>
+                <div *ngIf="!item.user.isFollow" item-right>
+                    <button ion-button outline>
+                        + FOLLOW
+                    </button>
+                </div>
+                <div *ngIf="item.user.isFollow" item-right>
                     <button ion-button>
-                        <span *ngIf="!item.user.isFollow">follow</span>
-                        <span *ngIf="item.user.isFollow">unfollow</span>
+                        - UNFOLLOW
                     </button>
                 </div>
             </ion-item>

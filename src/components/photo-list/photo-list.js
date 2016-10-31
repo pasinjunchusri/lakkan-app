@@ -67,7 +67,7 @@ var PhotoList = (function () {
     };
     __decorate([
         core_1.Input()
-    ], PhotoList.prototype, "username", void 0);
+    ], PhotoList.prototype, "params", void 0);
     PhotoList = __decorate([
         core_1.Component({
             selector: 'photo-list',

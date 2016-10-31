@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {GalleryActivity} from "../../providers/gallery-activity";
+import {ProfilePage} from "../profile/profile";
 
 @Component({
     selector   : 'page-tab-activity',
@@ -11,18 +12,29 @@ export class TabActivityPage {
     data: any         = [];
     moreItem: boolean = true;
     loading: boolean  = true;
+    type: string      = 'you';
 
     params = {
         limit: 20,
         page : 1
     }
 
-    constructor(private navCtrl: NavController, private provider: GalleryActivity) {
+    constructor(private navCtrl: NavController,
+                private provider: GalleryActivity
+    ) {
 
     }
 
     ngOnInit() {
         this.feed()
+    }
+
+    profile(username: string) {
+        this.navCtrl.push(ProfilePage, {username: username});
+    }
+
+    selectType(type: string) {
+        this.type = type;
     }
 
     feed() {

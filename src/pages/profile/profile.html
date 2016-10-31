@@ -1,12 +1,8 @@
 <ion-header>
     <ion-navbar color="primary">
         <ion-title>Profile</ion-title>
-        <ion-buttons end>
-            <button ion-button icon-only (click)="onPageSettings()">
-                <ion-icon name="more"></ion-icon>
-            </button>
-        </ion-buttons>
     </ion-navbar>
+
 </ion-header>
 
 <ion-content>
@@ -15,33 +11,41 @@
         <ion-row>
             <ion-col width-25>
                 <div class="img-avatar">
-                    <img *ngIf="user.get('photo')" [src]="user.get('photo').url()"/>
-                    <img *ngIf="!user.get('photo')" src="assets/img/user.png"/>
+                    <img *ngIf="profile.photo" [src]="profile.photo.url()"/>
+                    <img *ngIf="!profile.photo" src="assets/img/user.png"/>
                 </div>
             </ion-col>
             <ion-col width-75>
                 <ion-row>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
-                        <b *ngIf="!loadingProfile">{{ profile.galleriesTotal || 0}}</b>
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.galleriesTotal || 0}}</b>
                         <p>posts</p>
                     </ion-col>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
-                        <b *ngIf="!loadingProfile">{{ profile.followersTotal || 0}}</b>
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.followersTotal || 0}}</b>
                         <p>followers</p>
                     </ion-col>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
-                        <b *ngIf="!loadingProfile">{{ profile.followingsTotal || 0}}</b>
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.followingsTotal || 0}}</b>
                         <p>following</p>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        <button (click)="onEditProfile()" ion-button block color="primary" small>
-                            Edit Profile
-                        </button>
+                        <div *ngIf="loading" class="text-center">
+                            <ion-spinner></ion-spinner>
+                        </div>
+                        <div *ngIf="!loading">
+                            <button *ngIf="profile.isFollow"  ion-button block color="primary" small>
+                                Unfollow
+                            </button>
+                            <button *ngIf="!profile.isFollow" outline ion-button block color="primary" small>
+                                Follow
+                            </button>
+                        </div>
                     </ion-col>
                 </ion-row>
             </ion-col>
@@ -50,8 +54,8 @@
     <div class="profile-desc">
         <ion-row>
             <ion-col>
-                <h3>{{ user.attributes.name }}</h3>
-                <p>{{ user.attributes.status }}</p>
+                <h3>{{ profile.name }}</h3>
+                <p>{{ profile.status }}</p>
             </ion-col>
         </ion-row>
     </div>

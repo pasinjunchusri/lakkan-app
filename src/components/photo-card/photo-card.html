@@ -1,10 +1,10 @@
 <ion-card>
     <ion-item>
-        <ion-avatar item-left>
+        <ion-avatar (click)="profile(item.user.get('username'))" item-left>
             <img *ngIf="item.user.get('photo')" [src]="item.user.get('photo').url()">
             <img *ngIf="!item.user.get('photo')" src="assets/img/user.png">
         </ion-avatar>
-        <h2>{{item.user.get('name')}}</h2>
+        <h2>{{item.user.get('username')}}</h2>
         <p>{{item.user.get('status')}}</p>
 
         <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
@@ -37,10 +37,10 @@
         </ion-note>
 
     </ion-item>
-    <ion-list>
-        <ion-item *ngFor="let comment of item.comments">
-            <b>{{comment.user.get('name')}}</b> {{comment.text}}
-        </ion-item>
-    </ion-list>
+    <div padding>
+        <p *ngFor="let comment of item.comments">
+            <b>{{comment.user.get('username')}}</b> {{comment.text}}
+        </p>
+    </div>
 
 </ion-card>

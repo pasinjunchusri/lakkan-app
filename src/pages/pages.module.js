@@ -37,6 +37,7 @@ var photo_list_1 = require("../components/photo-list/photo-list");
 var photo_card_1 = require("../components/photo-card/photo-card");
 var photo_1 = require("./photo/photo");
 var user_1 = require("./user/user");
+var angular2_moment_1 = require("angular2-moment");
 exports.APP_PAGES = [
     intro_1.IntroPage,
     user_forgot_1.UserForgotPage,
@@ -72,6 +73,7 @@ var PagesModule = (function () {
                 pipes_module_1.PipesModule,
                 providers_module_1.ProvidersModule,
                 ionic_image_loader_1.IonicImageLoader,
+                angular2_moment_1.MomentModule,
                 ng2_translate_1.TranslateModule.forRoot(),
                 ionic_angular_1.IonicModule.forRoot(tabs_1.TabsPage),
                 ionic_angular_1.IonicModule.forRoot(intro_1.IntroPage),

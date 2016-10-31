@@ -1,18 +1,86 @@
-
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>
-      Edit Profile
-    </ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>
+            Edit Profile
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
+    <form #rForm="ngForm" (ngSubmit)="save(rForm)" novalidate>
+        <div class="item-avatar" (click)="changeAvatar()">
+            <ion-avatar>
+                <img *ngIf="photo" [src]="photo">
+                <img *ngIf="!photo" src="assets/img/user.png">
+            </ion-avatar>
+            <p>Change Profile Photo</p>
+        </div>
+        <ion-list>
+            <ion-item>
+                <ion-icon name="calendar" item-left></ion-icon>
+                <ion-input [(ngModel)]="form.name" name="name" type="text" #name="ngModel" placeholder="Name" required></ion-input>
+            </ion-item>
+            <p [hidden]="name.valid || !submitted" color="danger" padding-left>
+                Name is required
+            </p>
+            <ion-item>
+                <ion-icon name="person" item-left></ion-icon>
+                <ion-input [(ngModel)]="form.username" name="username" type="text" #username="ngModel"
+                           placeholder="Username" required></ion-input>
+            </ion-item>
+            <p [hidden]="username.valid || !submitted" color="danger" padding-left>
+                Username is required
+            </p>
+            <ion-item>
+                <ion-icon name="compass" item-left></ion-icon>
+                <ion-input [(ngModel)]="form.website" name="website" type="url" #website="ngModel"
+                           placeholder="Website"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="quote" item-left></ion-icon>
+                <ion-input [(ngModel)]="form.status" name="status" type="text" #status="ngModel"
+                           placeholder="Status"></ion-input>
+            </ion-item>
+            <ion-item-divider>
+                PRIVATE INFORMATION
+            </ion-item-divider>
+            <ion-item>
+                <ion-icon name="mail" item-left></ion-icon>
+                <ion-input [(ngModel)]="form.email" name="email" type="email" #email="ngModel"
+                           placeholder="Email"></ion-input>
+            </ion-item>
+            <p [hidden]="email.valid || !submitted" color="danger" padding-left>
+                Email is required
+            </p>
+            <ion-item>
+                <ion-icon name="calendar" item-left></ion-icon>
+                <ion-datetime [(ngModel)]="form.birthday" displayFormat="MM/DD/YYYY" name="birthday" #birthday="ngModel"
+                              placeholder="MM/DD/YYYY"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="phone-portrait" item-left></ion-icon>
+                <ion-input [(ngModel)]="form.phone" name="phone" type="text" #status="ngModel"
+                           placeholder="Phone"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="phone-portrait" item-left></ion-icon>
+                <ion-select [(ngModel)]="form.gender" name="gender" #gender="ngModel">
+                    <ion-option value="">Not</ion-option>
+                    <ion-option value="male">Male</ion-option>
+                    <ion-option value="female">Female</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+
+        <div padding>
+            <button ion-button block>Save</button>
+        </div>
+    </form>
 </ion-content>
