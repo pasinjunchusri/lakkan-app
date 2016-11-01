@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Gallery} from "../../providers/gallery";
 import {Events, Platform, NavController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
@@ -7,7 +7,7 @@ import {PhotoPage} from "../../pages/photo/photo";
     selector   : 'photo-grid',
     templateUrl: 'photo-grid.html'
 })
-export class PhotoGrid implements OnInit {
+export class PhotoGrid {
 
     @Input() username?: string;
     @Input() params: any;
@@ -29,11 +29,6 @@ export class PhotoGrid implements OnInit {
             this.params = params[0];
             this.feed();
         });
-    }
-
-
-    ngOnInit() {
-        this.feed()
     }
 
     openPhoto(item) {
@@ -62,12 +57,11 @@ export class PhotoGrid implements OnInit {
                 }
 
                 this.loading = false;
-
                 this.events.publish('photolist:complete');
                 resolve();
 
             }, error => {
-
+                this.loading = false;
                 this.events.publish('photolist:complete');
                 reject(error);
             });

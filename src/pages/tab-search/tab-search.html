@@ -1,6 +1,10 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>Search</ion-title>
+        <ion-searchbar
+                [(ngModel)]="searchInput"
+                (ionInput)="onInput($event)"
+                (ionCancel)="onCancel($event)">
+        </ion-searchbar>
     </ion-navbar>
 </ion-header>
 
@@ -11,7 +15,7 @@
 
     <photo-grid [params]="params" ></photo-grid>
 
-    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll  *ngIf="!loading" primary (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 

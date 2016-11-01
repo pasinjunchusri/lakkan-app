@@ -7,6 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var intro_1 = require("../intro/intro");
+var user_password_1 = require("../user-password/user-password");
+var account_edit_modal_1 = require("../account-edit-modal/account-edit-modal");
 /*
  Generated class for the TabAccountSettings page.
 
@@ -14,13 +16,22 @@ var intro_1 = require("../intro/intro");
  Ionic pages and navigation.
  */
 var TabAccountSettingsPage = (function () {
-    function TabAccountSettingsPage(navCtrl, Auth, app) {
+    function TabAccountSettingsPage(navCtrl, Auth, app, modalCtrl) {
         this.navCtrl = navCtrl;
         this.Auth = Auth;
         this.app = app;
+        this.modalCtrl = modalCtrl;
     }
     TabAccountSettingsPage.prototype.ionViewDidLoad = function () {
         console.log('Hello TabAccountSettings Page');
+    };
+    TabAccountSettingsPage.prototype.changePassword = function () {
+        var modal = this.modalCtrl.create(user_password_1.UserPassword);
+        modal.present();
+    };
+    TabAccountSettingsPage.prototype.editModal = function () {
+        var modal = this.modalCtrl.create(account_edit_modal_1.AccountEditModal);
+        modal.present();
     };
     TabAccountSettingsPage.prototype.logout = function () {
         this.Auth.logout();

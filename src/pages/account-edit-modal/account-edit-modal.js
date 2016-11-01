@@ -6,19 +6,46 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-/*
-  Generated class for the AccountEditModal page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 var AccountEditModal = (function () {
-    function AccountEditModal(navCtrl, viewCtrl) {
+    function AccountEditModal(navCtrl, viewCtrl, ionic, User) {
         this.navCtrl = navCtrl;
         this.viewCtrl = viewCtrl;
+        this.ionic = ionic;
+        this.User = User;
+        this.submitted = false;
+        var user = Parse.User.current().attributes;
+        if (user.photo) {
+            this.photo = user.photo._url;
+        }
+        this.form = {
+            username: user.username,
+            name: user.name,
+            gender: user.gender,
+            birthday: user.birthday,
+            status: user.status,
+            email: user.email,
+            phone: user.phone,
+            website: user.website,
+        };
     }
-    AccountEditModal.prototype.ionViewDidLoad = function () {
-        console.log('Hello AccountEditModal Page');
+    AccountEditModal.prototype.changeAvatar = function () {
+        console.log('Mudar Foto');
+    };
+    AccountEditModal.prototype.save = function (rForm) {
+        var _this = this;
+        this.submitted = true;
+        if (rForm.valid) {
+            this.ionic.onLoading();
+            console.log(rForm);
+            console.log(this.form);
+            this.User.update(this.form).then(function (result) {
+                console.log(result);
+                _this.ionic.endLoading();
+            }, function (error) {
+                console.log(error);
+                _this.ionic.endLoading();
+            });
+        }
     };
     AccountEditModal.prototype.dismiss = function () {
         this.viewCtrl.dismiss();

@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
+var profile_1 = require("../profile/profile");
 var TabActivityPage = (function () {
     function TabActivityPage(navCtrl, provider) {
         this.navCtrl = navCtrl;
@@ -13,6 +14,7 @@ var TabActivityPage = (function () {
         this.data = [];
         this.moreItem = true;
         this.loading = true;
+        this.type = 'you';
         this.params = {
             limit: 20,
             page: 1
@@ -20,6 +22,12 @@ var TabActivityPage = (function () {
     }
     TabActivityPage.prototype.ngOnInit = function () {
         this.feed();
+    };
+    TabActivityPage.prototype.profile = function (username) {
+        this.navCtrl.push(profile_1.ProfilePage, { username: username });
+    };
+    TabActivityPage.prototype.selectType = function (type) {
+        this.type = type;
     };
     TabActivityPage.prototype.feed = function () {
         var _this = this;

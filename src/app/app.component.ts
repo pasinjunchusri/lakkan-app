@@ -4,7 +4,6 @@ import {StatusBar, Splashscreen} from 'ionic-native';
 
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
-import {TranslateService} from "ng2-translate";
 
 import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
 import {ImageLoaderConfig} from "ionic-image-loader";
@@ -25,14 +24,9 @@ export class MyApp implements OnInit {
     }
 
     constructor(platform: Platform,
-                translate: TranslateService,
                 imageLoaderConfig: ImageLoaderConfig
     ) {
-        // Translate
-        translate.setDefaultLang('en');
-        translate.use('pt');
 
-        console.log(translate.currentLang);
 
         // Image Cache
         // enable debug mode to get console errors/warnings/logs

@@ -1,9 +1,9 @@
 <ion-header>
-    <ion-navbar color="primary" no-border-bottom>
+    <ion-navbar color="primary" >
         <ion-title>Photogram</ion-title>
     </ion-navbar>
 
-    <ion-toolbar >
+    <ion-toolbar no-border-bottom >
         <ion-segment [(ngModel)]="privacity">
             <ion-segment-button (ionSelect)="selectType('public')" value="public">{{'public' | translate}}</ion-segment-button>
             <ion-segment-button (ionSelect)="selectType('followers')" value="followers">{{'followers' | translate}}</ion-segment-button>

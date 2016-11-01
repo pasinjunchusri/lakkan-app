@@ -8,19 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require('@angular/core');
 var tab_home_1 = require("../tab-home/tab-home");
 var tab_search_1 = require("../tab-search/tab-search");
-var tab_share_1 = require("../tab-share/tab-share");
 var tab_activity_1 = require("../tab-activity/tab-activity");
 var tab_account_1 = require("../tab-account/tab-account");
+var photo_share_modal_1 = require("../../components/photo-share-modal/photo-share-modal");
 var TabsPage = (function () {
-    function TabsPage() {
+    function TabsPage(PhotoService, platform, modalCtrl) {
+        this.PhotoService = PhotoService;
+        this.platform = platform;
+        this.modalCtrl = modalCtrl;
         // this tells the tabs component which Pages
         // should be each tab's root Page
         this.tabHome = tab_home_1.TabHomePage;
         this.tabSearch = tab_search_1.TabSearchPage;
-        this.tabShare = tab_share_1.TabSharePage;
         this.tabActivity = tab_activity_1.TabActivityPage;
         this.tabProfile = tab_account_1.TabAccountPage;
     }
+    TabsPage.prototype.openCapture = function () {
+        console.log('Capture');
+        //this.PhotoService.open();
+        this.modalCtrl.create(photo_share_modal_1.PhotoShareModal).present();
+    };
     TabsPage = __decorate([
         core_1.Component({
             templateUrl: 'tabs.html'

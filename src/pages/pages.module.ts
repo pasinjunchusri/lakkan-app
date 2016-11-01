@@ -1,13 +1,9 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from "ionic-angular";
-import {HttpModule} from "@angular/http";
+import {HttpModule, Http} from "@angular/http";
 import {BrowserModule} from "@angular/platform-browser";
 import {CommonModule} from "@angular/common";
 
-
-import {MomentModule} from "angular2-moment";
-import {TranslateModule} from 'ng2-translate';
-import {IonicImageLoader} from "ionic-image-loader";
 
 // Pipes
 import {PipesModule} from "../pipes/pipes.module";
@@ -36,6 +32,17 @@ import {PhotoPage} from "./photo/photo";
 import {Loader} from "../components/loader/loader";
 import {UserPassword} from "./user-password/user-password";
 import {ProfilePage} from "./profile/profile";
+import {PhotoCaptureModal} from "../components/photo-capture-modal/photo-capture-modal";
+import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal";
+
+
+import {MomentModule} from "angular2-moment";
+import {TranslateModule, TranslateLoader, TranslateStaticLoader, TranslateService} from 'ng2-translate';
+import {IonicImageLoader} from "ionic-image-loader";
+
+export function createTranslateLoader(http: Http) {
+    return new TranslateStaticLoader(http, './assets/i18n', '.json');
+}
 
 export const APP_PAGES = [
     IntroPage,
@@ -60,6 +67,8 @@ export const APP_PAGES = [
     PhotoGrid,
     PhotoList,
     PhotoCard,
+    PhotoCaptureModal,
+    PhotoShareModal
 ];
 
 @NgModule({
@@ -71,7 +80,11 @@ export const APP_PAGES = [
         ProvidersModule,
         IonicImageLoader,
         MomentModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot({
+            provide   : TranslateLoader,
+            useFactory: (createTranslateLoader),
+            deps      : [Http]
+        }),
         IonicModule.forRoot(TabsPage),
         IonicModule.forRoot(IntroPage),
     ],
@@ -79,7 +92,9 @@ export const APP_PAGES = [
         APP_PAGES,
         BrowserModule,
         HttpModule,
-        TranslateModule
+        TranslateModule,
+        MomentModule,
+        IonicImageLoader,
     ],
     declarations: [
         APP_PAGES,
@@ -87,4 +102,11 @@ export const APP_PAGES = [
     providers   : []
 })
 export class PagesModule {
+
+    constructor(private translate: TranslateService) {
+        // Translate
+        translate.addLangs(['en', 'pt'])
+        translate.setDefaultLang('en');
+        translate.use('en');
+    }
 }
