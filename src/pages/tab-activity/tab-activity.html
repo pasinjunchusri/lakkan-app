@@ -1,0 +1,51 @@
+<ion-header>
+
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="type">
+            <ion-segment-button (ionSelect)="selectType('follow')" value="follow">{{'Follow' | translate}}
+            </ion-segment-button>
+            <ion-segment-button (ionSelect)="selectType('you')" value="you">{{'You' | translate}}</ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+    <loader *ngIf="loading && !data.length"></loader>
+
+    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="data.length">
+        <ion-list>
+
+            <ion-item *ngFor="let item of data">
+                <ion-avatar (click)="profile(item.user.username)" item-left>
+                    <img *ngIf="item.user.photo" src="{{item.user.photo.url()}}">
+                    <img *ngIf="!item.user.photo" src="assets/img/user.png">
+                </ion-avatar>
+                <h3 (click)="profile(item.user.username)">{{item.user.username}}</h3>
+                <p>{{item.action }}</p>
+                <div *ngIf="!item.user.isFollow" item-right>
+                    <button ion-button outline>
+                        + FOLLOW
+                    </button>
+                </div>
+                <div *ngIf="item.user.isFollow" item-right>
+                    <button ion-button>
+                        - UNFOLLOW
+                    </button>
+                </div>
+            </ion-item>
+
+        </ion-list>
+    </div>
+
+    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>
+

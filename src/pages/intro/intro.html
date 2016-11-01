@@ -1,4 +1,10 @@
-
+<ion-header no-shadow>
+    <ion-navbar color="primary">
+        <ion-buttons end *ngIf="showSkip">
+            <button ion-button (click)="startApp()">Skip</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
 
 <ion-content no-bounce>
     <div class="intro-slider">
@@ -23,10 +29,3 @@
         </ion-slides>
     </div>
 </ion-content>
-
-<ion-footer>
-    <div class="row">
-        <button ion-button color="primary" full >Login</button>
-        <button ion-button color="primary" full >Cadastro</button>
-    </div>
-</ion-footer>

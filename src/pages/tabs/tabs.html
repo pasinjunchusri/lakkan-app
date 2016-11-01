@@ -1,5 +1,7 @@
-<ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="About" tabIcon="information-circle"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Contact" tabIcon="contacts"></ion-tab>
+<ion-tabs color="primary">
+    <ion-tab [root]="tabHome" tabIcon="home"></ion-tab>
+    <ion-tab [root]="tabSearch" tabIcon="globe"></ion-tab>
+    <ion-tab (ionSelect)="openCapture()"  tabIcon="camera"></ion-tab>
+    <ion-tab [root]="tabActivity" tabIcon="heart"></ion-tab>
+    <ion-tab [root]="tabProfile" tabIcon="person"></ion-tab>
 </ion-tabs>

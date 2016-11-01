@@ -1,0 +1,48 @@
+page-profile {
+  $avatar-size: 80px;
+
+  .profile-top {
+    ion-row {
+      ion-col {
+        p {
+          padding: 0;
+          margin: 0;
+          color: #A5A7AA;
+        }
+      }
+    }
+  }
+
+  .profile-desc {
+    h3 {
+      font-size: 1.2em;
+      margin: 5px;
+    }
+    p {
+      margin: 5px;
+    }
+  }
+
+  .img-avatar {
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+    height: $avatar-size;
+    width: $avatar-size;
+    img {
+      width: 100%;
+    }
+  }
+
+  .text-center {
+    display: block;
+    text-align: center;
+    b {
+      font-size: 1.3em;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}

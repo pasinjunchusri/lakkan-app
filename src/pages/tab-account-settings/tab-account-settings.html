@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Opções</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-list>
+        <ion-item-divider>INVITE FRIENDS</ion-item-divider>
+        <ion-item>
+            <ion-icon name="logo-facebook" icon-left></ion-icon>
+            Find Facebook Friends
+        </ion-item>
+        <ion-item>
+            <ion-icon name="person" icon-left></ion-icon>
+            Find Contact
+        </ion-item>
+        <ion-item-divider>ACCOUNT</ion-item-divider>
+        <ion-item (click)="editModal()">Edit Profile</ion-item>
+        <ion-item (click)="changePassword()">Change Password</ion-item>
+        <ion-item-divider>SETTINGS</ion-item-divider>
+        <ion-item>Language</ion-item>
+        <ion-item>Push Notifications</ion-item>
+        <ion-item>Comments</ion-item>
+        <ion-item>Upload Quality</ion-item>
+        <ion-item>Save Original Photos</ion-item>
+        <ion-item-divider>ABOUT</ion-item-divider>
+        <ion-item>Terms of Service</ion-item>
+        <ion-item>Open Source Libraries</ion-item>
+        <ion-item (click)="logout()">Logout</ion-item>
+    </ion-list>
+</ion-content>

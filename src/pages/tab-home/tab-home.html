@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-navbar color="primary" >
+        <ion-title>Photogram</ion-title>
+    </ion-navbar>
+
+    <ion-toolbar no-border-bottom >
+        <ion-segment [(ngModel)]="privacity">
+            <ion-segment-button (ionSelect)="selectType('public')" value="public">{{'public' | translate}}</ion-segment-button>
+            <ion-segment-button (ionSelect)="selectType('followers')" value="followers">{{'followers' | translate}}</ion-segment-button>
+            <ion-segment-button (ionSelect)="selectType('me')" value="me"> {{'me' | translate}}</ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <photo-list ></photo-list>
+
+    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

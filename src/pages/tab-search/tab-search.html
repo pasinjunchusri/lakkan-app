@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-searchbar
+                [(ngModel)]="searchInput"
+                (ionInput)="onInput($event)"
+                (ionCancel)="onCancel($event)">
+        </ion-searchbar>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <photo-grid [params]="params" ></photo-grid>
+
+    <ion-infinite-scroll  *ngIf="!loading" primary (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

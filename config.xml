@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>V2 Test</name>
+<widget id="com.agenciafoccus.photogram2" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Photogram 2</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
@@ -23,17 +23,18 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="16" />
     <preference name="BackupWebStorage" value="none" />
-
-    <!--
-      Change these to configure how the splashscreen displays and fades in/out.
-      More info here: https://github.com/apache/cordova-plugin-splashscreen
-    -->
-    <preference name="SplashScreenDelay" value="0"/>
-    <preference name="FadeSplashScreen" value="false"/>
-    <preference name="FadeSplashScreenDuration" value="0"/>
+    <preference name="SplashScreenDelay" value="0" />
+    <preference name="FadeSplashScreen" value="false" />
+    <preference name="FadeSplashScreenDuration" value="0" />
     <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF" />
-
+    <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
+    <plugin name="cordova-plugin-facebook4" spec="~1.7.4">
+        <variable name="APP_ID" value="1024016557617380" />
+        <variable name="APP_NAME" value="Photogram" />
+    </plugin>
+    <plugin name="cordova-plugin-file" spec="~4.3.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.6.0" />
 </widget>
