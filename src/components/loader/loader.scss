@@ -1,4 +1,13 @@
 .loader {
   text-align: center;
-  margin: 20px 0;
+  margin: 50% 0;
+
+  $size-spinner: 50px;
+  ion-spinner {
+    width: $size-spinner;
+    height: $size-spinner;
+    svg * {
+      stroke: color($colors, primary, base) !important;
+    }
+  }
 }

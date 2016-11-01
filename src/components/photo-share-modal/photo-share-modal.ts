@@ -7,6 +7,9 @@ import {IonicUtil} from "../../providers/ionic-util";
     templateUrl: 'photo-share-modal.html'
 })
 export class PhotoShareModal {
+    form: any = {
+        text: ''
+    };
 
     constructor(public navparams: NavParams,
                 public viewCtrl: ViewController,
@@ -15,7 +18,7 @@ export class PhotoShareModal {
 
     }
 
-    library(){
+    library() {
 
     }
 

@@ -7,10 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var photo_comment_modal_1 = require("../photo-comment-modal/photo-comment-modal");
+var profile_1 = require("../../pages/profile/profile");
 var PhotoCard = (function () {
-    function PhotoCard(provider, events, modalCtrl) {
+    function PhotoCard(provider, events, navCtrl, modalCtrl) {
         this.provider = provider;
         this.events = events;
+        this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.loadingLike = false;
     }
@@ -18,6 +20,10 @@ var PhotoCard = (function () {
         console.log(item);
         var modal = this.modalCtrl.create(photo_comment_modal_1.PhotoCommentModal, item);
         modal.present();
+    };
+    PhotoCard.prototype.profile = function (username) {
+        console.log('username', username);
+        this.navCtrl.push(profile_1.ProfilePage, { username: username });
     };
     PhotoCard.prototype.onLike = function (item) {
         var _this = this;

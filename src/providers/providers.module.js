@@ -18,11 +18,13 @@ var parse_file_1 = require("./parse-file");
 var parse_push_1 = require("./parse-push");
 var gallery_feedback_1 = require("./gallery-feedback");
 var user_data_1 = require("./user-data");
+var photo_service_1 = require("./photo-service");
 exports.sharedProviders = [
     ionic_util_1.IonicUtil,
     auth_1.Auth,
     user_1.User,
     user_data_1.UserData,
+    photo_service_1.PhotoService,
     gallery_1.Gallery,
     gallery_activity_1.GalleryActivity,
     gallery_comment_1.GalleryComment,

@@ -14,12 +14,18 @@ import {TabActivityPage} from '../pages/tab-activity/tab-activity';
 import {PhotoPage} from "../pages/photo/photo";
 import {ProfilePage} from "../pages/profile/profile";
 
+import {HttpModule} from "@angular/http";
+import {BrowserModule} from "@angular/platform-browser";
+
+
 @NgModule({
     declarations   : [
         MyApp,
     ],
     imports        : [
         CommonModule,
+        BrowserModule,
+        HttpModule,
         PagesModule,
         IonicModule.forRoot(MyApp, {}, {
             links: [
@@ -35,12 +41,17 @@ import {ProfilePage} from "../pages/profile/profile";
             ]
         })
     ],
+    exports        : [
+        BrowserModule,
+        HttpModule,
+    ],
     entryComponents: [
+        MyApp,
         APP_PAGES,
-        MyApp
     ],
     providers      : [],
     bootstrap      : [IonicApp],
 })
 export class AppModule {
+
 }

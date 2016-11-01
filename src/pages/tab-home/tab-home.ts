@@ -19,9 +19,13 @@ export class TabHomePage {
     constructor(public navCtrl: NavController,
                 public events: Events
     ) {
+
+        setTimeout(() => {
+            this.selectType('public');
+        }, 200);
     }
 
-    onSelectType(privacity: string) {
+    selectType(privacity: string) {
         this.privacity        = privacity;
         this.params.page      = 1;
         this.params.privacity = privacity;

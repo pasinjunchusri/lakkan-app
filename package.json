@@ -22,6 +22,7 @@
     "@angular/platform-browser": "2.0.0",
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/platform-server": "2.0.0",
+    "@ionic/app-scripts": "latest",
     "@ionic/storage": "1.0.3",
     "@types/moment": "^2.13.0",
     "@types/parse": "^1.2.32",
@@ -39,7 +40,6 @@
     "zone.js": "0.6.21"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "^0.0.36",
     "@types/request": "0.0.30",
     "ng2-facebook-sdk": "^0.4.0",
     "typescript": "^2.0.3"

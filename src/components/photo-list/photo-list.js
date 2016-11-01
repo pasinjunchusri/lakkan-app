@@ -23,13 +23,13 @@ var PhotoList = (function () {
             _this.feed();
         });
     }
-    PhotoList.prototype.ngOnInit = function () {
-        this.feed();
-    };
     PhotoList.prototype.feed = function () {
         var _this = this;
         console.log('Load Feed', this.params);
         return new Promise(function (resolve, reject) {
+            if (_this.loading) {
+                reject();
+            }
             _this.loading = true;
             if (_this.params.page == 1) {
                 _this.data = [];
@@ -51,19 +51,6 @@ var PhotoList = (function () {
                 reject(error);
             });
         });
-    };
-    PhotoList.prototype.doInfinite = function (event) {
-        if (!this.loading) {
-            this.params.page++;
-            this.feed().then(function () { return event.complete(); });
-        }
-    };
-    PhotoList.prototype.doRefresh = function (event) {
-        if (!this.loading) {
-            this.data = [];
-            this.params.page = 1;
-            this.feed().then(function () { return event.complete(); });
-        }
     };
     __decorate([
         core_1.Input()

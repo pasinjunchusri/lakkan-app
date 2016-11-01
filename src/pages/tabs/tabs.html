@@ -1,7 +1,7 @@
 <ion-tabs color="primary">
     <ion-tab [root]="tabHome" tabIcon="home"></ion-tab>
     <ion-tab [root]="tabSearch" tabIcon="globe"></ion-tab>
-    <ion-tab [root]="tabShare" tabIcon="camera"></ion-tab>
+    <ion-tab (ionSelect)="openCapture()"  tabIcon="camera"></ion-tab>
     <ion-tab [root]="tabActivity" tabIcon="heart"></ion-tab>
     <ion-tab [root]="tabProfile" tabIcon="person"></ion-tab>
 </ion-tabs>

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-title>
-            Comentários
+            Share To
         </ion-title>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
@@ -12,35 +12,28 @@
 </ion-header>
 
 <ion-content>
-
-    <loader *ngIf="loading && !data.length"></loader>
-
-    <div *ngIf="noData">No comments</div>
-
-    <ion-list *ngIf="data.length">
-        <ion-item *ngFor="let item of data | orderBy:'createdAt':false">
+    <ion-list>
+        <ion-item>
             <ion-avatar item-left>
-                <img *ngIf="item.get('user').get('photo')" [src]="item.get('user').get('photo').url()">
-                <img *ngIf="!item.get('user').get('photo')" src="assets/img/user.png">
+                <img src="assets/img/user.png">
             </ion-avatar>
-            <p><b>{{item.get('user').get('username')}}</b> {{item.get('text')}}</p>
-
-            <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
+            <ion-input [(ngModel)]="form.text" name="username" type="text" placeholder="Wirte a caption..." required></ion-input>
         </ion-item>
+        <ion-item>
+           <ion-icon name="map"></ion-icon> Add Location
+        </ion-item>
+        <ion-item-divider>
+            Share
+        </ion-item-divider>
     </ion-list>
+    <ion-row>
+        <ion-col><button ion-button icon-left block clear><ion-icon name="logo-facebook"></ion-icon> Facebook</button></ion-col>
+        <ion-col><button ion-button icon-left block clear><ion-icon name="logo-twitter"></ion-icon> Twitter</button></ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col><button ion-button icon-left block clear><ion-icon name="logo-twitter"></ion-icon> Whatsapp</button></ion-col>
+        <ion-col><button ion-button icon-left block clear><ion-icon name="share"></ion-icon> Share</button></ion-col>
+    </ion-row>
+
 </ion-content>
 
-<ion-footer>
-    <form #rForm="ngForm" (ngSubmit)="onComment(rForm)" novalidate>
-        <ion-toolbar>
-            <ion-input [(ngModel)]="form.text" name="comment" type="text" #input
-                       placeholder="Comment in here"
-                       required></ion-input>
-            <ion-buttons end>
-                <button ion-button color="primary">
-                    <ion-icon name="send"></ion-icon>
-                </button>
-            </ion-buttons>
-        </ion-toolbar>
-    </form>
-</ion-footer>

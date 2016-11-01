@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavParams, ViewController} from "ionic-angular";
+import {ViewController} from "ionic-angular";
 import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
@@ -8,14 +8,13 @@ import {IonicUtil} from "../../providers/ionic-util";
 })
 export class PhotoCaptureModal {
 
-    constructor(public navparams: NavParams,
-                public viewCtrl: ViewController,
+    constructor(public viewCtrl: ViewController,
                 public util: IonicUtil
     ) {
 
     }
 
-    library(){
+    library() {
 
     }
 

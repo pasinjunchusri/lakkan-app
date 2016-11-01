@@ -6,28 +6,48 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var TabHomePage = (function () {
-    function TabHomePage(navCtrl, events) {
+var account_edit_modal_1 = require("../account-edit-modal/account-edit-modal");
+var ProfilePage = (function () {
+    function ProfilePage(navCtrl, User, events, navParams, modalCtrl) {
         var _this = this;
         this.navCtrl = navCtrl;
+        this.User = User;
         this.events = events;
-        this.privacity = 'public';
-        this.loading = false;
+        this.navParams = navParams;
+        this.modalCtrl = modalCtrl;
+        this.loading = true;
+        this.type = 'list';
+        this.username = this.navParams.get('username');
         this.params = {
             limit: 5,
             page: 1,
-            privacity: 'public'
+            privacity: 'public',
+            username: this.username
         };
-        this.events.publish('photolist:params', this.params);
-        this.events.subscribe('photolist:complete', function () { return _this.loading = false; });
+        this.profile = {
+            name: '',
+            username: '',
+            photo: '',
+            status: '',
+            galleriesTotal: 0,
+            followersTotal: 0,
+            followingsTotal: 0,
+        };
+        this.User.profile(this.username).then(function (profile) {
+            console.log(profile);
+            _this.profile = profile;
+            _this.loading = false;
+        });
     }
-    TabHomePage.prototype.selectType = function (privacity) {
-        this.privacity = privacity;
-        this.params.page = 1;
-        this.params.privacity = privacity;
-        this.events.publish('photolist:params', this.params);
+    ProfilePage.prototype.onEditProfile = function () {
+        var modal = this.modalCtrl.create(account_edit_modal_1.AccountEditModal);
+        modal.present();
     };
-    TabHomePage.prototype.doInfinite = function (event) {
+    ProfilePage.prototype.onSelectType = function (type) {
+        this.type = type;
+        console.log(this.type);
+    };
+    ProfilePage.prototype.doInfinite = function (event) {
         var _this = this;
         if (!this.loading) {
             this.params.page++;
@@ -39,7 +59,7 @@ var TabHomePage = (function () {
             });
         }
     };
-    TabHomePage.prototype.doRefresh = function (event) {
+    ProfilePage.prototype.doRefresh = function (event) {
         var _this = this;
         if (!this.loading) {
             this.params.page = 1;
@@ -51,12 +71,12 @@ var TabHomePage = (function () {
             });
         }
     };
-    TabHomePage = __decorate([
+    ProfilePage = __decorate([
         core_1.Component({
-            selector: 'page-tab-home',
-            templateUrl: 'tab-home.html',
+            selector: 'page-profile',
+            templateUrl: 'profile.html'
         })
-    ], TabHomePage);
-    return TabHomePage;
+    ], ProfilePage);
+    return ProfilePage;
 }());
-exports.TabHomePage = TabHomePage;
+exports.ProfilePage = ProfilePage;

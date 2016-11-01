@@ -51,13 +51,10 @@ var User = (function () {
             }
         });
     };
-    User.prototype.update = function (params) {
+    User.prototype.update = function (form) {
         var user = Parse.User.current();
         // User Language
-        params.each(function (value, key) {
-            user.set(key, value);
-        });
-        return user.save();
+        return user.save(form);
     };
     User.prototype.setPhoto = function (parseFile) {
         var user = Parse.User.current();

@@ -25,9 +25,6 @@ var PhotoGrid = (function () {
             _this.feed();
         });
     }
-    PhotoGrid.prototype.ngOnInit = function () {
-        this.feed();
-    };
     PhotoGrid.prototype.openPhoto = function (item) {
         console.log(item);
         this.navCtrl.push(photo_1.PhotoPage, { item: item });
@@ -54,6 +51,7 @@ var PhotoGrid = (function () {
                 _this.events.publish('photolist:complete');
                 resolve();
             }, function (error) {
+                _this.loading = false;
                 _this.events.publish('photolist:complete');
                 reject(error);
             });

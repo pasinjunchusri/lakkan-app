@@ -10,8 +10,6 @@ var ionic_angular_1 = require("ionic-angular");
 var http_1 = require("@angular/http");
 var platform_browser_1 = require("@angular/platform-browser");
 var common_1 = require("@angular/common");
-var ng2_translate_1 = require('ng2-translate');
-var ionic_image_loader_1 = require("ionic-image-loader");
 // Pipes
 var pipes_module_1 = require("../pipes/pipes.module");
 // Providers
@@ -24,23 +22,23 @@ var tab_share_1 = require("../pages/tab-share/tab-share");
 var tab_activity_1 = require("../pages/tab-activity/tab-activity");
 var intro_1 = require("../pages/intro/intro");
 var auth_1 = require("./auth/auth");
-var user_forgot_1 = require("../pages/user-forgot/user-forgot");
 var tab_account_1 = require("./tab-account/tab-account");
 var tab_account_popover_1 = require("./tab-account-popover/tab-account-popover");
 var account_edit_modal_1 = require("./account-edit-modal/account-edit-modal");
 var tab_account_settings_1 = require("./tab-account-settings/tab-account-settings");
-var loader_1 = require("../components/loader/loader");
 var photo_comment_modal_1 = require("../components/photo-comment-modal/photo-comment-modal");
 var photo_feedback_modal_1 = require("../components/photo-feedback-modal/photo-feedback-modal");
 var photo_grid_1 = require("../components/photo-grid/photo-grid");
 var photo_list_1 = require("../components/photo-list/photo-list");
 var photo_card_1 = require("../components/photo-card/photo-card");
 var photo_1 = require("./photo/photo");
-var user_1 = require("./user/user");
-var angular2_moment_1 = require("angular2-moment");
+var loader_1 = require("../components/loader/loader");
+var user_password_1 = require("./user-password/user-password");
+var profile_1 = require("./profile/profile");
+var photo_capture_modal_1 = require("../components/photo-capture-modal/photo-capture-modal");
+var photo_share_modal_1 = require("../components/photo-share-modal/photo-share-modal");
 exports.APP_PAGES = [
     intro_1.IntroPage,
-    user_forgot_1.UserForgotPage,
     auth_1.AuthPage,
     tabs_1.TabsPage,
     tab_home_1.TabHomePage,
@@ -52,7 +50,8 @@ exports.APP_PAGES = [
     tab_account_settings_1.TabAccountSettingsPage,
     account_edit_modal_1.AccountEditModal,
     photo_1.PhotoPage,
-    user_1.UserPage,
+    profile_1.ProfilePage,
+    user_password_1.UserPassword,
     // Components
     loader_1.Loader,
     photo_comment_modal_1.PhotoCommentModal,
@@ -60,6 +59,8 @@ exports.APP_PAGES = [
     photo_grid_1.PhotoGrid,
     photo_list_1.PhotoList,
     photo_card_1.PhotoCard,
+    photo_capture_modal_1.PhotoCaptureModal,
+    photo_share_modal_1.PhotoShareModal
 ];
 var PagesModule = (function () {
     function PagesModule() {
@@ -72,17 +73,13 @@ var PagesModule = (function () {
                 http_1.HttpModule,
                 pipes_module_1.PipesModule,
                 providers_module_1.ProvidersModule,
-                ionic_image_loader_1.IonicImageLoader,
-                angular2_moment_1.MomentModule,
-                ng2_translate_1.TranslateModule.forRoot(),
                 ionic_angular_1.IonicModule.forRoot(tabs_1.TabsPage),
                 ionic_angular_1.IonicModule.forRoot(intro_1.IntroPage),
             ],
             exports: [
                 exports.APP_PAGES,
                 platform_browser_1.BrowserModule,
-                http_1.HttpModule,
-                ng2_translate_1.TranslateModule
+                http_1.HttpModule
             ],
             declarations: [
                 exports.APP_PAGES,
