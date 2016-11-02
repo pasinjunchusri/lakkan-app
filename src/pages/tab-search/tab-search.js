@@ -8,20 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require('@angular/core');
 var TabSearchPage = (function () {
     function TabSearchPage(navCtrl, events) {
-        var _this = this;
         this.navCtrl = navCtrl;
         this.events = events;
-        this.loading = true;
+        this.loading = false;
         this.params = {
-            limit: 24,
-            page: 1
+            limit: 15,
+            page: 1,
+            privacity: 'public'
         };
         this.searchInput = '';
         this.events.publish('photolist:params', this.params);
-        this.events.subscribe('photolist:complete', function () {
-            console.log('Feed complete');
-            _this.loading = false;
-        });
     }
     TabSearchPage.prototype.onInput = function () {
         console.log('Search', this.searchInput);

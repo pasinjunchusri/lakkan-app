@@ -8,10 +8,12 @@ import {NavController, Events} from 'ionic-angular';
 export class TabSearchPage {
 
     searchInput: string;
-    loading: boolean = true;
-    params           = {
-        limit: 24,
-        page : 1
+    loading: boolean  = false;
+
+    params = {
+        limit    : 15,
+        page     : 1,
+        privacity: 'public'
     }
 
     constructor(public navCtrl: NavController,
@@ -19,10 +21,6 @@ export class TabSearchPage {
     ) {
         this.searchInput = '';
         this.events.publish('photolist:params', this.params);
-        this.events.subscribe('photolist:complete', () => {
-            console.log('Feed complete');
-            this.loading = false;
-        });
     }
 
     onInput() {

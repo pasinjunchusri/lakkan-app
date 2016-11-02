@@ -1,0 +1,7 @@
+<loader *ngIf="loading && !data.length"></loader>
+
+<div *ngIf="data.length">
+    <div *ngFor="let item of data  ">
+        <photo-card [item]="item"></photo-card>
+    </div>
+</div>

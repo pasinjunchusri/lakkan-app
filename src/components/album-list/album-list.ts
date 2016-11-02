@@ -3,10 +3,10 @@ import {Events} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
 
 @Component({
-    selector   : 'photo-list',
-    templateUrl: 'photo-list.html'
+    selector   : 'album-list',
+    templateUrl: 'album-list.html'
 })
-export class PhotoList {
+export class AlbumList {
 
     @Input() username?: string;
 

@@ -7,54 +7,58 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var PhotoList = (function () {
-    function PhotoList(provider, events, modalCtrl) {
+    function PhotoList(provider, events) {
         var _this = this;
         this.provider = provider;
         this.events = events;
-        this.modalCtrl = modalCtrl;
-        this.data = [];
         this.params = {
             limit: 5,
             page: 1
         };
+        this.data = [];
+        this.reload = false;
+        console.log('Photo List');
         events.subscribe('photolist:params', function (params) {
             console.log('photolist:params', params);
             _this.params = params[0];
-            _this.feed();
+            if (!_this.loading) {
+                _this.feed();
+            }
         });
     }
+    PhotoList.prototype.ionViewDidLoad = function () {
+        console.log("I'm alive!");
+    };
+    PhotoList.prototype.ionViewWillLeave = function () {
+        console.log("Looks like I'm about to leave :(");
+    };
     PhotoList.prototype.feed = function () {
         var _this = this;
-        console.log('Load Feed', this.params);
-        return new Promise(function (resolve, reject) {
-            if (_this.loading) {
-                reject();
+        console.log('Load Feed', this.params, this.loading);
+        this.loading = true;
+        if (this.params.page == 1) {
+            this.data = [];
+        }
+        this.provider.feed(this.params).then(function (data) {
+            if (data && data.length) {
+                data.map(function (item) {
+                    _this.data.push(item);
+                });
             }
-            _this.loading = true;
-            if (_this.params.page == 1) {
-                _this.data = [];
+            else {
+                _this.moreItem = false;
             }
-            _this.provider.feed(_this.params).then(function (data) {
-                if (data && data.length) {
-                    data.map(function (item) {
-                        _this.data.push(item);
-                    });
-                }
-                else {
-                    _this.moreItem = false;
-                }
-                _this.loading = false;
-                _this.events.publish('photolist:complete');
-                resolve();
-            }, function (error) {
-                _this.events.publish('photolist:complete');
-                reject(error);
-            });
+            _this.events.publish('photolist:complete');
+            _this.loading = false;
+        }, function (error) {
+            _this.reload = true;
+            _this.loading = false;
+            _this.events.publish('photolist:complete');
         });
     };
     __decorate([
         core_1.Input()
-    ], PhotoList.prototype, "params", void 0);
+    ], PhotoList.prototype, "username", void 0);
     PhotoList = __decorate([
         core_1.Component({
             selector: 'photo-list',

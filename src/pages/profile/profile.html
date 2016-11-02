@@ -76,8 +76,9 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <photo-list [params]="params" *ngIf="type=='list'"></photo-list>
-    <photo-grid [params]="params" *ngIf="type=='grid'"></photo-grid>
+    {{type}}
+    <photo-list *ngIf="type=='list'"></photo-list>
+    <photo-grid *ngIf="type=='grid'"></photo-grid>
 
     <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

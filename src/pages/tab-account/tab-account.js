@@ -27,19 +27,29 @@ var TabAccountPage = (function () {
         this.user = User.current();
         this.username = User.current().get('username');
         this.params.username = this.username;
+        this.events.subscribe('photolist:complete', function () {
+            _this.loading = false;
+        });
         this.loadingProfile = true;
         this.User.profile(this.username).then(function (profile) {
             _this.profile = profile;
             _this.loadingProfile = false;
         });
+        setTimeout(function () {
+            _this.onSelectType('list');
+        }, 500);
     }
     TabAccountPage.prototype.onEditProfile = function () {
         var modal = this.modalCtrl.create(account_edit_modal_1.AccountEditModal);
         modal.present();
     };
     TabAccountPage.prototype.onSelectType = function (type) {
+        var _this = this;
         this.type = type;
-        console.log(this.type);
+        this.loading = true;
+        setTimeout(function () {
+            _this.events.publish('photolist:params', _this.params);
+        }, 150);
     };
     TabAccountPage.prototype.onPageSettings = function () {
         this.navCtrl.push(tab_account_settings_1.TabAccountSettingsPage);
@@ -50,6 +60,7 @@ var TabAccountPage = (function () {
             this.params.page++;
             this.loading = true;
             this.events.publish('photolist:params', this.params);
+            this.events.unsubscribe('photolist:complete', null);
             this.events.subscribe('photolist:complete', function () {
                 _this.loading = false;
                 event.complete();
@@ -62,6 +73,7 @@ var TabAccountPage = (function () {
             this.params.page = 1;
             this.loading = true;
             this.events.publish('photolist:params', this.params);
+            this.events.unsubscribe('photolist:complete', null);
             this.events.subscribe('photolist:complete', function () {
                 _this.loading = false;
                 event.complete();

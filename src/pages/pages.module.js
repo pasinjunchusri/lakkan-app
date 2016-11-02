@@ -5,8 +5,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var core_1 = require('@angular/core');
 var ionic_angular_1 = require("ionic-angular");
+var core_1 = require('@angular/core');
 var http_1 = require("@angular/http");
 var platform_browser_1 = require("@angular/platform-browser");
 var common_1 = require("@angular/common");
@@ -37,6 +37,17 @@ var user_password_1 = require("./user-password/user-password");
 var profile_1 = require("./profile/profile");
 var photo_capture_modal_1 = require("../components/photo-capture-modal/photo-capture-modal");
 var photo_share_modal_1 = require("../components/photo-share-modal/photo-share-modal");
+var angular2_moment_1 = require("angular2-moment");
+var ng2_translate_1 = require('ng2-translate');
+var ionic_image_loader_1 = require("ionic-image-loader");
+var album_form_modal_1 = require("../components/album-form-modal/album-form-modal");
+var album_list_1 = require("../components/album-list/album-list");
+var album_grid_1 = require("../components/album-grid/album-grid");
+var config_1 = require("../config");
+function createTranslateLoader(http) {
+    return new ng2_translate_1.TranslateStaticLoader(http, './assets/i18n', '.json');
+}
+exports.createTranslateLoader = createTranslateLoader;
 exports.APP_PAGES = [
     intro_1.IntroPage,
     auth_1.AuthPage,
@@ -60,10 +71,18 @@ exports.APP_PAGES = [
     photo_list_1.PhotoList,
     photo_card_1.PhotoCard,
     photo_capture_modal_1.PhotoCaptureModal,
-    photo_share_modal_1.PhotoShareModal
+    photo_share_modal_1.PhotoShareModal,
+    album_form_modal_1.AlbumFormModal,
+    album_list_1.AlbumList,
+    album_grid_1.AlbumGrid,
 ];
 var PagesModule = (function () {
-    function PagesModule() {
+    function PagesModule(translate) {
+        this.translate = translate;
+        // Translate
+        translate.addLangs(config_1.languages);
+        translate.setDefaultLang(config_1.language_default);
+        translate.use(config_1.language_default);
     }
     PagesModule = __decorate([
         core_1.NgModule({
@@ -73,13 +92,23 @@ var PagesModule = (function () {
                 http_1.HttpModule,
                 pipes_module_1.PipesModule,
                 providers_module_1.ProvidersModule,
+                ionic_image_loader_1.IonicImageLoader,
+                angular2_moment_1.MomentModule,
+                ng2_translate_1.TranslateModule.forRoot({
+                    provide: ng2_translate_1.TranslateLoader,
+                    useFactory: (createTranslateLoader),
+                    deps: [http_1.Http]
+                }),
                 ionic_angular_1.IonicModule.forRoot(tabs_1.TabsPage),
                 ionic_angular_1.IonicModule.forRoot(intro_1.IntroPage),
             ],
             exports: [
                 exports.APP_PAGES,
                 platform_browser_1.BrowserModule,
-                http_1.HttpModule
+                http_1.HttpModule,
+                ng2_translate_1.TranslateModule,
+                angular2_moment_1.MomentModule,
+                ionic_image_loader_1.IonicImageLoader,
             ],
             declarations: [
                 exports.APP_PAGES,

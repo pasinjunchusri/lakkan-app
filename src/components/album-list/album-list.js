@@ -6,30 +6,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var photo_1 = require("../../pages/photo/photo");
-var PhotoGrid = (function () {
-    function PhotoGrid(provider, events, navCtrl) {
+var AlbumList = (function () {
+    function AlbumList(provider, events) {
         var _this = this;
         this.provider = provider;
         this.events = events;
-        this.navCtrl = navCtrl;
         this.params = {
-            limit: 15,
+            limit: 5,
             page: 1
         };
         this.data = [];
         this.reload = false;
+        console.log('Photo List');
         events.subscribe('photolist:params', function (params) {
             console.log('photolist:params', params);
             _this.params = params[0];
-            _this.feed();
+            if (!_this.loading) {
+                _this.feed();
+            }
         });
     }
-    PhotoGrid.prototype.openPhoto = function (item) {
-        console.log(item);
-        this.navCtrl.push(photo_1.PhotoPage, { item: item });
+    AlbumList.prototype.ionViewDidLoad = function () {
+        console.log("I'm alive!");
     };
-    PhotoGrid.prototype.feed = function () {
+    AlbumList.prototype.ionViewWillLeave = function () {
+        console.log("Looks like I'm about to leave :(");
+    };
+    AlbumList.prototype.feed = function () {
         var _this = this;
         console.log('Load Feed', this.params, this.loading);
         this.loading = true;
@@ -37,7 +40,6 @@ var PhotoGrid = (function () {
             this.data = [];
         }
         this.provider.feed(this.params).then(function (data) {
-            console.log(data);
             if (data && data.length) {
                 data.map(function (item) {
                     _this.data.push(item);
@@ -56,13 +58,13 @@ var PhotoGrid = (function () {
     };
     __decorate([
         core_1.Input()
-    ], PhotoGrid.prototype, "username", void 0);
-    PhotoGrid = __decorate([
+    ], AlbumList.prototype, "username", void 0);
+    AlbumList = __decorate([
         core_1.Component({
-            selector: 'photo-grid',
-            templateUrl: 'photo-grid.html'
+            selector: 'album-list',
+            templateUrl: 'album-list.html'
         })
-    ], PhotoGrid);
-    return PhotoGrid;
+    ], AlbumList);
+    return AlbumList;
 }());
-exports.PhotoGrid = PhotoGrid;
+exports.AlbumList = AlbumList;

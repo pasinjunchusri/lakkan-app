@@ -3,28 +3,16 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class Gallery {
+export class GalleryAlbum {
 
     fields = [
         'title',
-        'commentsTotal',
-        'views',
-        'likesTotal',
-        'user',
-        'profile',
-        'hashtags',
-        'words',
-        'privacity',
-        'address',
-        'lang',
+        'qtyPhotos',
         'image',
         'imageThumb',
-        'isApproved',
-        'expiresAt',
-        'icon',
     ];
 
-    ParseObject: any = Parse.Object.extend('Gallery', {});
+    ParseObject: any = Parse.Object.extend('GalleryAlbum', {});
     tempParams: any;
     tempCache: any   = [];
 
@@ -48,43 +36,12 @@ export class Gallery {
         });
     }
 
-    likeGallery(params) {
-        return Parse.Cloud.run('likeGallery', {galleryId: params.galleryId});
+    list(params) {
+        return Parse.Cloud.run('listAlbum', params);
     }
 
-    follow(params) {
-        return Parse.Cloud.run('followUser', params);
-    }
-
-    search(params) {
-        return Parse.Cloud.run('searchGallery', params);
-    }
-
-    feed(params) {
-        return Parse.Cloud.run('feedGallery', params);
-    }
-
-    feedCache(params) {
-        return new Promise((resolve, reject) => {
-            console.log(params.page, this.tempParams['page']);
-            if (params.page == this.tempParams['page']) {
-                resolve(this.tempCache);
-            } else {
-                Parse.Cloud.run('feedGallery', params).then(result => {
-                    this.tempParams = params;
-                    this.tempCache  = result;
-                    resolve(result);
-                }, reject);
-            }
-        });
-    }
-
-    comments(params) {
-        return Parse.Cloud.run('commentGallery', params);
-    }
-
-    getAlbum(params) {
-        return Parse.Cloud.run('getAlbum', params);
+    photo(params) {
+        return Parse.Cloud.run('photoAlbum', params);
     }
 
     // Parse Crud

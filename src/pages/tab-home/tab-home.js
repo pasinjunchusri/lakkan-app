@@ -7,10 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var TabHomePage = (function () {
-    function TabHomePage(navCtrl, events) {
+    function TabHomePage(navCtrl, events, platform) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.events = events;
+        this.platform = platform;
         this.privacity = 'public';
         this.loading = false;
         this.params = {
@@ -18,8 +19,9 @@ var TabHomePage = (function () {
             page: 1,
             privacity: 'public'
         };
-        this.events.publish('photolist:params', this.params);
-        this.events.subscribe('photolist:complete', function () { return _this.loading = false; });
+        this.platform.ready().then(function () {
+            _this.selectType('public');
+        });
     }
     TabHomePage.prototype.selectType = function (privacity) {
         this.privacity = privacity;
