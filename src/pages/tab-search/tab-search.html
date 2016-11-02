@@ -13,7 +13,7 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <photo-grid [params]="params" ></photo-grid>
+    <photo-grid ></photo-grid>
 
     <ion-infinite-scroll  *ngIf="!loading" primary (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

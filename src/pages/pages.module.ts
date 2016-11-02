@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
 import {IonicModule} from "ionic-angular";
+import {NgModule} from '@angular/core';
 import {HttpModule, Http} from "@angular/http";
 import {BrowserModule} from "@angular/platform-browser";
 import {CommonModule} from "@angular/common";
@@ -39,6 +39,11 @@ import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal
 import {MomentModule} from "angular2-moment";
 import {TranslateModule, TranslateLoader, TranslateStaticLoader, TranslateService} from 'ng2-translate';
 import {IonicImageLoader} from "ionic-image-loader";
+import {AlbumFormModal} from "../components/album-form-modal/album-form-modal";
+import {AlbumList} from "../components/album-list/album-list";
+import {AlbumGrid} from "../components/album-grid/album-grid";
+
+import {languages, language_default} from "../config";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -68,7 +73,10 @@ export const APP_PAGES = [
     PhotoList,
     PhotoCard,
     PhotoCaptureModal,
-    PhotoShareModal
+    PhotoShareModal,
+    AlbumFormModal,
+    AlbumList,
+    AlbumGrid,
 ];
 
 @NgModule({
@@ -105,8 +113,8 @@ export class PagesModule {
 
     constructor(private translate: TranslateService) {
         // Translate
-        translate.addLangs(['en', 'pt'])
-        translate.setDefaultLang('en');
-        translate.use('en');
+        translate.addLangs(languages)
+        translate.setDefaultLang(language_default);
+        translate.use(language_default);
     }
 }

@@ -7,8 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var photo_1 = require("../../pages/photo/photo");
-var PhotoGrid = (function () {
-    function PhotoGrid(provider, events, navCtrl) {
+var AlbumGrid = (function () {
+    function AlbumGrid(provider, events, navCtrl) {
         var _this = this;
         this.provider = provider;
         this.events = events;
@@ -25,11 +25,11 @@ var PhotoGrid = (function () {
             _this.feed();
         });
     }
-    PhotoGrid.prototype.openPhoto = function (item) {
+    AlbumGrid.prototype.openPhoto = function (item) {
         console.log(item);
         this.navCtrl.push(photo_1.PhotoPage, { item: item });
     };
-    PhotoGrid.prototype.feed = function () {
+    AlbumGrid.prototype.feed = function () {
         var _this = this;
         console.log('Load Feed', this.params, this.loading);
         this.loading = true;
@@ -56,13 +56,13 @@ var PhotoGrid = (function () {
     };
     __decorate([
         core_1.Input()
-    ], PhotoGrid.prototype, "username", void 0);
-    PhotoGrid = __decorate([
+    ], AlbumGrid.prototype, "username", void 0);
+    AlbumGrid = __decorate([
         core_1.Component({
-            selector: 'photo-grid',
-            templateUrl: 'photo-grid.html'
+            selector: 'album-grid',
+            templateUrl: 'album-grid.html'
         })
-    ], PhotoGrid);
-    return PhotoGrid;
+    ], AlbumGrid);
+    return AlbumGrid;
 }());
-exports.PhotoGrid = PhotoGrid;
+exports.AlbumGrid = AlbumGrid;

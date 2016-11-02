@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, Events} from 'ionic-angular';
+import {NavController, Events, Platform} from 'ionic-angular';
 
 @Component({
     selector   : 'page-tab-home',
@@ -17,12 +17,13 @@ export class TabHomePage {
     }
 
     constructor(public navCtrl: NavController,
-                public events: Events
+                public events: Events,
+                public platform: Platform
     ) {
 
-        setTimeout(() => {
+        this.platform.ready().then(() => {
             this.selectType('public');
-        }, 200);
+        });
     }
 
     selectType(privacity: string) {

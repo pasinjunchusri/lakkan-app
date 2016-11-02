@@ -32,11 +32,19 @@ export class TabAccountPage {
         this.username        = User.current().get('username');
         this.params.username = this.username;
 
+        this.events.subscribe('photolist:complete', () => {
+            this.loading = false;
+        })
+
         this.loadingProfile = true;
         this.User.profile(this.username).then(profile => {
             this.profile        = profile;
             this.loadingProfile = false;
         });
+
+        setTimeout(() => {
+            this.onSelectType('list');
+        }, 500);
     }
 
     onEditProfile() {
@@ -46,8 +54,11 @@ export class TabAccountPage {
 
 
     onSelectType(type: string) {
-        this.type = type;
-        console.log(this.type);
+        this.type    = type;
+        this.loading = true;
+        setTimeout(() => {
+            this.events.publish('photolist:params', this.params);
+        }, 150);
     }
 
     onPageSettings() {
@@ -61,6 +72,8 @@ export class TabAccountPage {
 
             this.loading = true;
             this.events.publish('photolist:params', this.params);
+
+            this.events.unsubscribe('photolist:complete', null);
             this.events.subscribe('photolist:complete', () => {
                 this.loading = false;
                 event.complete();
@@ -74,6 +87,7 @@ export class TabAccountPage {
 
             this.loading = true;
             this.events.publish('photolist:params', this.params);
+            this.events.unsubscribe('photolist:complete', null);
             this.events.subscribe('photolist:complete', () => {
                 this.loading = false;
                 event.complete();

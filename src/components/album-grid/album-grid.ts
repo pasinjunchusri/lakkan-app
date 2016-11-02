@@ -1,17 +1,18 @@
 import {Component, Input} from '@angular/core';
-import {Events} from "ionic-angular";
-import {Gallery} from "../../providers/gallery";
+import {Events, NavController} from "ionic-angular";
+import {PhotoPage} from "../../pages/photo/photo";
+import {GalleryAlbum} from "../../providers/gallery-album";
 
 @Component({
-    selector   : 'photo-list',
-    templateUrl: 'photo-list.html'
+    selector   : 'album-grid',
+    templateUrl: 'album-grid.html'
 })
-export class PhotoList {
+export class AlbumGrid {
 
     @Input() username?: string;
 
     params = {
-        limit: 5,
+        limit: 15,
         page : 1
     };
 
@@ -20,37 +21,35 @@ export class PhotoList {
     moreItem: boolean;
     loading: boolean;
 
-    constructor(public provider: Gallery,
-                public events: Events
+    constructor(private provider: GalleryAlbum,
+                public events: Events,
+                public navCtrl: NavController
     ) {
-        console.log('Photo List');
+
+
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
             this.params = params[0];
-            if (!this.loading) {
-                this.feed();
-            }
+            this.feed();
         });
     }
 
-    ionViewDidLoad() {
-        console.log("I'm alive!");
+    openPhoto(item) {
+        console.log(item);
+        this.navCtrl.push(PhotoPage, {item: item});
     }
-    ionViewWillLeave() {
-        console.log("Looks like I'm about to leave :(");
-    }
-
 
     feed() {
         console.log('Load Feed', this.params, this.loading);
-
         this.loading = true;
 
         if (this.params.page == 1) {
             this.data = [];
         }
 
-        this.provider.feed(this.params).then(data => {
+        this.provider.list(this.params).then(data => {
+
+            console.log(data);
             if (data && data.length) {
                 data.map(item => {
                     this.data.push(item);
@@ -66,7 +65,6 @@ export class PhotoList {
             this.loading = false;
             this.events.publish('photolist:complete');
         });
-
     }
 
 }

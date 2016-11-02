@@ -1,0 +1,28 @@
+photo-list {
+  .img-gallery {
+    display: block;
+    min-height: 150px;
+    width: 100%;
+    background-color: #f1f1f1;
+  }
+
+  ion-card {
+    margin: 0 !important;
+    width: 100% !important;
+
+    ion-list {
+      .item-block {
+        min-height: 2.4rem;
+      }
+      ion-item {
+        border: none;
+
+        ion-label {
+          font-size: 0.8em;
+          margin: 7px 0 !important;
+        }
+      }
+    }
+
+  }
+}
