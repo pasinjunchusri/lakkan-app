@@ -1,102 +1,83 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-title> <span class="logo-photogram"></span></ion-title>
-    </ion-navbar>
+  <ion-navbar color="primary">
+    <ion-title> <span class="logo-photogram"></span></ion-title>
+  </ion-navbar>
 </ion-header>
-
 <ion-content>
-    <ion-segment [(ngModel)]="authType">
-        <ion-segment-button value="login">
-            {{'Login' | translate}}
-        </ion-segment-button>
-        <ion-segment-button value="signup">
-            {{'Signup' | translate}}
-        </ion-segment-button>
-    </ion-segment>
-
-    <div [ngSwitch]="authType">
-        <form *ngSwitchCase="'login'" #loginCreds="ngForm" (ngSubmit)="login(loginCreds)" novalidate>
-
-            <ion-item>
-                <ion-label floating color="primary">{{'Username'| translate}}</ion-label>
-                <ion-input [(ngModel)]="formLogin.username" name="username" type="text" #username="ngModel"
-                           spellcheck="false" autocapitalize="off" required>
-                </ion-input>
-            </ion-item>
-            <p [hidden]="username.valid || !submitted" color="danger" padding-left>
-                {{'Username is required' | translate}}
-            </p>
-
-            <ion-item>
-                <ion-label floating color="primary"> {{'Password' | translate}}</ion-label>
-                <ion-input [(ngModel)]="formLogin.password" name="password" type="password" #password="ngModel"
-                           required></ion-input>
-            </ion-item>
-            <p [hidden]="password.valid || !submitted" color="danger" padding-left>
-                {{'Password is required' | translate }}
-            </p>
-
-            <ion-row >
-                <ion-col><a ion-button block clear (click)="resetPass()">{{'Forgot Password' | translate}}</a></ion-col>
-                <ion-col><button ion-button block type="submit">{{'Login' | translate}}</button></ion-col>
-            </ion-row>
-
-            <ion-row>
-                <ion-col><a ion-button block (click)="loginFacebook()">{{'Login with Facebook' | translate }}</a></ion-col>
-            </ion-row>
-
-        </form>
-
-        <form *ngSwitchCase="'signup'" #signupCreds="ngForm" (ngSubmit)="signup(signupCreds.value)" novalidate>
-            <ion-item>
-                <ion-label floating color="primary">{{'Name' | translate}}</ion-label>
-                <ion-input [(ngModel)]="formSignup.name" name="name" type="text" #name="ngModel" required>
-                </ion-input>
-            </ion-item>
-            <p [hidden]="name.valid || !submitted " color="danger" padding-left>
-               {{'Name is required' | translate }}
-            </p>
-
-            <ion-item>
-                <ion-label floating color="primary">{{'Gender' | translate }}</ion-label>
-                <ion-select [(ngModel)]="formSignup.gender" name="gender" #gender="ngModel" required>
-                    <ion-option value="male">{{'Male' | translate }}</ion-option>
-                    <ion-option value="female">{{'Female' | translate }}</ion-option>
-                </ion-select>
-            </ion-item>
-            <p [hidden]="gender.valid || !submitted" color="danger" padding-left>
-                {{'Gender' | translate }}
-            </p>
-
-            <ion-item>
-                <ion-label floating color="primary">{{'Email'| translate}}</ion-label>
-                <ion-input [(ngModel)]="formSignup.email" name="email" type="email" #email="ngModel" required>
-                </ion-input>
-            </ion-item>
-            <p [hidden]="email.valid || !submitted " color="danger" padding-left>
-                {{'Email is required' | translate}}
-            </p>
-
-            <ion-item>
-                <ion-label floating color="primary">{{'Password' | translate}}</ion-label>
-                <ion-input [(ngModel)]="formSignup.password" name="password" type="password" #password="ngModel"
-                           required></ion-input>
-            </ion-item>
-            <p [hidden]="password.valid || !submitted" color="danger" padding-left>
-                {{'Password is required' | translate}}
-            </p>
-
-            <ion-row>
-                <ion-col><button ion-button block type="submit">{{'Signup' | translate}}</button></ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col><a ion-button block (click)="signupFacebook()">{{'Signup with Facebook' | translate}}</a></ion-col>
-            </ion-row>
-        </form>
-    </div>
-
-    <div padding>
-        <p *ngIf="error" class="error">{{ error._body }}</p>
-    </div>
-
+  <ion-segment [(ngModel)]="authType">
+    <ion-segment-button value="login">
+      {{'Login' | translate}}
+    </ion-segment-button>
+    <ion-segment-button value="signup">
+      {{'Signup' | translate}}
+    </ion-segment-button>
+  </ion-segment>
+  <div [ngSwitch]="authType">
+    <form *ngSwitchCase="'login'" #loginCreds="ngForm" (ngSubmit)="login(loginCreds)" novalidate>
+      <ion-item>
+        <ion-label floating color="primary">{{'Username'| translate}}</ion-label>
+        <ion-input [(ngModel)]="formLogin.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
+          required>
+        </ion-input>
+      </ion-item>
+      <p [hidden]="username.valid || !submitted" color="danger" padding-left>
+        {{'Username is required' | translate}}
+      </p>
+      <ion-item>
+        <ion-label floating color="primary"> {{'Password' | translate}}</ion-label>
+        <ion-input [(ngModel)]="formLogin.password" name="password" type="password" #password="ngModel" required></ion-input>
+      </ion-item>
+      <p [hidden]="password.valid || !submitted" color="danger" padding-left>
+        {{'Password is required' | translate }}
+      </p>
+      <ion-row>
+        <ion-col><a ion-button block clear (click)="resetPass()">{{'Forgot Password' | translate}}</a></ion-col>
+        <ion-col><button ion-button block type="submit">{{'Login' | translate}}</button></ion-col>
+      </ion-row>
+    </form>
+    <form *ngSwitchCase="'signup'" #signupCreds="ngForm" (ngSubmit)="signup(signupCreds.value)" novalidate>
+      <ion-item>
+        <ion-label floating color="primary">{{'Name' | translate}}</ion-label>
+        <ion-input [(ngModel)]="formSignup.name" name="name" type="text" #name="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <p [hidden]="name.valid || !submitted " color="danger" padding-left>
+        {{'Name is required' | translate }}
+      </p>
+      <ion-item>
+        <ion-label floating color="primary">{{'Gender' | translate }}</ion-label>
+        <ion-select [(ngModel)]="formSignup.gender" name="gender" #gender="ngModel" required>
+          <ion-option value="male">{{'Male' | translate }}</ion-option>
+          <ion-option value="female">{{'Female' | translate }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <p [hidden]="gender.valid || !submitted" color="danger" padding-left>
+        {{'Gender' | translate }}
+      </p>
+      <ion-item>
+        <ion-label floating color="primary">{{'Email'| translate}}</ion-label>
+        <ion-input [(ngModel)]="formSignup.email" name="email" type="email" #email="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <p [hidden]="email.valid || !submitted " color="danger" padding-left>
+        {{'Email is required' | translate}}
+      </p>
+      <ion-item>
+        <ion-label floating color="primary">{{'Password' | translate}}</ion-label>
+        <ion-input [(ngModel)]="formSignup.password" name="password" type="password" #password="ngModel" required></ion-input>
+      </ion-item>
+      <p [hidden]="password.valid || !submitted" color="danger" padding-left>
+        {{'Password is required' | translate}}
+      </p>
+      <ion-row>
+        <ion-col><button ion-button block type="submit">{{'Signup' | translate}}</button></ion-col>
+      </ion-row>
+    </form>
+  </div>
+  <ion-row>
+    <ion-col><a ion-button block icon-left color="facebook" (click)="loginFacebook()"><ion-icon name="logo-facebook"></ion-icon> {{'Signup with Facebook' | translate }}</a></ion-col>
+  </ion-row>
+  <div padding>
+    <p *ngIf="error" class="error">{{ error._body }}</p>
+  </div>
 </ion-content>

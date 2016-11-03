@@ -48,6 +48,7 @@ import { AlbumList } from '../components/album-list/album-list';
 import { AlbumGrid } from '../components/album-grid/album-grid';
 import { AlbumPhotoGrid } from '../components/album-photo-grid/album-photo-grid';
 import { AlbumPhotoGridPopover } from '../components/album-photo-grid-popover/album-photo-grid-popover';
+import { LanguageModal } from '../components/language-modal/language-modal';
 import { language_default, languages } from '../config';
 import { FocusDirective } from '../directives/focus/focus';
 
@@ -81,6 +82,7 @@ export const APP_PAGES = [
     AlbumGrid,
     AlbumPhotoGrid,
     AlbumPhotoGridPopover,
+    LanguageModal,
 ];
 
 @NgModule({
@@ -122,9 +124,9 @@ export class PagesModule {
     translateConfig() {
         let userLang = navigator.language.split('-')[0]; // use navigator lang if available
         userLang = /(pt|en|de)/gi.test(userLang) ? userLang : language_default;
-        
+
         console.log(userLang);
-        
+
         this.translate.addLangs(languages);
 
         // this language will be used as a fallback when a translation isn't found in the current language

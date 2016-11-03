@@ -11,13 +11,11 @@ export class IonicUtil {
                 public loadingCtrl: LoadingController,
                 public toastCtrl: ToastController
     ) {
-        console.log('Hello IonicUtil Provider');
         this.cordova = this.platform.is('cordova') ? true : false;
-
-        console.log(this.cordova);
+        console.log('cordova',this.cordova);
     }
 
-    onLoading() {
+    onLoading(message?:string) {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
     }
