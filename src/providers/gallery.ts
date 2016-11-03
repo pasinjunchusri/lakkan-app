@@ -49,7 +49,7 @@ export class Gallery {
     }
 
     likeGallery(params) {
-        return Parse.Cloud.run('likeGallery', {galleryId: params.galleryId});
+        return Parse.Cloud.run('likeGallery', {galleryId: params.id});
     }
 
     follow(params) {
