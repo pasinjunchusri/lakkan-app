@@ -1,4 +1,4 @@
-import {Injectable, Pipe} from '@angular/core';
+import { Injectable, Pipe } from '@angular/core';
 
 import _ from 'underscore';
 

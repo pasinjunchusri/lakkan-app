@@ -1,8 +1,28 @@
-<!--
-  Generated template for the PhotoFeedbackModal component.
-
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
--->
-
-{{text}}
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Album Form</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form #rForm="ngForm" (ngSubmit)="submit(rForm)" novalidate>
+    <ion-item>
+      <ion-label floating color="primary">Album Name</ion-label>
+      <ion-input #title="ngModel" type="text" [(ngModel)]="form.title" name="title" required></ion-input>
+    </ion-item>
+    <p [hidden]="title.valid || !submitted" color="danger" padding-left>
+      Title is required
+    </p>
+    <ion-item>
+      <ion-label floating color="primary">Description</ion-label>
+      <ion-textarea [(ngModel)]="form.description" name="description"></ion-textarea>
+    </ion-item>
+    <div padding>
+      <button ion-button type="submit" block>Submit</button>
+    </div>
+  </form>
+</ion-content>

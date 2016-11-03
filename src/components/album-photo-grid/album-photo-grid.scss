@@ -1,0 +1,14 @@
+photo-list {
+
+   ion-row {
+     ion-col {
+
+       img{
+         $size: 126px;
+         min-height: $size;
+         min-width: $size;
+         background-color: #f7f7f7;
+       }
+     }
+   }
+}

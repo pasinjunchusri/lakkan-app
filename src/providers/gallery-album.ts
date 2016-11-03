@@ -7,7 +7,10 @@ export class GalleryAlbum {
 
     fields = [
         'title',
+        'description',
+        'lang',
         'qtyPhotos',
+        'user',
         'image',
         'imageThumb',
     ];
@@ -36,20 +39,20 @@ export class GalleryAlbum {
         });
     }
 
-    list(params) {
+    list(params:any) {
         return Parse.Cloud.run('listAlbum', params);
     }
 
-    photo(params) {
+    photo(params:any) {
         return Parse.Cloud.run('photoAlbum', params);
     }
 
     // Parse Crud
-    get(parseId) {
-        return new Parse.Query(this).include('profile').get(parseId);
+    get(parseId:string) {
+        return new Parse.Query(this.ParseObject).include('profile').get(parseId);
     }
 
-    put(item) {
+    put(item:any) {
 
         if (item.address && item.address.geo) {
             item.location = new Parse.GeoPoint(item.address.geo);
@@ -57,7 +60,7 @@ export class GalleryAlbum {
 
 
         if (!item.id) {
-            var objPlace = new this.ParseObject();
+            let objPlace = new this.ParseObject();
             return objPlace.save(item);
         } else {
             return item.save();

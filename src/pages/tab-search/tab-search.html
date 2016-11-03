@@ -1,9 +1,9 @@
 <ion-header>
     <ion-navbar color="primary">
         <ion-searchbar
-                [(ngModel)]="searchInput"
-                (ionInput)="onInput($event)"
-                (ionCancel)="onCancel($event)">
+                [(ngModel)]="words"
+                (ionInput)="doSearch()"
+                (ionCancel)="doCancel()">
         </ion-searchbar>
     </ion-navbar>
 </ion-header>

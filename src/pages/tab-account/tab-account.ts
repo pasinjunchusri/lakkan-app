@@ -34,7 +34,7 @@ export class TabAccountPage {
 
         this.events.subscribe('photolist:complete', () => {
             this.loading = false;
-        })
+        });
 
         this.loadingProfile = true;
         this.User.profile(this.username).then(profile => {
@@ -44,7 +44,7 @@ export class TabAccountPage {
 
         setTimeout(() => {
             this.onSelectType('list');
-        }, 500);
+        }, 150);
     }
 
     onEditProfile() {
@@ -56,9 +56,7 @@ export class TabAccountPage {
     onSelectType(type: string) {
         this.type    = type;
         this.loading = true;
-        setTimeout(() => {
-            this.events.publish('photolist:params', this.params);
-        }, 150);
+        this.events.publish('photolist:params', this.params);
     }
 
     onPageSettings() {

@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController} from 'ionic-angular';
+import { User } from '../../providers/user';
+import { IonicUtil } from '../../providers/ionic-util';
 
 interface IPassword {
     password: string
@@ -12,20 +14,28 @@ interface IPassword {
 export class UserPassword {
 
     form: any;
+    submitted: boolean = false;
 
     constructor(public navCtrl: NavController,
-                public viewCtrl: ViewController
+                public viewCtrl: ViewController,
+                public ionicUtil: IonicUtil,
+                public provider: User,
     ) {
         this.form = {
-            password       : null,
-            changepassword : null,
-            confirmpassword: null,
+            password       : '',
+            changepassword : '',
+            confirmpassword: '',
         }
     }
 
     save(form) {
+        this.submitted = true;
         if (form.valid) {
-
+            this.ionicUtil.onLoading();
+            this.provider.changePassword(this.form.password).then(user=>{
+                this.dismiss();
+                this.ionicUtil.endLoading();
+            });
         }
     }
 

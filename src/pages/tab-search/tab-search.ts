@@ -7,28 +7,46 @@ import {NavController, Events} from 'ionic-angular';
 })
 export class TabSearchPage {
 
-    searchInput: string;
+    words: string ='';
     loading: boolean  = false;
 
     params = {
         limit    : 15,
         page     : 1,
-        privacity: 'public'
-    }
+        privacity: 'public',
+        words: '',
+    };
 
     constructor(public navCtrl: NavController,
                 public events: Events
     ) {
-        this.searchInput = '';
+
+        this.loading = true;
+        this.events.subscribe('photolist:complete', () => {
+            this.loading = false;
+        });
+
+        setTimeout(() => {
+            this.events.publish('photolist:params', this.params);
+        }, 150);
+        
+    }
+
+    doSearch() {
+        this.params.words = this.words;
+        this.doReload();
+    }
+
+    doCancel() {
+        this.words = '';
+        this.doReload();
+    }
+
+    doReload(){
+        this.params.page = 1;
+        this.loading = true;
         this.events.publish('photolist:params', this.params);
-    }
-
-    onInput() {
-        console.log('Search', this.searchInput);
-    }
-
-    onCancel(ev) {
-        this.searchInput = null;
+        this.events.subscribe('photolist:complete', () => this.loading = false);
     }
 
     doInfinite(event) {
