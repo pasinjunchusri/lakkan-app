@@ -40,7 +40,7 @@ export class MyApp implements OnInit {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             // StatusBar.styleDefault();
-            StatusBar.backgroundColorByHexString('#009689');
+            StatusBar.backgroundColorByHexString('#007F74');
             StatusBar.styleLightContent();
             Splashscreen.hide();
 
