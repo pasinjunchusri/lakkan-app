@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>Profile</ion-title>
+        <ion-title>{{'Profile'| translate}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="onPageSettings()">
                 <ion-icon name="more"></ion-icon>
@@ -24,23 +24,23 @@
                     <ion-col class="text-center">
                         <ion-spinner *ngIf="loadingProfile"></ion-spinner>
                         <b *ngIf="!loadingProfile">{{ profile.galleriesTotal || 0}}</b>
-                        <p>posts</p>
+                        <p>{{'posts'|translate}}</p>
                     </ion-col>
                     <ion-col class="text-center">
                         <ion-spinner *ngIf="loadingProfile"></ion-spinner>
                         <b *ngIf="!loadingProfile">{{ profile.followersTotal || 0}}</b>
-                        <p>followers</p>
+                        <p>{{'followers'|translate}}</p>
                     </ion-col>
                     <ion-col class="text-center">
                         <ion-spinner *ngIf="loadingProfile"></ion-spinner>
                         <b *ngIf="!loadingProfile">{{ profile.followingsTotal || 0}}</b>
-                        <p>following</p>
+                        <p>{{'following'|translate}}</p>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
                         <button (click)="onEditProfile()" ion-button block color="primary" small>
-                            Edit Profile
+                            {{'Edit Profile' | translate }}
                         </button>
                     </ion-col>
                 </ion-row>
