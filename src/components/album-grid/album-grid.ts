@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Events, NavController} from "ionic-angular";
-import {PhotoPage} from "../../pages/photo/photo";
 import {GalleryAlbum} from "../../providers/gallery-album";
+import { AlbumPhotoGrid } from '../album-photo-grid/album-photo-grid';
 
 @Component({
     selector   : 'album-grid',
@@ -32,11 +32,14 @@ export class AlbumGrid {
             this.params = params[0];
             this.feed();
         });
+
+        events.subscribe('albumgrid:reload',() => this.feed() );
+        events.subscribe('albumgrid:destroy',() => this.feed() );
     }
 
-    openPhoto(item) {
+    openAlbum(item) {
         console.log(item);
-        this.navCtrl.push(PhotoPage, {item: item});
+        this.navCtrl.push(AlbumPhotoGrid, {id: item.id});
     }
 
     feed() {

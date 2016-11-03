@@ -1,9 +1,9 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from "@angular/common";
 
 // Pipes
-import {Capitalize} from "./capitalize";
-import {OrderBy} from "./order-by";
+import { Capitalize } from "./capitalize";
+import { OrderBy } from "./order-by";
 
 
 export const sharedPipes = [
@@ -12,8 +12,8 @@ export const sharedPipes = [
 ];
 
 @NgModule({
-    imports     : [CommonModule],
-    exports     : [sharedPipes],
+    imports: [CommonModule],
+    exports: [sharedPipes],
     declarations: [sharedPipes],
 })
 export class PipesModule {

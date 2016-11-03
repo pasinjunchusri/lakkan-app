@@ -159,6 +159,10 @@ export class User {
         });
     }
 
+     changePassword(password:string) {
+        return Parse.Cloud.run('changePassword',{password: password});
+    }
+
     destroy(data) {
         return Parse.Cloud.run('destroyUser', data);
     }

@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Platform} from 'ionic-angular';
-import {StatusBar, Splashscreen} from 'ionic-native';
+import { Component, OnInit } from '@angular/core';
+import { Platform } from 'ionic-angular';
+import { StatusBar, Splashscreen } from 'ionic-native';
 
-import {TabsPage} from "../pages/tabs/tabs";
-import {IntroPage} from "../pages/intro/intro";
+import { TabsPage } from "../pages/tabs/tabs";
+import { IntroPage } from "../pages/intro/intro";
 
-import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
-import {ImageLoaderConfig} from "ionic-image-loader";
+import { PARSE_APP_ID, PARSE_SERVER_URL } from "../config";
+import { ImageLoaderConfig } from "ionic-image-loader";
 
 
 declare var Parse: any;
@@ -24,7 +24,7 @@ export class MyApp implements OnInit {
     }
 
     constructor(platform: Platform,
-                imageLoaderConfig: ImageLoaderConfig
+        imageLoaderConfig: ImageLoaderConfig
     ) {
 
 

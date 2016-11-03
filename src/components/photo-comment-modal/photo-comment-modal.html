@@ -18,7 +18,7 @@
     <div *ngIf="noData">No comments</div>
 
     <ion-list *ngIf="data.length">
-        <ion-item *ngFor="let item of data | orderBy:'createdAt':false">
+        <ion-item *ngFor="let item of data">
             <ion-avatar item-left>
                 <img *ngIf="item.get('user').get('photo')" [src]="item.get('user').get('photo').url()">
                 <img *ngIf="!item.get('user').get('photo')" src="assets/img/user.png">

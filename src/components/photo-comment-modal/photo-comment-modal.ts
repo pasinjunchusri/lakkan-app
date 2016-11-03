@@ -27,7 +27,7 @@ export class PhotoCommentModal {
         this.gallery = this.navparams.data.obj;
         this.form    = {
             gallery: this.gallery,
-            text   : null
+            text   : ''
         }
         this.onQuery();
     }
