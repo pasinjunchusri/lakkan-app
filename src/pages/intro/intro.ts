@@ -23,27 +23,27 @@ export class IntroPage {
     ) {
         this.slides = [
             {
-                title: 'Welcome to <b>ICA</b>',
+                title: 'Share more incredible moments',
                 image: 'assets/img/intro1.png',
             },
             {
-                title: 'What is Ionic?',
+                title: 'Follow your friends and relive your moments',
                 image: 'assets/img/intro2.png',
             },
             {
-                title: 'What is Ionic Platform?',
+                title: 'Find people around you and enjoy your photos',
                 image: 'assets/img/intro3.png',
             },
             {
-                title: 'What is Ionic Platform?',
+                title: 'Share Photo with Albums',
                 image: 'assets/img/intro4.png',
             },
             {
-                title: 'What is Ionic Platform?',
+                title: 'Add location in your photos and mention your friends',
                 image: 'assets/img/intro5.png',
             },
             {
-                title: 'What is Ionic Platform?',
+                title: 'Review and like photos of your friends',
                 image: 'assets/img/intro6.png',
             },
         ];

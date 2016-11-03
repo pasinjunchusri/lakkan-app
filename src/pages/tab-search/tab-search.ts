@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, Events} from 'ionic-angular';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
     selector   : 'page-tab-search',
@@ -9,6 +10,7 @@ export class TabSearchPage {
 
     words: string ='';
     loading: boolean  = false;
+    placeholder:string = 'Search';
 
     params = {
         limit    : 15,
@@ -17,9 +19,13 @@ export class TabSearchPage {
         words: '',
     };
 
-    constructor(public navCtrl: NavController,
-                public events: Events
+    constructor(private navCtrl: NavController,
+                private events: Events,
+                private translate: TranslateService
     ) {
+
+        // Translate Search Bar Placeholder
+        this.translate.get(this.placeholder).subscribe((res:string)=>this.placeholder = res);
 
         this.loading = true;
         this.events.subscribe('photolist:complete', () => {

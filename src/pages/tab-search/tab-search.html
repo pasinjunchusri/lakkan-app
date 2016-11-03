@@ -3,7 +3,9 @@
         <ion-searchbar
                 [(ngModel)]="words"
                 (ionInput)="doSearch()"
-                (ionCancel)="doCancel()">
+                (ionCancel)="doCancel()"
+                [placeholder]="placeholder"
+                    >
         </ion-searchbar>
     </ion-navbar>
 </ion-header>

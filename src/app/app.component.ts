@@ -39,7 +39,9 @@ export class MyApp implements OnInit {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
-            StatusBar.styleDefault();
+            // StatusBar.styleDefault();
+            StatusBar.backgroundColorByHexString('#009689');
+            StatusBar.styleLightContent();
             Splashscreen.hide();
 
             console.log(Parse.User.current());
