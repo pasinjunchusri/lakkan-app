@@ -11,7 +11,6 @@ import {Gallery} from "../../providers/gallery";
 export class TabSearchPage {
 
     words: string ='';
-    loading: boolean  = false;
     placeholder:string = 'Search';
 
     params = {
@@ -20,9 +19,12 @@ export class TabSearchPage {
         words: '',
     };
 
-    data: any       = [];
-    reload: boolean = false;
-    moreItem: boolean;
+    errorIcon: string = 'ios-images-outline';
+    errorText: string = '';
+    data = [];
+    loading: boolean = true;
+    showEmptyView: boolean = false;
+    showErrorView: boolean = false;
 
     constructor(private navCtrl: NavController,
                 public translate: TranslateService,
@@ -40,28 +42,29 @@ export class TabSearchPage {
     }
 
     feed() {
-        console.log('Load Feed', this.params, this.loading);
-        this.loading = true;
-
-        if (this.params.page == 1) {
-            this.data = [];
-        }
-
-        this.provider.feed(this.params).then(data => {
-
-            console.log(data);
-            if (data && data.length) {
-                data.map(item => {
-                    this.data.push(item);
-                });
-            } else {
-                this.moreItem = false;
+        return new Promise((resolve,reject)=>{
+            console.log('Load Feed', this.params, this.loading);
+    
+            if (this.params.page == 1) {
+                this.data = [];
+                this.loading = true;
             }
-
-            this.loading = false;
-        }, error => {
-            this.reload = true;
-            this.loading = false;
+    
+            this.provider.feed(this.params).then(data => {
+                if (data && data.length) {
+                    data.map(item => {
+                        this.data.push(item);
+                    });
+                } else {
+                    this.showEmptyView = false;
+                }
+    
+                this.loading = false;
+                resolve(data);
+            }, error => {
+                this.errorText = error.message;
+                this.showErrorView = true;
+            });
         });
     }
 

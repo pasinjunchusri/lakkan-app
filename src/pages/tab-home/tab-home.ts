@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, Events, Platform} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
+import {UserListPage} from "../user-list/user-list";
 
 @Component({
     selector   : 'page-tab-home',
@@ -14,11 +15,13 @@ export class TabHomePage {
         privacity: 'public'
     };
 
-    privacity: string = 'public';    
-    data: any       = [];
-    reload: boolean = false;
-    moreItem: boolean;
-    loading: boolean;
+    privacity: string      = 'public';
+    errorIcon: string      = 'ios-images-outline';
+    errorText: string      = '';
+    data                   = [];
+    loading: boolean       = true;
+    showEmptyView: boolean = false;
+    showErrorView: boolean = false;
 
     constructor(public navCtrl: NavController,
                 public events: Events,
@@ -26,7 +29,7 @@ export class TabHomePage {
                 public provider: Gallery
     ) {
 
-        
+
     }
 
     ngOnInit() {
@@ -40,34 +43,35 @@ export class TabHomePage {
         this.feed();
     }
 
+    onPageUsers(){
+        this.navCtrl.push(UserListPage);
+    }
+
     feed() {
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve, reject) => {
             console.log('Load Feed', this.params, this.loading);
 
-            this.loading = true;
-    
             if (this.params.page == 1) {
-                this.data = [];
+                this.data    = [];
+                this.loading = true;
             }
-    
+
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
                     data.map(item => {
                         this.data.push(item);
                     });
                 } else {
-                    this.moreItem = false;
+                    this.showEmptyView = false;
                 }
-    
+
                 this.loading = false;
                 resolve(data);
             }, error => {
-                this.reload  = true;
-                this.loading = false;
-                reject(error);
+                this.errorText     = error.message;
+                this.showErrorView = true;
             });
-        })
-
+        });
     }
 
     doInfinite(event) {
@@ -76,8 +80,6 @@ export class TabHomePage {
     }
 
     doRefresh(event) {
-       this.data        = [];
-       this.moreItem = false;
         this.params.page = 1;
         this.feed().then(() => event.complete());
     }

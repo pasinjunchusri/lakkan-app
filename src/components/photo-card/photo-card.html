@@ -9,7 +9,7 @@
 
         <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
 
-        <button ion-button large clear item-right>
+        <button (click)="openPopover($event)" ion-button large clear item-right>
             <ion-icon name="md-more"></ion-icon>
         </button>
     </ion-item>

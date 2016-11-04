@@ -1,50 +1,54 @@
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-title>
-            Comentários
-        </ion-title>
-        <ion-buttons start>
-            <button ion-button (click)="dismiss()">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Comentários
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
                 <ion-icon name="close"></ion-icon>
             </button>
-        </ion-buttons>
-    </ion-toolbar>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
-    <loader *ngIf="loading && !data.length"></loader>
-
-    <div *ngIf="noData">No comments</div>
-
-    <ion-list *ngIf="data.length">
-        <ion-item *ngFor="let item of data">
-            <ion-avatar item-left>
-                <img *ngIf="item.get('user').get('photo')" [src]="item.get('user').get('photo').url()">
-                <img *ngIf="!item.get('user').get('photo')" src="assets/img/user.png">
-            </ion-avatar>
-            <p><b>{{item.get('user').get('username')}}</b> {{item.get('text')}}</p>
-
-            <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
-        </ion-item>
-    </ion-list>
+  <loader *ngIf="loading && !data.length"></loader>
+  <!-- error -->
+  <div class="center" *ngIf="showErrorView" padding>
+    <div class="error ">
+      <ion-icon [name]="errorIcon"></ion-icon>
+      <p>{{ "errorText" | translate }}</p>
+      <button ion-button color="primary" (click)="onQuery()">
+                {{ 'tryAgainText' | translate }}
+            </button>
+    </div>
+  </div>
+  <!-- empty-->
+  <div class="center" *ngIf="showEmptyView" padding>
+    <div class="error">
+      <ion-icon [name]="errorIcon"></ion-icon>
+      <p>{{ 'Comments not found' | translate }}</p>
+    </div>
+  </div>
+  <ion-list *ngIf="data.length">
+    <ion-item *ngFor="let item of data">
+      <ion-avatar item-left>
+        <img *ngIf="item.get('user').get('photo')" [src]="item.get('user').get('photo').url()">
+        <img *ngIf="!item.get('user').get('photo')" src="assets/img/user.png">
+      </ion-avatar>
+      <p><b>{{item.get('user').get('username')}}</b> {{item.get('text')}}</p>
+      <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
+    </ion-item>
+  </ion-list>
 </ion-content>
-
 <ion-footer>
-    <form #rForm="ngForm" (ngSubmit)="onComment(rForm)" novalidate>
-        <ion-toolbar>
-            <ion-input [(ngModel)]="form.text"
-                        focus 
-                        name="comment" 
-                        type="text" 
-                        #input
-                       placeholder="Comment in here"
-                       required></ion-input>
-            <ion-buttons end>
-                <button ion-button color="primary">
+  <form #rForm="ngForm" (ngSubmit)="onComment(rForm)" novalidate>
+    <ion-toolbar>
+      <ion-input [(ngModel)]="form.text" focus name="comment" type="text" #input placeholder="Comment in here" required></ion-input>
+      <ion-buttons end>
+        <button ion-button color="primary">
                     <ion-icon name="send"></ion-icon>
                 </button>
-            </ion-buttons>
-        </ion-toolbar>
-    </form>
+      </ion-buttons>
+    </ion-toolbar>
+  </form>
 </ion-footer>

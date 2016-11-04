@@ -1,4 +1,4 @@
-<ion-header>
+ph<ion-header>
     <ion-navbar color="primary">
         <ion-title>Profile</ion-title>
     </ion-navbar>
@@ -11,31 +11,31 @@
         <ion-row>
             <ion-col width-25>
                 <div class="img-avatar">
-                    <img *ngIf="profile.photo" [src]="profile.photo.url()"/>
+                    <img *ngIf="profile.photo" [src]="profile.photo._url"/>
                     <img *ngIf="!profile.photo" src="assets/img/user.png"/>
                 </div>
             </ion-col>
             <ion-col width-75>
                 <ion-row>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loading"></ion-spinner>
-                        <b *ngIf="!loading">{{ profile.galleriesTotal || 0}}</b>
+                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
+                        <b *ngIf="!loadingProfile">{{ profile.galleriesTotal || 0}}</b>
                         <p>posts</p>
                     </ion-col>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loading"></ion-spinner>
-                        <b *ngIf="!loading">{{ profile.followersTotal || 0}}</b>
+                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
+                        <b *ngIf="!loadingProfile">{{ profile.followersTotal || 0}}</b>
                         <p>followers</p>
                     </ion-col>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loading"></ion-spinner>
-                        <b *ngIf="!loading">{{ profile.followingsTotal || 0}}</b>
+                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
+                        <b *ngIf="!loadingProfile">{{ profile.followingsTotal || 0}}</b>
                         <p>following</p>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        <div *ngIf="loading" class="text-center">
+                        <div *ngIf="loadingProfile" class="text-center">
                             <ion-spinner></ion-spinner>
                         </div>
                         <div *ngIf="!loading">
@@ -67,6 +67,9 @@
         <ion-segment-button (ionSelect)="onSelectType('grid')" value="grid">
             <ion-icon name="ios-apps-outline"></ion-icon>
         </ion-segment-button>
+        <ion-segment-button (ionSelect)="onSelectType('album')" value="album">
+            <ion-icon name="ios-image-outline"></ion-icon>
+        </ion-segment-button>
         <ion-segment-button (ionSelect)="onSelectType('map')" value="map">
             <ion-icon name="ios-pin-outline"></ion-icon>
         </ion-segment-button>
@@ -76,11 +79,11 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    {{type}}
     <photo-list *ngIf="type=='list'"></photo-list>
     <photo-grid *ngIf="type=='grid'"></photo-grid>
+    <album-grid *ngIf="type=='album'"></album-grid>
 
-    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 

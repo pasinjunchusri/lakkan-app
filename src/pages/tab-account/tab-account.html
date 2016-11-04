@@ -79,7 +79,7 @@
     <photo-grid *ngIf="type=='grid'"></photo-grid>
     <album-grid *ngIf="type=='album'"></album-grid>
 
-    <ion-infinite-scroll *ngIf="!loading"  (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 

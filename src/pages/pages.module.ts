@@ -51,6 +51,8 @@ import { AlbumPhotoGridPopover } from '../components/album-photo-grid-popover/al
 import { LanguageModal } from '../components/language-modal/language-modal';
 import { language_default, languages } from '../config';
 import { FocusDirective } from '../directives/focus/focus';
+import {UserListPage} from "./user-list/user-list";
+import {PhotoListPopover} from "../components/photo-list-popover/photo-list-popover";
 
 export const APP_PAGES = [
     IntroPage,
@@ -67,6 +69,7 @@ export const APP_PAGES = [
     PhotoPage,
     ProfilePage,
     UserPassword,
+    UserListPage,
 
     // Components
     Loader,
@@ -74,6 +77,7 @@ export const APP_PAGES = [
     PhotoFeedbackModal,
     PhotoGrid,
     PhotoList,
+    PhotoListPopover,
     PhotoCard,
     PhotoCaptureModal,
     PhotoShareModal,

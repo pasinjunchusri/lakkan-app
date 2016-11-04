@@ -1,27 +1,46 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title> <span class="logo-photogram"></span></ion-title>
-  </ion-navbar>
-  <ion-toolbar no-border-bottom>
-    <ion-segment [(ngModel)]="privacity">
-      <ion-segment-button (ionSelect)="selectType('public')" value="public">{{'Public' | translate }}
-      </ion-segment-button>
-      <ion-segment-button (ionSelect)="selectType('followers')" value="followers">{{'Followers' | translate }}
-      </ion-segment-button>
-      <ion-segment-button (ionSelect)="selectType('me')" value="me"> {{'Me' | translate}}</ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
+    <ion-navbar color="primary">
+        <ion-title><span class="logo-photogram"></span></ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="onPageUsers()">
+                <ion-icon name="contacts"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <ion-toolbar no-border-bottom>
+        <ion-segment [(ngModel)]="privacity">
+            <ion-segment-button (ionSelect)="selectType('public')" value="public">{{'Public' | translate }}
+            </ion-segment-button>
+            <ion-segment-button (ionSelect)="selectType('followers')" value="followers">{{'Followers' | translate }}
+            </ion-segment-button>
+            <ion-segment-button (ionSelect)="selectType('me')" value="me"> {{'Me' | translate}}</ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
-  <loader *ngIf="loading && !data.length"></loader>
-
-  <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
-   <photo-card *ngFor="let item of data" [item]="item"></photo-card>
-  
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <loader *ngIf="loading && !data.length"></loader>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ "errorText" | translate }}</p>
+            <button ion-button color="primary" (click)="onQuery()">
+                {{ 'tryAgainText' | translate }}
+            </button>
+        </div>
+    </div>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Activity not found' | translate }}</p>
+        </div>
+    </div>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <photo-card *ngFor="let item of data" [item]="item"></photo-card>
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

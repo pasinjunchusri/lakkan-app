@@ -1,8 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {Events, ModalController, NavController} from "ionic-angular";
+import {Events, ModalController, NavController, PopoverController} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
 import {PhotoCommentModal} from "../photo-comment-modal/photo-comment-modal";
 import {ProfilePage} from "../../pages/profile/profile";
+import {PhotoListPopover} from "../photo-list-popover/photo-list-popover";
 
 @Component({
     selector   : 'photo-card',
@@ -13,15 +14,22 @@ export class PhotoCard {
     @Input() item: any;
 
     loadingLike: boolean = false;
+    canEdit: boolean    = false;
 
     constructor(public provider: Gallery,
                 public events: Events,
                 public navCtrl: NavController,
-                public modalCtrl: ModalController
+                public modalCtrl: ModalController,
+                public popoverCtrl: PopoverController,
     ) {
-
+        let username = Parse.User.current().get('username');
+        console.log(this.item, username);
+        //this.canEdit = (this.item.user.attributes['username'] == username) ? true : false;
     }
 
+    openPopover(ev) {
+        this.popoverCtrl.create(PhotoListPopover, {canEdit: this.canEdit}).present({ev: ev});
+    }
 
     openComments(item) {
         console.log(item);

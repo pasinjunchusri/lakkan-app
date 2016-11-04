@@ -15,15 +15,17 @@ export class AlbumList {
         page : 1
     };
 
-    data: any       = [];
-    reload: boolean = false;
-    moreItem: boolean;
-    loading: boolean;
+    errorIcon: string = 'ios-images-outline';
+    errorText: string = '';
+    data = [];
+    loading: boolean = true;
+    showEmptyView: boolean = false;
+    showErrorView: boolean = false;
 
     constructor(public provider: Gallery,
                 public events: Events
     ) {
-        console.log('Photo List');
+        console.log('Album List');
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
             this.params = params[0];
@@ -42,31 +44,32 @@ export class AlbumList {
 
 
     feed() {
-        console.log('Load Feed', this.params, this.loading);
-
-        this.loading = true;
-
-        if (this.params.page == 1) {
-            this.data = [];
-        }
-
-        this.provider.feed(this.params).then(data => {
-            if (data && data.length) {
-                data.map(item => {
-                    this.data.push(item);
-                });
-            } else {
-                this.moreItem = false;
+        return new Promise((resolve,reject)=>{
+            console.log('Load Feed', this.params, this.loading);
+    
+            if (this.params.page == 1) {
+                this.data = [];
+                this.loading = true;
             }
-
-            this.events.publish('photolist:complete');
-            this.loading = false;
-        }, error => {
-            this.reload  = true;
-            this.loading = false;
-            this.events.publish('photolist:complete');
+    
+            this.provider.feed(this.params).then(data => {
+                if (data && data.length) {
+                    data.map(item => {
+                        this.data.push(item);
+                    });
+                } else {
+                    this.showEmptyView = false;
+                }
+    
+                this.loading = false;
+                this.events.publish('photolist:complete');
+                resolve(data);
+            }, error => {
+                this.errorText = error.message;
+                this.showErrorView = true;
+                this.events.publish('photolist:complete');
+            });
         });
-
     }
 
 }

@@ -1,7 +1,23 @@
 <loader *ngIf="loading && !data.length"></loader>
-
+<!-- error -->
+<div class="center" *ngIf="showErrorView" padding>
+  <div class="error ">
+    <ion-icon [name]="errorIcon"></ion-icon>
+    <p>{{ "errorText" | translate }}</p>
+    <button ion-button color="primary" (click)="onQuery()">
+                {{ 'tryAgainText' | translate }}
+            </button>
+  </div>
+</div>
+<!-- empty-->
+<div class="center" *ngIf="showEmptyView" padding>
+  <div class="error">
+    <ion-icon [name]="errorIcon"></ion-icon>
+    <p>{{ 'Photo not found' | translate }}</p>
+  </div>
+</div>
 <div *ngIf="data.length">
-    <div *ngFor="let item of data  ">
-        <photo-card [item]="item"></photo-card>
-    </div>
+  <div *ngFor="let item of data  ">
+    <photo-card [item]="item"></photo-card>
+  </div>
 </div>

@@ -15,6 +15,21 @@
 </ion-header>
 <ion-content>
   <loader *ngIf="loading && !data.length"></loader>
+  <!-- error -->
+  <div class="center" *ngIf="showErrorView" padding>
+    <div class="error ">
+      <ion-icon [name]="errorIcon"></ion-icon>
+      <p>{{ "errorText" | translate }}</p>
+      <button ion-button color="primary" (click)="onQuery()">{{ 'tryAgainText' | translate }}</button>
+    </div>
+  </div>
+  <!-- empty-->
+  <div class="center" *ngIf="showEmptyView" padding>
+    <div class="error">
+      <ion-icon [name]="errorIcon"></ion-icon>
+      <p>{{ 'Album not found' | translate }}</p>
+    </div>
+  </div>
   <div *ngFor="let item of data; let index = index">
     <ion-row *ngIf="index % 3 === 0 ">
       <ion-col width-33 *ngIf="index < data.length">

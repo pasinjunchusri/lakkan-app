@@ -15,6 +15,7 @@ export class TabAccountPage {
     loading: boolean        = true;
     type: string            = 'list';
     profile: any;
+    moreItem : boolean = true;
 
     params = {
         limit    : 12,
@@ -34,6 +35,12 @@ export class TabAccountPage {
 
         this.events.subscribe('photolist:complete', () => {
             this.loading = false;
+            this.moreItem = true;
+        });
+
+
+        this.events.subscribe('photolist:empty', () => {
+            this.moreItem = false;
         });
 
         this.loadingProfile = true;
@@ -42,9 +49,7 @@ export class TabAccountPage {
             this.loadingProfile = false;
         });
 
-        setTimeout(() => {
-            this.onSelectType('list');
-        }, 150);
+        setTimeout(() => this.onSelectType('list'), 200);
     }
 
     onEditProfile() {

@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {GalleryActivity} from "../../providers/gallery-activity";
+import {User} from "../../providers/user";
 import {ProfilePage} from "../profile/profile";
+import {TranslateService} from "ng2-translate";
+
 
 @Component({
-    selector   : 'page-tab-activity',
-    templateUrl: 'tab-activity.html'
+    selector   : 'page-user-list',
+    templateUrl: 'user-list.html'
 })
-export class TabActivityPage {
+export class UserListPage {
 
 
     errorIcon: string      = 'ios-images-outline';
@@ -16,16 +18,21 @@ export class TabActivityPage {
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    search: string         = '';
+    placeholder: string    = 'Search user';
 
     params = {
-        limit: 20,
-        page : 1
+        limit : 20,
+        page  : 1,
+        search: ''
     }
 
     constructor(private navCtrl: NavController,
-                private provider: GalleryActivity
+                private provider: User,
+                private translate: TranslateService
     ) {
-
+        // Translate Search Bar Placeholder
+        this.translate.get(this.placeholder).subscribe((res: string) => this.placeholder = res);
     }
 
     ngOnInit() {
@@ -45,7 +52,7 @@ export class TabActivityPage {
                 this.loading = true;
             }
 
-            this.provider.feed(this.params).then(data => {
+            this.provider.list(this.params).then(data => {
                 if (data && data.length) {
                     data.map(item => {
                         this.data.push(item);
@@ -59,8 +66,22 @@ export class TabActivityPage {
             }, error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
+                reject(error);
             });
         });
+    }
+
+    // Search
+    doSearch() {
+        this.params.search = this.search;
+        this.params.page   = 1;
+        this.feed();
+    }
+
+    doCancel() {
+        this.search      = '';
+        this.params.page = 1;
+        this.feed();
     }
 
     doInfinite(event) {

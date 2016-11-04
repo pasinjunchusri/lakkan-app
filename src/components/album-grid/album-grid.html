@@ -1,17 +1,32 @@
 <loader *ngIf="loading && !data.length"></loader>
-
+<!-- error -->
+<div class="center" *ngIf="showErrorView" padding>
+  <div class="error ">
+    <ion-icon [name]="errorIcon"></ion-icon>
+    <p>{{ "errorText" | translate }}</p>
+    <button ion-button color="primary" (click)="onQuery()">{{ 'tryAgainText' | translate }}</button>
+  </div>
+</div>
+<!-- empty-->
+<div class="center" *ngIf="showEmptyView" padding>
+  <div class="error">
+    <ion-icon [name]="errorIcon"></ion-icon>
+    <p>{{ 'Album not found' | translate }}</p>
+  </div>
+</div>
 <div *ngFor="let item of data; let index = index">
-
-    <ion-row *ngIf="index % 2 === 0 ">
-
-        <ion-col width-50 *ngIf="index < data.length">
-            <img *ngIf="data[index].imageThumb" (click)="openAlbum(data[index])" [src]="data[index].imageThumb._url"/>
-            <img *ngIf="!data[index].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
-        </ion-col>
-        <ion-col width-50 *ngIf="index +1 < data.length">
-            <img *ngIf="data[index+1].imageThumb" (click)="openAlbum(data[index+1])" [src]="data[index+1].imageThumb._url"/>
-            <img *ngIf="!data[index+1].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
-        </ion-col>
+  <ion-row *ngIf="index % 2 === 0 ">
     
-    </ion-row>
+    <ion-col width-50 *ngIf="index < data.length && data[index].create">
+      <img (click)="albumForm()"  src="assets/img/albumnew.png" />
+    </ion-col>
+    <ion-col width-50 *ngIf="index < data.length && !data[index].create">
+      <img *ngIf="data[index].imageThumb" (click)="openAlbum(data[index])" [src]="data[index].imageThumb._url" />
+      <img *ngIf="!data[index].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png" />
+    </ion-col>
+    <ion-col width-50 *ngIf="index +1 < data.length && !data[index].create">
+      <img *ngIf="data[index+1].imageThumb" (click)="openAlbum(data[index+1])" [src]="data[index+1].imageThumb._url" />
+      <img *ngIf="!data[index+1].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png" />
+    </ion-col>
+  </ion-row>
 </div>
