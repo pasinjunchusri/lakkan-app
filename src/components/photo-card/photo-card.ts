@@ -37,12 +37,12 @@ export class PhotoCard {
     onLike(item) {
         console.log(item);
         this.loadingLike = true;
-        this.provider.likeGallery({galleryID: item.id}).then(data => {
-            if (item.liked) {
-                item.liked = false;
+        this.provider.likeGallery({id: item.id}).then(data => {
+            if (item.isLiked) {
+                item.isLiked = false;
                 item.likesTotal--;
             } else {
-                item.liked = true;
+                item.isLiked = true;
                 item.likesTotal++;
             }
             console.log(data);

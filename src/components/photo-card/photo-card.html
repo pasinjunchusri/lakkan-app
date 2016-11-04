@@ -21,10 +21,11 @@
     </ion-card-content>
 
     <ion-item class="item-buttons">
-        <button ion-button large clear (click)="onLike(item)">
-            <ion-icon *ngIf="!item.liked" large name="ios-heart-outline"></ion-icon>
-            <ion-icon *ngIf="item.liked" large name="ios-heart"></ion-icon>
+        <button *ngIf="!loadingLike" ion-button large clear (click)="onLike(item)">
+            <ion-icon *ngIf="!item.isLiked" large name="ios-heart-outline"></ion-icon>
+            <ion-icon *ngIf="item.isLiked" large name="ios-heart"></ion-icon>
         </button>
+        <ion-spinner *ngIf="loadingLike"></ion-spinner>
         <button ion-button large clear (click)="openComments(item)">
             <ion-icon name="ios-text-outline"></ion-icon>
         </button>
@@ -33,6 +34,7 @@
         </button>
 
         <ion-note item-right>
+            <ion-icon name="ios-heart"></ion-icon> {{item.likesTotal}} {{'likes' | translate}}
             <ion-icon name="eye"></ion-icon> {{item.views}}
         </ion-note>
 
