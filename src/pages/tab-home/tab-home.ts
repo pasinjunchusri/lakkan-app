@@ -22,13 +22,13 @@ export class TabHomePage {
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    moreItem: boolean      = true;
 
     constructor(public navCtrl: NavController,
                 public events: Events,
                 public platform: Platform,
                 public provider: Gallery
     ) {
-
 
     }
 
@@ -43,7 +43,7 @@ export class TabHomePage {
         this.feed();
     }
 
-    onPageUsers(){
+    onPageUsers() {
         this.navCtrl.push(UserListPage);
     }
 
@@ -61,8 +61,10 @@ export class TabHomePage {
                     data.map(item => {
                         this.data.push(item);
                     });
+                    this.moreItem = true;
                 } else {
                     this.showEmptyView = false;
+                    this.moreItem      = false;
                 }
 
                 this.loading = false;
