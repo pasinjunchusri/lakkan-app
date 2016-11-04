@@ -21,7 +21,7 @@
 
    <photo-card *ngFor="let item of data" [item]="item"></photo-card>
   
-  <ion-infinite-scroll *ngIf="moreItem"  (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
