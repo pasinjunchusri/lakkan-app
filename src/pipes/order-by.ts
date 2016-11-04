@@ -6,7 +6,7 @@ import _ from 'underscore';
     name: 'orderBy'
 })
 @Injectable()
-export class OrderBy {
+export class OrderByPipe {
 
     transform(value, args) {
         console.log(value, args);

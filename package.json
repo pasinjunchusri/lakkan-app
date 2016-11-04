@@ -24,6 +24,7 @@
     "@angular/platform-server": "2.1.1",
     "@ionic/storage": "1.1.6",
     "ionic-angular": "2.0.0-rc.2",
+    "@ionic/app-scripts": "latest",
     "@types/moment": "^2.13.0",
     "@types/parse": "^1.2.32",
     "@types/underscore": "^1.7.33",

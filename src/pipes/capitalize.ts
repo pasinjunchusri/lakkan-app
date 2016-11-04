@@ -4,7 +4,7 @@ import { Injectable, Pipe } from '@angular/core';
     name: 'capitalize'
 })
 @Injectable()
-export class Capitalize {
+export class CapitalizePipe {
     /*
      Takes a value and makes it lowercase.
      */

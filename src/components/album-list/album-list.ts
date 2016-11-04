@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Events} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
+import _ from 'underscore';
 
 @Component({
     selector   : 'album-list',
@@ -54,7 +55,7 @@ export class AlbumList {
     
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
                 } else {

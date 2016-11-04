@@ -3,6 +3,7 @@ import {NavController} from 'ionic-angular';
 import { TranslateService } from 'ng2-translate';
 import {PhotoPage} from "../../pages/photo/photo";
 import {Gallery} from "../../providers/gallery";
+import _ from 'underscore';
 
 @Component({
     selector   : 'page-tab-search',
@@ -52,7 +53,7 @@ export class TabSearchPage {
     
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
                 } else {

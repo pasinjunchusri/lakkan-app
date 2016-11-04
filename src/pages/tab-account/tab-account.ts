@@ -70,31 +70,26 @@ export class TabAccountPage {
     }
 
     doInfinite(event) {
-        if (!this.loading) {
-            this.params.page++;
+        this.params.page++;
 
-            this.loading = true;
-            this.events.publish('photolist:params', this.params);
+        this.loading = true;
+        this.events.publish('photolist:params', this.params);
 
-            this.events.unsubscribe('photolist:complete', null);
-            this.events.subscribe('photolist:complete', () => {
-                this.loading = false;
-                event.complete();
-            });
-        }
+        this.events.unsubscribe('photolist:complete', null);
+        this.events.subscribe('photolist:complete', () => {
+            this.loading = false;
+            event.complete();
+        });
     }
 
     doRefresh(event) {
-        if (!this.loading) {
-            this.params.page = 1;
+        this.params.page = 1;
 
-            this.loading = true;
-            this.events.publish('photolist:params', this.params);
-            this.events.unsubscribe('photolist:complete', null);
-            this.events.subscribe('photolist:complete', () => {
-                this.loading = false;
-                event.complete();
-            });
-        }
+        this.loading = true;
+        this.events.publish('photolist:params', this.params);
+        this.events.subscribe('photolist:complete', () => {
+            this.loading = false;
+            event.complete();
+        });
     }
 }

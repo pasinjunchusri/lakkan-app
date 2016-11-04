@@ -3,6 +3,7 @@ import {Component, Input} from '@angular/core';
 import {Events, NavController} from 'ionic-angular';
 import {GalleryAlbum} from '../../providers/gallery-album';
 import {AlbumPhotoGrid} from '../album-photo-grid/album-photo-grid';
+import _ from 'underscore';
 
 @Component({
     selector   : 'album-grid',
@@ -71,7 +72,7 @@ export class AlbumGrid {
                 }
 
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
 

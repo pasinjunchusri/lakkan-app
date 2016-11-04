@@ -6,11 +6,14 @@ declare var Parse: any;
 export class GallerFeedback {
 
     fields = [
-        'text',
+        'title',
+        'subject',
+        'message',
         'user',
+        'gallery',
     ];
 
-    ParseObject: any = Parse.Object.extend('GallerFeedback', {});
+    ParseObject: any = Parse.Object.extend('GalleryFeedback', {});
 
     constructor() {
         this.fields.map(field => {

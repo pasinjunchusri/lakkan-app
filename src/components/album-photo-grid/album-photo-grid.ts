@@ -3,6 +3,7 @@ import {Gallery} from "../../providers/gallery";
 import {Events, NavController, ViewController, NavParams, PopoverController} from 'ionic-angular';
 import {PhotoPage} from "../../pages/photo/photo";
 import {AlbumPhotoGridPopover} from '../album-photo-grid-popover/album-photo-grid-popover';
+import _ from 'underscore';
 
 @Component({
     selector   : 'album-photo-grid',
@@ -67,7 +68,7 @@ export class AlbumPhotoGrid {
                 }
 
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
                 } else {

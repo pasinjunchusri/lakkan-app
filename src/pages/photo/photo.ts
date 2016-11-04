@@ -12,14 +12,9 @@ export class PhotoPage {
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams
-    ) {}
-
-
-    ionViewDidLoad() {
+    ) {
         this.item = this.navParams.get('item');
         console.log(this.item);
-        console.log('Hello Photo Page');
-
     }
 
 }

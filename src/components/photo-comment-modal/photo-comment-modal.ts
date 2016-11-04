@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavParams, ViewController } from "ionic-angular";
 import { GalleryComment } from "../../providers/gallery-comment";
 import { IonicUtil } from "../../providers/ionic-util";
+import _ from 'underscore';
 
 @Component({
     selector: 'photo-comment-modal',
@@ -11,7 +12,7 @@ export class PhotoCommentModal {
 
     @ViewChild('input') myInput;
 
-    errorIcon: string = 'ios-images-outline';
+    errorIcon: string = 'ios-text-outline';
     errorText: string = '';
     data = [];
     loading: boolean = true;
@@ -48,7 +49,7 @@ export class PhotoCommentModal {
             relation.query().find().then(comments => {
                 this.loading = false;
                 if (comments.length > 0) {
-                    this.data = comments;
+                    this.data = _.sortBy(comments, 'createdAt');
                 } else {
                     this.showEmptyView = true;
                 }

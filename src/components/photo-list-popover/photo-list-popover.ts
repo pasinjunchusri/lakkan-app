@@ -3,12 +3,13 @@ import {ViewController, NavParams, ModalController, AlertController, Events} fro
 import {AlbumFormModal} from '../album-form-modal/album-form-modal';
 import {IonicUtil} from '../../providers/ionic-util';
 import {Gallery} from "../../providers/gallery";
+import {PhotoFeedbackModal} from "../photo-feedback-modal/photo-feedback-modal";
 
 @Component({
     selector: 'photo-list-popover',
     template: `
   <ion-list>
-      <button ion-item (click)="upload()">{{'Report' | translate}}</button>
+      <button ion-item (click)="report()">{{'Report' | translate}}</button>
       <button ion-item (click)="share()">{{'Share' | translate}}</button>
       <button *ngIf="canEdit" ion-item (click)="destroy()">{{ 'Edit photo' | translate}}</button>
       <button *ngIf="canEdit" ion-item (click)="edit()">{{'Delete photo' | translate}}</button>
@@ -17,7 +18,7 @@ import {Gallery} from "../../providers/gallery";
 })
 export class PhotoListPopover {
 
-    id: string;
+    item: any;
     canEdit: boolean = false;
 
     constructor(public viewCtrl: ViewController,
@@ -28,8 +29,13 @@ export class PhotoListPopover {
                 public events: Events,
                 public modalCtrl: ModalController
     ) {
-        this.id      = this.navParams.get('id');
+        this.item    = this.navParams.get('item');
         this.canEdit = this.navParams.get('canEdit');
+    }
+
+    report() {
+        this.modalCtrl.create(PhotoFeedbackModal, {item: this.item}).present();
+        this.close();
     }
 
     close() {
@@ -46,7 +52,7 @@ export class PhotoListPopover {
 
     edit() {
         this.close();
-        this.modalCtrl.create(AlbumFormModal, {id: this.id}).present();
+        this.modalCtrl.create(AlbumFormModal, {item: this.item}).present();
     }
 
     destroy() {
@@ -64,7 +70,7 @@ export class PhotoListPopover {
                     text   : 'Yes',
                     handler: () => {
                         this.ionicUtil.onLoading();
-                        this.provider.get(this.id).then(gallery => {
+                        this.provider.get(this.item['id']).then(gallery => {
                             this.provider.destroy(gallery).then(() => {
                                 this.ionicUtil.endLoading();
 

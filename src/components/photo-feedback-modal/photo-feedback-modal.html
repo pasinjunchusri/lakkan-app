@@ -1,8 +1,47 @@
-<!--
-  Generated template for the PhotoFeedbackModal component.
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>{{'Report photo' | translate}}</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
--->
+<ion-content>
 
-{{text}}
+    <form  #rForm="ngForm" (ngSubmit)="onSubmit(rForm)" novalidate>
+        <!-- Title -->
+        <ion-item>
+            <ion-label floating color="primary">{{'Title'| translate}}</ion-label>
+            <ion-input [(ngModel)]="form.title" name="title" type="text" #title="ngModel" required>
+            </ion-input>
+        </ion-item>
+        <p [hidden]="title.valid || !submitted" color="danger" padding-left>
+            {{'Title is required' | translate}}
+        </p>
+        <!-- Subject -->
+        <ion-item>
+            <ion-label floating color="primary">{{'Subject'| translate}}</ion-label>
+            <ion-input [(ngModel)]="form.subject" name="subject" type="text" #subject="ngModel" required>
+            </ion-input>
+        </ion-item>
+        <p [hidden]="subject.valid || !submitted" color="danger" padding-left>
+            {{'Subject is required' | translate}}
+        </p>
+        <!-- Message -->
+        <ion-item>
+            <ion-label floating color="primary">{{'Message'| translate}}</ion-label>
+            <ion-textarea [(ngModel)]="form.message" name="message"  #message="ngModel" required></ion-textarea>
+        </ion-item>
+        <p [hidden]="message.valid || !submitted" color="danger" padding-left>
+            {{'Message is required' | translate}}
+        </p>
+
+        <ion-row>
+            <ion-col><button ion-button block type="submit">{{'Submit' | translate}}</button></ion-col>
+        </ion-row>
+    </form>
+</ion-content>
+

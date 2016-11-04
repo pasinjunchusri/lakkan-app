@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, Events, Platform} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
 import {UserListPage} from "../user-list/user-list";
+import _ from 'underscore';
 
 @Component({
     selector   : 'page-tab-home',
@@ -10,7 +11,7 @@ import {UserListPage} from "../user-list/user-list";
 export class TabHomePage {
 
     params = {
-        limit    : 5,
+        limit    : 14,
         page     : 1,
         privacity: 'public'
     };
@@ -58,7 +59,7 @@ export class TabHomePage {
 
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
                     this.moreItem = true;

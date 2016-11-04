@@ -1,22 +1,58 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {IonicUtil} from "../../providers/ionic-util";
+import {ViewController, NavParams} from "ionic-angular";
+import {GallerFeedback} from "../../providers/gallery-feedback";
+import {User} from "../../providers/user";
+import {TranslateService} from "ng2-translate";
 
-/*
-  Generated class for the PhotoFeedbackModal component.
 
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
-*/
 @Component({
-  selector: 'photo-feedback-modal',
-  templateUrl: 'photo-feedback-modal.html'
+    selector   : 'photo-feedback-modal',
+    templateUrl: 'photo-feedback-modal.html'
 })
 export class PhotoFeedbackModal {
 
-  text: string;
+    photo: any;
+    submitted: boolean = false;
+    form: any          = {
+        title  : '',
+        subject: '',
+        message: '',
+        lang   : '',
+    };
 
-  constructor() {
-    console.log('Hello PhotoFeedbackModal Component');
-    this.text = 'Hello World';
-  }
+    constructor(private ionic: IonicUtil,
+                private viewCtrl: ViewController,
+                private navParams: NavParams,
+                private provider: GallerFeedback,
+                private User: User,
+                private translate: TranslateService
+    ) {
+
+        this.form.gallery = navParams.get('item').obj;
+        this.form.user    = this.User.current();
+        this.form.lang    = this.translate.getDefaultLang();
+        console.log(this.form);
+    }
+
+    onSubmit(rForm: any) {
+        this.submitted = true;
+        if (rForm.valid) {
+            this.ionic.onLoading();
+            this.provider.create(this.form).then(result => {
+                console.log(result);
+                this.ionic.endLoading();
+                this.dismiss();
+            }, error => {
+                console.log(error);
+                this.ionic.endLoading();
+                this.dismiss();
+            })
+        }
+    }
+
+    dismiss() {
+        this.viewCtrl.dismiss();
+    }
 
 }

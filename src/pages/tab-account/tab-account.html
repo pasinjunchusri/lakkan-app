@@ -71,7 +71,7 @@
         </ion-segment-button>
     </ion-segment>
 
-    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 

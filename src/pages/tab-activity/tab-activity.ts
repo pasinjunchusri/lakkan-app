@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {GalleryActivity} from "../../providers/gallery-activity";
 import {ProfilePage} from "../profile/profile";
+import _ from 'underscore';
 
 @Component({
     selector   : 'page-tab-activity',
@@ -47,7 +48,7 @@ export class TabActivityPage {
 
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
                 } else {

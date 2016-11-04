@@ -14,7 +14,7 @@ export class PhotoCard {
     @Input() item: any;
 
     loadingLike: boolean = false;
-    canEdit: boolean    = false;
+    canEdit: boolean     = false;
 
     constructor(public provider: Gallery,
                 public events: Events,
@@ -28,7 +28,7 @@ export class PhotoCard {
     }
 
     openPopover(ev) {
-        this.popoverCtrl.create(PhotoListPopover, {canEdit: this.canEdit}).present({ev: ev});
+        this.popoverCtrl.create(PhotoListPopover, {canEdit: this.canEdit, item: this.item}).present({ev: ev});
     }
 
     openComments(item) {

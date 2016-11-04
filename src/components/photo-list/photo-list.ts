@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Events} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
+import _ from 'underscore';
 
 @Component({
     selector   : 'photo-list',
@@ -28,18 +29,10 @@ export class PhotoList {
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
             this.params = params[0];
-            if (!this.loading) {
-                this.feed();
-            }
+            this.feed();
         });
     }
 
-    ionViewDidLoad() {
-        console.log("I'm alive!");
-    }
-    ionViewWillLeave() {
-        console.log("Looks like I'm about to leave :(");
-    }
 
 
     feed() {
@@ -53,7 +46,7 @@ export class PhotoList {
     
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
                 } else {
@@ -61,10 +54,12 @@ export class PhotoList {
                 }
     
                 this.loading = false;
+                this.events.publish('photolist:complete', null);
                 resolve(data);
             }, error => {
                 this.errorText = error.message;
                 this.showErrorView = true;
+                this.events.publish('photolist:complete', null);
             });
         });
     }

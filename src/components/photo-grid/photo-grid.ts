@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Gallery} from "../../providers/gallery";
 import {Events, NavController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
+import _ from 'underscore';
 
 @Component({
     selector   : 'photo-grid',
@@ -49,7 +50,7 @@ export class PhotoGrid {
     
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
                 } else {
