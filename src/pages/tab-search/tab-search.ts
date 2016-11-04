@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, Events} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import { TranslateService } from 'ng2-translate';
+import {PhotoPage} from "../../pages/photo/photo";
+import {Gallery} from "../../providers/gallery";
 
 @Component({
     selector   : 'page-tab-search',
@@ -13,72 +15,76 @@ export class TabSearchPage {
     placeholder:string = 'Search';
 
     params = {
-        limit    : 15,
+        limit    : 24,
         page     : 1,
-        privacity: 'public',
         words: '',
     };
 
+    data: any       = [];
+    reload: boolean = false;
+    moreItem: boolean;
+
     constructor(private navCtrl: NavController,
-                private events: Events,
-                private translate: TranslateService
+                public translate: TranslateService,
+                public provider: Gallery
     ) {
 
         // Translate Search Bar Placeholder
         this.translate.get(this.placeholder).subscribe((res:string)=>this.placeholder = res);
+        this.feed();
+    }
 
+    openPhoto(item) {
+        console.log(item);
+        this.navCtrl.push(PhotoPage, {item: item});
+    }
+
+    feed() {
+        console.log('Load Feed', this.params, this.loading);
         this.loading = true;
-        this.events.subscribe('photolist:complete', () => {
+
+        if (this.params.page == 1) {
+            this.data = [];
+        }
+
+        this.provider.feed(this.params).then(data => {
+
+            console.log(data);
+            if (data && data.length) {
+                data.map(item => {
+                    this.data.push(item);
+                });
+            } else {
+                this.moreItem = false;
+            }
+
+            this.loading = false;
+        }, error => {
+            this.reload = true;
             this.loading = false;
         });
-
-        setTimeout(() => {
-            this.events.publish('photolist:params', this.params);
-        }, 150);
-        
     }
 
     doSearch() {
         this.params.words = this.words;
-        this.doReload();
+        this.params.page = 1;
+        this.feed();
     }
 
     doCancel() {
         this.words = '';
-        this.doReload();
-    }
-
-    doReload(){
         this.params.page = 1;
-        this.loading = true;
-        this.events.publish('photolist:params', this.params);
-        this.events.subscribe('photolist:complete', () => this.loading = false);
+        this.feed();
     }
 
     doInfinite(event) {
-        if (!this.loading) {
-            this.params.page++;
-
-            this.loading = true;
-            this.events.publish('photolist:params', this.params);
-            this.events.subscribe('photolist:complete', () => {
-                this.loading = false;
-                event.complete();
-            });
-        }
+        this.params.page++;
+        event.complete();
     }
 
     doRefresh(event) {
-        if (!this.loading) {
-            this.params.page = 1;
-
-            this.loading = true;
-            this.events.publish('photolist:params', this.params);
-            this.events.subscribe('photolist:complete', () => {
-                this.loading = false;
-                event.complete();
-            });
-        }
+        this.params.page = 1;
+        event.complete();
     }
 
 }

@@ -1,29 +1,27 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-title> <span class="logo-photogram"></span></ion-title>
-    </ion-navbar>
-
-    <ion-toolbar no-border-bottom>
-        <ion-segment [(ngModel)]="privacity">
-            <ion-segment-button (ionSelect)="selectType('public')" value="public">{{'Public' | translate }}
-            </ion-segment-button>
-            <ion-segment-button (ionSelect)="selectType('followers')" value="followers">{{'Followers' | translate }}
-            </ion-segment-button>
-            <ion-segment-button (ionSelect)="selectType('me')" value="me"> {{'Me' | translate}}</ion-segment-button>
-        </ion-segment>
-    </ion-toolbar>
+  <ion-navbar color="primary">
+    <ion-title> <span class="logo-photogram"></span></ion-title>
+  </ion-navbar>
+  <ion-toolbar no-border-bottom>
+    <ion-segment [(ngModel)]="privacity">
+      <ion-segment-button (ionSelect)="selectType('public')" value="public">{{'Public' | translate }}
+      </ion-segment-button>
+      <ion-segment-button (ionSelect)="selectType('followers')" value="followers">{{'Followers' | translate }}
+      </ion-segment-button>
+      <ion-segment-button (ionSelect)="selectType('me')" value="me"> {{'Me' | translate}}</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
-
 <ion-content>
+  <loader *ngIf="loading && !data.length"></loader>
 
-    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+  <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-    <photo-list></photo-list>
-
-    <ion-infinite-scroll *ngIf="!loading" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-
+   <photo-card *ngFor="let item of data" [item]="item"></photo-card>
+  
+  <ion-infinite-scroll *ngIf="moreItem"  (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -56,7 +56,7 @@ export class TabAccountPage {
     onSelectType(type: string) {
         this.type    = type;
         this.loading = true;
-        this.events.publish('photolist:params', this.params);
+        setTimeout(() => this.events.publish('photolist:params', this.params), 150);
     }
 
     onPageSettings() {

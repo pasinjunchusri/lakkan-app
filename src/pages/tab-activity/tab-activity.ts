@@ -57,18 +57,14 @@ export class TabActivityPage {
     }
 
     doInfinite(event) {
-        if (!this.loading) {
-            this.params.page++;
+        this.params.page++;
             this.feed().then(() => event.complete());
-        }
     }
 
     doRefresh(event) {
-        if (!this.loading) {
-            this.data        = [];
-            this.params.page = 1;
-            this.feed().then(() => event.complete());
-        }
+       this.data        = [];
+        this.params.page = 1;
+        this.feed().then(() => event.complete());
     }
 
 }
