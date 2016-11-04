@@ -14,8 +14,21 @@ export class ProfilePage {
     username: string;
     loading: boolean = true;
     type: string     = 'list';
-    profile: any;
-    params: any;
+    profile: any = {
+            name: '',
+            username: '',
+            photo: '',
+            status: '',
+            galleriesTotal: 0,
+            followersTotal: 0,
+            followingsTotal: 0,
+        };
+    params: any = {
+            limit    : 5,
+            page     : 1,
+            privacity: 'public',
+            username : this.username
+        };
 
     constructor(public navCtrl: NavController,
                 public User: UserData,
@@ -25,27 +38,16 @@ export class ProfilePage {
     ) {
 
         this.username = this.navParams.get('username');
-        this.params   = {
-            limit    : 5,
-            page     : 1,
-            privacity: 'public',
-            username : this.username
-        };
-        this.profile = {
-            name: '',
-            username: '',
-            photo: '',
-            status: '',
-            galleriesTotal: 0,
-            followersTotal: 0,
-            followingsTotal: 0,
-        }
 
         this.User.profile(this.username).then(profile => {
             console.log(profile);
             this.profile = profile;
             this.loading = false;
         });
+
+        setTimeout(()=>{
+            this.onSelectType('public');
+        }, 150);
     }
 
     onEditProfile() {
