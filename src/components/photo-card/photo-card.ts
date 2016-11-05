@@ -13,8 +13,8 @@ export class PhotoCard {
 
     @Input() item: any;
 
+    username: string     = Parse.User.current().get('username');
     loadingLike: boolean = false;
-    canEdit: boolean     = false;
 
     constructor(public provider: Gallery,
                 public events: Events,
@@ -22,13 +22,11 @@ export class PhotoCard {
                 public modalCtrl: ModalController,
                 public popoverCtrl: PopoverController,
     ) {
-        let username = Parse.User.current().get('username');
-        console.log(this.item, username);
-        //this.canEdit = (this.item.user.attributes['username'] == username) ? true : false;
+
     }
 
     openPopover(ev) {
-        this.popoverCtrl.create(PhotoListPopover, {canEdit: this.canEdit, item: this.item}).present({ev: ev});
+        this.popoverCtrl.create(PhotoListPopover, {item: this.item}).present({ev: ev});
     }
 
     openComments(item) {

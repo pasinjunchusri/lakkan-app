@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-title>
-            Edit Profile
+            {{'Edit Profile' | translate}}
         </ion-title>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
@@ -25,31 +25,32 @@
         <ion-list>
             <ion-item>
                 <ion-icon name="calendar" item-left></ion-icon>
-                <ion-input [(ngModel)]="form.name" name="name" type="text" #name="ngModel" placeholder="Name" required></ion-input>
+                <ion-input [(ngModel)]="form.name" name="name" type="text" #name="ngModel" placeholder="Name"
+                           required></ion-input>
             </ion-item>
             <p [hidden]="name.valid || !submitted" color="danger" padding-left>
-                Name is required
+                {{'Name is required' | translate}}
             </p>
             <ion-item>
                 <ion-icon name="person" item-left></ion-icon>
                 <ion-input [(ngModel)]="form.username" name="username" type="text" #username="ngModel"
-                           placeholder="Username" required></ion-input>
+                           placeholder="{{'Username' | translate}}" required></ion-input>
             </ion-item>
             <p [hidden]="username.valid || !submitted" color="danger" padding-left>
-                Username is required
+                {{'Username is required' | translate}}
             </p>
             <ion-item>
                 <ion-icon name="compass" item-left></ion-icon>
                 <ion-input [(ngModel)]="form.website" name="website" type="url" #website="ngModel"
-                           placeholder="Website"></ion-input>
+                           placeholder="{{'Website' | translate}}"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-icon name="quote" item-left></ion-icon>
                 <ion-input [(ngModel)]="form.status" name="status" type="text" #status="ngModel"
-                           placeholder="Status"></ion-input>
+                           placeholder="{{'Status' | translate}}"></ion-input>
             </ion-item>
             <ion-item-divider>
-                PRIVATE INFORMATION
+                {{'PRIVATE INFORMATION' | translate}}
             </ion-item-divider>
             <ion-item>
                 <ion-icon name="mail" item-left></ion-icon>
@@ -57,30 +58,32 @@
                            placeholder="Email"></ion-input>
             </ion-item>
             <p [hidden]="email.valid || !submitted" color="danger" padding-left>
-                Email is required
+                {{'Email is required' | translate }}
             </p>
             <ion-item>
                 <ion-icon name="calendar" item-left></ion-icon>
-                <ion-datetime [(ngModel)]="form.birthday" displayFormat="MM/DD/YYYY" name="birthday" #birthday="ngModel"
+                <ion-datetime [(ngModel)]="form.birthday"
+                              displayFormat="MM/DD/YYYY"
+                              name="birthday" #birthday="ngModel"
                               placeholder="MM/DD/YYYY"></ion-datetime>
             </ion-item>
             <ion-item>
                 <ion-icon name="phone-portrait" item-left></ion-icon>
                 <ion-input [(ngModel)]="form.phone" name="phone" type="text" #status="ngModel"
-                           placeholder="Phone"></ion-input>
+                           placeholder="{{'Phone' | translate}}"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-icon name="phone-portrait" item-left></ion-icon>
                 <ion-select [(ngModel)]="form.gender" name="gender" #gender="ngModel">
-                    <ion-option value="">Not</ion-option>
-                    <ion-option value="male">Male</ion-option>
-                    <ion-option value="female">Female</ion-option>
+                    <ion-option value="">{{'Not' | translate}}'</ion-option>
+                    <ion-option value="male">{{'Male' | translate}}</ion-option>
+                    <ion-option value="female">{{'Female' | translate }}</ion-option>
                 </ion-select>
             </ion-item>
         </ion-list>
 
         <div padding>
-            <button ion-button block>Save</button>
+            <button ion-button block>{{'Submit' | translate}}</button>
         </div>
     </form>
 </ion-content>

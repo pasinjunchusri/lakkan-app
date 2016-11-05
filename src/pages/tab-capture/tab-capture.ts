@@ -1,18 +1,19 @@
 import {Component} from '@angular/core';
-import {ViewController, Platform} from "ionic-angular";
+import {ViewController, Platform} from 'ionic-angular';
 import {IonicUtil} from "../../providers/ionic-util";
 import {CameraPreview} from "ionic-native";
 
 @Component({
-    selector   : 'photo-capture-modal',
-    templateUrl: 'photo-capture-modal.html'
+    selector   : 'page-tab-capture',
+    templateUrl: 'tab-capture.html'
 })
-export class PhotoCaptureModal {
+export class TabCapturePage {
+
     _cordova: boolean = false;
 
     constructor(public viewCtrl: ViewController,
                 public util: IonicUtil,
-                public platform: Platform
+                public platform: Platform,
     ) {
         this._cordova = this.platform.is('cordova') ? true : false;
 
@@ -49,11 +50,7 @@ export class PhotoCaptureModal {
         });
     }
 
-    show(){
-        CameraPreview.show();
-    }
-
-    switch(){
+    switch() {
         CameraPreview.switchCamera();
     }
 
@@ -66,10 +63,6 @@ export class PhotoCaptureModal {
 
     library() {
 
-    }
-
-    refresh() {
-        window['location'].reload();
     }
 
     dismiss() {
