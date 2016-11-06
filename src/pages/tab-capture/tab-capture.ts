@@ -83,7 +83,7 @@ export class TabCapturePage {
 
     library() {
         if (this._cordova) {
-            this.PhotoService.library().then(photo => {
+            this.PhotoService.photoLibrary().then(photo => {
                 console.log('photo', photo);
                 this.navCtrl.push(TabCapturSharePage, {image: photo});
             });

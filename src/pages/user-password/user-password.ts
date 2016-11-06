@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {User} from '../../providers/user';
 import {IonicUtil} from '../../providers/ionic-util';
 
@@ -32,8 +32,8 @@ export class UserPassword {
         if (form.valid) {
             this.ionicUtil.onLoading();
             this.provider.changePassword(this.form.password).then(user => {
-                this.dismiss();
                 this.ionicUtil.endLoading();
+                this.dismiss();
             });
         }
     }

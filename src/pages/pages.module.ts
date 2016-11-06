@@ -54,6 +54,7 @@ import {UserListPage} from "./user-list/user-list";
 import {PhotoListPopover} from "../components/photo-list-popover/photo-list-popover";
 import {TabCapturePage} from "./tab-capture/tab-capture";
 import {TabCapturSharePage} from "./tab-capture-share/tab-capture-share";
+import {AboutPage} from "./about/about";
 
 export const APP_PAGES = [
     IntroPage,
@@ -72,6 +73,7 @@ export const APP_PAGES = [
     ProfilePage,
     UserPassword,
     UserListPage,
+    AboutPage,
 
     // Components
     Loader,
