@@ -134,7 +134,7 @@ export class PagesModule {
 
         console.log(userLang);
 
-        this.translate.addLangs(languages);
+        this.translate.addLangs(languages.map(lang => lang.code));
 
         // this language will be used as a fallback when a translation isn't found in the current language
         this.translate.setDefaultLang(language_default);
