@@ -10,11 +10,11 @@ import {CameraPreview} from "ionic-native";
 export class PhotoCaptureModal {
     _cordova: boolean = false;
 
-    constructor(public viewCtrl: ViewController,
-                public util: IonicUtil,
-                public platform: Platform
+    constructor(private viewCtrl: ViewController,
+                private util: IonicUtil,
+                private platform: Platform
     ) {
-        this._cordova = this.platform.is('cordova') ? true : false;
+        this._cordova = this.util.cordova;
 
         platform.ready().then(() => {
 

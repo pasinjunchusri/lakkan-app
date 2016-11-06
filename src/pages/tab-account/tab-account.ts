@@ -15,7 +15,7 @@ export class TabAccountPage {
     loading: boolean        = true;
     type: string            = 'list';
     profile: any;
-    moreItem : boolean = true;
+    moreItem: boolean       = true;
 
     params = {
         limit    : 12,
@@ -24,17 +24,17 @@ export class TabAccountPage {
         username : ''
     }
 
-    constructor(public navCtrl: NavController,
-                public User: UserData,
-                public events: Events,
-                public modalCtrl: ModalController
+    constructor(private navCtrl: NavController,
+                private User: UserData,
+                private events: Events,
+                private modalCtrl: ModalController
     ) {
-        this.user            = User.current();
-        this.username        = User.current().get('username');
+        this.user            = User.current;
+        this.username        = User.current.get('username');
         this.params.username = this.username;
 
         this.events.subscribe('photolist:complete', () => {
-            this.loading = false;
+            this.loading  = false;
             this.moreItem = true;
         });
 

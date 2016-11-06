@@ -16,15 +16,15 @@ export class AlbumList {
         page : 1
     };
 
-    errorIcon: string = 'ios-images-outline';
-    errorText: string = '';
-    data = [];
-    loading: boolean = true;
+    errorIcon: string      = 'ios-images-outline';
+    errorText: string      = '';
+    data                   = [];
+    loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
 
-    constructor(public provider: Gallery,
-                public events: Events
+    constructor(private provider: Gallery,
+                private events: Events
     ) {
         console.log('Album List');
         events.subscribe('photolist:params', params => {
@@ -39,20 +39,21 @@ export class AlbumList {
     ionViewDidLoad() {
         console.log("I'm alive!");
     }
+
     ionViewWillLeave() {
         console.log("Looks like I'm about to leave :(");
     }
 
 
     feed() {
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve, reject) => {
             console.log('Load Feed', this.params, this.loading);
-    
+
             if (this.params.page == 1) {
-                this.data = [];
+                this.data    = [];
                 this.loading = true;
             }
-    
+
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
                     _.sortBy(data, 'createdAt').reverse().map(item => {
@@ -61,12 +62,12 @@ export class AlbumList {
                 } else {
                     this.showEmptyView = false;
                 }
-    
+
                 this.loading = false;
                 this.events.publish('photolist:complete');
                 resolve(data);
             }, error => {
-                this.errorText = error.message;
+                this.errorText     = error.message;
                 this.showErrorView = true;
                 this.events.publish('photolist:complete');
             });

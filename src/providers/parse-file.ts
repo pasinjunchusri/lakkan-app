@@ -1,15 +1,20 @@
 import {Injectable} from '@angular/core';
 
+declare var Parse: any;
+
 @Injectable()
 export class ParseFile {
 
+    private _file: any;
+    private _filename: string = 'file.jpg'
+
     upload(file, ext) {
-        let filename = 'file.jpg';
+        this._file = file;
 
         if (ext) {
-            filename.replace('.jpg', ext);
+            this._filename.replace('.jpg', ext);
         }
 
-        return new Parse.File(filename, file);
+        return new Parse.File(this._filename, file);
     }
 }

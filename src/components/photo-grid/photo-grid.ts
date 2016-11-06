@@ -11,21 +11,21 @@ import _ from 'underscore';
 export class PhotoGrid {
 
     @Input() username?: string;
-     params = {
-        limit: 15,
-        page : 1
-    };
+             params = {
+                 limit: 15,
+                 page : 1
+             };
 
-    errorIcon: string = 'ios-images-outline';
-    errorText: string = '';
-    data = [];
-    loading: boolean = true;
+    errorIcon: string      = 'ios-images-outline';
+    errorText: string      = '';
+    data                   = [];
+    loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
 
     constructor(private provider: Gallery,
-                public events: Events,
-                public navCtrl: NavController
+                private events: Events,
+                private navCtrl: NavController
     ) {
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
@@ -40,14 +40,14 @@ export class PhotoGrid {
     }
 
     feed() {
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve, reject) => {
             console.log('Load Feed', this.params, this.loading);
-    
+
             if (this.params.page == 1) {
-                this.data = [];
+                this.data    = [];
                 this.loading = true;
             }
-    
+
             this.provider.feed(this.params).then(data => {
                 if (data && data.length) {
                     _.sortBy(data, 'createdAt').reverse().map(item => {
@@ -56,11 +56,11 @@ export class PhotoGrid {
                 } else {
                     this.showEmptyView = false;
                 }
-    
+
                 this.loading = false;
                 resolve(data);
             }, error => {
-                this.errorText = error.message;
+                this.errorText     = error.message;
                 this.showErrorView = true;
             });
         });

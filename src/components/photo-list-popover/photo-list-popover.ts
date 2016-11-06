@@ -4,7 +4,6 @@ import {AlbumFormModal} from '../album-form-modal/album-form-modal';
 import {IonicUtil} from '../../providers/ionic-util';
 import {Gallery} from "../../providers/gallery";
 import {PhotoFeedbackModal} from "../photo-feedback-modal/photo-feedback-modal";
-import {TranslateService} from "ng2-translate";
 
 @Component({
     selector: 'photo-list-popover',
@@ -34,14 +33,14 @@ export class PhotoListPopover {
                 private provider: Gallery,
                 private events: Events,
                 private modalCtrl: ModalController,
-                private translate: TranslateService
+                private util: IonicUtil
     ) {
         this.item    = this.navParams.get('item');
         this.canEdit = (this.username == this.item.user.attributes['username']) ? true : false;
-        this.translate.get('Destroy photo').subscribe((res: string) => this._translateDestroyTitle = res);
-        this.translate.get('You are sure destroy this photo?').subscribe((res: string) => this._translateDestroyMessage = res);
-        this.translate.get('Cancel').subscribe((res: string) => this._translateCancel = res);
-        this.translate.get('Yes').subscribe((res: string) => this._translateYes = res);
+        this.util.translate('Destroy photo').then((res: string) => this._translateDestroyTitle = res);
+        this.util.translate('You are sure destroy this photo?').then((res: string) => this._translateDestroyMessage = res);
+        this.util.translate('Cancel').then((res: string) => this._translateCancel = res);
+        this.util.translate('Yes').then((res: string) => this._translateYes = res);
     }
 
     report() {

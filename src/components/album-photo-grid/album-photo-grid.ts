@@ -25,11 +25,11 @@ export class AlbumPhotoGrid {
     canEdit: boolean       = false;
 
     constructor(private provider: Gallery,
-                public events: Events,
-                public navCtrl: NavController,
-                public viewCtrl: ViewController,
-                public navParams: NavParams,
-                public popoverCtrl: PopoverController,
+                private events: Events,
+                private navCtrl: NavController,
+                private viewCtrl: ViewController,
+                private navParams: NavParams,
+                private popoverCtrl: PopoverController,
     ) {
         console.log(this.navParams.get('id'));
         this.params.id = this.navParams.get('id');

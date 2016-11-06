@@ -16,11 +16,11 @@ export class PhotoCard {
     username: string     = Parse.User.current().get('username');
     loadingLike: boolean = false;
 
-    constructor(public provider: Gallery,
-                public events: Events,
-                public navCtrl: NavController,
-                public modalCtrl: ModalController,
-                public popoverCtrl: PopoverController,
+    constructor(private provider: Gallery,
+                private events: Events,
+                private navCtrl: NavController,
+                private modalCtrl: ModalController,
+                private popoverCtrl: PopoverController,
     ) {
 
     }

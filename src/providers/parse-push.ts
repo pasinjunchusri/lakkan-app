@@ -1,14 +1,21 @@
 import {Injectable} from '@angular/core';
 
-declare var ParsePushPlugin: any;
+declare var Parse: any;
 
 @Injectable()
 export class ParsePush {
+    private _installationId;
+    private current: any;
 
-    init() {
+    constructor() {
+        this.current = Parse.User.current();
+    }
+
+    init(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (ParsePushPlugin) {
                 ParsePushPlugin.getInstallationId((id) => {
+                    this._installationId = id;
                     console.log("device installationId: " + id);
                     this.subscribeUser();
                     resolve(id);
@@ -22,7 +29,7 @@ export class ParsePush {
         })
     }
 
-    getSubscriptions() {
+    getSubscriptions(): Promise<any> {
         return new Promise((resolve, reject) => {
             ParsePushPlugin.getSubscriptions((subscriptions) => {
                 console.log(subscriptions);
@@ -35,12 +42,11 @@ export class ParsePush {
     }
 
 
-    subscribeUser() {
+    subscribeUser(): Promise<any> {
         return new Promise((resolve, reject) => {
-            let user = Parse.User.current();
 
-            if (ParsePushPlugin && user) {
-                ParsePushPlugin.subscribe(user['username']);
+            if (ParsePushPlugin && this.current) {
+                ParsePushPlugin.subscribe(this.current['username']);
             } else {
                 reject('Not device');
             }
@@ -53,7 +59,7 @@ export class ParsePush {
         }
     }
 
-    subscribe(channel) {
+    subscribe(channel): Promise<any> {
         return new Promise((resolve, reject) => {
             if (ParsePushPlugin) {
                 ParsePushPlugin.subscribe(channel, (resp) => {
@@ -67,7 +73,7 @@ export class ParsePush {
         });
     }
 
-    unsubscribe(channel) {
+    unsubscribe(channel): Promise<any> {
         return new Promise((resolve, reject) => {
             if (ParsePushPlugin) {
                 ParsePushPlugin.unsubscribe(channel, (resp) => {

@@ -5,23 +5,23 @@ declare var Parse: any;
 @Injectable()
 export class GalleryComment {
 
-    fields = [
+    private _fields = [
         'text',
         'user',
     ];
 
-    ParseObject: any = Parse.Object.extend('GalleryComment', {});
+    private _ParseObject: any = Parse.Object.extend('GalleryComment', {});
 
     constructor() {
-        this.fields.map(field => {
-            Object.defineProperty(this.ParseObject.prototype, field, {
+        this._fields.map(field => {
+            Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () {return this.get(field)},
                 set: function (value) { this.set(field, value)}
             });
         });
 
         // This is a GeoPoint Object
-        Object.defineProperty(this.ParseObject.prototype, 'location', {
+        Object.defineProperty(this._ParseObject.prototype, 'location', {
             get: function () {return this.get('location');},
             set: function (val) {
                 this.set('location', new Parse.GeoPoint({
@@ -33,7 +33,7 @@ export class GalleryComment {
     }
 
     create(item) {
-        let ParseObjectRow = new this.ParseObject();
+        let ParseObjectRow = new this._ParseObject();
         return ParseObjectRow.save(item);
     }
 
@@ -44,7 +44,7 @@ export class GalleryComment {
         }
 
         if (!item.id) {
-            let objPlace = new this.ParseObject();
+            let objPlace = new this._ParseObject();
             return objPlace.save(item);
         } else {
             return item.save();

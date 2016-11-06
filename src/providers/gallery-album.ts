@@ -5,7 +5,7 @@ declare var Parse: any;
 @Injectable()
 export class GalleryAlbum {
 
-    fields = [
+    private _fields = [
         'title',
         'description',
         'lang',
@@ -15,20 +15,18 @@ export class GalleryAlbum {
         'imageThumb',
     ];
 
-    ParseObject: any = Parse.Object.extend('GalleryAlbum', {});
-    tempParams: any;
-    tempCache: any   = [];
+    private _ParseObject: any = Parse.Object.extend('GalleryAlbum', {});
 
     constructor() {
-        this.fields.map(field => {
-            Object.defineProperty(this.ParseObject.prototype, field, {
+        this._fields.map(field => {
+            Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () {return this.get(field)},
                 set: function (value) { this.set(field, value)}
             });
         });
 
         // This is a GeoPoint Object
-        Object.defineProperty(this.ParseObject.prototype, 'location', {
+        Object.defineProperty(this._ParseObject.prototype, 'location', {
             get: function () {return this.get('location');},
             set: function (val) {
                 this.set('location', new Parse.GeoPoint({
@@ -49,7 +47,7 @@ export class GalleryAlbum {
 
     // Parse Crud
     get(parseId:string) {
-        return new Parse.Query(this.ParseObject).include('profile').get(parseId);
+        return new Parse.Query(this._ParseObject).include('profile').get(parseId);
     }
 
     put(item:any) {
@@ -60,7 +58,7 @@ export class GalleryAlbum {
 
 
         if (!item.id) {
-            let objPlace = new this.ParseObject();
+            let objPlace = new this._ParseObject();
             return objPlace.save(item);
         } else {
             return item.save();

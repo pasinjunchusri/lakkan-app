@@ -71,6 +71,10 @@ export class UserListPage {
         });
     }
 
+    follow(){
+
+    }
+
     // Search
     doSearch() {
         this.params.search = this.search;

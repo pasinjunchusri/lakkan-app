@@ -18,33 +18,33 @@ export class AlbumGrid {
         page : 1
     };
 
-    errorIcon: string = 'ios-images-outline';
-    errorText: string = '';
-    data = [];
-    loading: boolean = true;
+    errorIcon: string      = 'ios-images-outline';
+    errorText: string      = '';
+    data                   = [];
+    loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
-    canEdit: boolean = false;
+    canEdit: boolean       = false;
 
     constructor(private provider: GalleryAlbum,
-                public events: Events,
-                public navCtrl: NavController
+                private events: Events,
+                private navCtrl: NavController
     ) {
 
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
             this.params = params[0];
 
-            if(this.params['username']) {
+            if (this.params['username']) {
                 let username = Parse.User.current().get('username');
                 console.log(this.params['username'], username);
-                this.canEdit = (this.params['username'] == username) ? true :false;
+                this.canEdit = (this.params['username'] == username) ? true : false;
             }
             this.feed();
         });
 
-        events.subscribe('albumgrid:reload',() => this.feed() );
-        events.subscribe('albumgrid:destroy',() => this.feed() );
+        events.subscribe('albumgrid:reload', () => this.feed());
+        events.subscribe('albumgrid:destroy', () => this.feed());
     }
 
     openAlbum(item) {
@@ -52,22 +52,22 @@ export class AlbumGrid {
         this.navCtrl.push(AlbumPhotoGrid, {id: item.id});
     }
 
-    albumForm(){
+    albumForm() {
         this.navCtrl.push(AlbumFormModal);
     }
 
     feed() {
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve, reject) => {
             console.log('Load Feed', this.params, this.loading);
-    
+
             if (this.params.page == 1) {
-                this.data = [];
+                this.data    = [];
                 this.loading = true;
             }
-    
+
             this.provider.list(this.params).then(data => {
 
-                if(this.canEdit && !this.data.length) {
+                if (this.canEdit && !this.data.length) {
                     this.data.push({create: true});
                 }
 
@@ -83,10 +83,10 @@ export class AlbumGrid {
                     this.events.publish('photolist:empty');
                 }
                 console.log(this.data);
-                
+
                 resolve(this.data);
             }, error => {
-                this.errorText = error.message;
+                this.errorText     = error.message;
                 this.showErrorView = true;
                 this.events.publish('photolist:complete');
             });

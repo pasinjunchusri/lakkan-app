@@ -12,27 +12,28 @@ export class AccountEditModal {
     form: any;
     photo: any;
     submitted: boolean = false;
+    _user: any;
 
-    constructor(public navCtrl: NavController,
-                public viewCtrl: ViewController,
-                public ionic: IonicUtil,
-                public User: User,
+    constructor(private navCtrl: NavController,
+                private viewCtrl: ViewController,
+                private ionic: IonicUtil,
+                private User: User,
     ) {
-        let user = Parse.User.current().attributes;
+        this._user = User.current.attributes;
 
-        if (user.photo) {
-            this.photo = user.photo._url;
+        if (this._user.photo) {
+            this.photo = this._user.photo._url;
         }
 
         this.form = {
-            username: user.username,
-            name    : user.name,
-            gender  : user.gender,
-            birthday: user.birthday,
-            status  : user.status,
-            email   : user.email,
-            phone   : user.phone,
-            website : user.website,
+            username: this._user.username,
+            name    : this._user.name,
+            gender  : this._user.gender,
+            birthday: this._user.birthday,
+            status  : this._user.status,
+            email   : this._user.email,
+            phone   : this._user.phone,
+            website : this._user.website,
         };
     }
 

@@ -5,7 +5,7 @@ declare var Parse: any;
 @Injectable()
 export class GalleryActivity {
 
-    fields      = [
+    private _fields      = [
         'name',
         'username',
         'status',
@@ -15,18 +15,18 @@ export class GalleryActivity {
         'photoThumb',
         'roleName',
     ];
-    ParseObject = Parse.Object.extend('GalleryActivity', {});
+    private _ParseObject = Parse.Object.extend('GalleryActivity', {});
 
     constructor() {
-        this.fields.map(field => {
-            Object.defineProperty(this.ParseObject.prototype, field, {
+        this._fields.map(field => {
+            Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () {return this.get(field)},
                 set: function (value) { this.set(field, value)}
             });
         });
 
         // This is a GeoPoint Object
-        Object.defineProperty(this.ParseObject.prototype, 'location', {
+        Object.defineProperty(this._ParseObject.prototype, 'location', {
             get: function () {return this.get('location');},
             set: function (val) {
                 this.set('location', new Parse.GeoPoint({

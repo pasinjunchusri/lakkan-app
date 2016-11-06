@@ -25,10 +25,10 @@ export class TabHomePage {
     showErrorView: boolean = false;
     moreItem: boolean      = true;
 
-    constructor(public navCtrl: NavController,
-                public events: Events,
-                public platform: Platform,
-                public provider: Gallery
+    constructor(private navCtrl: NavController,
+                private events: Events,
+                private platform: Platform,
+                private provider: Gallery
     ) {
 
     }

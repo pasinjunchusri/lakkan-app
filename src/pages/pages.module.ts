@@ -43,7 +43,6 @@ import {Loader} from '../components/loader/loader';
 import {UserPassword} from './user-password/user-password';
 import {ProfilePage} from './profile/profile';
 import {PhotoCaptureModal} from '../components/photo-capture-modal/photo-capture-modal';
-import {PhotoShareModal} from '../components/photo-share-modal/photo-share-modal';
 import {AlbumFormModal} from '../components/album-form-modal/album-form-modal';
 import {AlbumList} from '../components/album-list/album-list';
 import {AlbumGrid} from '../components/album-grid/album-grid';
@@ -54,6 +53,7 @@ import {FocusDirective} from '../directives/focus/focus';
 import {UserListPage} from "./user-list/user-list";
 import {PhotoListPopover} from "../components/photo-list-popover/photo-list-popover";
 import {TabCapturePage} from "./tab-capture/tab-capture";
+import {TabCapturSharePage} from "./tab-capture-share/tab-capture-share";
 
 export const APP_PAGES = [
     IntroPage,
@@ -62,6 +62,7 @@ export const APP_PAGES = [
     TabHomePage,
     TabSearchPage,
     TabCapturePage,
+    TabCapturSharePage,
     TabActivityPage,
     TabAccountPage,
     TabAccountPopoverPage,
@@ -81,7 +82,6 @@ export const APP_PAGES = [
     PhotoListPopover,
     PhotoCard,
     PhotoCaptureModal,
-    PhotoShareModal,
     AlbumFormModal,
     AlbumList,
     AlbumGrid,
@@ -142,7 +142,8 @@ export class PagesModule {
         this.translate.use(userLang);
 
         // set lang back button
-        this.translate.get('backButtonText').subscribe((res: string) => this.config.set('backButtonText', res));
+        //this.translate.get('backButtonText').subscribe((res: string) => this.config.set('backButtonText', res));
+        this.config.set('backButtonText', '');
 
     }
 }

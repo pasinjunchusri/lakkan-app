@@ -8,8 +8,8 @@ import {IonicUtil} from "../../providers/ionic-util";
 })
 export class LanguageModal {
 
-    constructor(public viewCtrl: ViewController,
-                public util: IonicUtil
+    constructor(private viewCtrl: ViewController,
+                private util: IonicUtil
     ) {
 
     }

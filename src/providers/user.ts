@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ParsePush} from "./parse-push";
 
+declare var Parse: any;
+
 export interface IUser {
     name: string;
     username: string;
@@ -12,11 +14,9 @@ export interface IUser {
     website?: string;
 }
 
-declare var Parse: any;
-
 @Injectable()
 export class User {
-    fields      = [
+    private _fields      = [
         'name',
         'username',
         'status',
@@ -26,18 +26,20 @@ export class User {
         'photoThumb',
         'roleName',
     ];
-    ParseObject = Parse.User.extend({});
+    private _ParseObject = Parse.User.extend({});
+    public current: any;
 
     constructor(private ParsePush: ParsePush) {
-        this.fields.map(field => {
-            Object.defineProperty(this.ParseObject.prototype, field, {
+        this.current = Parse.User.current();
+        this._fields.map(field => {
+            Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () { return this.get(field) },
                 set: function (value) { this.set(field, value) }
             });
         });
 
         // This is a GeoPoint Object
-        Object.defineProperty(this.ParseObject.prototype, 'location', {
+        Object.defineProperty(this._ParseObject.prototype, 'location', {
             get: function () { return this.get('location'); },
             set: function (val) {
                 this.set('location', new Parse.GeoPoint({
@@ -46,10 +48,6 @@ export class User {
                 }));
             }
         });
-    }
-
-    current() {
-        return Parse.User.current();
     }
 
     fetch() {

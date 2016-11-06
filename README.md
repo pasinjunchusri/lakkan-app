@@ -22,3 +22,6 @@ More info on this can be found on the Ionic [Getting Started](http://ionicframew
 
 Cordova Camera Preview
 https://github.com/Robdeprop/cordova-plugin-camera-preview
+
+Crop
+cordova plugin add --save https://github.com/Nexxa/cordova-plugin-crop

@@ -1,35 +1,35 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavParams, ViewController } from "ionic-angular";
-import { GalleryComment } from "../../providers/gallery-comment";
-import { IonicUtil } from "../../providers/ionic-util";
+import {Component, ViewChild} from '@angular/core';
+import {NavParams, ViewController} from "ionic-angular";
+import {GalleryComment} from "../../providers/gallery-comment";
+import {IonicUtil} from "../../providers/ionic-util";
 import _ from 'underscore';
 
 @Component({
-    selector: 'photo-comment-modal',
+    selector   : 'photo-comment-modal',
     templateUrl: 'photo-comment-modal.html'
 })
 export class PhotoCommentModal {
 
     @ViewChild('input') myInput;
 
-    errorIcon: string = 'ios-text-outline';
-    errorText: string = '';
-    data = [];
-    loading: boolean = true;
+    errorIcon: string      = 'ios-text-outline';
+    errorText: string      = '';
+    data                   = [];
+    loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     gallery: any;
     form: any;
 
-    constructor(public navparams: NavParams,
-        public viewCtrl: ViewController,
-        public provider: GalleryComment,
-        public util: IonicUtil
+    constructor(private navparams: NavParams,
+                private viewCtrl: ViewController,
+                private provider: GalleryComment,
+                private util: IonicUtil
     ) {
         this.gallery = this.navparams.data.obj;
-        this.form = {
+        this.form    = {
             gallery: this.gallery,
-            text: ''
+            text   : ''
         }
         this.onQuery();
     }
@@ -43,9 +43,9 @@ export class PhotoCommentModal {
 
     onQuery() {
         return new Promise((resolve, reject) => {
-            this.loading = true;
+            this.loading   = true;
             this.form.text = '';
-            let relation = this.gallery.relation('comments');
+            let relation   = this.gallery.relation('comments');
             relation.query().find().then(comments => {
                 this.loading = false;
                 if (comments.length > 0) {
@@ -55,7 +55,7 @@ export class PhotoCommentModal {
                 }
                 resolve(comments)
             }, error => {
-                this.errorText = error.message;
+                this.errorText     = error.message;
                 this.showErrorView = true;
             });
 

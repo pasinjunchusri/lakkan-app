@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { ViewController, NavParams, ModalController, AlertController, Events } from 'ionic-angular';
-import { AlbumFormModal } from '../album-form-modal/album-form-modal';
-import { IonicUtil } from '../../providers/ionic-util';
-import { GalleryAlbum } from '../../providers/gallery-album';
+import {Component} from '@angular/core';
+import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
+import {AlbumFormModal} from '../album-form-modal/album-form-modal';
+import {IonicUtil} from '../../providers/ionic-util';
+import {GalleryAlbum} from '../../providers/gallery-album';
 
 @Component({
-  selector: 'album-photo-grid-popover',
-  template: `
+    selector: 'album-photo-grid-popover',
+    template: `
   <ion-list>
       <button ion-item (click)="upload()">Upload Photo</button>
       <button ion-item (click)="edit()">Edit Album</button>
@@ -16,63 +16,72 @@ import { GalleryAlbum } from '../../providers/gallery-album';
 })
 export class AlbumPhotoGridPopover {
 
-  id:string;
+    id: string;
+    _translateDestroyTitle: string;
+    _translateDestroyMessage: string;
+    _translateCancel: string;
+    _translateYes: string;
 
-  constructor(public viewCtrl: ViewController,
-              public navParams: NavParams,
-              public alertCtrl : AlertController,
-              public ionicUtil: IonicUtil,
-              public provider: GalleryAlbum,
-              public events: Events,
-              public modalCtrl : ModalController
-  ) {
-      this.id = this.navParams.get('id');
-      console.log(this.id);
-  }
+    constructor(private viewCtrl: ViewController,
+                private navParams: NavParams,
+                private alertCtrl: AlertController,
+                private ionicUtil: IonicUtil,
+                private provider: GalleryAlbum,
+                private events: Events,
+                private modalCtrl: ModalController,
+                private util: IonicUtil
+    ) {
+        this.id = this.navParams.get('id');
+        console.log(this.id);
+        this.util.translate('Destroy album').then((res: string) => this._translateDestroyTitle = res);
+        this.util.translate('You are sure destroy this album and photos?').then((res: string) => this._translateDestroyMessage = res);
+        this.util.translate('Cancel').then((res: string) => this._translateCancel = res);
+        this.util.translate('Yes').then((res: string) => this._translateYes = res);
+    }
 
-  close(){
-    this.viewCtrl.dismiss();
-  }
-  
-  upload(){
-    this.close();
-    
-  }
+    close() {
+        this.viewCtrl.dismiss();
+    }
 
-  edit(){
-    this.close();
-    this.modalCtrl.create(AlbumFormModal,{id: this.id}).present();
-  }
+    upload() {
+        this.close();
 
-  destroy() {
-    this.close();
+    }
 
-    this.alertCtrl.create({
-      title: 'Destroy album',
-      message: 'You are sure destroy this album and photos?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            this.ionicUtil.onLoading();
-            this.provider.get(this.id).then(gallery=>{
-                this.provider.destroy(gallery).then(()=>{
-                    this.ionicUtil.endLoading();
+    edit() {
+        this.close();
+        this.modalCtrl.create(AlbumFormModal, {id: this.id}).present();
+    }
 
-                    // Event Emit
-                    this.events.publish('albumgrid:destroy');
-                });
-            });
-          }
-        }
-      ]
-    }).present();
-    
-    
-    console.log('confirm destroy album');
-  }
+    destroy() {
+        this.close();
+
+        this.alertCtrl.create({
+            title  : this._translateDestroyTitle,
+            message: this._translateDestroyMessage,
+            buttons: [
+                {
+                    text: this._translateCancel,
+                    role: 'cancel'
+                },
+                {
+                    text   : this._translateYes,
+                    handler: () => {
+                        this.ionicUtil.onLoading();
+                        this.provider.get(this.id).then(gallery => {
+                            this.provider.destroy(gallery).then(() => {
+                                this.ionicUtil.endLoading();
+
+                                // Event Emit
+                                this.events.publish('albumgrid:destroy');
+                            });
+                        });
+                    }
+                }
+            ]
+        }).present();
+
+
+        console.log('confirm destroy album');
+    }
 }

@@ -7,11 +7,8 @@ import {NavController, ViewController} from 'ionic-angular';
 })
 export class TabAccountPopoverPage {
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController) {}
-
-    ionViewDidLoad() {
-        console.log('Hello TabAccountPopoverPage Page');
-    }
+    constructor(private navCtrl: NavController,
+                private viewCtrl: ViewController) {}
 
     close() {
         this.viewCtrl.dismiss();

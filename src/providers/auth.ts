@@ -1,20 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+
+declare var Parse: any;
 
 @Injectable()
 export class Auth {
-    mSessionToken: any;
+    private _mSessionToken: any;
+    public current: any;
 
     constructor() {
-        console.log('Hello Auth Provider');
-        this.mSessionToken = Parse.User.current();
+        this._mSessionToken = Parse.User.current();
+        this.current        = Parse.User.current();
     }
 
-
-    currentUser() {
-        return Parse.User.current();
-    }
-
-    recover(email) {
+    recover(email: string) {
         return Parse.User.requestPasswordReset(email);
     }
 

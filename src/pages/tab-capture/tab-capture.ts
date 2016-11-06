@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {ViewController, Platform} from 'ionic-angular';
+import {ViewController, Platform, NavController} from 'ionic-angular';
 import {IonicUtil} from "../../providers/ionic-util";
 import {CameraPreview} from "ionic-native";
+import {PhotoService} from "../../providers/photo-service";
+import {TabCapturSharePage} from "../tab-capture-share/tab-capture-share";
 
 @Component({
     selector   : 'page-tab-capture',
@@ -10,10 +12,17 @@ import {CameraPreview} from "ionic-native";
 export class TabCapturePage {
 
     _cordova: boolean = false;
+    _cropOptions      = {
+        quality: 90,
+        toSize : 640
+    };
+    _maxSize          = 1080;
 
-    constructor(public viewCtrl: ViewController,
-                public util: IonicUtil,
-                public platform: Platform,
+    constructor(private viewCtrl: ViewController,
+                private util: IonicUtil,
+                private platform: Platform,
+                private PhotoService: PhotoService,
+                private navCtrl: NavController
     ) {
         this._cordova = this.platform.is('cordova') ? true : false;
 
@@ -40,9 +49,12 @@ export class TabCapturePage {
                     alpha
                 );
 
-                CameraPreview.setOnPictureTakenHandler().subscribe((result) => {
-                    console.log(result);
-                    // do something with the result
+                CameraPreview.setOnPictureTakenHandler().subscribe((result:any) => {
+                    plugins.crop
+                           .promise(result[0], this._cropOptions)
+                           .then(image => {
+                               this.navCtrl.push(TabCapturSharePage, {image: image});
+                           });
                 });
             }
 
@@ -51,18 +63,33 @@ export class TabCapturePage {
     }
 
     switch() {
-        CameraPreview.switchCamera();
+        if (this._cordova) {
+            CameraPreview.switchCamera();
+        } else {
+            this.util.toast('Browser not supported');
+        }
     }
 
     takePhoto() {
-        CameraPreview.takePicture({
-            maxWidth : 640,
-            maxHeight: 640
-        });
+        if (this._cordova) {
+            CameraPreview.takePicture({
+                maxWidth : this._maxSize,
+                maxHeight: this._maxSize
+            });
+        } else {
+            this.util.toast('Browser not supported');
+        }
     }
 
     library() {
-
+        if (this._cordova) {
+            this.PhotoService.library().then(photo => {
+                console.log('photo', photo);
+                this.navCtrl.push(TabCapturSharePage, {image: photo});
+            });
+        } else {
+            this.util.toast('Browser not supported');
+        }
     }
 
     dismiss() {

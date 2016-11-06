@@ -5,7 +5,7 @@ declare var Parse: any;
 @Injectable()
 export class UserData {
 
-    fields = [
+    private _fields = [
         'followingsTotal',
         'followersTotal',
         'commentsTotal',
@@ -18,20 +18,20 @@ export class UserData {
         'user',
     ];
 
-    ParseObject: any = Parse.Object.extend('UserData', {});
-    tempParams: any;
-    tempCache: any   = [];
+    private _ParseObject: any = Parse.Object.extend('UserData', {});
+    public current: any;
 
     constructor() {
-        this.fields.map(field => {
-            Object.defineProperty(this.ParseObject.prototype, field, {
+        this.current = Parse.User.current();
+        this._fields.map(field => {
+            Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () {return this.get(field)},
                 set: function (value) { this.set(field, value)}
             });
         });
 
         // This is a GeoPoint Object
-        Object.defineProperty(this.ParseObject.prototype, 'location', {
+        Object.defineProperty(this._ParseObject.prototype, 'location', {
             get: function () {return this.get('location');},
             set: function (val) {
                 this.set('location', new Parse.GeoPoint({
@@ -40,10 +40,6 @@ export class UserData {
                 }));
             }
         });
-    }
-
-    current() {
-        return Parse.User.current();
     }
 
     profile(username) {

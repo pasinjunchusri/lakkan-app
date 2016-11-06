@@ -1,18 +1,17 @@
-import { Component } from '@angular/core';
-import { NavController, AlertController, Platform } from 'ionic-angular';
-import { User } from "../../providers/user";
-import { TabsPage } from "../tabs/tabs";
-import { IonicUtil } from "../../providers/ionic-util";
-import { TranslateService } from 'ng2-translate';
-import { Facebook } from 'ionic-native';
+import {Component} from '@angular/core';
+import {NavController, AlertController} from 'ionic-angular';
+import {User} from "../../providers/user";
+import {TabsPage} from "../tabs/tabs";
+import {IonicUtil} from "../../providers/ionic-util";
+import {Facebook} from 'ionic-native';
 
 @Component({
-    selector: 'page-auth',
+    selector   : 'page-auth',
     templateUrl: 'auth.html'
 })
 
 export class AuthPage {
-    authType: string = 'login';
+    authType: string   = 'login';
     error: string;
     submitted: boolean = false;
 
@@ -31,24 +30,22 @@ export class AuthPage {
     } = {};
 
     alertTranslate: any = {};
-    cordova: boolean = false;
+    cordova: boolean    = false;
 
-    constructor(public navCtrl: NavController,
-        public provider: User,
-        public alertCtrl: AlertController,
-        public util: IonicUtil,
-        public translate: TranslateService,
-        public platform: Platform
+    constructor(private navCtrl: NavController,
+                private provider: User,
+                private alertCtrl: AlertController,
+                private util: IonicUtil
     ) {
-        this.cordova = this.platform.is('cordova') ? true : false;
+        this.cordova = this.util.cordova;
         // Translate Search Bar Placeholder
-        this.translate.get('Enter your email so we can send you a link to reset your password').subscribe((res: string) => { this.alertTranslate.message = res; });
-        this.translate.get('Open your email and also check the spam box').subscribe((res: string) => { this.alertTranslate.emailRecoverySend = res; });
-        this.translate.get('Email is required').subscribe((res: string) => { this.alertTranslate.emailRequired = res; });
-        this.translate.get('Recovery your password').subscribe((res: string) => { this.alertTranslate.title = res; });
-        this.translate.get('Email').subscribe((res: string) => { this.alertTranslate.email = res; });
-        this.translate.get('Cancel').subscribe((res: string) => { this.alertTranslate.cancel = res; });
-        this.translate.get('Submit').subscribe((res: string) => { this.alertTranslate.submit = res; });
+        this.util.translate('Enter your email so we can send you a link to reset your password').then((res: string) => { this.alertTranslate.message = res; });
+        this.util.translate('Open your email and also check the spam box').then((res: string) => { this.alertTranslate.emailRecoverySend = res; });
+        this.util.translate('Email is required').then((res: string) => { this.alertTranslate.emailRequired = res; });
+        this.util.translate('Recovery your password').then((res: string) => { this.alertTranslate.title = res; });
+        this.util.translate('Email').then((res: string) => { this.alertTranslate.email = res; });
+        this.util.translate('Cancel').then((res: string) => { this.alertTranslate.cancel = res; });
+        this.util.translate('Submit').then((res: string) => { this.alertTranslate.submit = res; });
     }
 
     login(form) {
@@ -93,13 +90,13 @@ export class AuthPage {
         if (this.cordova) {
             Facebook.getLoginStatus().then(response => {
                 console.log(response);
-               if (response.status === 'connected') {
-                        this.processFacebookLogin(response);
-                    } else {
-                        Facebook.login(['email,public_profile']).then(function (authData) {
-                            this.processFacebookLogin(authData);
-                        });
-                    }
+                if (response.status === 'connected') {
+                    this.processFacebookLogin(response);
+                } else {
+                    Facebook.login(['email,public_profile']).then(function (authData) {
+                        this.processFacebookLogin(authData);
+                    });
+                }
 
             }).catch(error => {
                 console.log('error', error);
@@ -112,73 +109,73 @@ export class AuthPage {
 
         // this.util.onLoading('Conectando com o Facebook');
         let fbData, newUser;
-        let provider =  this.provider;
+        let provider = this.provider;
 
         this.util.onLoading();
 
-            Facebook
-            .api('me?fields=name,first_name,last_name,gender,email', ['public_profile'])
+        Facebook
+            .api('me?_fields=name,first_name,last_name,gender,email', ['public_profile'])
             .then(data => {
                 console.log('fbData', data);
                 fbData = data;
                 return provider.findByEmail(data.email);
-            }).then( user =>{
-                console.log('findByEmail', user);
+            }).then(user => {
+            console.log('findByEmail', user);
 
-                if(user) {
-                    if (!user['id']) {
-                        newUser = true;
-                         provider.signInViaFacebook(fbAuthData).then(result=>{
-                             console.log('signInViaFacebook', result);
-                         });
-                    }
-    
-                    let authData = user['attributes']['authData'];
-    
-                    console.log('authData', authData);
-                    console.log('fbData', fbData);
-                    console.log(authData['facebook']['id'], fbData['id']);
-                    
-                    
-                    // Se encontrar o usuário
-                    if (authData['facebook']['id'] == fbData['id']) {
-                        console.log('Login Provider com o Facebook');
-                        provider.signInViaFacebook(fbAuthData).then(result =>{
-                                console.log('signInViaFacebook 2', result);
-                                
-                              provider.updateWithFacebookData(fbData).then(user=>{
-                                  console.log('Usuário logado', user);
-                                this.util.endLoading();
-                                this.onPageTabs();
-                              });
-                         });
-                    } else {
-                        // Cadastrar novo usuário
-                        console.log('Cadastar novo usuário');
-                        this.util.endLoading();                                
-                    }
+            if (user) {
+                if (!user['id']) {
+                    newUser = true;
+                    provider.signInViaFacebook(fbAuthData).then(result => {
+                        console.log('signInViaFacebook', result);
+                    });
+                }
+
+                let authData = user['attributes']['authData'];
+
+                console.log('authData', authData);
+                console.log('fbData', fbData);
+                console.log(authData['facebook']['id'], fbData['id']);
+
+
+                // Se encontrar o usuário
+                if (authData['facebook']['id'] == fbData['id']) {
+                    console.log('Login Provider com o Facebook');
+                    provider.signInViaFacebook(fbAuthData).then(result => {
+                        console.log('signInViaFacebook 2', result);
+
+                        provider.updateWithFacebookData(fbData).then(user => {
+                            console.log('Usuário logado', user);
+                            this.util.endLoading();
+                            this.onPageTabs();
+                        });
+                    });
                 } else {
-                    console.log('Novo usuário');
+                    // Cadastrar novo usuário
+                    console.log('Cadastar novo usuário');
                     this.util.endLoading();
                 }
-            
-            }).catch(error => {
-                console.log('error', error);
+            } else {
+                console.log('Novo usuário');
                 this.util.endLoading();
+            }
 
-            });
+        }).catch(error => {
+            console.log('error', error);
+            this.util.endLoading();
+
+        });
     }
 
     resetPass() {
 
         this.alertCtrl.create({
-            title: this.alertTranslate.title,
+            title  : this.alertTranslate.title,
             message: this.alertTranslate.message,
-            inputs: [
+            inputs : [
                 {
                     placeholder: this.alertTranslate.email,
-                    name: 'email',
-                    type: 'email'
+                    name       : 'email',
+                    type       : 'email'
                 }
             ],
             buttons: [
@@ -187,7 +184,7 @@ export class AuthPage {
                     role: 'cancel'
                 },
                 {
-                    text: this.alertTranslate.submit,
+                    text   : this.alertTranslate.submit,
                     handler: data => {
                         if (data.email) {
                             this.util.onLoading();
