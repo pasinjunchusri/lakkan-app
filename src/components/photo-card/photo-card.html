@@ -1,8 +1,8 @@
 <ion-card>
     <ion-item>
         <ion-avatar (click)="profile(item.user.get('username'))" item-left>
-            <img *ngIf="item.user.get('photo')" [src]="item.user.get('photo').url()">
-            <img *ngIf="!item.user.get('photo')" src="assets/img/user.png">
+            <img-loader *ngIf="item.user.get('photo')" [src]="item.user.get('photo').url()" width="40px" height="40px"></img-loader>
+            <img *ngIf="!item.user.get('photo')" src="assets/img/user.png" >
         </ion-avatar>
         <h2>{{item.user.get('username')}}</h2>
         <p>{{item.user.get('status')}}</p>
@@ -14,7 +14,8 @@
         </button>
     </ion-item>
 
-    <img class="img-gallery" [src]="item.image.url()">
+    <img-loader class="img-gallery" [src]="item.image.url()"
+                [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
 
     <ion-card-content>
         <p>{{item.title}}</p>
@@ -34,8 +35,10 @@
         </button>
 
         <ion-note item-right>
-            <ion-icon name="ios-heart"></ion-icon> {{item.likesTotal}} {{'likes' | translate}}
-            <ion-icon name="eye"></ion-icon> {{item.views}}
+            <ion-icon name="ios-heart"></ion-icon>
+            {{item.likesTotal}} {{'likes' | translate}}
+            <ion-icon name="eye"></ion-icon>
+            {{item.views}}
         </ion-note>
 
     </ion-item>

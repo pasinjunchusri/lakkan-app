@@ -1,4 +1,4 @@
-import {IonicModule, Config} from 'ionic-angular';
+import {IonicModule, Config, Platform} from 'ionic-angular';
 import {NgModule} from '@angular/core';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
@@ -8,13 +8,14 @@ import {CommonModule} from '@angular/common';
 import {MomentModule} from 'angular2-moment';
 import {IonicImageLoader} from 'ionic-image-loader';
 import {TranslateStaticLoader, TranslateModule, TranslateLoader, TranslateService} from 'ng2-translate';
+import {FacebookService, FacebookInitParams} from "ng2-facebook-sdk/dist";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './i18n', '.json');
 }
 
 // Config
-import {language_default, languages} from '../config';
+import {language_default, languages, facebook_appId, facebook_appVersion} from '../config';
 
 // Pipes
 import {PipesModule} from '../pipes/pipes.module';
@@ -124,8 +125,39 @@ export const APP_PAGES = [
 })
 export class PagesModule {
 
-    constructor(private translate: TranslateService, private config: Config) {
+    constructor(private translate: TranslateService,
+                private config: Config,
+                private platform: Platform,
+                private fb: FacebookService
+    ) {
         this.translateConfig();
+        this.facebookInit();
+    }
+
+    facebookInit() {
+        let userLang = navigator.language.split('-')[0]; // use navigator lang if available
+        userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
+        let lang     = languages.filter(item => {
+            return item.code.toLowerCase().indexOf(userLang.toLowerCase()) > -1;
+        });
+
+        // Create Facebook in Browser
+        let script = document.createElement('script');
+        script.id  = 'facebook';
+        script.src = 'https://connect.facebook.net/' + lang[0]['code'] + '/sdk.js';
+        document.body.appendChild(script);
+
+        this.platform.ready().then(() => {
+            if (!this.platform.is('cordova')) {
+                let fbParams: FacebookInitParams = {
+                    appId  : facebook_appId,
+                    xfbml  : true,
+                    version: facebook_appVersion
+                };
+                setTimeout(() => this.fb.init(fbParams), 1000);
+            }
+        })
+
     }
 
     translateConfig() {
@@ -134,7 +166,7 @@ export class PagesModule {
 
         console.log(userLang);
 
-        this.translate.addLangs(languages.map(lang => lang.code));
+        this.translate.addLangs(languages.map(lang => lang.code.split('_')[0]));
 
         // this language will be used as a fallback when a translation isn't found in the current language
         this.translate.setDefaultLang(language_default);

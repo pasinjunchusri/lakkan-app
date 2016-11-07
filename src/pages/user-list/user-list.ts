@@ -3,6 +3,7 @@ import {NavController} from 'ionic-angular';
 import {User} from "../../providers/user";
 import {ProfilePage} from "../profile/profile";
 import {TranslateService} from "ng2-translate";
+import {IonicUtil} from "../../providers/ionic-util";
 
 
 @Component({
@@ -20,6 +21,7 @@ export class UserListPage {
     showErrorView: boolean = false;
     search: string         = '';
     placeholder: string    = 'Search user';
+    _width: any;
 
     params = {
         limit : 20,
@@ -29,10 +31,12 @@ export class UserListPage {
 
     constructor(private navCtrl: NavController,
                 private provider: User,
-                private translate: TranslateService
+                private translate: TranslateService,
+                private util: IonicUtil
     ) {
         // Translate Search Bar Placeholder
         this.translate.get(this.placeholder).subscribe((res: string) => this.placeholder = res);
+        this._width = this.util._widthPlatform / 3 + 'px';
     }
 
     ngOnInit() {
@@ -71,7 +75,7 @@ export class UserListPage {
         });
     }
 
-    follow(){
+    follow() {
 
     }
 

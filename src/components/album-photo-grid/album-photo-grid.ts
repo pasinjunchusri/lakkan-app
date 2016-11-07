@@ -4,6 +4,7 @@ import {Events, NavController, ViewController, NavParams, PopoverController} fro
 import {PhotoPage} from "../../pages/photo/photo";
 import {AlbumPhotoGridPopover} from '../album-photo-grid-popover/album-photo-grid-popover';
 import _ from 'underscore';
+import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'album-photo-grid',
@@ -23,6 +24,7 @@ export class AlbumPhotoGrid {
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     canEdit: boolean       = false;
+    _width: any;
 
     constructor(private provider: Gallery,
                 private events: Events,
@@ -30,9 +32,11 @@ export class AlbumPhotoGrid {
                 private viewCtrl: ViewController,
                 private navParams: NavParams,
                 private popoverCtrl: PopoverController,
+                private util: IonicUtil,
     ) {
         console.log(this.navParams.get('id'));
         this.params.id = this.navParams.get('id');
+        this._width    = this.util._widthPlatform / 3 + 'px';
         this.feed();
 
         events.subscribe('albumgrid:reload', () => this.feed());

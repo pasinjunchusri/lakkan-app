@@ -4,6 +4,7 @@ import {User} from "../../providers/user";
 import {TabsPage} from "../tabs/tabs";
 import {IonicUtil} from "../../providers/ionic-util";
 import {Facebook} from 'ionic-native';
+import {FacebookService} from "ng2-facebook-sdk";
 
 @Component({
     selector   : 'page-auth',
@@ -14,6 +15,7 @@ export class AuthPage {
     authType: string   = 'login';
     error: string;
     submitted: boolean = false;
+    facebook: any;
 
     formLogin: {
         username?: string,
@@ -35,9 +37,13 @@ export class AuthPage {
     constructor(private navCtrl: NavController,
                 private provider: User,
                 private alertCtrl: AlertController,
-                private util: IonicUtil
+                private util: IonicUtil,
+                private fb: FacebookService
     ) {
-        this.cordova = this.util.cordova;
+        this.cordova  = this.util.cordova;
+        this.facebook = (this.cordova) ? Facebook : fb;
+
+        console.log(this.facebook);
         // Translate Search Bar Placeholder
         this.util.translate('Enter your email so we can send you a link to reset your password').then((res: string) => { this.alertTranslate.message = res; });
         this.util.translate('Open your email and also check the spam box').then((res: string) => { this.alertTranslate.emailRecoverySend = res; });
@@ -87,22 +93,20 @@ export class AuthPage {
 
     loginFacebook() {
         console.log('Facebook login');
-        if (this.cordova) {
-            Facebook.getLoginStatus().then(response => {
-                console.log(response);
-                if (response.status === 'connected') {
-                    this.processFacebookLogin(response);
-                } else {
-                    Facebook.login(['email,public_profile']).then(function (authData) {
-                        this.processFacebookLogin(authData);
-                    });
-                }
+        this.facebook.getLoginStatus().then(response => {
+            console.log(response);
+            if (response.status === 'connected') {
+                this.processFacebookLogin(response);
+            } else {
+                this.facebook.login(['email,public_profile']).then(function (authData) {
+                    this.processFacebookLogin(authData);
+                });
+            }
 
-            }).catch(error => {
-                console.log('error', error);
+        }).catch(error => {
+            console.log('error', error);
 
-            });
-        }
+        });
     }
 
     processFacebookLogin(fbAuthData) {
@@ -113,8 +117,12 @@ export class AuthPage {
 
         this.util.onLoading();
 
-        Facebook
-            .api('me?_fields=name,first_name,last_name,gender,email', ['public_profile'])
+        let face = this.facebook.api('me?_fields=name,first_name,last_name,gender,email', ['public_profile']);
+        if (!this.cordova) {
+            face = this.facebook.api('/me', 'get', {fields: 'name, first_name, last_name, gender, email'});
+        }
+
+        face
             .then(data => {
                 console.log('fbData', data);
                 fbData = data;
@@ -151,7 +159,9 @@ export class AuthPage {
                     });
                 } else {
                     // Cadastrar novo usuário
-                    console.log('Cadastar novo usuário');
+                    console.log('Cadastar novo usuário', user, fbData, fbAuthData, authData);
+                    this.authType        = 'signup';
+                    this.formSignup.name = fbData['name'];
                     this.util.endLoading();
                 }
             } else {

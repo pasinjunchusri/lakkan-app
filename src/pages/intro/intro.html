@@ -1,5 +1,6 @@
 <ion-header no-shadow>
     <ion-navbar color="primary">
+        <ion-title (click)="modalLanguage()">Idioma</ion-title>
         <ion-buttons end *ngIf="showSkip">
             <button ion-button (click)="startApp()">{{'Skip'| translate}}</button>
         </ion-buttons>
@@ -17,14 +18,6 @@
                         <img [src]="slide.image" class="slide-image"/>
                     </div>
                 </div>
-            </ion-slide>
-            <ion-slide>
-                <img src="assets/img/ica-slidebox-img-4.png" class="slide-image"/>
-                <h2 class="slide-title">Ready to Play?</h2>
-                <button ion-button icon-right large clear (click)="startApp()">
-                    Continue
-                    <ion-icon name="arrow-forward"></ion-icon>
-                </button>
             </ion-slide>
         </ion-slides>
     </div>

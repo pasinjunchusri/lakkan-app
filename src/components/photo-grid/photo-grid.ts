@@ -3,6 +3,7 @@ import {Gallery} from "../../providers/gallery";
 import {Events, NavController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
 import _ from 'underscore';
+import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'photo-grid',
@@ -16,6 +17,7 @@ export class PhotoGrid {
                  page : 1
              };
 
+    _width: any;
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
     data                   = [];
@@ -25,8 +27,12 @@ export class PhotoGrid {
 
     constructor(private provider: Gallery,
                 private events: Events,
-                private navCtrl: NavController
+                private navCtrl: NavController,
+                private util: IonicUtil
     ) {
+
+        this._width = util._widthPlatform / 3 + 'px';
+
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
             this.params = params[0];

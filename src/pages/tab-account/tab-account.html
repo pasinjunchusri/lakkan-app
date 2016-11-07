@@ -15,8 +15,8 @@
         <ion-row>
             <ion-col width-25>
                 <div class="img-avatar">
-                    <img *ngIf="user.get('photo')" [src]="user.get('photo').url()"/>
-                    <img *ngIf="!user.get('photo')" src="assets/img/user.png"/>
+                    <img-loader *ngIf="user.get('photo')" [src]="user.get('photo').url()" width="6em" height="6em"></img-loader>
+                    <img *ngIf="!user.get('photo')" src="assets/img/user.png" >
                 </div>
             </ion-col>
             <ion-col width-75>

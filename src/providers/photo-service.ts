@@ -42,11 +42,11 @@ export class PhotoService {
     ) {
         this._cordova = this.platform.is('cordova') ? true : false;
         // Translate
-        this.util.translate('Chose Option').then(result => this._translateOption);
-        this.util.translate('Camera').then(result => this._translateCamera);
-        this.util.translate('Photo photoLibrary').then(result => this._translateLibrary);
-        this.util.translate('Cancel').then(result => this._translateCancel);
-        this.util.translate('Browser not supported').then(result => this._translateNotCordova);
+        this.util.translate('Chose Option').then(result => this._translateOption = result);
+        this.util.translate('Camera').then(result => this._translateCamera = result);
+        this.util.translate('Photo library').then(result => this._translateLibrary = result);
+        this.util.translate('Cancel').then(result => this._translateCancel = result);
+        this.util.translate('Browser not supported').then(result => this._translateNotCordova = result);
     }
 
     open(): Promise<any> {

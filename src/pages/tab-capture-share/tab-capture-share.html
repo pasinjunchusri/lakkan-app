@@ -14,10 +14,11 @@
 <ion-content>
     <ion-list>
         <ion-item>
-            <ion-avatar item-left>
+            <ion-thumbnail item-left>
                 <img [src]="_base64">
-            </ion-avatar>
-            <ion-input [(ngModel)]="form.text" name="username" type="text" placeholder="Wirte a caption..." required></ion-input>
+            </ion-thumbnail>
+            <ion-label>{{'Write a caption...' | translate}}</ion-label>
+            <ion-textarea [(ngModel)]="form.text" name="text" type="text" required></ion-textarea>
         </ion-item>
         <ion-item>
            <ion-icon name="map"></ion-icon> Add Location

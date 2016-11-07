@@ -8,6 +8,9 @@ import {ThemeableBrowser} from "ionic-native";
 export class IonicUtil {
     private _loading: any;
     public cordova: boolean;
+    public _widthPlatform: any;
+    public _heightPlatform: any;
+
     private _browserTheme = {
         statusbar         : {
             color: '#ffffffff'
@@ -26,9 +29,14 @@ export class IonicUtil {
     constructor(private platform: Platform,
                 private loadingCtrl: LoadingController,
                 private toastCtrl: ToastController,
-                private translateService: TranslateService
+                private translateService: TranslateService,
     ) {
-        this.cordova = this.platform.is('cordova') ? true : false;
+        this.cordova = platform.is('cordova') ? true : false;
+        platform.ready().then(() => {
+            this._widthPlatform  = platform.width();
+            this._heightPlatform = platform.height();
+        })
+
     }
 
     onLoading(message?: string): void {
@@ -52,9 +60,9 @@ export class IonicUtil {
         new ThemeableBrowser(url, '_blank', this._browserTheme);
     }
 
-    translate(text): Promise<any> {
+    translate(text: string): Promise<any> {
         return new Promise(resolve => {
-            this.translateService.get(text).subscribe((res: string) => resolve);
+            this.translateService.get(text).subscribe((res: string) => resolve(res));
         });
     }
 }

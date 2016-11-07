@@ -4,6 +4,7 @@ import {Events, NavController} from 'ionic-angular';
 import {GalleryAlbum} from '../../providers/gallery-album';
 import {AlbumPhotoGrid} from '../album-photo-grid/album-photo-grid';
 import _ from 'underscore';
+import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'album-grid',
@@ -25,12 +26,14 @@ export class AlbumGrid {
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     canEdit: boolean       = false;
+    _width: any;
 
     constructor(private provider: GalleryAlbum,
                 private events: Events,
-                private navCtrl: NavController
+                private navCtrl: NavController,
+                private util: IonicUtil,
     ) {
-
+        this._width = this.util._widthPlatform / 3 + 'px';
         events.subscribe('photolist:params', params => {
             console.log('photolist:params', params);
             this.params = params[0];

@@ -6,6 +6,7 @@ import {UserPassword} from "../user-password/user-password";
 import {AccountEditModal} from "../account-edit-modal/account-edit-modal";
 import {IonicUtil} from "../../providers/ionic-util";
 import {AboutPage} from "../about/about";
+import {LanguageModal} from "../../components/language-modal/language-modal";
 
 
 @Component({
@@ -24,6 +25,10 @@ export class TabAccountSettingsPage {
 
     aboutPage(): void {
         this.modalCtrl.create(AboutPage).present();
+    }
+
+    modalLanguage() {
+        this.modalCtrl.create(LanguageModal).present();
     }
 
     href(url): void {

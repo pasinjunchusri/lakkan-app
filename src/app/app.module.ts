@@ -14,6 +14,8 @@ import {TabSearchPage} from '../pages/tab-search/tab-search';
 import {TabAccountPage} from '../pages/tab-account/tab-account';
 import {TabActivityPage} from '../pages/tab-activity/tab-activity';
 import {ProfilePage} from "../pages/profile/profile";
+import {IonicImageLoader} from "ionic-image-loader";
+import {FacebookService} from "ng2-facebook-sdk";
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import {ProfilePage} from "../pages/profile/profile";
         BrowserModule,
         HttpModule,
         PagesModule,
+        IonicImageLoader,
         IonicModule.forRoot(MyApp, {}, {
             links: [
                 {component: AuthPage, name: 'Auth', segment: 'auth'},
@@ -46,7 +49,7 @@ import {ProfilePage} from "../pages/profile/profile";
         MyApp,
         APP_PAGES,
     ],
-    providers      : [],
+    providers      : [FacebookService],
     bootstrap      : [IonicApp],
 })
 export class AppModule {

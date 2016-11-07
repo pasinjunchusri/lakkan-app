@@ -28,8 +28,8 @@
   <ion-list>
     <ion-item *ngFor="let item of data">
       <ion-avatar (click)="profile(item.user.username)" item-left>
-        <img *ngIf="item.user.photo" src="{{item.user.photo.url()}}">
-        <img *ngIf="!item.user.photo" src="assets/img/user.png">
+        <img-loader *ngIf="item.user.photo" [src]="item.user.photo.url()" width="40px" height="40px"></img-loader>
+        <img *ngIf="!item.user.photo" src="assets/img/user.png" >
       </ion-avatar>
       <h3 (click)="profile(item.user.username)">{{item.user.username}}</h3>
       <p>{{item.action | translate }}</p>

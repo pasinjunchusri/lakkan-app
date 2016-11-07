@@ -3,18 +3,17 @@
         <ion-title><span class="logo-photogram"></span></ion-title>
     </ion-navbar>
 
-    <ion-toolbar no-border-bottom>
-        <ion-segment [(ngModel)]="authType">
-            <ion-segment-button value="login">
-                {{'Login' | translate}}
-            </ion-segment-button>
-            <ion-segment-button value="signup">
-                {{'Signup' | translate}}
-            </ion-segment-button>
-        </ion-segment>
-    </ion-toolbar>
 </ion-header>
 <ion-content>
+
+    <ion-segment [(ngModel)]="authType" color="primary">
+        <ion-segment-button value="login">
+            {{'Login' | translate}}
+        </ion-segment-button>
+        <ion-segment-button value="signup">
+            {{'Signup' | translate}}
+        </ion-segment-button>
+    </ion-segment>
 
     <div [ngSwitch]="authType">
         <form *ngSwitchCase="'login'" #loginCreds="ngForm" (ngSubmit)="login(loginCreds)" novalidate>

@@ -1,58 +1,61 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-searchbar [(ngModel)]="search" (ionInput)="doSearch()" (ionCancel)="doCancel()" [placeholder]="placeholder"></ion-searchbar>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-searchbar [(ngModel)]="search" (ionInput)="doSearch()" (ionCancel)="doCancel()"
+                       [placeholder]="placeholder"></ion-searchbar>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-  <loader *ngIf="loading && !data.length"></loader>
-  <!-- error -->
-  <div class="center" *ngIf="showErrorView" padding>
-    <div class="error ">
-      <ion-icon [name]="errorIcon"></ion-icon>
-      <p>{{ "errorText" | translate }}</p>
-      <button ion-button color="primary" (click)="onQuery()">
-        {{ 'tryAgainText' | translate }}
-      </button>
+    <loader *ngIf="loading && !data.length"></loader>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ "errorText" | translate }}</p>
+            <button ion-button color="primary" (click)="onQuery()">
+                {{ 'tryAgainText' | translate }}
+            </button>
+        </div>
     </div>
-  </div>
-  <!-- empty-->
-  <div class="center" *ngIf="showEmptyView" padding>
-    <div class="error">
-      <ion-icon [name]="errorIcon"></ion-icon>
-      <p>{{ 'Users not found' | translate }}</p>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Users not found' | translate }}</p>
+        </div>
     </div>
-  </div>
-  <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <ion-list>
-    <div  *ngFor="let item of data">
-    <ion-item>
-      <ion-avatar (click)="profile(item.userObj.username)" item-left>
-        <img *ngIf="item.userObj.photo" src="{{item.userObj.photo.url()}}">
-        <img *ngIf="!item.userObj.photo" src="assets/img/user.png">
-      </ion-avatar>
-      <h3 (click)="profile(item.userObj.username)">{{item.userObj.username}}</h3>
-      <p>{{item.action | translate }}</p>
-      <div *ngIf="!item.isFollow" item-right>
-        <button ion-button outline>
-          + {{'Follow' | translate }}
-        </button>
-      </div>
-      <div *ngIf="item.isFollow" item-right>
-        <button ion-button>
-          - {{'Unfollow' | translate }}
-        </button>
-      </div>
-    </ion-item>
-      <ion-row *ngIf="item.galleries">
-        <ion-col *ngFor="let gallery of item.galleries">
-          <img [src]="gallery.imageThumb._url">
-        </ion-col>
-      </ion-row>
-    </div>
-  </ion-list>
-  <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <div *ngFor="let item of data">
+            <ion-item>
+                <ion-avatar (click)="profile(item.userObj.username)" item-left>
+                    <img-loader *ngIf="item.userObj.photo" [src]="item.userObj.photo.url()" width="40px"
+                                height="40px"></img-loader>
+                    <img *ngIf="!item.userObj.photo" src="assets/img/user.png">
+                </ion-avatar>
+                <h3 (click)="profile(item.userObj.username)">{{item.userObj.username}}</h3>
+                <p>{{item.action | translate }}</p>
+                <div *ngIf="!item.isFollow" item-right>
+                    <button ion-button outline>
+                        + {{'Follow' | translate }}
+                    </button>
+                </div>
+                <div *ngIf="item.isFollow" item-right>
+                    <button ion-button>
+                        - {{'Unfollow' | translate }}
+                    </button>
+                </div>
+            </ion-item>
+            <ion-row *ngIf="item.galleries">
+                <ion-col *ngFor="let gallery of item.galleries">
+                    <img-loader [src]="gallery.imageThumb._url"
+                                [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-list>
+    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

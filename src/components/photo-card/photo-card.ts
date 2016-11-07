@@ -1,9 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {Events, ModalController, NavController, PopoverController} from "ionic-angular";
+import {ModalController, NavController, PopoverController} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
 import {PhotoCommentModal} from "../photo-comment-modal/photo-comment-modal";
 import {ProfilePage} from "../../pages/profile/profile";
 import {PhotoListPopover} from "../photo-list-popover/photo-list-popover";
+import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'photo-card',
@@ -15,14 +16,15 @@ export class PhotoCard {
 
     username: string     = Parse.User.current().get('username');
     loadingLike: boolean = false;
+    _width: any;
 
     constructor(private provider: Gallery,
-                private events: Events,
                 private navCtrl: NavController,
                 private modalCtrl: ModalController,
                 private popoverCtrl: PopoverController,
+                private util: IonicUtil
     ) {
-
+        this._width = util._widthPlatform + 'px';
     }
 
     openPopover(ev) {

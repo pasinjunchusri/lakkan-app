@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {MenuController, NavController, ModalController} from 'ionic-angular';
 import {AuthPage} from "../auth/auth";
+import {LanguageModal} from "../../components/language-modal/language-modal";
 
 export interface Slide {
     title: string;
@@ -49,7 +50,11 @@ export class IntroPage {
         ];
     }
 
-    startApp() {
+    modalLanguage(): void {
+        this.modalCtrl.create(LanguageModal).present();
+    }
+
+    startApp(): void {
         this.navCtrl.push(AuthPage);
     }
 
