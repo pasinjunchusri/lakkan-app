@@ -12,7 +12,6 @@ export class IonicUtil {
     public cordova: boolean;
     public _widthPlatform: any;
     public _heightPlatform: any;
-    public _toolbarTheme: string        = '';
     public searchSettings: SearchSettings;
     public isRequestInProgress: boolean = false;
 
@@ -43,15 +42,9 @@ export class IonicUtil {
             this._heightPlatform = platform.height();
         });
 
-        console.log('Android');
-        if (this.platform.is('android')) {
-            this._toolbarTheme = 'primary';
-            console.log('_toolbarTheme', this._toolbarTheme);
-        }
-
     }
 
-    getRandomInt(min: number = 0, max: number = 9999) {
+    static getRandomInt(min: number = 0, max: number = 9999) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 

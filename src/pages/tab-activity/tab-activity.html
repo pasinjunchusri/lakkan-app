@@ -1,51 +1,52 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>{{'Activities'| translate}}</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>{{'Activities'| translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-  <loader *ngIf="loading "></loader>
-  <!-- error -->
-  <div class="center" *ngIf="showErrorView" padding>
-    <div class="error ">
-      <ion-icon [name]="errorIcon"></ion-icon>
-      <p>{{ "errorText" | translate }}</p>
-      <button ion-button color="primary" (click)="onQuery()">
-                {{ 'tryAgainText' | translate }}
+    <loader *ngIf="loading "></loader>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Connection unavailable' | translate }}</p>
+            <button ion-button color="primary" (click)="doTry()">
+                {{ 'Try again' | translate }}
             </button>
+        </div>
     </div>
-  </div>
-  <!-- empty-->
-  <div class="center" *ngIf="showEmptyView" padding>
-    <div class="error">
-      <ion-icon [name]="errorIcon"></ion-icon>
-      <p>{{ 'Activity not found' | translate }}</p>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Activity not found' | translate }}</p>
+        </div>
     </div>
-  </div>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <ion-list>
-    <ion-item *ngFor="let item of data">
-      <ion-avatar (click)="profile(item.user.username)" item-left>
-        <img-loader *ngIf="item.user.photo" [src]="item.user.photo.url()" width="40px" height="40px"></img-loader>
-        <img *ngIf="!item.user.photo" src="assets/img/user.png" >
-      </ion-avatar>
-      <h3 (click)="profile(item.user.username)">{{item.user.username}}</h3>
-      <p>{{item.action | translate }}</p>
-      <div *ngIf="!item.user.isFollow" item-right>
-        <button ion-button outline>
-          + {{'Follow' | translate }}
-        </button>
-      </div>
-      <div *ngIf="item.user.isFollow" item-right>
-        <button ion-button>
-          - {{'Unfollow' | translate }}
-        </button>
-      </div>
-    </ion-item>
-  </ion-list>
-  <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <ion-item *ngFor="let item of data">
+            <ion-avatar (click)="profile(item.user.username)" item-left>
+                <img-loader *ngIf="item.user.photo" [src]="item.user.photo.url()" width="40px"
+                            height="40px"></img-loader>
+                <img *ngIf="!item.user.photo" src="assets/img/user.png">
+            </ion-avatar>
+            <h3 (click)="profile(item.user.username)">{{item.user.username}}</h3>
+            <p>{{item.action | translate }}</p>
+            <div *ngIf="!item.user.isFollow" item-right>
+                <button ion-button outline>
+                    + {{'Follow' | translate }}
+                </button>
+            </div>
+            <div *ngIf="item.user.isFollow" item-right>
+                <button ion-button>
+                    - {{'Unfollow' | translate }}
+                </button>
+            </div>
+        </ion-item>
+    </ion-list>
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

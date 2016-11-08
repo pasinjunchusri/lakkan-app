@@ -25,7 +25,6 @@ export class TabHomePage {
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     moreItem: boolean      = false;
-    _color: string         = '';
 
     constructor(private navCtrl: NavController,
                 private provider: Gallery,
@@ -34,7 +33,6 @@ export class TabHomePage {
     ) {
 
         events.subscribe('home:reload', () => this.doRefresh(null));
-        this._color = util._toolbarTheme;
     }
 
     ngOnInit() {

@@ -16,7 +16,6 @@ export class AuthPage {
     error: string;
     submitted: boolean = false;
     facebook: any;
-    _color: string     = '';
 
     formLogin: {
         username?: string,
@@ -46,8 +45,6 @@ export class AuthPage {
             this.cordova  = platform.is('cordova');
             this.facebook = this.cordova ? Facebook : fb;
         });
-
-        this._color = util._toolbarTheme;
 
         // Translate Search Bar Placeholder
         this.util.translate('Enter your email so we can send you a link to reset your password').then((res: string) => { this.alertTranslate.message = res; });

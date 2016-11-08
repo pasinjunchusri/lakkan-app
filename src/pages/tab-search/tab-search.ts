@@ -16,7 +16,6 @@ export class TabSearchPage {
     words: string       = '';
     placeholder: string = 'Search';
     _width: any;
-    _color: string      = '';
 
     params = {
         limit: 24,
@@ -39,7 +38,6 @@ export class TabSearchPage {
                 private logging: Logging
     ) {
 
-        this._color = util._toolbarTheme;
         // Translate Search Bar Placeholder
         this.util.translate('Search').then((res: string) => this.placeholder = res);
         this._width = this.util._widthPlatform / 3 + 'px';

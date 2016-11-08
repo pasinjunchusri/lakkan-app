@@ -50,13 +50,14 @@ ion-app._gmaps_cdv_ .nav-decor {
 
 ion-avatar {
   img-loader {
-    min-width: 40px;
-    min-height: 40px;
-    border-radius: 2rem;
+    max-width: 3.6rem;
+    max-height: 3.6rem;
+    border-radius: 1.8rem;
     display: block;
   }
 }
 
+// Toolbar Color fix
 .toolbar-md-primary {
   ion-segment-button.segment-button {
     &.segment-activated {
@@ -67,6 +68,27 @@ ion-avatar {
   }
 }
 
+.toolbar-wp-primary {
+  ion-segment-button.segment-button {
+    &.segment-activated {
+      color: #fff !important;
+    }
+    color: #fff;
+  }
+}
+
+.toolbar-ios-primary {
+  ion-segment-button.segment-button {
+    border-color: rgba(255, 255, 255, 0.35);
+    &.segment-activated {
+      color: #fff !important;
+      background-color: darken($primary, 5);
+    }
+    color: #fff;
+  }
+}
+
+// Center
 .center {
   display: -webkit-box;
   display: -webkit-flex;

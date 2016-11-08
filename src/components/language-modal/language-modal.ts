@@ -35,7 +35,7 @@ export class LanguageModalComponent {
 
     selectLanguage(lang: any) {
         this.util.onLoading();
-        this.translate.use(lang.code);
+        this.translate.use(lang.code.split('_')[0]);
         setTimeout(() => {
             this.startTranslate();
             this.util.endLoading();
