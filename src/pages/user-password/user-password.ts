@@ -11,7 +11,7 @@ interface IPassword {
     selector   : 'page-user-password',
     templateUrl: 'user-password.html'
 })
-export class UserPassword {
+export class UserPasswordPage {
 
     submitted: boolean = false;
     form: any          = {

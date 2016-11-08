@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
-import {AlbumFormModal} from '../album-form-modal/album-form-modal';
+import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
 import {IonicUtil} from '../../providers/ionic-util';
 import {Gallery} from "../../providers/gallery";
-import {PhotoFeedbackModal} from "../photo-feedback-modal/photo-feedback-modal";
+import {PhotoFeedbackModalComponent} from "../photo-feedback-modal/photo-feedback-modal";
 
 @Component({
     selector: 'photo-list-popover',
@@ -16,7 +16,7 @@ import {PhotoFeedbackModal} from "../photo-feedback-modal/photo-feedback-modal";
 </ion-list>
 `
 })
-export class PhotoListPopover {
+export class PhotoListPopoverComponent {
 
     item: any;
     username: string = Parse.User.current().get('username');
@@ -35,7 +35,8 @@ export class PhotoListPopover {
                 private modalCtrl: ModalController,
                 private util: IonicUtil
     ) {
-        this.item    = this.navParams.get('item');
+        this.item = this.navParams.get('item');
+        console.log(this.item);
         this.canEdit = (this.username == this.item.user.attributes['username']) ? true : false;
         this.util.translate('Destroy photo').then((res: string) => this._translateDestroyTitle = res);
         this.util.translate('You are sure destroy this photo?').then((res: string) => this._translateDestroyMessage = res);
@@ -44,7 +45,7 @@ export class PhotoListPopover {
     }
 
     report() {
-        this.modalCtrl.create(PhotoFeedbackModal, {item: this.item}).present();
+        this.modalCtrl.create(PhotoFeedbackModalComponent, {item: this.item}).present();
         this.close();
     }
 
@@ -62,7 +63,7 @@ export class PhotoListPopover {
 
     edit() {
         this.close();
-        this.modalCtrl.create(AlbumFormModal, {item: this.item}).present();
+        this.modalCtrl.create(AlbumFormModalComponent, {item: this.item}).present();
     }
 
     destroy() {
@@ -80,13 +81,12 @@ export class PhotoListPopover {
                     text   : this._translateYes,
                     handler: () => {
                         this.ionicUtil.onLoading();
-                        this.provider.get(this.item['id']).then(gallery => {
-                            this.provider.destroy(gallery).then(() => {
-                                this.ionicUtil.endLoading();
+                        this.provider.destroy(this.item.obj).then(() => {
+                            this.ionicUtil.endLoading();
 
-                                // Event Emit
-                                this.events.publish('albumgrid:destroy');
-                            });
+                            // Event Emit
+                            this.events.publish('albumgrid:destroy');
+                            this.events.publish('home:reload', null);
                         });
                     }
                 }

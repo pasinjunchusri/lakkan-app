@@ -1,16 +1,16 @@
 import {Component, Input} from '@angular/core';
 import {ModalController, NavController, PopoverController} from "ionic-angular";
 import {Gallery} from "../../providers/gallery";
-import {PhotoCommentModal} from "../photo-comment-modal/photo-comment-modal";
+import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-modal";
 import {ProfilePage} from "../../pages/profile/profile";
-import {PhotoListPopover} from "../photo-list-popover/photo-list-popover";
+import {PhotoListPopoverComponent} from "../photo-list-popover/photo-list-popover";
 import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'photo-card',
     templateUrl: 'photo-card.html'
 })
-export class PhotoCard {
+export class PhotoCardComponent {
 
     @Input() item: any;
 
@@ -28,12 +28,12 @@ export class PhotoCard {
     }
 
     openPopover(ev) {
-        this.popoverCtrl.create(PhotoListPopover, {item: this.item}).present({ev: ev});
+        this.popoverCtrl.create(PhotoListPopoverComponent, {item: this.item}).present({ev: ev});
     }
 
     openComments(item) {
         console.log(item);
-        let modal = this.modalCtrl.create(PhotoCommentModal, item);
+        let modal = this.modalCtrl.create(PhotoCommentModalComponent, item);
         modal.present();
     }
 

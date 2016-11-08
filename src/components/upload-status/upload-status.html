@@ -1,0 +1,13 @@
+<ion-list *ngIf="_uploadsPending.length">
+    <!--<ion-item>-->
+        <!--<input type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..."/>-->
+    <!--</ion-item>-->
+    <ion-item *ngFor="let item of _uploadsPending">
+        <ion-avatar item-left>
+            <img [src]="item.image">
+        </ion-avatar>
+        <h2>{{item.form.title}}</h2>
+        <ion-spinner item-right=""></ion-spinner>
+    </ion-item>
+
+</ion-list>

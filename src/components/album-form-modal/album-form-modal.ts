@@ -7,7 +7,7 @@ import {IonicUtil} from '../../providers/ionic-util';
     selector   : 'album-form-modal',
     templateUrl: 'album-form-modal.html'
 })
-export class AlbumFormModal {
+export class AlbumFormModalComponent {
     id: string;
     form: any = {
         title      : '',

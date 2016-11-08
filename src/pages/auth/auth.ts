@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController} from 'ionic-angular';
+import {NavController, AlertController, Platform} from 'ionic-angular';
 import {User} from "../../providers/user";
 import {TabsPage} from "../tabs/tabs";
 import {IonicUtil} from "../../providers/ionic-util";
@@ -16,6 +16,7 @@ export class AuthPage {
     error: string;
     submitted: boolean = false;
     facebook: any;
+    _color: string     = '';
 
     formLogin: {
         username?: string,
@@ -38,12 +39,16 @@ export class AuthPage {
                 private provider: User,
                 private alertCtrl: AlertController,
                 private util: IonicUtil,
-                private fb: FacebookService
+                private fb: FacebookService,
+                private platform: Platform
     ) {
-        this.cordova  = this.util.cordova;
-        this.facebook = (this.cordova) ? Facebook : fb;
+        platform.ready().then(() => {
+            this.cordova  = platform.is('cordova');
+            this.facebook = this.cordova ? Facebook : fb;
+        });
 
-        console.log(this.facebook);
+        this._color = util._toolbarTheme;
+
         // Translate Search Bar Placeholder
         this.util.translate('Enter your email so we can send you a link to reset your password').then((res: string) => { this.alertTranslate.message = res; });
         this.util.translate('Open your email and also check the spam box').then((res: string) => { this.alertTranslate.emailRecoverySend = res; });

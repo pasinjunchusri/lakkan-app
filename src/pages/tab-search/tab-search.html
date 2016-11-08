@@ -1,14 +1,37 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-searchbar [(ngModel)]="words" (ionInput)="doSearch()" (ionCancel)="doCancel()" [placeholder]="placeholder">
-        </ion-searchbar>
+        <ion-searchbar [(ngModel)]="words" (ionInput)="doSearch()" (ionCancel)="doCancel()"
+                       [placeholder]="placeholder"></ion-searchbar>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="openSearchMap()">
+                <ion-icon name="pin"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+
+    <loader *ngIf="loading"></loader>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ "errorText" | translate }}</p>
+            <button ion-button color="primary" (click)="onQuery()">
+                {{ 'tryAgainText' | translate }}
+            </button>
+        </div>
+    </div>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Activity not found' | translate }}</p>
+        </div>
+    </div>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <loader *ngIf="loading && !data.length"></loader>
     <div *ngFor="let item of data; let index = index">
         <ion-row *ngIf="index % 3 === 0 ">
             <ion-col width-33 *ngIf="index < data.length">
@@ -25,7 +48,8 @@
             </ion-col>
         </ion-row>
     </div>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+
 </ion-content>

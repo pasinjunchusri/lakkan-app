@@ -7,7 +7,7 @@ import {CameraPreview} from "ionic-native";
     selector   : 'photo-capture-modal',
     templateUrl: 'photo-capture-modal.html'
 })
-export class PhotoCaptureModal {
+export class PhotoCaptureModalComponent {
     _cordova: boolean = false;
 
     constructor(private viewCtrl: ViewController,

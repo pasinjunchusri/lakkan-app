@@ -1,40 +1,71 @@
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-title>
-            Share To
-        </ion-title>
-        <ion-buttons start>
-            <button ion-button (click)="dismiss()">
-                <ion-icon name="close"></ion-icon>
+    <ion-navbar color="primary">
+        <ion-title><span class="logo-photogram"></span></ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="submit(shareImageForm)">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
             </button>
         </ion-buttons>
-    </ion-toolbar>
+    </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item>
-            <ion-thumbnail item-left>
-                <img [src]="_base64">
-            </ion-thumbnail>
-            <ion-label>{{'Write a caption...' | translate}}</ion-label>
-            <ion-textarea [(ngModel)]="form.text" name="text" type="text" required></ion-textarea>
-        </ion-item>
-        <ion-item>
-           <ion-icon name="map"></ion-icon> Add Location
-        </ion-item>
+    <form #shareImageForm="ngForm" (ngSubmit)="submit(shareImageForm)" novalidate>
+        <ion-list>
+            <ion-item>
+                <ion-thumbnail item-left>
+                    <img [src]="image">
+                </ion-thumbnail>
+                <ion-textarea [(ngModel)]="form.title"
+                              name="title"
+                              placeholder="{{'Write a caption...' | translate}}"></ion-textarea>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'Privacity' | translate}}</ion-label>
+                <ion-select [(ngModel)]="form.privacity" name="privacity"
+                            #privacity="ngModel">
+                    <ion-option value="public">{{'Public' | translate}}</ion-option>
+                    <ion-option value="followers">{{'Followers' | translate}}</ion-option>
+                    <ion-option value="me">{{'Me' | translate }}</ion-option>
+                </ion-select>
+            </ion-item>
+            <!-- Album -->
+            <ion-item>
+                <ion-icon name="pin"></ion-icon>
+                {{'Add Location' | translate}}
+            </ion-item>
+        </ion-list>
         <ion-item-divider>
-            Share
+            {{'Share' | translate}}
         </ion-item-divider>
-    </ion-list>
-    <ion-row>
-        <ion-col><button ion-button icon-left block clear><ion-icon name="logo-facebook"></ion-icon> Facebook</button></ion-col>
-        <ion-col><button ion-button icon-left block clear><ion-icon name="logo-twitter"></ion-icon> Twitter</button></ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col><button ion-button icon-left block clear><ion-icon name="logo-twitter"></ion-icon> Whatsapp</button></ion-col>
-        <ion-col><button ion-button icon-left block clear><ion-icon name="share"></ion-icon> Share</button></ion-col>
-    </ion-row>
-
+        <ion-row>
+            <ion-col>
+                <button ion-button icon-left block clear>
+                    <ion-icon name="logo-facebook"></ion-icon>
+                    Facebook
+                </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button icon-left block clear>
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    Twitter
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <button ion-button icon-left block clear>
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    Whatsapp
+                </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button icon-left block clear>
+                    <ion-icon name="share"></ion-icon>
+                    Share
+                </button>
+            </ion-col>
+        </ion-row>
+    </form>
 </ion-content>
 

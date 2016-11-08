@@ -4,7 +4,7 @@ import {Component, Input} from '@angular/core';
     selector   : 'loader',
     templateUrl: 'loader.html'
 })
-export class Loader {
+export class LoaderComponent {
 
     @Input() text: string;
 

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Gallery} from "../../providers/gallery";
 import {Events, NavController, ViewController, NavParams, PopoverController} from 'ionic-angular';
 import {PhotoPage} from "../../pages/photo/photo";
-import {AlbumPhotoGridPopover} from '../album-photo-grid-popover/album-photo-grid-popover';
+import {AlbumPhotoGridPopoverComponent} from '../album-photo-grid-popover/album-photo-grid-popover';
 import _ from 'underscore';
 import {IonicUtil} from "../../providers/ionic-util";
 
@@ -10,7 +10,7 @@ import {IonicUtil} from "../../providers/ionic-util";
     selector   : 'album-photo-grid',
     templateUrl: 'album-photo-grid.html'
 })
-export class AlbumPhotoGrid {
+export class AlbumPhotoGridComponent {
     params = {
         limit: 15,
         page : 1,
@@ -53,7 +53,7 @@ export class AlbumPhotoGrid {
     }
 
     popover(event) {
-        this.popoverCtrl.create(AlbumPhotoGridPopover, {id: this.params.id}).present({ev: event});
+        this.popoverCtrl.create(AlbumPhotoGridPopoverComponent, {id: this.params.id}).present({ev: event});
     }
 
     feed() {

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
-import {AlbumFormModal} from '../album-form-modal/album-form-modal';
+import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
 import {IonicUtil} from '../../providers/ionic-util';
 import {GalleryAlbum} from '../../providers/gallery-album';
 
@@ -14,7 +14,7 @@ import {GalleryAlbum} from '../../providers/gallery-album';
 </ion-list>
 `
 })
-export class AlbumPhotoGridPopover {
+export class AlbumPhotoGridPopoverComponent {
 
     id: string;
     _translateDestroyTitle: string;
@@ -50,7 +50,7 @@ export class AlbumPhotoGridPopover {
 
     edit() {
         this.close();
-        this.modalCtrl.create(AlbumFormModal, {id: this.id}).present();
+        this.modalCtrl.create(AlbumFormModalComponent, {id: this.id}).present();
     }
 
     destroy() {

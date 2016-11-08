@@ -11,6 +11,11 @@
  For more info on type definition files, check out the Typescript docs here:
  https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
  */
+
+/// <reference path="../node_modules/@types/googlemaps/index.d.ts" />
+/// <reference path="../node_modules/typescript-collections/dist/lib/index.d.ts" />
+/// <reference path="../node_modules/@types/leaflet/index.d.ts" />
+
 declare module '*';
 declare var plugins: any;
 declare var ParsePushPlugin: any;

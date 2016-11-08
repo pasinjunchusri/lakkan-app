@@ -1,8 +1,8 @@
-import {AlbumFormModal} from '../album-form-modal/album-form-modal';
+import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
 import {Component, Input} from '@angular/core';
 import {Events, NavController} from 'ionic-angular';
 import {GalleryAlbum} from '../../providers/gallery-album';
-import {AlbumPhotoGrid} from '../album-photo-grid/album-photo-grid';
+import {AlbumPhotoGridComponent} from '../album-photo-grid/album-photo-grid';
 import _ from 'underscore';
 import {IonicUtil} from "../../providers/ionic-util";
 
@@ -10,7 +10,7 @@ import {IonicUtil} from "../../providers/ionic-util";
     selector   : 'album-grid',
     templateUrl: 'album-grid.html'
 })
-export class AlbumGrid {
+export class AlbumGridComponent {
 
     @Input() username?: string;
 
@@ -52,11 +52,11 @@ export class AlbumGrid {
 
     openAlbum(item) {
         console.log(item);
-        this.navCtrl.push(AlbumPhotoGrid, {id: item.id});
+        this.navCtrl.push(AlbumPhotoGridComponent, {id: item.id});
     }
 
     albumForm() {
-        this.navCtrl.push(AlbumFormModal);
+        this.navCtrl.push(AlbumFormModalComponent);
     }
 
     feed() {

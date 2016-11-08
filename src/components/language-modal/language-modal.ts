@@ -8,7 +8,7 @@ import {languages} from "../../config";
     selector   : 'language-modal',
     templateUrl: 'language-modal.html'
 })
-export class LanguageModal {
+export class LanguageModalComponent {
 
     _languages: any;
     _placeholder: string;

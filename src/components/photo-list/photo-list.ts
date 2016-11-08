@@ -7,7 +7,7 @@ import _ from 'underscore';
     selector   : 'photo-list',
     templateUrl: 'photo-list.html'
 })
-export class PhotoList {
+export class PhotoListComponent {
 
     @Input() username?: string;
 

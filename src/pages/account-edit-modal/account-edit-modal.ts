@@ -7,7 +7,7 @@ import {User} from "../../providers/user";
     selector   : 'page-account-edit-modal',
     templateUrl: 'account-edit-modal.html'
 })
-export class AccountEditModal {
+export class AccountEditModalPage {
 
     form: any;
     photo: any;

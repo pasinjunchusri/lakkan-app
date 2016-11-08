@@ -3,13 +3,10 @@ import {ActionSheetController, Platform} from "ionic-angular";
 import {Camera} from 'ionic-native';
 import {IonicUtil} from "./ionic-util";
 
-declare var document: any;
-
 @Injectable()
 export class PhotoService {
 
-    private _base64Image: string;
-
+    _base64Image: any;
     _cordova: boolean = false;
 
     _options: any = {
@@ -49,7 +46,7 @@ export class PhotoService {
         this.util.translate('Browser not supported').then(result => this._translateNotCordova = result);
     }
 
-    open(): Promise<any> {
+    open() {
         return new Promise((resolve, reject) => {
             this.actionSheetCtrl.create({
                 title  : this._translateOption,
@@ -59,7 +56,7 @@ export class PhotoService {
                         icon   : 'camera',
                         handler: () => {
                             if (this._cordova) {
-                                this.camera().then(image => resolve).catch(error => reject);
+                                this.camera().then(image => resolve(image)).catch(error => reject(error));
                             } else {
                                 reject(this._translateNotCordova);
                             }
@@ -70,7 +67,7 @@ export class PhotoService {
                         icon   : 'images',
                         handler: () => {
                             if (this._cordova) {
-                                this.photoLibrary().then(image => resolve).catch(error => reject);
+                                this.photoLibrary().then(image => resolve(image)).catch(error => reject(error));
                             } else {
                                 reject(this._translateNotCordova);
                             }
@@ -85,22 +82,24 @@ export class PhotoService {
         });
     }
 
-    camera(): Promise<string> {
+    camera() {
         return new Promise((resolve, reject) => {
             Camera.getPicture({
                 targetWidth       : this._setting.width,
                 targetHeight      : this._setting.height,
                 quality           : this._setting.quality,
                 allowEdit         : this._setting.allowEdit,
-                saveToPhotoAlbum  : this._setting.allowEdit,
+                saveToPhotoAlbum  : this._setting.saveToPhotoAlbum,
                 sourceType        : Camera.PictureSourceType.CAMERA,
                 destinationType   : Camera.DestinationType.DATA_URL,
                 encodingType      : Camera.EncodingType.JPEG,
                 correctOrientation: true,
             }).then((imageData) => {
                 // imageData is a base64 encoded string
-                this._base64Image = "data:image/jpeg;base64," + imageData;
-                resolve(this._base64Image)
+                let base64        = 'data:image/jpeg;base64,' + imageData;
+                console.log('camera:base64', base64);
+                this._base64Image = base64;
+                resolve(base64);
             }, (err) => {
                 console.log(err);
                 reject(err);
@@ -108,7 +107,7 @@ export class PhotoService {
         });
     }
 
-    photoLibrary(): Promise <string> {
+    photoLibrary() {
         return new Promise((resolve, reject) => {
             Camera.getPicture({
                 targetWidth       : this._setting.width,
@@ -122,8 +121,10 @@ export class PhotoService {
                 correctOrientation: true,
             }).then((imageData) => {
                 // imageData is a base64 encoded string
-                this._base64Image = "data:image/jpeg;base64," + imageData;
-                resolve(this._base64Image)
+                let base64        = 'data:image/jpeg;base64,' + imageData;
+                console.log('photoLibrary:base64', base64);
+                this._base64Image = base64;
+                resolve(base64);
             }, (err) => {
                 console.log(err);
                 reject(err);
@@ -164,11 +165,11 @@ export class PhotoService {
         return new Promise((resolve, reject) => {
             let fileInput = document.createElement('<input type="file" accept="image/x-png, image/gif, image/jpeg" max-size="2048" />');
             fileInput[0].click();
-            fileInput.on('change', (evt) => {
-                let tempImage = evt.currentTarget.files[0];
+            fileInput.addEventListener('change', (evt: any) => {
+                let image     = evt.target.result[0];
                 let reader    = new FileReader();
                 reader.onload = (evt) => resolve(evt);
-                reader.readAsDataURL(tempImage);
+                reader.readAsDataURL(image);
             });
         });
 

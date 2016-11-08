@@ -7,7 +7,7 @@
             </button>
         </ion-buttons>
     </ion-navbar>
-    <ion-toolbar no-shadow>
+    <ion-toolbar [color]="_color" >
         <ion-segment [(ngModel)]="privacity">
             <ion-segment-button (ionSelect)="selectType('public')" value="public">{{'Public' | translate }}
             </ion-segment-button>
@@ -18,7 +18,8 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <loader *ngIf="loading && !data.length"></loader>
+    <upload-status></upload-status>
+    <loader *ngIf="loading"></loader>
     <!-- error -->
     <div class="center" *ngIf="showErrorView" padding>
         <div class="error ">

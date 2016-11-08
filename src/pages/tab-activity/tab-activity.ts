@@ -17,6 +17,7 @@ export class TabActivityPage {
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    moreItem: boolean      = false;
 
     params = {
         limit: 20,
@@ -42,8 +43,7 @@ export class TabActivityPage {
             console.log('Load Feed', this.params, this.loading);
 
             if (this.params.page == 1) {
-                this.data    = [];
-                this.loading = true;
+                this.data = [];
             }
 
             this.provider.feed(this.params).then(data => {
@@ -51,8 +51,12 @@ export class TabActivityPage {
                     _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
+                    this.moreItem = true;
                 } else {
-                    this.showEmptyView = false;
+                    if (!this.data.length) {
+                        this.showEmptyView = false;
+                    }
+                    this.moreItem = false;
                 }
 
                 this.loading = false;
@@ -60,6 +64,7 @@ export class TabActivityPage {
             }, error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
+                reject(this.errorText)
             });
         });
     }

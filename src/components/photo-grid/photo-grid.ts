@@ -9,7 +9,7 @@ import {IonicUtil} from "../../providers/ionic-util";
     selector   : 'photo-grid',
     templateUrl: 'photo-grid.html'
 })
-export class PhotoGrid {
+export class PhotoGridComponent {
 
     @Input() username?: string;
              params = {

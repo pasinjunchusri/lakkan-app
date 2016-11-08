@@ -4,7 +4,7 @@ import {User} from "../../providers/user";
 import {ProfilePage} from "../profile/profile";
 import {TranslateService} from "ng2-translate";
 import {IonicUtil} from "../../providers/ionic-util";
-
+import _ from 'underscore';
 
 @Component({
     selector   : 'page-user-list',
@@ -19,6 +19,7 @@ export class UserListPage {
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    moreItem: boolean      = false;
     search: string         = '';
     placeholder: string    = 'Search user';
     _width: any;
@@ -52,17 +53,22 @@ export class UserListPage {
             console.log('Load Feed', this.params, this.loading);
 
             if (this.params.page == 1) {
-                this.data    = [];
-                this.loading = true;
+                this.data = [];
             }
 
             this.provider.list(this.params).then(data => {
                 if (data && data.length) {
-                    data.map(item => {
+                    _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
-                } else {
+                    this.showErrorView = false;
                     this.showEmptyView = false;
+                    this.moreItem      = true;
+                } else {
+                    if (!this.data.length) {
+                        this.showEmptyView = false;
+                    }
+                    this.moreItem = false;
                 }
 
                 this.loading = false;
@@ -70,13 +76,24 @@ export class UserListPage {
             }, error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
-                reject(error);
+                reject(this.errorText)
             });
         });
     }
 
-    follow() {
-
+    follow(user) {
+        user.loading = true;
+        this.provider.follow(user.userObj.id).then(resp => {
+            console.log('Follow result', resp);
+            user.isFollow = (resp === 'follow') ? true : false;
+            if (resp == 'follow') {
+                user.followersTotal += 1;
+            }
+            if (resp == 'unfollow') {
+                user.followersTotal -= 1;
+            }
+            user.loading = false;
+        });
     }
 
     // Search

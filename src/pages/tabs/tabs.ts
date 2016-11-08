@@ -30,7 +30,7 @@ export class TabsPage {
 
     openCapture() {
         this.photoService.open().then(image => {
-            this.navCtrl.push(TabCapturSharePage, {image: image});
+            this.navCtrl.push(TabCapturSharePage, {base64: image});
         }).catch(error => {
             console.log(error);
             this.util.toast(error);

@@ -5,7 +5,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <loader *ngIf="loading && !data.length"></loader>
+    <loader *ngIf="loading "></loader>
     <!-- error -->
     <div class="center" *ngIf="showErrorView" padding>
         <div class="error ">
@@ -23,7 +23,7 @@
             <p>{{ 'Users not found' | translate }}</p>
         </div>
     </div>
-    <ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-list>
@@ -37,12 +37,12 @@
                 <h3 (click)="profile(item.userObj.username)">{{item.userObj.username}}</h3>
                 <p>{{item.action | translate }}</p>
                 <div *ngIf="!item.isFollow" item-right>
-                    <button ion-button outline>
+                    <button (click)="follow(item)" ion-button outline>
                         + {{'Follow' | translate }}
                     </button>
                 </div>
                 <div *ngIf="item.isFollow" item-right>
-                    <button ion-button>
+                    <button (click)="follow(item)" ion-button>
                         - {{'Unfollow' | translate }}
                     </button>
                 </div>
@@ -55,7 +55,7 @@
             </ion-row>
         </div>
     </ion-list>
-    <ion-infinite-scroll primary (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>

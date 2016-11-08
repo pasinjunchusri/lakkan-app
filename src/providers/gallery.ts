@@ -20,7 +20,6 @@ export class Gallery {
         'image',
         'imageThumb',
         'isApproved',
-        'expiresAt',
         'icon',
     ];
 

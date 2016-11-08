@@ -23,10 +23,11 @@ tmp/
 temp/
 hooks/
 platforms/
-plugins/
-plugins/android.json
-plugins/ios.json
+plugins/*
+!plugins/fetch.json
 www/
+resources/android/*
+resources/ios/*
 
 $RECYCLE.BIN/
 yarn.lock

@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {NavController, Events, Platform} from 'ionic-angular';
+import {NavController, Events} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
 import {UserListPage} from "../user-list/user-list";
 import _ from 'underscore';
+import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-tab-home',
@@ -23,14 +24,17 @@ export class TabHomePage {
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
-    moreItem: boolean      = true;
+    moreItem: boolean      = false;
+    _color: string         = '';
 
     constructor(private navCtrl: NavController,
+                private provider: Gallery,
                 private events: Events,
-                private platform: Platform,
-                private provider: Gallery
+                private util: IonicUtil
     ) {
 
+        events.subscribe('home:reload', () => this.doRefresh(null));
+        this._color = util._toolbarTheme;
     }
 
     ngOnInit() {
@@ -41,6 +45,7 @@ export class TabHomePage {
         this.params.page      = 1;
         this.privacity        = privacity;
         this.params.privacity = privacity;
+        this.loading          = true;
         this.feed();
     }
 
@@ -53,8 +58,7 @@ export class TabHomePage {
             console.log('Load Feed', this.params, this.loading);
 
             if (this.params.page == 1) {
-                this.data    = [];
-                this.loading = true;
+                this.data = [];
             }
 
             this.provider.feed(this.params).then(data => {
@@ -62,10 +66,14 @@ export class TabHomePage {
                     _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
-                    this.moreItem = true;
-                } else {
+                    this.showErrorView = false;
                     this.showEmptyView = false;
-                    this.moreItem      = false;
+                    this.moreItem      = true;
+                } else {
+                    if (!this.data.length) {
+                        this.showEmptyView = false;
+                    }
+                    this.moreItem = false;
                 }
 
                 this.loading = false;
@@ -73,6 +81,7 @@ export class TabHomePage {
             }, error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
+                reject(this.errorText)
             });
         });
     }
@@ -84,6 +93,9 @@ export class TabHomePage {
 
     doRefresh(event) {
         this.params.page = 1;
+        if (!event) {
+            this.loading = true;
+        }
         this.feed().then(() => event.complete());
     }
 

@@ -1,7 +1,11 @@
-Ionic 2 App Base
-=====================
+# Photogram2
+### Ionic 2 - rc2 
 
-This is the base template for Ionic 2 starter apps.
+
+![Dance](http://i.giphy.com/14cmFjYyvaIcko.gif)
+
+Access IONIC 2
+https://goo.gl/forms/DlK7wCMtxiKcC7qU2
 
 ## Using this project
 
@@ -19,6 +23,9 @@ $ ionic start myApp
 
 More info on this can be found on the Ionic [Getting Started](http://ionicframework.com/docs/v2/getting-started/) page.
 
+Google Map
+ionic plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="AIzaSyAuVIBMX85GGRS5O6sA" --variable API_KEY_FOR_IOS="AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI"
+cordova plugin add https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="AIzaSyAuVIBMX85GGRS5O6sA" --variable API_KEY_FOR_IOS="AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI"
 
 Cordova Camera Preview
 https://github.com/Robdeprop/cordova-plugin-camera-preview

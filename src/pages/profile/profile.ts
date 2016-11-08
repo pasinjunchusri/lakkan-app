@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {NavController, Events, ModalController, NavParams} from "ionic-angular";
 import {UserData} from "../../providers/user-data";
-import {AccountEditModal} from "../account-edit-modal/account-edit-modal";
+import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 
 
 @Component({
@@ -63,7 +63,7 @@ export class ProfilePage {
     }
 
     onEditProfile() {
-        let modal = this.modalCtrl.create(AccountEditModal);
+        let modal = this.modalCtrl.create(AccountEditModalPage);
         modal.present();
     }
 

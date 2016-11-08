@@ -1,6 +1,7 @@
-ph<ion-header>
+ph
+<ion-header>
     <ion-navbar color="primary">
-        <ion-title>Profile</ion-title>
+        <ion-title>{{'Profile'| translate}}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -39,7 +40,7 @@ ph<ion-header>
                             <ion-spinner></ion-spinner>
                         </div>
                         <div *ngIf="!loading">
-                            <button *ngIf="profile.isFollow"  ion-button block color="primary" small>
+                            <button *ngIf="profile.isFollow" ion-button block color="primary" small>
                                 Unfollow
                             </button>
                             <button *ngIf="!profile.isFollow" outline ion-button block color="primary" small>
@@ -82,6 +83,7 @@ ph<ion-header>
     <photo-list *ngIf="type=='list'"></photo-list>
     <photo-grid *ngIf="type=='grid'"></photo-grid>
     <album-grid *ngIf="type=='album'"></album-grid>
+    <photo-map *ngIf="type=='map'"></photo-map>
 
     <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

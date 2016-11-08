@@ -10,7 +10,7 @@ import {TranslateService} from "ng2-translate";
     selector   : 'photo-feedback-modal',
     templateUrl: 'photo-feedback-modal.html'
 })
-export class PhotoFeedbackModal {
+export class PhotoFeedbackModalComponent {
 
     photo: any;
     submitted: boolean = false;

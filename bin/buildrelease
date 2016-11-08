@@ -1,0 +1,11 @@
+#!/bin/bash
+# Usage: ./bin/build.sh 'platform'
+#
+
+echo "#### Cordova Clean Cache ####"
+cordova clean
+echo "#### Compilation Application ####"
+ionic build
+echo "#### Build Release " $* " ####"
+cordova build $* --release
+

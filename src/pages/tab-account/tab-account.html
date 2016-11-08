@@ -15,8 +15,9 @@
         <ion-row>
             <ion-col width-25>
                 <div class="img-avatar">
-                    <img-loader *ngIf="user.get('photo')" [src]="user.get('photo').url()" width="6em" height="6em"></img-loader>
-                    <img *ngIf="!user.get('photo')" src="assets/img/user.png" >
+                    <img-loader *ngIf="user.get('photo')" [src]="user.get('photo').url()" width="6em"
+                                height="6em"></img-loader>
+                    <img *ngIf="!user.get('photo')" src="assets/img/user.png">
                 </div>
             </ion-col>
             <ion-col width-75>
@@ -78,6 +79,7 @@
     <photo-list *ngIf="type=='list'"></photo-list>
     <photo-grid *ngIf="type=='grid'"></photo-grid>
     <album-grid *ngIf="type=='album'"></album-grid>
+    <photo-map *ngIf="type=='map'"></photo-map>
 
     <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

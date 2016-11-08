@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, Platform} from 'ionic-angular';
 import {PhotoPage} from "../../pages/photo/photo";
 import {Gallery} from "../../providers/gallery";
-import _ from 'underscore';
 import {IonicUtil} from "../../providers/ionic-util";
+import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
+import _ from 'underscore';
+import {Logging} from "../../providers/logging";
 
 @Component({
     selector   : 'page-tab-search',
@@ -14,6 +16,7 @@ export class TabSearchPage {
     words: string       = '';
     placeholder: string = 'Search';
     _width: any;
+    _color: string      = '';
 
     params = {
         limit: 24,
@@ -27,30 +30,37 @@ export class TabSearchPage {
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    moreItem: boolean      = false;
 
     constructor(private navCtrl: NavController,
                 private provider: Gallery,
                 private util: IonicUtil,
+                private platform: Platform,
+                private logging: Logging
     ) {
 
+        this._color = util._toolbarTheme;
         // Translate Search Bar Placeholder
         this.util.translate('Search').then((res: string) => this.placeholder = res);
         this._width = this.util._widthPlatform / 3 + 'px';
         this.feed();
+
+    }
+
+    openSearchMap() {
+        this.navCtrl.push(TabSearchMapPage);
     }
 
     openPhoto(item) {
-        console.log(item);
         this.navCtrl.push(PhotoPage, {item: item});
     }
 
     feed() {
         return new Promise((resolve, reject) => {
-            console.log('Load Feed', this.params, this.loading);
+            this.logging.log('Load Feed' + this.params + this.loading);
 
             if (this.params.page == 1) {
-                this.data    = [];
-                this.loading = true;
+                this.data = [];
             }
 
             this.provider.feed(this.params).then(data => {
@@ -58,8 +68,14 @@ export class TabSearchPage {
                     _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
                     });
-                } else {
+                    this.showErrorView = false;
                     this.showEmptyView = false;
+                    this.moreItem      = true;
+                } else {
+                    if (!this.data.length) {
+                        this.showEmptyView = false;
+                    }
+                    this.moreItem = false;
                 }
 
                 this.loading = false;
@@ -67,6 +83,7 @@ export class TabSearchPage {
             }, error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
+                reject(this.errorText)
             });
         });
     }
@@ -92,5 +109,6 @@ export class TabSearchPage {
         this.params.page = 1;
         event.complete();
     }
+
 
 }

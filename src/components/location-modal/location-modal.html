@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-searchbar [(ngModel)]="_words" (ionInput)="doSearch()" (ionCancel)="doCancel()" [placeholder]="_placeholder">
+        </ion-searchbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let item of _languages" (click)="selectLanguage(item)">
+            {{item.name}}
+        </ion-item>
+    </ion-list>
+
+</ion-content>

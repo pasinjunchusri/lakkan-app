@@ -32,6 +32,23 @@ export class GalleryComment {
         });
     }
 
+    feed(params: any) {
+
+        const _page  = params.page || 1;
+        const _limit = params.limit || 24;
+
+        return new Promise((resolve, reject) => {
+            new Parse.Query('GalleryComment')
+                .equalTo('gallery', params.gallery)
+                .descending('createdAt')
+                .limit(_limit)
+                .skip((_page * _limit) - _limit)
+                .find()
+                .then((data: any) => {resolve(data)}, reject)
+        });
+
+    }
+
     create(item) {
         let ParseObjectRow = new this._ParseObject();
         return ParseObjectRow.save(item);
