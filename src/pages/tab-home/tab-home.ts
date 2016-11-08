@@ -79,6 +79,7 @@ export class TabHomePage {
             }, error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
+                this.loading       = false;
                 reject(this.errorText)
             });
         });
@@ -86,15 +87,18 @@ export class TabHomePage {
 
     doInfinite(event) {
         this.params.page++;
-        this.feed().then(() => event.complete());
+        this.feed().then(() => event.complete()).catch(() => event.complete());
     }
 
     doRefresh(event) {
+        this.data        = [];
         this.params.page = 1;
-        if (!event) {
-            this.loading = true;
-        }
-        this.feed().then(() => event.complete());
+        this.feed().then(() => event.complete()).catch(() => event.complete());
+    }
+
+    doTry() {
+        this.loading = true;
+        this.doRefresh(null);
     }
 
 }

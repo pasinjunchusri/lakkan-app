@@ -81,7 +81,8 @@ export class TabSearchPage {
             }, error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
-                reject(this.errorText)
+                this.loading       = false;
+                reject(this.errorText);
             });
         });
     }
@@ -100,12 +101,18 @@ export class TabSearchPage {
 
     doInfinite(event) {
         this.params.page++;
-        event.complete();
+        this.feed().then(() => event.complete()).catch(() => event.complete());
     }
 
     doRefresh(event) {
+        this.data        = [];
         this.params.page = 1;
-        event.complete();
+        this.feed().then(() => event.complete()).catch(() => event.complete());
+    }
+
+    doTry() {
+        this.loading = true;
+        this.doRefresh(null);
     }
 
 

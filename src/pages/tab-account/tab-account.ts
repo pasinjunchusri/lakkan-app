@@ -77,7 +77,6 @@ export class TabAccountPage {
 
         this.events.unsubscribe('photolist:complete', null);
         this.events.subscribe('photolist:complete', () => {
-            this.loading = false;
             event.complete();
         });
     }
@@ -88,7 +87,6 @@ export class TabAccountPage {
         this.loading = true;
         this.events.publish('photolist:params', this.params);
         this.events.subscribe('photolist:complete', () => {
-            this.loading = false;
             event.complete();
         });
     }

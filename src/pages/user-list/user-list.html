@@ -10,9 +10,9 @@
     <div class="center" *ngIf="showErrorView" padding>
         <div class="error ">
             <ion-icon [name]="errorIcon"></ion-icon>
-            <p>{{ "errorText" | translate }}</p>
-            <button ion-button color="primary" (click)="onQuery()">
-                {{ 'tryAgainText' | translate }}
+            <p>{{ 'Connection unavailable' | translate }}</p>
+            <button ion-button color="primary" (click)="doTry()">
+                {{ 'Try again' | translate }}
             </button>
         </div>
     </div>
@@ -20,7 +20,7 @@
     <div class="center" *ngIf="showEmptyView" padding>
         <div class="error">
             <ion-icon [name]="errorIcon"></ion-icon>
-            <p>{{ 'Users not found' | translate }}</p>
+            <p>{{ 'users not found' | translate }}</p>
         </div>
     </div>
     <ion-refresher (ionRefresh)="doRefresh($event)">
