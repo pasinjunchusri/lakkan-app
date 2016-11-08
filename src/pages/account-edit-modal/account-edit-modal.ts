@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {IonicUtil} from "../../providers/ionic-util";
 import {User} from "../../providers/user";
 
@@ -14,8 +14,7 @@ export class AccountEditModalPage {
     submitted: boolean = false;
     _user: any;
 
-    constructor(private navCtrl: NavController,
-                private viewCtrl: ViewController,
+    constructor(private viewCtrl: ViewController,
                 private ionic: IonicUtil,
                 private User: User,
     ) {

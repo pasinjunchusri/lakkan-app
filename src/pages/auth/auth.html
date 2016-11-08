@@ -40,7 +40,7 @@
                 </ion-col>
             </ion-row>
         </form>
-        <form *ngSwitchCase="'signup'" #signupCreds="ngForm" (ngSubmit)="signup(signupCreds.value)" novalidate>
+        <form *ngSwitchCase="'signup'" #signupCreds="ngForm" (ngSubmit)="signup(signupCreds)" novalidate>
             <ion-item>
                 <ion-label floating color="primary">{{'Name' | translate}}</ion-label>
                 <ion-input [(ngModel)]="formSignup.name" name="name" type="text" #name="ngModel" required>
@@ -58,6 +58,16 @@
             </ion-item>
             <p [hidden]="gender.valid || !submitted" color="danger" padding-left>
                 {{'Gender' | translate }}
+            </p>
+            <ion-item>
+                <ion-label floating color="primary">{{'Username'| translate}}</ion-label>
+                <ion-input [(ngModel)]="formSignup.username" name="username" type="text" #username="ngModel"
+                           spellcheck="false" autocapitalize="off"
+                           required>
+                </ion-input>
+            </ion-item>
+            <p [hidden]="username.valid || !submitted" color="danger" padding-left>
+                {{'Username is required' | translate}}
             </p>
             <ion-item>
                 <ion-label floating color="primary">{{'Email'| translate}}</ion-label>

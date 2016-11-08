@@ -1,6 +1,6 @@
 <ion-header no-shadow>
     <ion-navbar color="primary">
-        <ion-title (click)="modalLanguage()">Idioma</ion-title>
+        <ion-title (click)="modalLanguage()">{{'Language' | translate}}</ion-title>
         <ion-buttons end *ngIf="showSkip">
             <button ion-button (click)="startApp()">{{'Skip'| translate}}</button>
         </ion-buttons>
