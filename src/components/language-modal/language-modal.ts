@@ -50,6 +50,4 @@ export class LanguageModalComponent {
     dismiss() {
         this.viewCtrl.dismiss();
     }
-
-
 }

@@ -1,4 +1,5 @@
-album-input {
+page-album-list-modal {
+
   $thumbsize: 80px;
   ion-thumbnail {
     img-loader {
@@ -7,4 +8,5 @@ album-input {
       width: $thumbsize !important;
     }
   }
+
 }

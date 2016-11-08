@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ViewController, NavParams} from 'ionic-angular';
+import {ViewController, NavParams, Events} from 'ionic-angular';
 import {GalleryAlbum} from '../../providers/gallery-album';
 import {IonicUtil} from '../../providers/ionic-util';
 
@@ -19,7 +19,8 @@ export class AlbumFormModalComponent {
     constructor(private viewCtrl: ViewController,
                 private provider: GalleryAlbum,
                 private ionicUtil: IonicUtil,
-                private navParams: NavParams
+                private navParams: NavParams,
+                private events: Events
     ) {
         this.id = this.navParams.get('id');
         if (this.id) {
@@ -49,6 +50,7 @@ export class AlbumFormModalComponent {
                 this.provider.put(this.form).then(form => {
                     this.ionicUtil.endLoading();
                     this.dismiss();
+                    this.events.publish('album:reload');
                 });
             }
         }

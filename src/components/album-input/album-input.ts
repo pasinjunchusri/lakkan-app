@@ -1,22 +1,26 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {ModalController, Events} from "ionic-angular";
+import {AlbumListModalPage} from "../album-list-modal/album-list-modal";
 
-/*
-  Generated class for the AlbumInput component.
-
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
-*/
 @Component({
-  selector: 'album-input',
-  templateUrl: 'album-input.html'
+    selector   : 'album-input',
+    templateUrl: 'album-input.html'
 })
 export class AlbumInputComponent {
 
-  text: string;
+    item: any;
 
-  constructor() {
-    console.log('Hello AlbumInput Component');
-    this.text = 'Hello World';
-  }
+    constructor(private modalCtrl: ModalController,
+                private events: Events
+    ) {
+        events.subscribe('album:selected', album => {
+            this.item = album[0].attributes;
+            console.log(this.item);
+        });
+    }
+
+    openAlbumList() {
+        this.modalCtrl.create(AlbumListModalPage).present();
+    }
 
 }

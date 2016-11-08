@@ -1,8 +1,17 @@
-<!--
-  Generated template for the AlbumInput component.
-
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
--->
-
-{{text}}
+<ion-list>
+    <ion-item *ngIf="!item" (click)="openAlbumList()">
+        <ion-thumbnail item-left>
+            <img src="assets/img/albumnone.png">
+        </ion-thumbnail>
+        <h2>{{'Select album'}}</h2>
+    </ion-item>
+    <ion-item *ngIf="item" (click)="openAlbumList()">
+        <ion-thumbnail item-left>
+            <img *ngIf="!item.imageThumb" src="assets/img/albumnew.png" alt="">
+            <img *ngIf="item.imageThumb" [src]="item.imageThumb._url">
+        </ion-thumbnail>
+        <h2>{{item.title}}</h2>
+        <p>{{item.description}}</p>
+        <p>{{item.qtyPhotos}}</p>
+    </ion-item>
+</ion-list>

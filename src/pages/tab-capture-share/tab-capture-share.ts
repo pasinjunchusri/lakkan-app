@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavParams, ViewController, NavController} from "ionic-angular";
+import {NavParams, ViewController, NavController, Events} from "ionic-angular";
 import {TabsPage} from "../tabs/tabs";
 import {ParseFile} from "../../providers/parse-file";
 
@@ -18,8 +18,12 @@ export class TabCapturSharePage {
                 private navCtrl: NavController,
                 private viewCtrl: ViewController,
                 private ParseFile: ParseFile,
+                private events: Events,
     ) {
         this.image = this.navparams.get('base64');
+        events.subscribe('album:selected', album => {
+            this.form.album = album[0];
+        });
     }
 
     submit(form) {

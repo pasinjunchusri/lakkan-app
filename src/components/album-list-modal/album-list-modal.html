@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-searchbar [(ngModel)]="_words" (ionInput)="doSearch()" (ionCancel)="doCancel()"
+                       [placeholder]="_placeholder">
+        </ion-searchbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content >
+    <loader *ngIf="loading && !data.length"></loader>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ "errorText" | translate }}</p>
+            <button ion-button color="primary" (click)="onQuery()">
+                {{ 'tryAgainText' | translate }}
+            </button>
+        </div>
+    </div>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Album not found' | translate }}</p>
+        </div>
+    </div>
+
+    <ion-item (click)="albumForm()">
+        <ion-thumbnail item-left>
+            <img src="assets/img/albumnew.png" alt="">
+        </ion-thumbnail>
+        <h2>{{'New album' | translate }}</h2>
+    </ion-item>
+
+    <div *ngFor="let item of data  ">
+        <ion-item (click)="selectAlbum(item)">
+            <ion-thumbnail item-left>
+                <img *ngIf="!item.imageThumb" src="assets/img/albumnone.png" alt="">
+                <img-loader *ngIf="item.imageThumb" [src]="item.imageThumb._url"></img-loader>
+            </ion-thumbnail>
+            <h2>{{item.title}}</h2>
+            <p>{{item.description}}</p>
+            <p>{{item.qtyPhotos}}</p>
+        </ion-item>
+    </div>
+
+</ion-content>

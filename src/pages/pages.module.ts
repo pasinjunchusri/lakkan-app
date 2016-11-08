@@ -45,7 +45,6 @@ import {UserPasswordPage} from './user-password/user-password';
 import {ProfilePage} from './profile/profile';
 import {PhotoCaptureModalComponent} from '../components/photo-capture-modal/photo-capture-modal';
 import {AlbumFormModalComponent} from '../components/album-form-modal/album-form-modal';
-import {AlbumListComponent} from '../components/album-list/album-list';
 import {AlbumGridComponent} from '../components/album-grid/album-grid';
 import {AlbumPhotoGridComponent} from '../components/album-photo-grid/album-photo-grid';
 import {AlbumPhotoGridPopoverComponent} from '../components/album-photo-grid-popover/album-photo-grid-popover';
@@ -63,6 +62,8 @@ import {IonicUtil} from "../providers/ionic-util";
 import {Logging} from "../providers/logging";
 import {POIDetailsPage} from "./poi-details/poi-details";
 import {TabSearchMapSettingsPage} from "./tab-search-map-settings/tab-search-map-settings";
+import {AlbumInputComponent} from "../components/album-input/album-input";
+import {AlbumListModalPage} from "../components/album-list-modal/album-list-modal";
 
 export const APP_PAGES = [
     IntroPage,
@@ -85,6 +86,8 @@ export const APP_PAGES = [
     AboutPage,
     POIDetailsPage,
 
+    // Modal
+    AlbumListModalPage,
 
     // Components
     LoaderComponent,
@@ -97,8 +100,8 @@ export const APP_PAGES = [
     PhotoCardComponent,
     PhotoCaptureModalComponent,
     AlbumFormModalComponent,
-    AlbumListComponent,
     AlbumGridComponent,
+    AlbumInputComponent,
     AlbumPhotoGridComponent,
     AlbumPhotoGridPopoverComponent,
     LanguageModalComponent,
