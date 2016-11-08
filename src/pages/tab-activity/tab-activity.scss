@@ -1,4 +1,11 @@
-page-home {
+page-tab-activity {
 
-
+  $thumbsize:80px;
+  ion-thumbnail {
+    img-loader {
+      display: block !important;
+      height: $thumbsize !important;
+      width: $thumbsize !important;
+    }
+  }
 }

@@ -34,15 +34,22 @@
             </ion-avatar>
             <h3 (click)="profile(item.user.username)">{{item.user.username}}</h3>
             <p>{{item.action | translate }}</p>
-            <div *ngIf="!item.user.isFollow" item-right>
-                <button ion-button outline>
-                    + {{'Follow' | translate }}
-                </button>
+            <div *ngIf="!item.item.get('gallery')" item-right>
+                <div *ngIf="!item.user.isFollow">
+                    <button ion-button outline>
+                        + {{'Follow' | translate }}
+                    </button>
+                </div>
+                <div *ngIf="item.user.isFollow">
+                    <button ion-button>
+                        - {{'Unfollow' | translate }}
+                    </button>
+                </div>
             </div>
-            <div *ngIf="item.user.isFollow" item-right>
-                <button ion-button>
-                    - {{'Unfollow' | translate }}
-                </button>
+            <div *ngIf="item.item.get('gallery')" item-right>
+                <ion-thumbnail>
+                    <img-loader (click)="openPhoto(item)" [src]="item.item.get('gallery').get('imageThumb').url()" ></img-loader>
+                </ion-thumbnail>
             </div>
         </ion-item>
     </ion-list>

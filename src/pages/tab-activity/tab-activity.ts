@@ -3,6 +3,7 @@ import {NavController} from 'ionic-angular';
 import {GalleryActivity} from "../../providers/gallery-activity";
 import {ProfilePage} from "../profile/profile";
 import _ from 'underscore';
+import {PhotoPage} from "../photo/photo";
 
 @Component({
     selector   : 'page-tab-activity',
@@ -36,6 +37,12 @@ export class TabActivityPage {
 
     profile(username: string) {
         this.navCtrl.push(ProfilePage, {username: username});
+    }
+
+    openPhoto(item) {
+
+        console.log();
+        this.navCtrl.push(PhotoPage, {item: item.item.get('gallery')});
     }
 
     feed() {

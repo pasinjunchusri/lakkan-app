@@ -4,8 +4,8 @@ import {PhotoPage} from "../../pages/photo/photo";
 import {Gallery} from "../../providers/gallery";
 import {IonicUtil} from "../../providers/ionic-util";
 import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
-import _ from 'underscore';
 import {Logging} from "../../providers/logging";
+import _ from 'underscore';
 
 @Component({
     selector   : 'page-tab-search',
@@ -101,19 +101,33 @@ export class TabSearchPage {
 
     doInfinite(event) {
         this.params.page++;
-        this.feed().then(() => event.complete()).catch(() => event.complete());
+        this.feed().then(() => {
+            if (event) {
+                event.complete()
+            }
+        }).catch(() => {
+            if (event) {
+                event.complete()
+            }
+        });
     }
 
     doRefresh(event) {
         this.data        = [];
         this.params.page = 1;
-        this.feed().then(() => event.complete()).catch(() => event.complete());
+        this.feed().then(() => {
+            if (event) {
+                event.complete()
+            }
+        }).catch(() => {
+            if (event) {
+                event.complete()
+            }
+        });
     }
 
     doTry() {
         this.loading = true;
         this.doRefresh(null);
     }
-
-
 }
