@@ -60,7 +60,6 @@ import {TabSearchMapPage} from "./tab-search-map/tab-search-map";
 import {UploadStatusComponent} from "../components/upload-status/upload-status";
 import {IonicUtil} from "../providers/ionic-util";
 import {Logging} from "../providers/logging";
-import {POIDetailsPage} from "./poi-details/poi-details";
 import {TabSearchMapSettingsPage} from "./tab-search-map-settings/tab-search-map-settings";
 import {AlbumInputComponent} from "../components/album-input/album-input";
 import {AlbumListModalPage} from "../components/album-list-modal/album-list-modal";
@@ -84,7 +83,6 @@ export const APP_PAGES = [
     UserPasswordPage,
     UserListPage,
     AboutPage,
-    POIDetailsPage,
 
     // Modal
     AlbumListModalPage,

@@ -18,7 +18,7 @@ export class AlbumListModalPage {
     };
 
     _words: string         = '';
-    placeholder: string    = '';
+    _placeholder: string    = '';
     privacity: string      = 'public';
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
@@ -36,7 +36,7 @@ export class AlbumListModalPage {
     ) {
 
         // Translate Search Bar Placeholder
-        this.util.translate('Search album').then((res: string) => this.placeholder = res);
+        this.util.translate('Search album').then((res: string) => this._placeholder = res);
         events.subscribe('album:reload', () => this.doRefresh(null));
     }
 

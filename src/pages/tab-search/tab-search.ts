@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
-import {NavController, Platform} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {PhotoPage} from "../../pages/photo/photo";
 import {Gallery} from "../../providers/gallery";
 import {IonicUtil} from "../../providers/ionic-util";
 import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
-import {Logging} from "../../providers/logging";
 import _ from 'underscore';
 
 @Component({
@@ -34,8 +33,6 @@ export class TabSearchPage {
     constructor(private navCtrl: NavController,
                 private provider: Gallery,
                 private util: IonicUtil,
-                private platform: Platform,
-                private logging: Logging
     ) {
 
         // Translate Search Bar Placeholder
@@ -55,7 +52,7 @@ export class TabSearchPage {
 
     feed() {
         return new Promise((resolve, reject) => {
-            this.logging.log('Load Feed' + this.params + this.loading);
+            console.log('Load Feed' , this.params , this.loading);
 
             if (this.params.page == 1) {
                 this.data = [];

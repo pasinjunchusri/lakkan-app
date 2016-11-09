@@ -30,7 +30,8 @@ page-tab-account {
     height: $avatar-size;
     width: $avatar-size;
     img-loader {
-      width: 100%;
+      height: $avatar-size;
+      width: $avatar-size;
     }
   }
 

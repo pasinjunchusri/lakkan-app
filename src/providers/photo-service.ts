@@ -88,18 +88,15 @@ export class PhotoService {
                 targetWidth       : this._setting.width,
                 targetHeight      : this._setting.height,
                 quality           : this._setting.quality,
-                allowEdit         : this._setting.allowEdit,
-                saveToPhotoAlbum  : this._setting.saveToPhotoAlbum,
-                sourceType        : Camera.PictureSourceType.CAMERA,
+                //allowEdit         : this._setting.allowEdit,
+                saveToPhotoAlbum  : false,
                 destinationType   : Camera.DestinationType.DATA_URL,
-                encodingType      : Camera.EncodingType.JPEG,
-                correctOrientation: true,
+                //encodingType      : Camera.EncodingType.JPEG,
+                //correctOrientation: true,
             }).then((imageData) => {
                 // imageData is a base64 encoded string
-                let base64        = 'data:image/jpeg;base64,' + imageData;
-                console.log('camera:base64', base64);
-                this._base64Image = base64;
-                resolve(base64);
+                this._base64Image = 'data:image/jpeg;base64,' + imageData;
+                resolve(this._base64Image);
             }, (err) => {
                 console.log(err);
                 reject(err);
@@ -114,17 +111,15 @@ export class PhotoService {
                 targetHeight      : this._setting.height,
                 quality           : this._setting.quality,
                 allowEdit         : this._setting.allowEdit,
-                saveToPhotoAlbum  : this._setting.allowEdit,
+                saveToPhotoAlbum  : this._setting.saveToPhotoAlbum,
                 sourceType        : Camera.PictureSourceType.PHOTOLIBRARY,
                 destinationType   : Camera.DestinationType.DATA_URL,
                 encodingType      : Camera.EncodingType.JPEG,
                 correctOrientation: true,
             }).then((imageData) => {
                 // imageData is a base64 encoded string
-                let base64        = 'data:image/jpeg;base64,' + imageData;
-                console.log('photoLibrary:base64', base64);
-                this._base64Image = base64;
-                resolve(base64);
+                this._base64Image = 'data:image/jpeg;base64,' + imageData;
+                resolve(this._base64Image);
             }, (err) => {
                 console.log(err);
                 reject(err);

@@ -15,7 +15,9 @@ export class TabAccountPage {
     loading: boolean        = true;
     type: string            = 'list';
     profile: any;
-    moreItem: boolean       = true;
+    showEmptyView: boolean  = false;
+    showErrorView: boolean  = false;
+    moreItem: boolean       = false;
 
     params = {
         limit    : 12,
@@ -29,7 +31,7 @@ export class TabAccountPage {
                 private events: Events,
                 private modalCtrl: ModalController
     ) {
-        this.user            = User.current();
+        this.user = User.current();
         //this.username        = this.user.username;
         //this.params.username = this.username;
 

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Platform, LoadingController, ToastController} from "ionic-angular";
 import {TranslateService} from "ng2-translate";
 import {ThemeableBrowser} from "ionic-native";
-import {SearchSettings} from "../model/SearchSettings";
 import {Logging} from "./logging";
 
 declare var device: any;
@@ -12,8 +11,7 @@ export class IonicUtil {
     public cordova: boolean;
     public _widthPlatform: any;
     public _heightPlatform: any;
-    public searchSettings: SearchSettings;
-    public isRequestInProgress: boolean = false;
+
 
     private _browserTheme = {
         statusbar         : {

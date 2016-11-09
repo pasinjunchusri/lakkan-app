@@ -16,8 +16,6 @@ import {PhotoService} from "./photo-service";
 import {GalleryAlbum} from './gallery-album';
 import {UploadService} from "./upload";
 import {Logging} from "./logging";
-import {Mapping} from "./mapping/Mapping";
-import {POIManager} from "./POIManager";
 
 export const sharedProviders = [
     IonicUtil,
@@ -34,8 +32,6 @@ export const sharedProviders = [
     ParseFile,
     ParsePush,
     UploadService,
-    Mapping,
-    POIManager,
 ];
 
 @NgModule({

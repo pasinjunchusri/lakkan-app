@@ -2,7 +2,7 @@
     "cordova-plugin-device": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-device"
+            "id": "cordova-plugin-device@~1.1.3"
         },
         "is_top_level": true,
         "variables": {}
@@ -10,7 +10,7 @@
     "cordova-plugin-facebook4": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-facebook4"
+            "id": "cordova-plugin-facebook4@~1.7.4"
         },
         "is_top_level": true,
         "variables": {
@@ -21,23 +21,7 @@
     "cordova-plugin-file": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-file"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-file-transfer": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-file-transfer"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-sqlite-storage": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-sqlite-storage"
+            "id": "cordova-plugin-file@~4.3.0"
         },
         "is_top_level": true,
         "variables": {}
@@ -50,10 +34,26 @@
         "is_top_level": false,
         "variables": {}
     },
+    "cordova-plugin-file-transfer": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-file-transfer@~1.6.0"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-sqlite-storage": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-sqlite-storage@~1.4.8"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
     "cordova-plugin-splashscreen": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-splashscreen@4.0.0"
+            "id": "cordova-plugin-splashscreen@~4.0.0"
         },
         "is_top_level": true,
         "variables": {}
@@ -61,7 +61,7 @@
     "cordova-plugin-statusbar": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-statusbar@2.2.0"
+            "id": "cordova-plugin-statusbar@~2.2.0"
         },
         "is_top_level": true,
         "variables": {}
@@ -77,7 +77,7 @@
     "cordova-plugin-whitelist": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-whitelist@1.3.0"
+            "id": "cordova-plugin-whitelist@~1.3.0"
         },
         "is_top_level": true,
         "variables": {}
@@ -94,38 +94,32 @@
     "cordova-plugin-camera": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-camera"
+            "id": "cordova-plugin-camera@~2.3.0"
         },
         "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-crop": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Nexxa/cordova-plugin-crop",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "NSCameraUsageDescription": "To take picture"
+        }
     },
     "cordova-plugin-themeablebrowser": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-themeablebrowser"
+            "id": "cordova-plugin-themeablebrowser@~0.2.17"
         },
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-googlemaps": {
+    "plugin.google.maps": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-plugin-googlemaps@~1.3.9"
         },
         "is_top_level": true,
         "variables": {
-            "API_KEY_FOR_ANDROID": "AIzaSyANLF00UBMHcQe4VubEB3Te3wT9f7PxDtc",
-            "API_KEY_FOR_IOS": "AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI"
+            "API_KEY_FOR_ANDROID": "AIzaSyAuVIBMX85GGRS5O6sA",
+            "API_KEY_FOR_IOS": "AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI",
+            "NSLOCATIONWHENINUSEUSAGEDESCRIPTION": "Show your location on the map",
+            "NSLOCATIONALWAYSUSAGEDESCRIPTION": "Trace your location on the map"
         }
     }
 }
