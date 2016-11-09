@@ -1,16 +1,13 @@
 # Facebook Authentication
 
-### 1. Plugin Installation
+### 1. Plugin Configuration
 
 To use the Facebook plugin, you first have to create a new Facebook App inside of the Facebook developer portal at [https://developers.facebook.com/apps](https://developers.facebook.com/apps).
 
 [![fb-getstarted-2](http://ionicframework.com/img/docs/native/Facebook/2.png)](https://developers.facebook.com/apps/)
 
-Then type in the following command in your Terminal, where `APP_ID` and `APP_NAME` are the values from the Facebook Developer portal.
+Open config.xml file and change variables `APP_ID` and `APP_NAME` are the values from the Facebook Developer portal.
 
-```bash
-ionic plugin add cordova-plugin-facebook4 --save --variable APP_ID="123456789" --variable APP_NAME="myApplication"
-```
 
 ### 2. Add Platforms
 After, you'll need to add the native platforms you'll be using to your app in the Facebook Developer portal under your app's Settings:
