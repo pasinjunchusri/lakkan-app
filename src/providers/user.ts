@@ -27,10 +27,8 @@ export class User {
         'roleName',
     ];
     private _ParseObject = Parse.User.extend({});
-    public current: any;
 
     constructor(private ParsePush: ParsePush) {
-        this.current = Parse.User.current();
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () { return this.get(field) },
@@ -48,6 +46,10 @@ export class User {
                 }));
             }
         });
+    }
+
+    current() {
+        return Parse.User.current();
     }
 
     fetch() {
@@ -98,7 +100,7 @@ export class User {
         //delete $window.localStorage['Parse/' + Parse.applicationId + '/installationId'];
     }
 
-    updateWithFacebookData(data:any) {
+    updateWithFacebookData(data: any) {
         return new Promise((resolve, reject) => {
             Parse.Cloud.run('saveFacebookPicture').then(() => {
                 let user = Parse.User.current();

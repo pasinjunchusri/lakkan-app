@@ -19,10 +19,8 @@ export class UserData {
     ];
 
     private _ParseObject: any = Parse.Object.extend('UserData', {});
-    public current: any;
 
     constructor() {
-        this.current = Parse.User.current();
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () {return this.get(field)},
@@ -40,6 +38,10 @@ export class UserData {
                 }));
             }
         });
+    }
+
+    current(): any {
+        return Parse.User.current();
     }
 
     profile(username) {

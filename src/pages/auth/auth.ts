@@ -63,7 +63,7 @@ export class AuthPage {
 
             this.provider.signIn(this.formLogin).then(user => {
                 console.log(user);
-                this.provider.current = user;
+                console.log(this.provider.current());
                 this.util.endLoading();
                 this.onPageTabs();
             }, error => {
@@ -100,24 +100,15 @@ export class AuthPage {
         this.util.onLoading();
         this.facebook.getLoginStatus().then(response => {
             console.log('getLoginStatus', response);
-            if (response.status == 'connected') {
+            if (response.status === 'connected') {
+                console.log(1);
                 this.processFacebookLogin(response);
-            } else if (response.status == "unknown") {
-                console.log('Facebook login');
-                this.facebook.login(['email,public_profile']).then((authData) => {
-                    console.log('Facebook login', authData);
+            } else {
+                console.log(2);
+                this.facebook.login(['public_profile']).then((authData) => {
+                    console.log('facebook login', authData);
                     this.processFacebookLogin(authData);
                 });
-            } else {
-                if (this.cordova) {
-                    this.facebook.login(['email,public_profile']).then((authData) => {
-                        this.processFacebookLogin(authData);
-                    });
-                } else {
-                    this.provider.signInViaFacebook(response).then(authData => {
-                        this.processFacebookLogin(authData);
-                    })
-                }
             }
         });
     }
@@ -127,34 +118,27 @@ export class AuthPage {
         let fbData;
         let provider = this.provider;
 
-        this.facebook.api('/me?fields=name,first_name,last_name,gender,email', ['public_profile']).then(data => {
+        this.facebook.api('/me?fields=name,birthday,gender,email').then(data => {
             console.log('fbData', data);
             fbData = data;
             if (fbData['email']) {
-                return provider.findByEmail(data.email);
+                console.log('Logica 1');
+                return provider.findByEmail(data.email).then(() => provider.signInViaFacebook(fbAuthData));
             } else {
+                console.log('Logica 2');
                 return provider.signInViaFacebook(fbAuthData);
             }
         }).then(respUser => {
             console.log('respUser', respUser);
-            let user              = Parse.User.current();
-            this.provider.current = user;
 
-            if (user.get('name')) {
-                this.util.endLoading();
-                this.onPageTabs();
-            } else {
-                console.log('User incomplete', user);
-                setTimeout(() => {
-                    this.provider.updateWithFacebookData(fbData).then((user2) => {
-                        console.log('user atualizado');
-                        this.provider.current = user2;
-                        this.util.endLoading();
-                        this.onPageTabs();
-                    });
-                }, 500)
-
+            if(!respUser.name) {
+                if(fbData['name']) {respUser.set('name', fbData['name']);}
+                if(fbData['gender']) {respUser.set('gender', fbData['gender']);}
+                respUser.save();
             }
+
+            this.util.endLoading();
+            this.onPageTabs();
 
         }).catch(error => {
             console.log('error', error);

@@ -5,6 +5,7 @@ import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-m
 import {ProfilePage} from "../../pages/profile/profile";
 import {PhotoListPopoverComponent} from "../photo-list-popover/photo-list-popover";
 import {IonicUtil} from "../../providers/ionic-util";
+import {User} from "../../providers/user";
 
 @Component({
     selector   : 'photo-card',
@@ -14,7 +15,7 @@ export class PhotoCardComponent {
 
     @Input() item: any;
 
-    username: string     = Parse.User.current().get('username');
+    username: any;
     loadingLike: boolean = false;
     _width: any;
 
@@ -22,8 +23,10 @@ export class PhotoCardComponent {
                 private navCtrl: NavController,
                 private modalCtrl: ModalController,
                 private popoverCtrl: PopoverController,
-                private util: IonicUtil
+                private util: IonicUtil,
+                private User: User
     ) {
+        this.username = User.current().username;
         this._width = util._widthPlatform + 'px';
     }
 

@@ -18,7 +18,7 @@ export class AccountEditModalPage {
                 private ionic: IonicUtil,
                 private User: User,
     ) {
-        this._user = User.current.attributes;
+        this._user = User.current().attributes;
 
         if (this._user.photo) {
             this.photo = this._user.photo._url;
@@ -49,8 +49,10 @@ export class AccountEditModalPage {
             this.User.update(this.form).then(result => {
                 console.log(result);
                 this.ionic.endLoading();
+                this.dismiss();
             }, error => {
                 console.log(error);
+                this.dismiss();
                 this.ionic.endLoading();
             })
         }

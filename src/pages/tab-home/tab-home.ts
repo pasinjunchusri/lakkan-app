@@ -36,7 +36,7 @@ export class TabHomePage {
     }
 
     ngOnInit() {
-        this.feed()
+        this.feed();
     }
 
     selectType(privacity: string) {
