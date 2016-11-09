@@ -28,4 +28,4 @@ export const language_default: string = 'en';
 
 // Facebook
 export const facebook_appId: string      = '1024016557617380';
-export const facebook_appVersion: string = 'v2.6';
+export const facebook_appVersion: string = 'v2.8';

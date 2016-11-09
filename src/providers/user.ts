@@ -98,9 +98,9 @@ export class User {
         //delete $window.localStorage['Parse/' + Parse.applicationId + '/installationId'];
     }
 
-    updateWithFacebookData(data) {
+    updateWithFacebookData(data:any) {
         return new Promise((resolve, reject) => {
-            Parse.Cloud.run('saveFacebookPicture', {}).then(() => {
+            Parse.Cloud.run('saveFacebookPicture').then(() => {
                 let user = Parse.User.current();
 
                 if (!data.username && data.email) {
@@ -114,13 +114,13 @@ export class User {
                 if (!user.get('email') && data.email) {
                     user.set('email', data.email);
                 }
-                user.save(null, user.fetch().then(resolve, reject));
+                user.save(null).then(resolve, reject);
             });
-
         });
     }
 
     signInViaFacebook(authData: any) {
+        console.log('signInViaFacebook', authData);
         return new Promise((resolve, reject) => {
             let facebookAuthData = {
                 id             : authData['authResponse']['userID'],
@@ -203,6 +203,10 @@ export class User {
 
     findByEmail(email: string) {
         return Parse.Cloud.run('findUserByEmail', {email: email});
+    }
+
+    findUserFacebook(facebookId: string) {
+        return Parse.Cloud.run('findUserFacebookId', {facebookId: facebookId});
     }
 
     list(params: any) {

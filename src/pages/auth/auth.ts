@@ -96,81 +96,64 @@ export class AuthPage {
     }
 
     loginFacebook() {
-        console.log('Facebook login');
+
+        this.util.onLoading();
         this.facebook.getLoginStatus().then(response => {
-            console.log(response);
-            if (response.status === 'connected') {
+            console.log('getLoginStatus', response);
+            if (response.status == 'connected') {
                 this.processFacebookLogin(response);
-            } else {
-                this.facebook.login(['email,public_profile']).then(function (authData) {
+            } else if (response.status == "unknown") {
+                console.log('Facebook login');
+                this.facebook.login(['email,public_profile']).then((authData) => {
+                    console.log('Facebook login', authData);
                     this.processFacebookLogin(authData);
                 });
+            } else {
+                if (this.cordova) {
+                    this.facebook.login(['email,public_profile']).then((authData) => {
+                        this.processFacebookLogin(authData);
+                    });
+                } else {
+                    this.provider.signInViaFacebook(response).then(authData => {
+                        this.processFacebookLogin(authData);
+                    })
+                }
             }
-
-        }).catch(error => {
-            console.log('error', error);
-
         });
     }
 
     processFacebookLogin(fbAuthData) {
 
-        // this.util.onLoading('Conectando com o Facebook');
-        let fbData, newUser;
+        let fbData;
         let provider = this.provider;
 
-        this.util.onLoading();
-
-        let face = this.facebook.api('me?_fields=name,first_name,last_name,gender,email', ['public_profile']);
-        if (!this.cordova) {
-            face = this.facebook.api('/me', 'get', {fields: 'name, first_name, last_name, gender, email'});
-        }
-
-        face
-            .then(data => {
-                console.log('fbData', data);
-                fbData = data;
+        this.facebook.api('/me?fields=name,first_name,last_name,gender,email', ['public_profile']).then(data => {
+            console.log('fbData', data);
+            fbData = data;
+            if (fbData['email']) {
                 return provider.findByEmail(data.email);
-            }).then(user => {
-            console.log('findByEmail', user);
-
-            if (user) {
-                if (!user['id']) {
-                    newUser = true;
-                    provider.signInViaFacebook(fbAuthData).then(result => {
-                        console.log('signInViaFacebook', result);
-                    });
-                }
-
-                let authData = user['attributes']['authData'];
-
-                console.log('authData', authData);
-                console.log('fbData', fbData);
-                console.log(authData['facebook']['id'], fbData['id']);
-
-
-                // Se encontrar o usuário
-                if (authData['facebook']['id'] == fbData['id']) {
-                    console.log('Login Provider com o Facebook');
-                    provider.signInViaFacebook(fbAuthData).then(result => {
-                        console.log('signInViaFacebook 2', result);
-
-                        provider.updateWithFacebookData(fbData).then(user => {
-                            console.log('Usuário logado', user);
-                            this.util.endLoading();
-                            this.onPageTabs();
-                        });
-                    });
-                } else {
-                    // Cadastrar novo usuário
-                    console.log('Cadastar novo usuário', user, fbData, fbAuthData, authData);
-                    this.authType        = 'signup';
-                    this.formSignup.name = fbData['name'];
-                    this.util.endLoading();
-                }
             } else {
-                console.log('Novo usuário');
+                return provider.signInViaFacebook(fbAuthData);
+            }
+        }).then(respUser => {
+            console.log('respUser', respUser);
+            let user              = Parse.User.current();
+            this.provider.current = user;
+
+            if (user.get('name')) {
                 this.util.endLoading();
+                this.onPageTabs();
+            } else {
+                console.log('User incomplete', user);
+                setTimeout(() => {
+                    this.provider.updateWithFacebookData(fbData).then((user2) => {
+                        console.log('user atualizado');
+                        this.provider.current = user2;
+                        this.util.endLoading();
+                        this.onPageTabs();
+                    });
+                }, 500)
+
             }
 
         }).catch(error => {
