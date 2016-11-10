@@ -14,7 +14,6 @@ import {GallerFeedback} from "./gallery-feedback";
 import {UserData} from "./user-data";
 import {PhotoService} from "./photo-service";
 import {GalleryAlbum} from './gallery-album';
-import {UploadService} from "./upload";
 import {Logging} from "./logging";
 
 export const sharedProviders = [
@@ -30,8 +29,7 @@ export const sharedProviders = [
     GalleryComment,
     GallerFeedback,
     ParseFile,
-    ParsePush,
-    UploadService
+    ParsePush
 ];
 
 @NgModule({

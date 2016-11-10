@@ -1,6 +1,5 @@
 // Parse
 export const PARSE_APP_ID: string         = 'myAppId';
-export const PARSE_REST_API_KEY: string = 'T7=$3yK%#_6l';
 export const PARSE_SERVER_URL: string     = 'https://photogram.codevibe.io/parse/';
 
 // Google Analytics
