@@ -155,7 +155,7 @@ export class PagesModule {
 
     facebookInit() {
         // If Facebook in Browser
-        if (!this.util.cordova) {
+        //if (!this.util.cordova) {
             let userLang = navigator.language.split('-')[0]; // use navigator lang if available
             userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
             let lang     = languages.filter(item => {
@@ -173,7 +173,7 @@ export class PagesModule {
                 version: facebook_appVersion
             };
             setTimeout(() => this.fb.init(fbParams), 2000);
-        }
+        //}
 
     }
 
