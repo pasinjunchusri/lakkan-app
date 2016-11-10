@@ -14,6 +14,11 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+.logo {
+  display: inline-block;
+  height: 37px;
+}
+
 img-loader {
   background-color: #f1f1f1;
 }
