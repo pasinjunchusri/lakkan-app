@@ -30,8 +30,8 @@
         <div *ngFor="let item of data">
             <ion-item>
                 <ion-avatar (click)="profile(item.userObj.username)" item-left>
-                    <img-loader *ngIf="item.userObj.photo" [src]="item.userObj.photo.url()" width="40px"
-                                height="40px"></img-loader>
+                    <img *ngIf="item.userObj.photo" [src]="item.userObj.photo.url()" width="40px"
+                                height="40px"/>
                     <img *ngIf="!item.userObj.photo" src="assets/img/user.png">
                 </ion-avatar>
                 <h3 (click)="profile(item.userObj.username)">{{item.userObj.username}}</h3>
@@ -49,8 +49,8 @@
             </ion-item>
             <ion-row *ngIf="item.galleries">
                 <ion-col *ngFor="let gallery of item.galleries">
-                    <img-loader [src]="gallery.imageThumb._url"
-                                [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
+                    <img [src]="gallery.imageThumb._url"
+                                [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
                 </ion-col>
             </ion-row>
         </div>

@@ -41,7 +41,7 @@
         <ion-item (click)="selectAlbum(item)">
             <ion-thumbnail item-left>
                 <img *ngIf="!item.imageThumb" src="assets/img/albumnone.png" alt="">
-                <img-loader *ngIf="item.imageThumb" [src]="item.imageThumb._url"></img-loader>
+                <img *ngIf="item.imageThumb" [src]="item.imageThumb._url"/>
             </ion-thumbnail>
             <h2>{{item.title}}</h2>
             <p>{{item.description}}</p>
