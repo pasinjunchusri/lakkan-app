@@ -5,6 +5,7 @@ import {TabsPage} from "../tabs/tabs";
 import {IonicUtil} from "../../providers/ionic-util";
 import {Facebook} from 'ionic-native';
 import {FacebookService} from "ng2-facebook-sdk";
+import {UserAvatarPage} from "../user-avatar/user-avatar";
 
 @Component({
     selector   : 'page-auth',
@@ -115,36 +116,55 @@ export class AuthPage {
 
     processFacebookLogin(fbAuthData) {
 
-        let fbData;
-        let provider = this.provider;
+        //this.facebook.api('/me?fields=name,birthday,gender,email')
+        let fbData, newUser;
+        this
+            .facebook.api('/me?fields=name,birthday,gender,email')
+            .then((data) => {
+                fbData = data;
+                console.log('fData', data);
+                return this.provider.findByEmail(data.email);
+            })
+            .then((user) => {
 
-        this.facebook.api('/me?fields=name,birthday,gender,email').then(data => {
-            console.log('fbData', data);
-            fbData = data;
-            if (fbData['email']) {
-                console.log('Logica 1');
-                return provider.findByEmail(data.email).then(() => provider.signInViaFacebook(fbAuthData));
-            } else {
-                console.log('Logica 2');
-                return provider.signInViaFacebook(fbAuthData);
-            }
-        }).then(respUser => {
-            console.log('respUser', respUser);
+                console.log('user', user);
+                if (!user.id) {
+                    newUser = true;
+                    return this.provider.signInViaFacebook(fbAuthData);
+                }
 
-            if(!respUser.name) {
-                if(fbData['name']) {respUser.set('name', fbData['name']);}
-                if(fbData['gender']) {respUser.set('gender', fbData['gender']);}
-                respUser.save();
-            }
+                let authData = user.get('authData');
+                console.log('authData', authData);
+                if (authData) {
+                    if (authData.facebook.id === fbData.id) {
+                        return this.provider.signInViaFacebook(fbAuthData);
+                    }
+                } else {
+                    console.log(authData, user);
+                    return Promise.reject('error');
+                }
+            })
+            .then(() => this.provider.updateWithFacebookData(fbData))
+            .then((user) => {
+                //$rootScope.currentUser = user;
+                //$rootScope.$broadcast('onUserLogged');
+                //Loading.end();
+                if (newUser) {
+                    //$state.go('avatar', {clear: true})
+                    //this.navCtrl
+                    this.navCtrl.push(UserAvatarPage);
+                } else {
+                    //$state.go(AppConfig.routes.home, {clear: true});
+                    this.navCtrl.push(TabsPage);
 
-            this.util.endLoading();
-            this.onPageTabs();
-
-        }).catch(error => {
-            console.log('error', error);
-            this.util.endLoading();
-
-        });
+                }
+                this.util.endLoading();
+            }, (error) => {
+                //Loading.end();
+                //Dialog.alert(error);
+                this.util.toast(error.message)
+                this.util.endLoading();
+            })
     }
 
     resetPass() {

@@ -63,6 +63,7 @@ import {Logging} from "../providers/logging";
 import {TabSearchMapSettingsPage} from "./tab-search-map-settings/tab-search-map-settings";
 import {AlbumInputComponent} from "../components/album-input/album-input";
 import {AlbumListModalPage} from "../components/album-list-modal/album-list-modal";
+import {UserAvatarPage} from "./user-avatar/user-avatar";
 
 export const APP_PAGES = [
     IntroPage,
@@ -83,6 +84,7 @@ export const APP_PAGES = [
     UserPasswordPage,
     UserListPage,
     AboutPage,
+    UserAvatarPage,
 
     // Modal
     AlbumListModalPage,
