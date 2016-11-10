@@ -33,8 +33,12 @@
             <album-input></album-input>
             <!-- Location -->
             <ion-item>
-                <ion-icon name="pin"></ion-icon>
-                {{'Add Location' | translate}}
+                <ion-icon name="pin" item-left></ion-icon>
+                <div (click)="showAddressModal()">
+                    <h2 *ngIf="address.place.description">{{address.place.description}}</h2>
+                    <h2 *ngIf="!address.place.description">{{'Select address' | translate}}</h2>
+                </div>
+                <ion-icon name="close" (click)="clearAddress()" item-right=""></ion-icon>
             </ion-item>
         </ion-list>
     </form>

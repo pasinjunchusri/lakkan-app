@@ -64,6 +64,7 @@ import {TabSearchMapSettingsPage} from "./tab-search-map-settings/tab-search-map
 import {AlbumInputComponent} from "../components/album-input/album-input";
 import {AlbumListModalPage} from "../components/album-list-modal/album-list-modal";
 import {UserAvatarPage} from "./user-avatar/user-avatar";
+import {GmapsAutocompleteModalPage} from "../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 
 export const APP_PAGES = [
     IntroPage,
@@ -85,6 +86,7 @@ export const APP_PAGES = [
     UserListPage,
     AboutPage,
     UserAvatarPage,
+    GmapsAutocompleteModalPage,
 
     // Modal
     AlbumListModalPage,

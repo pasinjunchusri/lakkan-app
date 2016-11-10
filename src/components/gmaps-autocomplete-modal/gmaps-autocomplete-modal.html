@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-searchbar [(ngModel)]="autocomplete.query"
+                       focus
+                       [showCancelButton]="true"
+                       (ionInput)="doSearch()"
+                       (ionCancel)="doCancel()"></ion-searchbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let item of _data" (click)="doSelect(item)">
+            {{item.description}}
+        </ion-item>
+        <ion-item *ngIf="_data">
+            <img src="assets/img/powered-by-google-on-white.png" />
+        </ion-item>
+    </ion-list>
+
+</ion-content>

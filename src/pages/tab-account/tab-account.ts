@@ -31,9 +31,10 @@ export class TabAccountPage {
                 private events: Events,
                 private modalCtrl: ModalController
     ) {
-        this.user = User.current();
-        //this.username        = this.user.username;
-        //this.params.username = this.username;
+        this.user            = User.current();
+        this.username        = this.user.username;
+        this.params.username = this.username;
+        console.log(this.user, this.params);
 
         this.events.subscribe('photolist:complete', () => {
             this.loading  = false;

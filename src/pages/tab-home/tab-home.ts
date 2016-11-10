@@ -3,7 +3,6 @@ import {NavController, Events} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
 import {UserListPage} from "../user-list/user-list";
 import _ from 'underscore';
-import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-tab-home',
@@ -25,11 +24,13 @@ export class TabHomePage {
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     moreItem: boolean      = false;
+    address                = {
+        place: ''
+    }
 
     constructor(private navCtrl: NavController,
                 private provider: Gallery,
-                private events: Events,
-                private util: IonicUtil
+                private events: Events
     ) {
 
         events.subscribe('home:reload', () => this.doRefresh(null));
@@ -87,13 +88,29 @@ export class TabHomePage {
 
     doInfinite(event) {
         this.params.page++;
-        this.feed().then(() => { if(event) event.complete() }).catch(() => { if(event) event.complete() });
+        this.feed().then(() => {
+            if (event) {
+                event.complete()
+            }
+        }).catch(() => {
+            if (event) {
+                event.complete()
+            }
+        });
     }
 
     doRefresh(event) {
         this.data        = [];
         this.params.page = 1;
-        this.feed().then(() => { if(event) event.complete() }).catch(() => { if(event) event.complete() });
+        this.feed().then(() => {
+            if (event) {
+                event.complete()
+            }
+        }).catch(() => {
+            if (event) {
+                event.complete()
+            }
+        });
     }
 
     doTry() {
