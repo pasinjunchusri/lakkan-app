@@ -17,6 +17,8 @@ export class AuthPage {
     error: string;
     submitted: boolean = false;
     facebook: any;
+    facebookNative: Facebook;
+    facebookBrowser: FacebookService;
 
     formLogin: {
         username?: string,
@@ -41,9 +43,15 @@ export class AuthPage {
                 private util: IonicUtil,
                 private fb: FacebookService
     ) {
+        // Define Facebook Browser and Native
+        this.facebookNative  = Facebook;
+        this.facebookBrowser = fb;
 
-        this.cordova  = this.util.cordova;
-        this.facebook = this.cordova ? Facebook : fb;
+        this.cordova         = this.util.cordova
+        // For Ionic View
+        this.facebook        = this.facebookBrowser;
+        // For Native and Browser
+        //this.facebook        = this.cordova ? this.facebookNative : this.facebookBrowser;
 
         this.formSignup.gender = 'male';
 

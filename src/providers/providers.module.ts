@@ -31,7 +31,7 @@ export const sharedProviders = [
     GallerFeedback,
     ParseFile,
     ParsePush,
-    UploadService,
+    UploadService
 ];
 
 @NgModule({

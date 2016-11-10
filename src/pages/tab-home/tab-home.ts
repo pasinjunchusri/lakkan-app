@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController, Events} from 'ionic-angular';
+import {NavController, Events, App} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
 import {UserListPage} from "../user-list/user-list";
 import _ from 'underscore';
+import {Auth} from "../../providers/auth";
+import {IntroPage} from "../intro/intro";
 
 @Component({
     selector   : 'page-tab-home',
@@ -30,7 +32,9 @@ export class TabHomePage {
 
     constructor(private navCtrl: NavController,
                 private provider: Gallery,
-                private events: Events
+                private events: Events,
+                private Auth: Auth,
+                private app: App,
     ) {
 
         events.subscribe('home:reload', () => this.doRefresh(null));
@@ -78,6 +82,10 @@ export class TabHomePage {
                 this.loading = false;
                 resolve(data);
             }, error => {
+                if (error['message'] == 'unauthrorized') {
+                    this.Auth.logout();
+                    this.app.getRootNav().setRoot(IntroPage);
+                }
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 this.loading       = false;
