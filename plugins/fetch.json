@@ -121,5 +121,15 @@
             "NSLOCATIONWHENINUSEUSAGEDESCRIPTION": "Show your location on the map",
             "NSLOCATIONALWAYSUSAGEDESCRIPTION": "Trace your location on the map"
         }
+    },
+    "com.googlemaps.ios": {
+        "source": {
+            "type": "git",
+            "url": "https://bitbucket.org/nightstomp/cordova-plugin-googlemaps-sdk.git",
+            "subdir": ".",
+            "ref": "master"
+        },
+        "is_top_level": false,
+        "variables": {}
     }
 }

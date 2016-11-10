@@ -42,6 +42,7 @@ export class ProfilePage {
     ) {
 
         this.username = this.navParams.get('username');
+        this.params.username = this.username;
 
         this.events.subscribe('photolist:complete', () => {
             this.loading  = false;
