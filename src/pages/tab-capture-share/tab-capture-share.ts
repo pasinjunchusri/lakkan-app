@@ -12,6 +12,8 @@ export class TabCapturSharePage {
     form: any = {
         title    : '',
         privacity: 'public',
+        address  : '',
+        location : ''
     };
     image: any;
 
