@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ParsePush} from "./parse-push";
+import {Platform} from "ionic-angular";
 
 declare var Parse: any;
 
@@ -16,7 +17,7 @@ export interface IUser {
 
 @Injectable()
 export class User {
-    private _fields      = [
+    private _fields          = [
         'name',
         'username',
         'status',
@@ -26,9 +27,11 @@ export class User {
         'photoThumb',
         'roleName',
     ];
-    private _ParseObject = Parse.User.extend({});
+    private _ParseObject     = Parse.User.extend({});
+            cordova: boolean = false;
 
-    constructor(private ParsePush: ParsePush) {
+    constructor(private ParsePush: ParsePush, private platform: Platform) {
+        this.cordova = this.platform.is('cordova') ? true : false;
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () { return this.get(field) },
@@ -100,58 +103,48 @@ export class User {
         //delete $window.localStorage['Parse/' + Parse.applicationId + '/installationId'];
     }
 
-    updateWithFacebookData(data: any) {
-        return new Promise((resolve, reject) => {
-            Parse.Cloud.run('saveFacebookPicture').then(() => {
-                let user = Parse.User.current();
-
-                if (!data.username && data.email) {
-                    user.set('username', data.email.split('@')[0]);
-                }
-
-                if (!user.get('name') && data.name) {
-                    user.set('name', data.name);
-                }
-
-                if (!user.get('email') && data.email) {
-                    user.set('email', data.email);
-                }
-                user.save(null).then(resolve, reject);
-            });
-        });
+    updateWithFacebookData() {
+        return Parse.Cloud.run('saveFacebookPicture');
     }
 
-    signInViaFacebook(authData: any) {
-        console.log('signInViaFacebook', authData);
+    facebookSyncProfile(fbData: any) {
         return new Promise((resolve, reject) => {
-            let facebookAuthData = {
-                id             : authData['authResponse']['userID'],
-                access_token   : authData['authResponse']['accessToken'],
-                expiration_date: (new Date().getTime() + 1000).toString()
-            };
-            console.log('facebookAuthData', facebookAuthData);
-            Parse.FacebookUtils.logIn(facebookAuthData, {
-                success: function (user) {
-                    if (!user.existed()) {
-                        console.log("User signed up and logged in through Facebook!", user);
-                    } else {
-                        console.log("User logged in through Facebook!", user);
-                    }
-                    resolve(user);
-                },
-                error  : function (user, error) {
-                    console.log('User cancelled the Facebook login or did not fully authorize.', user, error);
-                    reject({error: error, user: user});
+            let currentUser = Parse.User.current();
+
+            if (!currentUser.get('facebook') && fbData.id) {
+                currentUser.set('facebook', fbData.id);
+            }
+
+            if (!currentUser.get('email') && fbData.email) {
+                currentUser.set('email', fbData.email);
+            }
+
+            if (!currentUser.get('name') && fbData.name) {
+                currentUser.set('name', fbData.name);
+            }
+
+            if (!currentUser.get('gender') && fbData.gender) {
+                currentUser.set('gender', fbData.gender);
+            }
+
+            if (!currentUser.get('birthdate') && fbData.birthday) {
+                currentUser.set('birthdate', new Date(fbData.birthday));
+            }
+
+            currentUser.save(null).then(() => {
+                if (!currentUser.get('photo')) {
+                    this.updateWithFacebookData().then(resolve);
+                } else {
+                    resolve();
                 }
             });
-
         });
     }
 
     signUp(data) {
         let user = new Parse.User();
         user.set('name', data.name);
-        user.set('username', data.username);
+        user.set('username', data.username.toLowerCase());
         user.set('email', data.email)
         user.set('password', data.password)
         user.set('roleName', 'User')
@@ -163,16 +156,10 @@ export class User {
         return new Promise((resolve, reject) => {
             Parse.User.logIn(obj.username.toLowerCase(), obj.password).then(currentUser => {
 
-                console.log('currentUser', currentUser);
-                console.log('cordova', window['cordova']);
-
-
-                if (window['cordova']) {
+                if (this.cordova) {
                     // Parse Push
                     this.ParsePush.init();
                 }
-
-
                 resolve(currentUser);
 
             }, reject);

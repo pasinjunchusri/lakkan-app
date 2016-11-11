@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Platform, LoadingController, ToastController} from "ionic-angular";
 import {TranslateService} from "ng2-translate";
-import {ThemeableBrowser} from "ionic-native";
+import {InAppBrowser} from "ionic-native";
 import {Logging} from "./logging";
 
 declare var device: any;
@@ -11,22 +11,6 @@ export class IonicUtil {
     public cordova: boolean;
     public _widthPlatform: any;
     public _heightPlatform: any;
-
-
-    private _browserTheme = {
-        statusbar         : {
-            color: '#ffffffff'
-        },
-        toolbar           : {
-            height: 44,
-            color : '#f0f0f0ff'
-        },
-        title             : {
-            color        : '#003264ff',
-            showPageTitle: true
-        },
-        backButtonCanClose: true
-    }
 
     constructor(private platform: Platform,
                 private loadingCtrl: LoadingController,
@@ -64,7 +48,7 @@ export class IonicUtil {
     }
 
     href(url: string): void {
-        new ThemeableBrowser(url, '_blank', this._browserTheme);
+        InAppBrowser.open(url, '_blank', 'location=yes');
     }
 
     translate(text: string): Promise<any> {

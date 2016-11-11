@@ -47,11 +47,11 @@ export class AuthPage {
         this.facebookNative  = Facebook;
         this.facebookBrowser = fb;
 
-        this.cordova         = this.util.cordova
+        this.cordova = this.util.cordova
         // For Ionic View
-        this.facebook        = this.facebookBrowser;
+        //this.facebook        = this.facebookBrowser;
         // For Native and Browser
-        //this.facebook        = this.cordova ? this.facebookNative : this.facebookBrowser;
+        this.facebook = this.cordova ? this.facebookNative : this.facebookBrowser;
 
         this.formSignup.gender = 'male';
 
@@ -122,58 +122,53 @@ export class AuthPage {
         });
     }
 
-    processFacebookLogin(fbAuthData) {
+    processFacebookLogin(authData) {
 
-        //this.facebook.api('/me?fields=name,birthday,gender,email')
-        let fbData, newUser;
-        this
-            .facebook.api('/me?fields=name,birthday,gender,email')
-            .then((data) => {
-                fbData = data;
-                console.log('fData', data);
-                return this.provider.findByEmail(data.email);
-            })
-            .then((user) => {
+        this.facebook.api('/me?fields=id,name,birthday,last_name,first_name,email,gender,picture.type(large)')
+            .then((fbData) => {
+                console.log('fbData', fbData);
 
-                console.log('user', user);
-                if (!user.id) {
-                    newUser = true;
-                    return this.provider.signInViaFacebook(fbAuthData);
-                }
+                let facebookAuthData = {
+                    id             : authData['authResponse']['userID'],
+                    access_token   : authData['authResponse']['accessToken'],
+                    expiration_date: (new Date().getTime() + 1000).toString()
+                };
 
-                let authData = user.get('authData');
-                console.log('authData', authData);
-                if (authData) {
-                    if (authData.facebook.id === fbData.id) {
-                        return this.provider.signInViaFacebook(fbAuthData);
+                Parse.FacebookUtils.logIn(facebookAuthData, {
+                    success: (user) => {
+                        if (!user.existed()) {
+                            // New user
+                            console.warn("User signed up and logged in through Facebook!", user);
+
+                            this.provider.facebookSyncProfile(fbData)
+                                .then(result => {
+                                    this.util.endLoading();
+                                    this.navCtrl.push(UserAvatarPage);
+                                });
+
+                        } else {
+                            // Old User
+                            console.info("User logged in through Facebook!", user);
+                            this.provider.facebookSyncProfile(fbData)
+                                .then(result => {
+                                    this.util.endLoading();
+                                    this.navCtrl.push(TabsPage);
+                                });
+
+                        }
+                    },
+                    error  : (user, error) => {
+                        console.error('User cancelled the Facebook login or did not fully authorize.', user, error);
+                        this.util.endLoading();
+                        this.util.toast('User cancelled the Facebook login or did not fully authorize');
+
                     }
-                } else {
-                    console.log(authData, user);
-                    return Promise.reject('error');
-                }
-            })
-            .then(() => this.provider.updateWithFacebookData(fbData))
-            .then((user) => {
-                //$rootScope.currentUser = user;
-                //$rootScope.$broadcast('onUserLogged');
-                //Loading.end();
-                if (newUser) {
-                    //$state.go('avatar', {clear: true})
-                    //this.navCtrl
-                    this.navCtrl.push(UserAvatarPage);
-                } else {
-                    //$state.go(AppConfig.routes.home, {clear: true});
-                    this.navCtrl.push(TabsPage);
+                });
 
-                }
-                this.util.endLoading();
-            }, (error) => {
-                //Loading.end();
-                //Dialog.alert(error);
-                this.util.toast(error.message)
-                this.util.endLoading();
-            })
+
+            });
     }
+
 
     resetPass() {
 
