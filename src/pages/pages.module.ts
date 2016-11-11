@@ -43,7 +43,6 @@ import {PhotoPage} from './photo/photo';
 import {LoaderComponent} from '../components/loader/loader';
 import {UserPasswordPage} from './user-password/user-password';
 import {ProfilePage} from './profile/profile';
-import {PhotoCaptureModalComponent} from '../components/photo-capture-modal/photo-capture-modal';
 import {AlbumFormModalComponent} from '../components/album-form-modal/album-form-modal';
 import {AlbumGridComponent} from '../components/album-grid/album-grid';
 import {AlbumPhotoGridComponent} from '../components/album-photo-grid/album-photo-grid';
@@ -52,7 +51,6 @@ import {LanguageModalComponent} from '../components/language-modal/language-moda
 import {FocusDirective} from '../directives/focus/focus';
 import {UserListPage} from "./user-list/user-list";
 import {PhotoListPopoverComponent} from "../components/photo-list-popover/photo-list-popover";
-import {TabCapturSharePage} from "./tab-capture-share/tab-capture-share";
 import {AboutPage} from "./about/about";
 import {PhotoMapComponent} from "../components/photo-map/photo-map";
 import {LocationModalComponent} from "../components/location-modal/location-modal";
@@ -65,6 +63,8 @@ import {AlbumInputComponent} from "../components/album-input/album-input";
 import {AlbumListModalPage} from "../components/album-list-modal/album-list-modal";
 import {UserAvatarPage} from "./user-avatar/user-avatar";
 import {GmapsAutocompleteModalPage} from "../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
+import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal";
+import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
 
 export const APP_PAGES = [
     IntroPage,
@@ -74,7 +74,6 @@ export const APP_PAGES = [
     TabSearchPage,
     TabSearchMapPage,
     TabSearchMapSettingsPage,
-    TabCapturSharePage,
     TabActivityPage,
     TabAccountPage,
     TabAccountPopoverPage,
@@ -100,7 +99,7 @@ export const APP_PAGES = [
     PhotoListComponent,
     PhotoListPopoverComponent,
     PhotoCardComponent,
-    PhotoCaptureModalComponent,
+    PhotoShareModal,
     AlbumFormModalComponent,
     AlbumGridComponent,
     AlbumInputComponent,
@@ -125,6 +124,7 @@ export const APP_PAGES = [
             useFactory: (createTranslateLoader),
             deps      : [Http]
         }),
+        IonPhotoModule,
         IonicModule.forRoot(TabsPage),
         IonicModule.forRoot(IntroPage),
     ],

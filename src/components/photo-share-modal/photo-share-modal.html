@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button clear (click)="dismiss()">
+                {{'Cancel' | translate}}
+            </button>
+        </ion-buttons>
+        <ion-title>{{'Share photo' | translate }}</ion-title>
+        <ion-buttons end>
+            <button ion-button clear (click)="submit(shareImageForm)">
+                {{'Next' | translate}}
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <form #shareImageForm="ngForm" (ngSubmit)="submit(shareImageForm)" novalidate>
+        <ion-list>
+            <ion-item>
+                <ion-thumbnail item-left>
+                    <img [src]="image">
+                </ion-thumbnail>
+                <ion-textarea [(ngModel)]="form.title"
+                              name="title"
+                              placeholder="{{'Write a caption...' | translate}}"></ion-textarea>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'Privacity' | translate}}</ion-label>
+                <ion-select [(ngModel)]="form.privacity" name="privacity"
+                            #privacity="ngModel">
+                    <ion-option value="public">{{'Public' | translate}}</ion-option>
+                    <ion-option value="followers">{{'Followers' | translate}}</ion-option>
+                    <ion-option value="me">{{'Me' | translate }}</ion-option>
+                </ion-select>
+            </ion-item>
+            <!-- Album -->
+            <album-input></album-input>
+            <!--&lt;!&ndash; Location &ndash;&gt;-->
+            <!--<ion-item>-->
+            <!--<ion-icon name="pin" item-left></ion-icon>-->
+            <!--<div (click)="showAddressModal()">-->
+            <!--<h2 *ngIf="form.address['resume']">{{form.address['resume']}}</h2>-->
+            <!--<h2 *ngIf="form.address['resume']">{{'Select address' | translate}}</h2>-->
+            <!--</div>-->
+            <!--<ion-icon name="close" (click)="clearAddress()" item-right=""></ion-icon>-->
+            <!--</ion-item>-->
+        </ion-list>
+    </form>
+</ion-content>
+

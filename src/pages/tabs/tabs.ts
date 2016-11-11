@@ -1,13 +1,14 @@
-import {Component} from '@angular/core';
-import {NavController} from "ionic-angular";
+import {Component, ElementRef, ViewChild, Renderer} from '@angular/core';
+import {ModalController, Events} from "ionic-angular";
 
 import {TabHomePage} from "../tab-home/tab-home";
 import {TabSearchPage} from "../tab-search/tab-search";
 import {TabActivityPage} from "../tab-activity/tab-activity";
 import {TabAccountPage} from "../tab-account/tab-account";
-import {TabCapturSharePage} from "../tab-capture-share/tab-capture-share";
-import {PhotoService} from "../../providers/photo-service";
 import {IonicUtil} from "../../providers/ionic-util";
+import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
+import {PhotoShareModal} from "../../components/photo-share-modal/photo-share-modal";
+import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
 
 @Component({
     templateUrl: 'tabs.html'
@@ -20,20 +21,58 @@ export class TabsPage {
     tabSearch: any   = TabSearchPage;
     tabActivity: any = TabActivityPage;
     tabProfile: any  = TabAccountPage;
+    @ViewChild('inputFile') input: ElementRef;
 
-    constructor(private navCtrl: NavController,
-                private photoService: PhotoService,
-                private util: IonicUtil
+    cordova: boolean = false;
+
+    constructor(private photoService: IonPhotoService,
+                private util: IonicUtil,
+                private modalCtrl: ModalController,
+                private render: Renderer,
+                private events: Events
     ) {
-
+        this.cordova = this.util.cordova;
+        console.log(this.input);
     }
 
+
     openCapture() {
-        this.photoService.open().then(image => {
-            this.navCtrl.push(TabCapturSharePage, {base64: image});
-        }).catch(error => {
-            console.log(error);
-            this.util.toast(error);
+        if (this.cordova) {
+            this.photoService.open()
+                .then(image => this.cropAndShare(image))
+                .catch(error => {
+                    console.log(error);
+                    this.util.toast(error);
+                });
+        } else {
+            this.render.invokeElementMethod(this.input.nativeElement, 'click');
+        }
+    }
+
+    cropAndShare(image) {
+        this.modalCtrl.create(IonPhotoCropModal, {base64: image}).present();
+
+        this.events.subscribe('photocrop:result', _imageCroped => {
+            console.log(_imageCroped);
+            let modal = this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0]});
+            modal.present();
+
         });
+        //modal.onDidDismiss(_imageCroped => {
+        //console.log(_imageCroped);
+        //this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped}).present();
+        //});
+        //modal.present();
+    }
+
+    onChange(event) {
+        let files     = event.srcElement.files;
+        let image     = files[0];
+        let reader    = new FileReader();
+        reader.onload = (evt) => {
+            let image = evt.srcElement['result'];
+            this.cropAndShare(image)
+        };
+        reader.readAsDataURL(image);
     }
 }

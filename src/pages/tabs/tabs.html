@@ -5,3 +5,11 @@
     <ion-tab [root]="tabActivity" tabIcon="heart"></ion-tab>
     <ion-tab [root]="tabProfile" tabIcon="person"></ion-tab>
 </ion-tabs>
+
+<input *ngIf="!cordova"
+       #inputFile
+       type="file"
+       (change)="onChange($event)"
+       accept="image/x-png, image/gif, image/jpeg"
+       max-size="2048"
+       style="display: none;" >

@@ -1,5 +1,9 @@
-import {Component, ViewChild} from '@angular/core';
-import {GoogleMap, GoogleMapsLatLng, Geolocation, CameraPosition, GoogleMapsMarkerOptions, GoogleMapsAnimation, GoogleMapsEvent} from "ionic-native";
+import {Component} from '@angular/core';
+import {
+    GoogleMap, GoogleMapsLatLng, Geolocation, GoogleMapsMarkerOptions, AnimateCameraOptions, GoogleMapsAnimation,
+    GoogleMapsEvent
+} from "ionic-native";
+import {IonicUtil} from "../../providers/ionic-util";
 
 
 @Component({
@@ -8,7 +12,6 @@ import {GoogleMap, GoogleMapsLatLng, Geolocation, CameraPosition, GoogleMapsMark
 })
 export class TabSearchMapPage {
 
-    @ViewChild('map') mapElement;
 
     map: GoogleMap;
     mapStartLocation = new GoogleMapsLatLng(-34.9290, 138.6010);
@@ -34,55 +37,46 @@ export class TabSearchMapPage {
         }
     };
 
-    constructor() {
-        this.loadMap();
+    constructor(private util: IonicUtil) {
+
 
     }
 
 
-    loadMap() {
-        let options = {timeout: 10000, enableHighAccuracy: true};
-        //ENABLE THE FOLLOWING:
+    ngAfterViewInit() {
+        GoogleMap.isAvailable().then(() => {
+            let options = {timeout: 10000, enableHighAccuracy: true};
+            this.map    = new GoogleMap('map', this.mapOptions);
+            this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => console.log('Map is ready!'));
 
-        Geolocation.getCurrentPosition(options).then((pos) => {
-            this.map                   = new GoogleMap(this.mapElement, this.mapOptions);
-            let position               = new GoogleMapsLatLng(pos.coords.latitude, pos.coords.longitude);
-            // create CameraPosition
-            let camera: CameraPosition = {
-                target : position,
-                zoom   : 18,
-                tilt   : 60,
-                bearing: 140
-            };
-            this.map.moveCamera(camera);
 
-            // move the map's camera to position
-            //this.map.animateCamera(camera);
+            Geolocation.getCurrentPosition(options).then((pos) => {
+                let myPosition                   = new GoogleMapsLatLng(pos.coords.latitude, pos.coords.longitude);
+                // create CameraPosition
+                let camera: AnimateCameraOptions = {
+                    target: myPosition,
+                    zoom  : 18
+                };
+                this.map.animateCamera(camera);
 
-            // create new marker
-            let markerOptions: GoogleMapsMarkerOptions = {
-                position : position,
-                title    : "Welecome to \n" + "Cordova GoogleMaps plugin for iOS and Android",
-                snippet  : "This plugin is awesome!",
-                animation: GoogleMapsAnimation.BOUNCE
-            };
+                // create new marker
+                let markerOptions: GoogleMapsMarkerOptions = {
+                    position : myPosition,
+                    title    : "I am Here",
+                    snippet  : "This plugin is awesome!",
+                    animation: GoogleMapsAnimation.BOUNCE
+                };
 
-            this.map.addMarker(markerOptions).then((marker: any) => {
-                marker.showInfoWindow();
-
-                // Catch the click event
-                marker.addEventListener(GoogleMapsEvent.MARKER_CLICK, function () {
-
-                    console.log(marker);
+                this.map.addMarker(markerOptions).then((marker: any) => {
+                    marker.showInfoWindow();
+                    // Catch the click event
+                    marker.addEventListener(GoogleMapsEvent.MARKER_CLICK, () => {console.log(marker);});
 
                 });
 
             });
-
-            this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
-                console.log('Map is ready!');
-            });
-
+        }, error => {
+            this.util.toast('Google maps not avaible');
         });
     }
 

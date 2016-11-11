@@ -5,10 +5,13 @@ import {InAppBrowser} from "ionic-native";
 import {Logging} from "./logging";
 
 declare var device: any;
+declare var navigator: any;
+declare var Connection: any;
+
 @Injectable()
 export class IonicUtil {
     private _loading: any;
-    public cordova: boolean;
+    public cordova: boolean = false;
     public _widthPlatform: any;
     public _heightPlatform: any;
 
@@ -18,12 +21,34 @@ export class IonicUtil {
                 public translateService: TranslateService,
                 private logger: Logging
     ) {
+
         this.cordova = platform.is('cordova') ? true : false;
+
+        console.log('Cordova', this.cordova);
+
         platform.ready().then(() => {
             this._widthPlatform  = platform.width();
             this._heightPlatform = platform.height();
         });
 
+    }
+
+    isOnline() {
+        if (this.cordova && navigator.connection) {
+            let networkState = navigator.connection.type;
+            return networkState !== Connection.NONE;
+        } else {
+            return navigator.onLine;
+        }
+    }
+
+    isOffline() {
+        if (this.cordova && navigator.connection) {
+            let networkState = navigator.connection.type;
+            return networkState === Connection.NONE;
+        } else {
+            return !navigator.onLine;
+        }
     }
 
     static getRandomInt(min: number = 0, max: number = 9999) {

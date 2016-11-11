@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ParsePush} from "./parse-push";
-import {Platform} from "ionic-angular";
 import {IonicUtil} from "./ionic-util";
 
 declare var Parse: any;

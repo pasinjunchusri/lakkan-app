@@ -101,19 +101,6 @@
             "NSCameraUsageDescription": "To take picture"
         }
     },
-    "plugin.google.maps": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-googlemaps@~1.3.9"
-        },
-        "is_top_level": true,
-        "variables": {
-            "API_KEY_FOR_ANDROID": "AIzaSyAuVIBMX85GGRS5O6sA",
-            "API_KEY_FOR_IOS": "AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI",
-            "NSLOCATIONWHENINUSEUSAGEDESCRIPTION": "Show your location on the map",
-            "NSLOCATIONALWAYSUSAGEDESCRIPTION": "Trace your location on the map"
-        }
-    },
     "com.googlemaps.ios": {
         "source": {
             "type": "git",

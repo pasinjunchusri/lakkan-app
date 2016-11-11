@@ -12,7 +12,6 @@ import {ParseFile} from "./parse-file";
 import {ParsePush} from "./parse-push";
 import {GallerFeedback} from "./gallery-feedback";
 import {UserData} from "./user-data";
-import {PhotoService} from "./photo-service";
 import {GalleryAlbum} from './gallery-album';
 import {Logging} from "./logging";
 
@@ -22,7 +21,6 @@ export const sharedProviders = [
     Auth,
     User,
     UserData,
-    PhotoService,
     Gallery,
     GalleryAlbum,
     GalleryActivity,

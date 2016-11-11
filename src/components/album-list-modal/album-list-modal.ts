@@ -18,7 +18,7 @@ export class AlbumListModalPage {
     };
 
     _words: string         = '';
-    _placeholder: string    = '';
+    _placeholder: string   = '';
     privacity: string      = 'public';
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
@@ -51,7 +51,13 @@ export class AlbumListModalPage {
     }
 
     albumForm() {
-        this.modalCtrl.create(AlbumFormModalComponent).present();
+        let modal = this.modalCtrl.create(AlbumFormModalComponent);
+        modal.onDidDismiss((value) => {
+            if (value) {
+                this.feed();
+            }
+        });
+        modal.present();
     }
 
     feed() {

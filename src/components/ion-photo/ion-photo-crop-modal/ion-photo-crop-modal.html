@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>{{'Crop Image' | translate}}</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                {{'Cancel' | translate}}
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button (click)="crop()">
+                {{'Next' | translate}}
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <img [src]="img" id="image"/>
+</ion-content>

@@ -34,7 +34,7 @@ export class TabHomePage {
                 private provider: Gallery,
                 private events: Events,
                 private Auth: Auth,
-                private app: App,
+                private app: App
     ) {
 
         events.subscribe('home:reload', () => this.doRefresh(null));

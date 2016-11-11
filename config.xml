@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.agenciafoccus.photogram2" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Photogram</name>
+<widget id="com.agenciafoccus.photogram2" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Photogram2</name>
     <description>Share photos of your moments</description>
     <author email="agfoccus@gmail.com" href="http://agenciafoccus.com.br/">Agencia Foccus</author>
     <content src="index.html" />
@@ -109,12 +109,6 @@
     <plugin name="parse-push-plugin" spec="https://github.com/photogram/parse-push-plugin.git" />
     <plugin name="cordova-plugin-camera" spec="~2.3.0">
         <variable name="NSCameraUsageDescription" value="To take picture" />
-    </plugin>
-    <plugin name="plugin.google.maps" spec="~1.3.9">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAuVIBMX85GGRS5O6sA" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI" />
-        <variable name="NSLOCATIONWHENINUSEUSAGEDESCRIPTION" value="Show your location on the map" />
-        <variable name="NSLOCATIONALWAYSUSAGEDESCRIPTION" value="Trace your location on the map" />
     </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="~1.5.0" />
     <plugin name="cordova-plugin-google-analytics" spec="~1.6.0" />

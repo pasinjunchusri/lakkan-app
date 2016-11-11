@@ -86,6 +86,10 @@
     localforage-cordovasqlitedriver "^1.5.0"
     rxjs "5.0.0-beta.12"
 
+"@types/cropperjs":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@types/cropperjs/-/cropperjs-0.0.22.tgz#9bbcb07a4ee034a4dc59024a96ab76f73b585631"
+
 "@types/form-data@*":
   version "0.0.32"
   resolved "https://registry.yarnpkg.com/@types/form-data/-/form-data-0.0.32.tgz#218134515d38929524ff562ba1c6ce93981f3a45"
@@ -691,6 +695,10 @@ create-hmac@^1.1.0, create-hmac@^1.1.2:
   dependencies:
     create-hash "^1.1.0"
     inherits "^2.0.1"
+
+cropperjs:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-0.8.1.tgz#3dc01813e2f6d1df2c8909e1ce092146c692548e"
 
 cross-spawn@^3.0.0:
   version "3.0.1"
@@ -2617,7 +2625,7 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.3.tgz#3da382f670f25ded78d7b3d1792119bca0b7132d"
 
-typescript-collections@:
+typescript-collections@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/typescript-collections/-/typescript-collections-1.2.3.tgz#ef7f1bf3392a662c2c00e8c2c03381a001e02955"
 

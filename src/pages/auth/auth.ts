@@ -121,7 +121,8 @@ export class AuthPage {
 
     processFacebookLogin(authData) {
 
-        this.facebook.api('/me?fields=id,name,birthday,last_name,first_name,email,gender,picture.type(large)')
+        console.log('Profcess Facebook');
+        this.facebook.api('/me?fields=id,name,birthday,last_name,first_name,email,gender',['public_profile'])
             .then((fbData) => {
                 console.log('fbData', fbData);
 

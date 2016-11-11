@@ -12,7 +12,7 @@
     "build:before": "build",
     "run:before": "build",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "serve": "ionic-app-scripts serve"
   },
   "dependencies": {
     "@angular/common": "2.1.1",
@@ -33,6 +33,7 @@
     "@types/request": "0.0.32",
     "@types/underscore": "^1.7.33",
     "angular2-moment": "^1.0.0-beta.6",
+    "cropperjs": "^0.8.1",
     "cz-conventional-changelog": "^1.2.0",
     "ionic-angular": "2.0.0-rc.2",
     "ionic-image-loader": "^0.4.1",
@@ -46,23 +47,6 @@
     "underscore": "^1.8.3",
     "zone.js": "0.6.21"
   },
-  "cordovaPlugins": [
-    "cordova-plugin-device",
-    "cordova-plugin-geolocation",
-    "cordova-plugin-whitelist",
-    "ionic-plugin-keyboard",
-    "cordova-plugin-splashscreen",
-    "cordova-plugin-inappbrowser",
-    "cordova-plugin-statusbar",
-    {
-      "variables": {
-        "API_KEY_FOR_ANDROID": "AIzaSyANLF00UBMHcQe4VubEB3Te3wT9f7PxDtc",
-        "API_KEY_FOR_IOS": "AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI"
-      },
-      "locator": "cordova-plugin-googlemaps",
-      "id": "plugin.google.maps"
-    }
-  ],
   "devDependencies": {
     "@ionic/app-scripts": "0.0.39",
     "typescript": "2.0.6"
