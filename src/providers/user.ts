@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ParsePush} from "./parse-push";
 import {Platform} from "ionic-angular";
+import {IonicUtil} from "./ionic-util";
 
 declare var Parse: any;
 
@@ -30,8 +31,9 @@ export class User {
     private _ParseObject     = Parse.User.extend({});
             cordova: boolean = false;
 
-    constructor(private ParsePush: ParsePush, private platform: Platform) {
-        this.cordova = this.platform.is('cordova') ? true : false;
+    constructor(private ParsePush: ParsePush, private util: IonicUtil) {
+        this.cordova = this.util.cordova;
+
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () { return this.get(field) },

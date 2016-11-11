@@ -47,10 +47,7 @@ export class AuthPage {
         this.facebookNative  = Facebook;
         this.facebookBrowser = fb;
 
-        this.cordova = this.util.cordova
-        // For Ionic View
-        //this.facebook        = this.facebookBrowser;
-        // For Native and Browser
+        this.cordova = this.util.cordova;
         this.facebook = this.cordova ? this.facebookNative : this.facebookBrowser;
 
         this.formSignup.gender = 'male';
