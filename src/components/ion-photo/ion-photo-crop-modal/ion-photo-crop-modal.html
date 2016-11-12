@@ -1,19 +1,37 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>{{'Crop Image' | translate}}</ion-title>
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
                 {{'Cancel' | translate}}
             </button>
         </ion-buttons>
-        <ion-buttons end>
-            <button ion-button (click)="crop()">
-                {{'Next' | translate}}
-            </button>
-        </ion-buttons>
+        <ion-title>{{'Crop Image' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <img [src]="img" id="image"/>
+
+    <!--Rotate-->
+    <ion-fab left bottom>
+        <button color="dark" ion-fab mini (click)="rotate(-90)">
+            <ion-icon class="invert" name="refresh"></ion-icon>
+        </button>
+    </ion-fab>
+
+    <!-- Crop-->
+    <ion-fab center bottom>
+        <button color="primary" ion-fab (click)="crop()">
+            <ion-icon name="crop"></ion-icon>
+        </button>
+    </ion-fab>
+
+    <!-- Rotate-->
+    <ion-fab right bottom>
+        <button color="dark" ion-fab mini (click)="rotate(90)">
+            <ion-icon name="refresh"></ion-icon>
+        </button>
+    </ion-fab>
+
+
 </ion-content>

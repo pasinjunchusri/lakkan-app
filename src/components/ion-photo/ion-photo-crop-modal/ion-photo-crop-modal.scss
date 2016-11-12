@@ -1,5 +1,14 @@
-page-tab-capture-crop {
-  img {
-    max-width: 100%; /* This rule is very important, please do not ignore this! */
+ion-photo-crop-modal {
+  .invert {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+  }
+
+  .container, .img-container, .img-container img {
+    max-width: 100%;
   }
 }

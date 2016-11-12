@@ -9,9 +9,9 @@ export class IonPhotoService {
     _base64Image: any;
     _cordova: boolean = false;
     _setting          = {
-        quality           : 90,
-        width             : 640,
-        height            : 640,
+        quality           : 70,
+        width             : 1024,
+        height            : 1024,
         saveToPhotoAlbum  : false,
         allowEdit         : true,
         correctOrientation: true,
@@ -81,16 +81,15 @@ export class IonPhotoService {
 
     camera() {
         return new Promise((resolve, reject) => {
-            Camera.getPicture({
-                targetWidth     : this._setting.width,
-                targetHeight    : this._setting.height,
-                quality         : this._setting.quality,
-                //allowEdit         : this._setting.allowEdit,
-                saveToPhotoAlbum: false,
-                destinationType : Camera.DestinationType.DATA_URL,
-                //encodingType      : Camera.EncodingType.JPEG,
-                //correctOrientation: true,
-            }).then((imageData) => {
+            let _options = {
+                targetWidth    : this._setting.width,
+                targetHeight   : this._setting.height,
+                quality        : this._setting.quality,
+                sourceType     : Camera.PictureSourceType.CAMERA,
+                destinationType: Camera.DestinationType.DATA_URL
+            };
+
+            Camera.getPicture(_options).then((imageData) => {
                 // imageData is a base64 encoded string
                 this._base64Image = 'data:image/jpeg;base64,' + imageData;
                 resolve(this._base64Image);
@@ -103,17 +102,15 @@ export class IonPhotoService {
 
     photoLibrary() {
         return new Promise((resolve, reject) => {
-            Camera.getPicture({
+            let _options = {
                 targetWidth       : this._setting.width,
                 targetHeight      : this._setting.height,
                 quality           : this._setting.quality,
-                allowEdit         : this._setting.allowEdit,
-                saveToPhotoAlbum  : this._setting.saveToPhotoAlbum,
                 sourceType        : Camera.PictureSourceType.PHOTOLIBRARY,
-                destinationType   : Camera.DestinationType.DATA_URL,
-                encodingType      : Camera.EncodingType.JPEG,
-                correctOrientation: true,
-            }).then((imageData) => {
+                destinationType   : Camera.DestinationType.DATA_URL
+            };
+
+            Camera.getPicture(_options).then((imageData) => {
                 // imageData is a base64 encoded string
                 this._base64Image = 'data:image/jpeg;base64,' + imageData;
                 resolve(this._base64Image);
