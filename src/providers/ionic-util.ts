@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Platform, LoadingController, ToastController} from "ionic-angular";
+import {Platform, LoadingController, ToastController, AlertController} from "ionic-angular";
 import {TranslateService} from "ng2-translate";
 import {InAppBrowser} from "ionic-native";
 import {Logging} from "./logging";
@@ -19,7 +19,8 @@ export class IonicUtil {
                 private loadingCtrl: LoadingController,
                 private toastCtrl: ToastController,
                 public translateService: TranslateService,
-                private logger: Logging
+                private logger: Logging,
+                private alertCtrl: AlertController
     ) {
 
         this.cordova = platform.is('cordova') ? true : false;
@@ -86,6 +87,32 @@ export class IonicUtil {
         var body   = document.body, html = document.documentElement;
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
         return height;
+    }
+
+    tryConnect() {
+        return new Promise((resolve, reject) => {
+            let confirm = this.alertCtrl.create({
+                title  : 'You are OffLine',
+                message: 'Try repeat connect?',
+                buttons: [
+                    {
+                        text   : 'Retry',
+                        handler: () => {
+                            //console.log('Disagree clicked');
+                            resolve()
+                        }
+                    },
+                    {
+                        text   : 'Cancel',
+                        handler: () => {
+                            //console.log('Disagree clicked');
+                            reject()
+                        }
+                    }
+                ]
+            });
+            confirm.present();
+        })
     }
 
     // Returns a function, that, as long as it continues to be invoked, will not

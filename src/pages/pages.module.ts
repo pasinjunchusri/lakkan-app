@@ -150,31 +150,44 @@ export class PagesModule {
                 private logger: Logging
     ) {
         this.translateConfig();
-        this.facebookInit();
+        this.checkConnection();
     }
 
-    facebookInit() {
+    checkConnection(): void {
         // If Facebook in Browser
         if (!this.util.cordova) {
-            let userLang = navigator.language.split('-')[0]; // use navigator lang if available
-            userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
-            let lang     = languages.filter(item => {
-                return item.code.toLowerCase().indexOf(userLang.toLowerCase()) > -1;
-            });
 
-            // Create Facebook in Browser
-            let script = document.createElement('script');
-            script.id  = 'facebook';
-            script.src = 'https://connect.facebook.net/' + lang[0]['code'] + '/sdk.js';
-            document.body.appendChild(script);
-            let fbParams: FacebookInitParams = {
-                appId  : facebook_appId,
-                xfbml  : true,
-                version: facebook_appVersion
-            };
-            setTimeout(() => this.fb.init(fbParams), 2000);
+            if (this.util.isOnline()) {
+                this.facebookLoadScript();
+            } else {
+                this.util.tryConnect().then(() => {
+                    this.checkConnection();
+                }).catch(() => {
+                    this.util.toast('Facebook not avaible');
+                });
+            }
         }
 
+    }
+
+
+    facebookLoadScript(): void {
+        let userLang = navigator.language.split('-')[0]; // use navigator lang if available
+        userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
+        let lang     = languages.filter(item => {
+            return item.code.toLowerCase().indexOf(userLang.toLowerCase()) > -1;
+        });
+        // Create Facebook in Browser
+        let script   = document.createElement('script');
+        script.id    = 'facebook';
+        script.src   = 'https://connect.facebook.net/' + lang[0]['code'] + '/sdk.js';
+        document.body.appendChild(script);
+        let fbParams: FacebookInitParams = {
+            appId  : facebook_appId,
+            xfbml  : true,
+            version: facebook_appVersion
+        };
+        setTimeout(() => this.fb.init(fbParams), 2000);
     }
 
     translateConfig() {

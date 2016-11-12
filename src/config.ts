@@ -6,9 +6,7 @@ export const PARSE_SERVER_URL: string     = 'https://photogram.codevibe.io/parse
 export const GOOGLE_ANALYTICS_ID: string = "UA-";
 
 // Google Maps
-export const GOOGLE_MAPS_ANDROID: string = 'AIzaSyAuVIBMX85GGRS5O6sA-d5vEpUJdOW4cSA';
-export const GOOGLE_MAPS_IOS: string     = 'AIzaSyAVfViHwTMyQy7EGWvRmmhoslZiPhG5YmI';
-export const GOOGLE_MAPS_WEB: string     = 'AIzaSyAOnSdWvCGB22kC_QiOU0hsvrwKBa2xLLo';
+export const GOOGLE_MAPS_WEB: string     = 'AIzaSyC8eGCewEpCrfG_2OWoMHMsvDzglPIVzRA';
 
 // Languages
 export const languages: [any]         = [
