@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import {NavParams, ViewController, Events} from "ionic-angular";
+import {Component, NgZone} from '@angular/core';
+import {NavParams, ViewController, Events, ModalController} from "ionic-angular";
 import {ParseFile} from "../../providers/parse-file";
+import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 //import {GmapsAutocompleteModalPage} from "../../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 
 @Component({
@@ -8,18 +9,23 @@ import {ParseFile} from "../../providers/parse-file";
     templateUrl: 'photo-share-modal.html'
 })
 export class PhotoShareModal {
-    form: any = {
+    form: any    = {
         title    : '',
         privacity: 'public',
-        address  : null,
+        address  : {},
         location : null
     };
+    location: any;
+    address: any = {};
+
     image: any;
 
     constructor(private navparams: NavParams,
                 private viewCtrl: ViewController,
                 private ParseFile: ParseFile,
-                private events: Events
+                private events: Events,
+                private modalCtrl: ModalController,
+                private zone: NgZone
     ) {
         this.image = this.navparams.get('base64');
         events.subscribe('album:selected', album => {
@@ -27,21 +33,25 @@ export class PhotoShareModal {
         });
     }
 
-    //showAddressModal() {
-    //    let modal = this.modalCtrl.create(GmapsAutocompleteModalPage);
-    //    modal.onDidDismiss(address => {
-    //        if (address) {
-    //            this.form.address  = address;
-    //            this.form.location = address.location;
-    //        }
-    //    });
-    //    modal.present();
-    //}
-    //
-    //clearAddress() {
-    //    this.form.adress   = '';
-    //    this.form.location = ''
-    //}
+    showAddressModal() {
+        let modal = this.modalCtrl.create(GmapsAutocompleteModalPage);
+        modal.onDidDismiss(address => {
+            if (address) {
+                this.zone.run(() => {
+                    this.address       = address
+                    this.form.address  = address;
+                    this.form.location = address.location;
+                })
+            }
+        });
+        modal.present();
+    }
+
+    clearAddress() {
+        this.form.address  = {};
+        this.form.location = null;
+        this.address       = {};
+    }
 
     submit(form) {
         if (form.valid) {

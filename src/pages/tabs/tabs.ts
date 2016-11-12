@@ -32,7 +32,6 @@ export class TabsPage {
                 private events: Events
     ) {
         this.cordova = this.util.cordova;
-        console.log(this.input);
     }
 
 

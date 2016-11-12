@@ -36,15 +36,17 @@
             </ion-item>
             <!-- Album -->
             <album-input></album-input>
-            <!--&lt;!&ndash; Location &ndash;&gt;-->
-            <!--<ion-item>-->
-            <!--<ion-icon name="pin" item-left></ion-icon>-->
-            <!--<div (click)="showAddressModal()">-->
-            <!--<h2 *ngIf="form.address['resume']">{{form.address['resume']}}</h2>-->
-            <!--<h2 *ngIf="form.address['resume']">{{'Select address' | translate}}</h2>-->
-            <!--</div>-->
-            <!--<ion-icon name="close" (click)="clearAddress()" item-right=""></ion-icon>-->
-            <!--</ion-item>-->
+            <!-- Location -->
+            <ion-item>
+                <ion-icon name="pin" item-left></ion-icon>
+                <div *ngIf="address['resume']">
+                    <h2>{{address['resume']}}</h2>
+                    <ion-icon name="close" (click)="clearAddress()" icon-right></ion-icon>
+                </div>
+                <div (click)="showAddressModal()" *ngIf="!address['resume']">
+                    <h2>{{ 'Add location' | translate}}</h2>
+                </div>
+            </ion-item>
         </ion-list>
     </form>
 </ion-content>

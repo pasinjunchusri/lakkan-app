@@ -24,8 +24,8 @@ export class Gallery {
     ];
 
     private _ParseObject: any = Parse.Object.extend('Gallery', {});
-    tempParams: any;
-    tempCache: any   = [];
+            tempParams: any;
+            tempCache: any    = [];
 
     constructor() {
         this._fields.map(field => {
@@ -45,6 +45,17 @@ export class Gallery {
                 }));
             }
         });
+    }
+
+    near(params) {
+        let query = new Parse.Query(this._ParseObject);
+        // Limit by page
+        query.exists('location');
+        query.withinKilometers('location', params.location, 100);
+        //query.near('location',params.location);
+        //query.limit(params.limit);
+
+        return query.find();
     }
 
     likeGallery(params) {

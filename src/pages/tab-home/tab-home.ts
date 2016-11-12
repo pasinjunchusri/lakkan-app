@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {NavController, Events, App} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
 import {UserListPage} from "../user-list/user-list";
-import _ from 'underscore';
 import {Auth} from "../../providers/auth";
 import {IntroPage} from "../intro/intro";
+import _ from 'underscore';
 
 @Component({
     selector   : 'page-tab-home',
@@ -34,7 +34,8 @@ export class TabHomePage {
                 private provider: Gallery,
                 private events: Events,
                 private Auth: Auth,
-                private app: App
+                private app: App,
+                private ngZone: NgZone
     ) {
 
         events.subscribe('home:reload', () => this.doRefresh(null));

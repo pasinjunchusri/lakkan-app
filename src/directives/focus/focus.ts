@@ -15,8 +15,8 @@ export class FocusDirective {
     ngAfterViewInit() {
         const element = this.elementRef.nativeElement.querySelector('input');
         // we need to delay our call in order to work with ionic ...
+        this.renderer.invokeElementMethod(element, 'focus', []);
         if (this.platform.is('cordova')) {
-            this.renderer.invokeElementMethod(element, 'focus', []);
             Keyboard.show();
             element.getBoundingClientRect().top
         }
