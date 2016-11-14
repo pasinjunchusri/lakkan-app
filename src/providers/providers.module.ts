@@ -14,9 +14,11 @@ import {GallerFeedback} from "./gallery-feedback";
 import {UserData} from "./user-data";
 import {GalleryAlbum} from './gallery-album';
 import {Logging} from "./logging";
+import {ExternalLib} from "./external-lib";
 
 export const sharedProviders = [
     IonicUtil,
+    ExternalLib,
     Logging,
     Auth,
     User,

@@ -1,21 +1,20 @@
 import {IonicModule, Config} from 'ionic-angular';
 import {NgModule} from '@angular/core';
-import {Http, HttpModule} from '@angular/http';
-import {BrowserModule} from '@angular/platform-browser';
+import {Http} from '@angular/http';
 import {CommonModule} from '@angular/common';
 
 // External Libs
 import {MomentModule} from 'angular2-moment';
 import {IonicImageLoader} from 'ionic-image-loader';
 import {TranslateStaticLoader, TranslateModule, TranslateLoader, TranslateService} from 'ng2-translate';
-import {FacebookService, FacebookInitParams} from "ng2-facebook-sdk/dist";
+import {FacebookService} from "ng2-facebook-sdk/dist";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './i18n', '.json');
 }
 
 // Config
-import {language_default, languages, facebook_appId, facebook_appVersion} from '../config';
+import {language_default, languages} from '../config';
 
 // Pipes
 import {PipesModule} from '../pipes/pipes.module';
@@ -65,6 +64,7 @@ import {UserAvatarPage} from "./user-avatar/user-avatar";
 import {GmapsAutocompleteModalPage} from "../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal";
 import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
+import {ExternalLib} from "../providers/external-lib";
 
 export const APP_PAGES = [
     IntroPage,
@@ -113,8 +113,6 @@ export const APP_PAGES = [
 @NgModule({
     imports     : [
         CommonModule,
-        BrowserModule,
-        HttpModule,
         PipesModule,
         ProvidersModule,
         IonicImageLoader,
@@ -130,8 +128,6 @@ export const APP_PAGES = [
     ],
     exports     : [
         APP_PAGES,
-        BrowserModule,
-        HttpModule,
         MomentModule,
         IonicImageLoader,
     ],
@@ -147,48 +143,14 @@ export class PagesModule {
                 private config: Config,
                 private fb: FacebookService,
                 private util: IonicUtil,
-                private logger: Logging
+                private logger: Logging,
+                private lib: ExternalLib
     ) {
         this.translateConfig();
-        this.checkConnection();
+        this.lib.googleMaps();
+        this.lib.facebookLoad();
     }
 
-    checkConnection(): void {
-        // If Facebook in Browser
-        if (!this.util.cordova) {
-
-            if (this.util.isOnline()) {
-                this.facebookLoadScript();
-            } else {
-                this.util.tryConnect().then(() => {
-                    this.checkConnection();
-                }).catch(() => {
-                    this.util.toast('Facebook not avaible');
-                });
-            }
-        }
-
-    }
-
-
-    facebookLoadScript(): void {
-        let userLang = navigator.language.split('-')[0]; // use navigator lang if available
-        userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
-        let lang     = languages.filter(item => {
-            return item.code.toLowerCase().indexOf(userLang.toLowerCase()) > -1;
-        });
-        // Create Facebook in Browser
-        let script   = document.createElement('script');
-        script.id    = 'facebook';
-        script.src   = 'https://connect.facebook.net/' + lang[0]['code'] + '/sdk.js';
-        document.body.appendChild(script);
-        let fbParams: FacebookInitParams = {
-            appId  : facebook_appId,
-            xfbml  : true,
-            version: facebook_appVersion
-        };
-        setTimeout(() => this.fb.init(fbParams), 2000);
-    }
 
     translateConfig() {
         let userLang = navigator.language.split('-')[0]; // use navigator lang if available

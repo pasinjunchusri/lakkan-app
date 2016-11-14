@@ -48,7 +48,7 @@ export class PhotoCardComponent {
     onLike(item) {
         console.log(item);
         this.loadingLike = true;
-        this.provider.likeGallery({id: item.id}).then(data => {
+        this.provider.likeGallery(item.id).then(data => {
             if (item.isLiked) {
                 item.isLiked = false;
                 item.likesTotal--;

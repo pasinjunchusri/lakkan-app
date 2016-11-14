@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavParams, ViewController} from "ionic-angular";
 import {GalleryComment} from "../../providers/gallery-comment";
 import {IonicUtil} from "../../providers/ionic-util";
@@ -9,8 +9,6 @@ import _ from 'underscore';
     templateUrl: 'photo-comment-modal.html'
 })
 export class PhotoCommentModalComponent {
-
-    @ViewChild('input') myInput;
 
     errorIcon: string      = 'ios-text-outline';
     errorText: string      = '';
@@ -41,12 +39,6 @@ export class PhotoCommentModalComponent {
         this.onQuery();
     }
 
-    ionViewLoaded() {
-        setTimeout(() => {
-            console.log('set focus');
-            this.myInput.setFocus();
-        }, 150)
-    }
 
     onQuery() {
         return new Promise((resolve, reject) => {

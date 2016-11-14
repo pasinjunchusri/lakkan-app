@@ -7,7 +7,6 @@ import {Gallery} from "../../providers/gallery";
 import {PhotoPage} from "../photo/photo";
 
 import _ from 'underscore';
-import {GOOGLE_MAPS_WEB} from "../../config";
 
 declare const google: any;
 
@@ -39,28 +38,7 @@ export class TabSearchMapPage implements OnInit {
     }
 
     ngOnInit() {
-        this.checkConnection();
-    }
-
-    checkConnection() {
-        if (this.util.isOnline()) {
-            this.loadScript();
-            setTimeout(() => this.loadMap(), 500);
-        } else {
-            this.util.tryConnect().then(() => {
-                this.checkConnection();
-            }).catch(() => {
-                this.util.toast('Google Maps not avaible');
-            });
-        }
-    }
-
-    loadScript(): void {
-        // Create Google Maps in Browser
-        let script = document.createElement('script');
-        script.id  = 'gmaps';
-        script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=' + GOOGLE_MAPS_WEB;
-        document.body.appendChild(script);
+        this.loadMap();
     }
 
     loadMap() {

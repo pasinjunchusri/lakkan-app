@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ParseFile} from "../../providers/parse-file";
 import {NavController} from "ionic-angular";
 
@@ -6,15 +6,18 @@ import {NavController} from "ionic-angular";
     selector   : 'upload-status',
     templateUrl: 'upload-status.html'
 })
-export class UploadStatusComponent {
+export class UploadStatusComponent implements OnInit {
 
     _uploadsPending: any = [];
-    _base64: any;
 
     constructor(private ParseFile: ParseFile,
                 private navCtrl: NavController
     ) {
 
+    }
+
+    ngOnInit() {
         this._uploadsPending = this.ParseFile._uploadsPending;
     }
+
 }

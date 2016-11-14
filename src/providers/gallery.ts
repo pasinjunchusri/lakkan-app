@@ -58,8 +58,8 @@ export class Gallery {
         return query.find();
     }
 
-    likeGallery(params) {
-        return Parse.Cloud.run('likeGallery', {galleryId: params.id});
+    likeGallery(galleryId: string): Promise<any> {
+        return Parse.Cloud.run('likeGallery', {galleryId: galleryId});
     }
 
     follow(params) {

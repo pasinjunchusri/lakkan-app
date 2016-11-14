@@ -15,6 +15,12 @@ export interface IUser {
     website?: string;
 }
 
+export interface ParseParams {
+    page:number;
+    skip?:number;
+    limit?:number;
+}
+
 @Injectable()
 export class User {
     private _fields          = [
@@ -145,7 +151,7 @@ export class User {
     signUp(data) {
         let user = new Parse.User();
         user.set('name', data.name);
-        user.set('username', data.username.toLowerCase());
+        user.set('username', data.username);
         user.set('email', data.email)
         user.set('password', data.password)
         user.set('roleName', 'User')
@@ -155,7 +161,7 @@ export class User {
 
     signIn(obj) {
         return new Promise((resolve, reject) => {
-            Parse.User.logIn(obj.username.toLowerCase(), obj.password).then(currentUser => {
+            Parse.User.logIn(obj.username, obj.password).then(currentUser => {
 
                 if (this.cordova) {
                     // Parse Push

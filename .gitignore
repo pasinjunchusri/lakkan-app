@@ -28,6 +28,7 @@ plugins/*
 www/
 resources/android/*
 resources/ios/*
+releases/
 
 $RECYCLE.BIN/
 yarn.lock

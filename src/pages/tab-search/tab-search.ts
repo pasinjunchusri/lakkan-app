@@ -17,7 +17,7 @@ export class TabSearchPage {
     _width: any;
 
     params = {
-        limit: 24,
+        limit: 48,
         page : 1,
         words: '',
     };

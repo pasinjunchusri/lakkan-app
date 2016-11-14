@@ -13,7 +13,7 @@ import _ from 'underscore';
 export class TabHomePage {
 
     params = {
-        limit    : 14,
+        limit    : 5,
         page     : 1,
         privacity: 'public'
     };
@@ -74,10 +74,11 @@ export class TabHomePage {
                     this.showEmptyView = false;
                     this.moreItem      = true;
                 } else {
-                    if (!this.data.length) {
-                        this.showEmptyView = false;
-                    }
                     this.moreItem = false;
+                }
+
+                if (!this.data.length) {
+                    this.showEmptyView = true;
                 }
 
                 this.loading = false;

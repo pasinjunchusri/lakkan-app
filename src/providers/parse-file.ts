@@ -9,13 +9,13 @@ declare var Parse: any;
 export class ParseFile {
 
     private _file: any;
-    private _filename: string   = 'file.jpg'
-    public _uploadsPending: any = [];
+    private _filename: string     = 'file.jpg'
+    public _uploadsPending: any[] = [];
 
     constructor(private provider: Gallery,
                 private events: Events
     ) {
-
+        console.log('ParseFile');
     }
 
     uploadProccess(item: any) {
@@ -24,6 +24,8 @@ export class ParseFile {
         let newItem = {loading: true, form: item.form, image: item.image, status: 'sending', code: this.getRandomInt()};
         this._uploadsPending.push(newItem);
         let index = _.findIndex(this._uploadsPending, {code: newItem.code});
+
+        console.log(this._uploadsPending);
 
         this.upload({base64: newItem.image}).then(image => {
             let form   = newItem.form;

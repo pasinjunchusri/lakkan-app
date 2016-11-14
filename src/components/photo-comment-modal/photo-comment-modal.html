@@ -43,7 +43,7 @@
 <ion-footer>
   <form #rForm="ngForm" (ngSubmit)="onComment(rForm)" novalidate>
     <ion-toolbar>
-      <ion-input [(ngModel)]="form.text" focus name="comment" type="text" #input placeholder="Comment in here" required></ion-input>
+      <ion-input [(ngModel)]="form.text" focus name="comment" type="text" focus placeholder="Comment in here" required></ion-input>
       <ion-buttons end>
         <button ion-button color="primary">
                     <ion-icon name="send"></ion-icon>
