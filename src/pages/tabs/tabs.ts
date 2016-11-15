@@ -24,7 +24,7 @@ export class TabsPage {
     @ViewChild('inputFile') input: ElementRef;
 
     cordova: boolean   = false;
-    _eventName: string = 'photoshare:crop';
+    _eventName: string = 'photoshare';
 
     constructor(private photoService: IonPhotoService,
                 private util: IonicUtil,
