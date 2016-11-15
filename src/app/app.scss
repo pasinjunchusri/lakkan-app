@@ -19,6 +19,10 @@
   height: 37px;
 }
 
+ion-modal {
+  z-index: 1000 !important;
+}
+
 img-loader {
   background-color: #f1f1f1;
 }

@@ -9,6 +9,7 @@ import {APP_PAGES, PagesModule} from "../pages/pages.module";
 
 import {IonicImageLoader} from "ionic-image-loader";
 import {FacebookService} from "ng2-facebook-sdk";
+import {Storage} from "@ionic/storage";
 
 @NgModule({
     declarations   : [
@@ -30,7 +31,7 @@ import {FacebookService} from "ng2-facebook-sdk";
         MyApp,
         APP_PAGES,
     ],
-    providers      : [FacebookService],
+    providers      : [FacebookService, Storage],
     bootstrap      : [IonicApp],
 })
 export class AppModule {

@@ -14,7 +14,7 @@
     <div class="profile-top">
         <ion-row>
             <ion-col width-25>
-                <div class="img-avatar">
+                <div (click)="changePhoto()" class="img-avatar">
                     <img *ngIf="user.photo" [src]="user.photo._url"/>
                     <img *ngIf="!user.photo" src="assets/img/user.png">
                 </div>

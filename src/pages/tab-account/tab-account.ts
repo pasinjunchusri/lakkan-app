@@ -3,6 +3,9 @@ import {NavController, ModalController, Events} from 'ionic-angular';
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
 import {UserData} from "../../providers/user-data";
+import {ParseFile} from "../../providers/parse-file";
+import {User} from "../../providers/user";
+import {IonicUtil} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-tab-account',
@@ -18,6 +21,7 @@ export class TabAccountPage {
     showEmptyView: boolean  = false;
     showErrorView: boolean  = false;
     moreItem: boolean       = false;
+    _eventName: string      = 'changephoto';
 
     params = {
         limit    : 12,
@@ -27,11 +31,14 @@ export class TabAccountPage {
     }
 
     constructor(private navCtrl: NavController,
-                private User: UserData,
+                private userData: UserData,
                 private events: Events,
-                private modalCtrl: ModalController
+                private modalCtrl: ModalController,
+                private ParseFile: ParseFile,
+                private User: User,
+                private util: IonicUtil
     ) {
-        this.user            = User.current();
+        this.user            = userData.current();
         this.username        = this.user.username;
         this.params.username = this.username;
         console.log(this.user, this.params);
@@ -47,12 +54,31 @@ export class TabAccountPage {
         });
 
         this.loadingProfile = true;
-        this.User.profile(this.username).then(profile => {
+        this.userData.profile(this.username).then(profile => {
             this.profile        = profile;
             this.loadingProfile = false;
         });
 
         setTimeout(() => this.onSelectType('list'), 200);
+
+        // Change Photo user
+        events.subscribe(this._eventName, imageCroped => {
+            this.util.onLoading();
+            this.ParseFile.upload({base64: imageCroped[0]}).then(image => {
+                this.User.updatePhoto(image).then(user => {
+                    console.log(user);
+                    this.user = user;
+                    this.util.endLoading();
+                });
+
+            })
+            this.user.photo._url = imageCroped[0];
+            this.events.publish('photocrop:close');
+        });
+    }
+
+    changePhoto() {
+        this.events.publish('photoservice', this._eventName);
     }
 
     onEditProfile() {

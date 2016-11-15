@@ -2,6 +2,7 @@ import {Component, NgZone} from '@angular/core';
 import {NavParams, ViewController, Events, ModalController} from "ionic-angular";
 import {ParseFile} from "../../providers/parse-file";
 import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-autocomplete-modal";
+import {IonPhotoCropModal} from "../ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
 //import {GmapsAutocompleteModalPage} from "../../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 
 @Component({
@@ -20,6 +21,7 @@ export class PhotoShareModal {
 
     image: any;
     eventName: string;
+    _eventName: string = 'photoshare:crop';
 
     constructor(private navparams: NavParams,
                 private viewCtrl: ViewController,
@@ -30,8 +32,14 @@ export class PhotoShareModal {
     ) {
         this.image     = this.navparams.get('base64');
         this.eventName = this.navparams.get('eventName');
+
         events.subscribe('album:selected', album => {
             this.form.album = album[0];
+        });
+
+        events.subscribe(this._eventName, _imageCroped => {
+            console.log('Imagem cortada');
+            this.image = _imageCroped[0];
         });
     }
 
@@ -64,8 +72,14 @@ export class PhotoShareModal {
         }
     }
 
+    cropImage(): void {
+        this.modalCtrl.create(IonPhotoCropModal, {eventName: this._eventName}).present();
+    }
 
-    dismiss() {
+    dismiss(cancel?) {
+        if (cancel) {
+            this.events.publish('photocrop:close');
+        }
         this.viewCtrl.dismiss();
     }
 

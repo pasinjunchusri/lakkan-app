@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar color="primary">
         <ion-buttons start>
-            <button ion-button clear (click)="dismiss()">
+            <button ion-button clear (click)="dismiss(true)">
                 {{'Cancel' | translate}}
             </button>
         </ion-buttons>
@@ -19,7 +19,7 @@
         <ion-list>
             <ion-item>
                 <ion-thumbnail item-left>
-                    <img [src]="image">
+                    <img (click)="dismiss()" [src]="image">
                 </ion-thumbnail>
                 <ion-textarea [(ngModel)]="form.title"
                               name="title"

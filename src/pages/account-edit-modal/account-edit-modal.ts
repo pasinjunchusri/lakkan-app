@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {ViewController} from 'ionic-angular';
+import {ViewController, Events} from 'ionic-angular';
 import {IonicUtil} from "../../providers/ionic-util";
 import {User} from "../../providers/user";
+import {ParseFile} from "../../providers/parse-file";
 
 @Component({
     selector   : 'page-account-edit-modal',
@@ -13,10 +14,14 @@ export class AccountEditModalPage {
     photo: any;
     submitted: boolean = false;
     _user: any;
+    _eventName: string = 'photoprofile';
 
     constructor(private viewCtrl: ViewController,
                 private ionic: IonicUtil,
                 private User: User,
+                private events: Events,
+                private util: IonicUtil,
+                private ParseFile: ParseFile,
     ) {
         this._user = User.current().attributes;
 
@@ -34,10 +39,24 @@ export class AccountEditModalPage {
             phone   : this._user.phone,
             website : this._user.website,
         };
+
+        // Change Photo user
+        events.subscribe(this._eventName, imageCroped => {
+            this.util.onLoading();
+            this.ParseFile.upload({base64: imageCroped[0]}).then(image => {
+                this.User.updatePhoto(image).then(user => {
+                    console.log(user);
+                    this.photo = imageCroped[0];
+                    this.util.endLoading();
+                });
+
+            })
+            this.events.publish('photocrop:close');
+        });
     }
 
     changeAvatar() {
-        console.log('Mudar Foto');
+        this.events.publish('photoservice', this._eventName);
     }
 
     save(rForm: any) {

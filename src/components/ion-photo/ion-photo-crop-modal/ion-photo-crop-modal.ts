@@ -13,12 +13,14 @@ export class IonPhotoCropModal {
     img: any;
     image: any;
     cropper: any;
+    _eventName: string;
 
     constructor(private navParams: NavParams,
                 private viewCtrl: ViewController,
                 private events: Events
     ) {
-        this.img = this.navParams.get('base64');
+        this._eventName = this.navParams.get('eventName')
+        this.img        = this.navParams.get('base64');
         this.events.subscribe('photocrop:close', () => this.dismiss());
     }
 
@@ -55,7 +57,8 @@ export class IonPhotoCropModal {
 
     crop() {
         let image = this.cropper.getCroppedCanvas().toDataURL('image/jpeg');
-        this.events.publish('photocrop:result', image);
+        console.log(this._eventName);
+        this.events.publish(this._eventName, image);
     }
 
     rotate(value: number): void {

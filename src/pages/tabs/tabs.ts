@@ -23,7 +23,8 @@ export class TabsPage {
     tabProfile: any  = TabAccountPage;
     @ViewChild('inputFile') input: ElementRef;
 
-    cordova: boolean = false;
+    cordova: boolean   = false;
+    _eventName: string = 'photoshare:crop';
 
     constructor(private photoService: IonPhotoService,
                 private util: IonicUtil,
@@ -32,13 +33,23 @@ export class TabsPage {
                 private events: Events
     ) {
         this.cordova = this.util.cordova;
+
+        this.events.subscribe(this._eventName, _imageCroped => {
+            this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0]}).present();
+        });
+
+        this.events.subscribe('photoservice', eventName => {
+            console.log('photoservice', eventName);
+            this.openCapture(eventName[0]);
+        });
     }
 
 
-    openCapture() {
+    openCapture(eventname) {
+        this._eventName = eventname;
         if (this.cordova) {
             this.photoService.open()
-                .then(image => this.cropAndShare(image))
+                .then(image => this.cropImage(image))
                 .catch(error => {
                     console.log(error);
                     this.util.toast(error);
@@ -48,14 +59,8 @@ export class TabsPage {
         }
     }
 
-    cropAndShare(image) {
-        let eventName = 'photocrop:result';
-        this.modalCtrl.create(IonPhotoCropModal, {base64: image}).present();
-
-        this.events.subscribe(eventName, _imageCroped => {
-            console.log(_imageCroped);
-            this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0], eventName: eventName}).present();
-        });
+    cropImage(image) {
+        this.modalCtrl.create(IonPhotoCropModal, {base64: image, eventName: this._eventName}).present();
     }
 
     onChange(event) {
@@ -64,7 +69,7 @@ export class TabsPage {
         let reader    = new FileReader();
         reader.onload = (evt) => {
             let image = evt.srcElement['result'];
-            this.cropAndShare(image)
+            this.cropImage(image)
         };
         reader.readAsDataURL(image);
     }
