@@ -52,6 +52,11 @@ export class TabHomePage {
         this.feed();
     }
 
+
+    uploadTest(){
+        this.events.publish('upload:gallery',null)
+    }
+
     selectType(privacity: string) {
         this.params.page      = 1;
         this.privacity        = privacity;
