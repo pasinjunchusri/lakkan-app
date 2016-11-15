@@ -1,25 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ParsePush} from "./parse-push";
 import {IonicUtil} from "./ionic-util";
+import {IUserFollow, IUser} from "../models/user.model";
 
 declare var Parse: any;
-
-export interface IUser {
-    name: string;
-    username: string;
-    password: string,
-    email: string;
-    gender?: string;
-    brithday?: any;
-    phone?: number;
-    website?: string;
-}
-
-export interface ParseParams {
-    page:number;
-    skip?:number;
-    limit?:number;
-}
 
 @Injectable()
 export class User {
@@ -58,7 +42,7 @@ export class User {
         });
     }
 
-    current() {
+    current(): any {
         return Parse.User.current();
     }
 
@@ -74,12 +58,10 @@ export class User {
 
 
     update(form: IUser) {
-        let user = Parse.User.current();
-        // User Language
-        return user.save(form);
+        return Parse.User.current().save(form);
     }
 
-    setPhoto(parseFile) {
+    updatePhoto(parseFile) {
         let user = Parse.User.current();
         user.set('photo', parseFile);
         return user.save();
@@ -89,7 +71,7 @@ export class User {
         return Parse.User.requestPasswordReset(email);
     }
 
-    getPublicData(user) {
+    profile(user: any) {
         return new Promise((resolve, reject) => {
             new Parse.Query('UserData').equalTo('user', user).first().then((userData) => {
                 if (userData) {
@@ -104,10 +86,8 @@ export class User {
         });
     }
 
-    logOut() {
-        return Parse.User.logOut();
-        //delete $window.localStorage['Parse/' + Parse.applicationId + '/currentUser'];
-        //delete $window.localStorage['Parse/' + Parse.applicationId + '/installationId'];
+    logout(): void {
+        Parse.User.logOut();
     }
 
     updateWithFacebookData() {
@@ -193,8 +173,8 @@ export class User {
         return Parse.Cloud.run('getUsers', params);
     }
 
-    follow(userId: string) {
-        return Parse.Cloud.run('followUser', {userId: userId});
+    follow(params: IUserFollow) {
+        return Parse.Cloud.run('followUser', params);
     }
 
     findByEmail(email: string) {

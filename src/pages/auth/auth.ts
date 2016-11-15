@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController} from 'ionic-angular';
+import {App, AlertController, NavController} from 'ionic-angular';
 import {User} from "../../providers/user";
 import {TabsPage} from "../tabs/tabs";
 import {IonicUtil} from "../../providers/ionic-util";
@@ -41,13 +41,14 @@ export class AuthPage {
                 private provider: User,
                 private alertCtrl: AlertController,
                 private util: IonicUtil,
-                private fb: FacebookService
+                private fb: FacebookService,
+                private app: App
     ) {
         // Define Facebook Browser and Native
         this.facebookNative  = Facebook;
         this.facebookBrowser = fb;
 
-        this.cordova = this.util.cordova;
+        this.cordova  = this.util.cordova;
         this.facebook = this.cordova ? this.facebookNative : this.facebookBrowser;
 
         this.formSignup.gender = 'male';
@@ -62,7 +63,7 @@ export class AuthPage {
         this.util.translate('Submit').then((res: string) => { this.alertTranslate.submit = res; });
     }
 
-    login(form) {
+    login(form): void {
         this.submitted = true;
         if (form.valid) {
             this.util.onLoading();
@@ -98,7 +99,7 @@ export class AuthPage {
     }
 
     onPageTabs() {
-        this.navCtrl.push(TabsPage);
+        this.app.getRootNav().setRoot(TabsPage);
     }
 
     loginFacebook() {
@@ -122,7 +123,7 @@ export class AuthPage {
     processFacebookLogin(authData) {
 
         console.log('Profcess Facebook');
-        this.facebook.api('/me?fields=id,name,birthday,last_name,first_name,email,gender',['public_profile'])
+        this.facebook.api('/me?fields=id,name,birthday,last_name,first_name,email,gender', ['public_profile'])
             .then((fbData) => {
                 console.log('fbData', fbData);
 

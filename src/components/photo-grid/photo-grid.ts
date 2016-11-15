@@ -12,10 +12,11 @@ import {IonicUtil} from "../../providers/ionic-util";
 export class PhotoGridComponent {
 
     @Input() username?: string;
-             params = {
-                 limit: 15,
-                 page : 1
-             };
+
+    params = {
+        limit: 15,
+        page : 1
+    };
 
     _width: any;
     errorIcon: string      = 'ios-images-outline';

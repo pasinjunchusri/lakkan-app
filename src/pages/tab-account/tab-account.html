@@ -66,9 +66,6 @@
         <ion-segment-button (ionSelect)="onSelectType('album')" value="album">
             <ion-icon name="ios-image-outline"></ion-icon>
         </ion-segment-button>
-        <ion-segment-button (ionSelect)="onSelectType('map')" value="map">
-            <ion-icon name="ios-pin-outline"></ion-icon>
-        </ion-segment-button>
     </ion-segment>
 
 
@@ -98,7 +95,6 @@
     <photo-list *ngIf="type=='list'"></photo-list>
     <photo-grid *ngIf="type=='grid'"></photo-grid>
     <album-grid *ngIf="type=='album'"></album-grid>
-    <photo-map *ngIf="type=='map'"></photo-map>
 
     <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

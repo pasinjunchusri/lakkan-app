@@ -7,7 +7,6 @@ import {CommonModule} from '@angular/common';
 import {MomentModule} from 'angular2-moment';
 import {IonicImageLoader} from 'ionic-image-loader';
 import {TranslateStaticLoader, TranslateModule, TranslateLoader, TranslateService} from 'ng2-translate';
-import {FacebookService} from "ng2-facebook-sdk/dist";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './i18n', '.json');
@@ -55,7 +54,6 @@ import {PhotoMapComponent} from "../components/photo-map/photo-map";
 import {LocationModalComponent} from "../components/location-modal/location-modal";
 import {TabSearchMapPage} from "./tab-search-map/tab-search-map";
 import {UploadStatusComponent} from "../components/upload-status/upload-status";
-import {IonicUtil} from "../providers/ionic-util";
 import {Logging} from "../providers/logging";
 import {TabSearchMapSettingsPage} from "./tab-search-map-settings/tab-search-map-settings";
 import {AlbumInputComponent} from "../components/album-input/album-input";
@@ -141,14 +139,12 @@ export class PagesModule {
 
     constructor(private translate: TranslateService,
                 private config: Config,
-                private fb: FacebookService,
-                private util: IonicUtil,
                 private logger: Logging,
                 private lib: ExternalLib
     ) {
-        this.translateConfig();
         this.lib.googleMaps();
         this.lib.facebookLoad();
+        this.translateConfig();
     }
 
 

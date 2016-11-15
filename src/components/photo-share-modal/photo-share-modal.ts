@@ -19,6 +19,7 @@ export class PhotoShareModal {
     address: any = {};
 
     image: any;
+    eventName: string;
 
     constructor(private navparams: NavParams,
                 private viewCtrl: ViewController,
@@ -27,7 +28,8 @@ export class PhotoShareModal {
                 private modalCtrl: ModalController,
                 private zone: NgZone
     ) {
-        this.image = this.navparams.get('base64');
+        this.image     = this.navparams.get('base64');
+        this.eventName = this.navparams.get('eventName');
         events.subscribe('album:selected', album => {
             this.form.album = album[0];
         });
@@ -57,6 +59,7 @@ export class PhotoShareModal {
         if (form.valid) {
             this.ParseFile.uploadProccess({form: this.form, image: this.image});
             this.events.publish('photocrop:close');
+            this.events.unsubscribe(this.eventName);
             this.dismiss();
         }
     }

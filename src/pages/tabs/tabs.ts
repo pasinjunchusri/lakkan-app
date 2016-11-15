@@ -49,19 +49,13 @@ export class TabsPage {
     }
 
     cropAndShare(image) {
+        let eventName = 'photocrop:result';
         this.modalCtrl.create(IonPhotoCropModal, {base64: image}).present();
 
-        this.events.subscribe('photocrop:result', _imageCroped => {
+        this.events.subscribe(eventName, _imageCroped => {
             console.log(_imageCroped);
-            let modal = this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0]});
-            modal.present();
-
+            this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0], eventName: eventName}).present();
         });
-        //modal.onDidDismiss(_imageCroped => {
-        //console.log(_imageCroped);
-        //this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped}).present();
-        //});
-        //modal.present();
     }
 
     onChange(event) {

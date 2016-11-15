@@ -1,4 +1,4 @@
-import {Component, NgZone} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, Events, App} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
 import {UserListPage} from "../user-list/user-list";
@@ -34,14 +34,19 @@ export class TabHomePage {
                 private provider: Gallery,
                 private events: Events,
                 private Auth: Auth,
-                private app: App,
-                private ngZone: NgZone
+                private app: App
     ) {
 
         events.subscribe('home:reload', () => this.doRefresh(null));
     }
 
-    ngOnInit() {
+    ionViewDidEnter() {
+        console.log('ionViewDidEnter');
+        //this.app.setTitle('Schedule');
+    }
+
+    ngAfterViewInit() {
+        console.log('ngAfterViewInit');
         this.feed();
     }
 

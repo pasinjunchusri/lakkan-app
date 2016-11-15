@@ -10,7 +10,6 @@ import {APP_PAGES, PagesModule} from "../pages/pages.module";
 import {IonicImageLoader} from "ionic-image-loader";
 import {FacebookService} from "ng2-facebook-sdk";
 
-
 @NgModule({
     declarations   : [
         MyApp,

@@ -84,7 +84,7 @@ export class UserListPage {
 
     follow(user) {
         user.loading = true;
-        this.provider.follow(user.userObj.id).then(resp => {
+        this.provider.follow({userId: user.userObj.id}).then(resp => {
             console.log('Follow result', resp);
             user.isFollow = (resp === 'follow') ? true : false;
             if (resp == 'follow') {

@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {ParseParamsLocation} from "../models/parse.params.location.model";
+import {IGallery} from "../models/gallery.model";
 
 declare var Parse: any;
 
@@ -24,8 +26,6 @@ export class Gallery {
     ];
 
     private _ParseObject: any = Parse.Object.extend('Gallery', {});
-            tempParams: any;
-            tempCache: any    = [];
 
     constructor() {
         this._fields.map(field => {
@@ -47,7 +47,7 @@ export class Gallery {
         });
     }
 
-    near(params) {
+    near(params: ParseParamsLocation) {
         let query = new Parse.Query(this._ParseObject);
         // Limit by page
         query.exists('location');
@@ -58,8 +58,8 @@ export class Gallery {
         return query.find();
     }
 
-    likeGallery(galleryId: string): Promise<any> {
-        return Parse.Cloud.run('likeGallery', {galleryId: galleryId});
+    likeGallery(objectId: string) {
+        return Parse.Cloud.run('likeGallery', {galleryId: objectId});
     }
 
     follow(params) {
@@ -70,23 +70,8 @@ export class Gallery {
         return Parse.Cloud.run('searchGallery', params);
     }
 
-    feed(params) {
+    feed(params: any){
         return Parse.Cloud.run('feedGallery', params);
-    }
-
-    feedCache(params) {
-        return new Promise((resolve, reject) => {
-            console.log(params.page, this.tempParams['page']);
-            if (params.page == this.tempParams['page']) {
-                resolve(this.tempCache);
-            } else {
-                Parse.Cloud.run('feedGallery', params).then(result => {
-                    this.tempParams = params;
-                    this.tempCache  = result;
-                    resolve(result);
-                }, reject);
-            }
-        });
     }
 
     comments(params) {
@@ -98,27 +83,31 @@ export class Gallery {
     }
 
     // Parse Crud
-    get(galleryId) {
-        return new Parse.Query(this).include('profile').get(galleryId);
+    get(objectId: string) {
+        return new Parse.Query(this._ParseObject).include('profile').get(objectId);
     }
 
-    put(item) {
+    put(item: IGallery) {
 
         if (item.address && item.address.geo) {
             item.location = new Parse.GeoPoint(item.address.geo);
         }
 
-
         if (!item.id) {
-            var objPlace = new this._ParseObject();
-            return objPlace.save(item);
+            // New Item
+            return new this._ParseObject().save(item);
         } else {
+            // Update item
             return item.save();
         }
 
     }
 
-    destroy(item) {
-        return item.destroy();
+    destroy(objectId: string) {
+        return new Promise((resolve, reject) => {
+            this.get(objectId).then(item => {
+                item.destroy().then(resolve).catch(reject);
+            }).catch(reject);
+        });
     }
 }

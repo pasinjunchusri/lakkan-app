@@ -1,24 +1,26 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <widget id="com.agenciafoccus.photogram2" version="2.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Photogram2</name>
   <description>Share photos of your moments</description>
   <author email="agfoccus@gmail.com" href="http://agenciafoccus.com.br/">Agencia Foccus</author>
-  <content src="index.html"/>
-  <access origin="*"/>
-  <allow-intent href="http://*/*"/>
-  <allow-intent href="https://*/*"/>
-  <allow-intent href="tel:*"/>
-  <allow-intent href="sms:*"/>
-  <allow-intent href="mailto:*"/>
-  <allow-intent href="geo:*"/>
+  <content src="index.html" />
+  <access origin="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="tel:*" />
+  <allow-intent href="sms:*" />
+  <allow-intent href="mailto:*" />
+  <allow-intent href="geo:*" />
+  <allow-navigation href="http://*/*" />
+  <allow-navigation href="tel:*" />
+  <allow-navigation href="mailto:*" />
   <preference name="android-minSdkVersion" value="16"/>
-  <preference name="StatusBarBackgroundColor" value="#007F74"/>
-  <preference name="StatusBarStyle" value="lightcontent"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
-  <preference name="DisallowOverscroll" value="true"/>
-  <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
+  <preference name="StatusBarBackgroundColor" value="#007F74"/>
+  <preference name="StatusBarStyle" value="lightcontent"/>
+  <preference name="DisallowOverscroll" value="true"/>
   <preference name="SplashScreenDelay" value="1000"/>
   <preference name="FadeSplashScreen" value="true"/>
   <preference name="FadeSplashScreenDuration" value="750"/>
@@ -33,10 +35,10 @@
   <preference name="ParseServerUrl" value="https://photogram.codevibe.io/parse/"/>
   <preference name="ParseGcmSenderId" value="338362594839"/>
   <preference name="orientation" value="portrait"/>
-  <preference name="xwalkVersion" value="18+"/>
-  <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect"/>
-  <preference name="xwalkMode" value="embedded"/>
-  <preference name="xwalkMultipleApk" value="true"/>
+  <preference name="xwalkVersion" value="18+" />
+  <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
+  <preference name="xwalkMode" value="embedded" />
+  <preference name="xwalkMultipleApk" value="true" />
   <platform name="android">
     <allow-intent href="market:*"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
