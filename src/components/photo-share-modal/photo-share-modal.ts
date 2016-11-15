@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NavParams, ViewController, Events, ModalController} from "ionic-angular";
 import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-autocomplete-modal";
-//import {GmapsAutocompleteModalPage} from "../../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 
 @Component({
     selector   : 'photo-share-modal',
@@ -59,8 +58,8 @@ export class PhotoShareModal {
 
     submit(form) {
         if (form.valid) {
-            this.events.unsubscribe(this.eventName);
             this.events.publish('photocrop:close');
+            this.events.unsubscribe(this.eventName);
             this.viewCtrl.dismiss({form: this.form, image: this.image});
         }
     }

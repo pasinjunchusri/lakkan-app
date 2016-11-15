@@ -49,6 +49,7 @@ export class TabsPage {
             modal.onDidDismiss(response => {
                 console.log(response);
                 if (response) {
+                    this.util.onLoading();
                     this.ParseFile.upload({base64: response.image}).then(image => {
                         let form   = response.form;
                         form.image = image;
@@ -57,9 +58,10 @@ export class TabsPage {
                             console.log(item);
                             item.loading = false;
                             this.events.publish('home:reload');
-
+                            this.util.endLoading();
                         }).catch(error => {
                             console.log(error);
+                            this.util.endLoading();
                         });
                     });
                 }
