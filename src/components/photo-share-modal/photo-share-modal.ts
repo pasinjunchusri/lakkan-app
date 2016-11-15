@@ -1,8 +1,6 @@
-import {Component, NgZone} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavParams, ViewController, Events, ModalController} from "ionic-angular";
-import {ParseFile} from "../../providers/parse-file";
 import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-autocomplete-modal";
-import {IonPhotoCropModal} from "../ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
 //import {GmapsAutocompleteModalPage} from "../../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 
 @Component({
@@ -25,10 +23,8 @@ export class PhotoShareModal {
 
     constructor(private navparams: NavParams,
                 private viewCtrl: ViewController,
-                private ParseFile: ParseFile,
                 private events: Events,
-                private modalCtrl: ModalController,
-                private zone: NgZone
+                private modalCtrl: ModalController
     ) {
         this.image     = this.navparams.get('base64');
         this.eventName = this.navparams.get('eventName');
@@ -47,11 +43,9 @@ export class PhotoShareModal {
         let modal = this.modalCtrl.create(GmapsAutocompleteModalPage);
         modal.onDidDismiss(address => {
             if (address) {
-                this.zone.run(() => {
-                    this.address       = address
-                    this.form.address  = address;
-                    this.form.location = address.location;
-                })
+                this.address       = address
+                this.form.address  = address;
+                this.form.location = address.location;
             }
         });
         modal.present();
@@ -65,15 +59,10 @@ export class PhotoShareModal {
 
     submit(form) {
         if (form.valid) {
-            this.ParseFile.uploadProccess({form: this.form, image: this.image});
-            this.events.publish('photocrop:close');
             this.events.unsubscribe(this.eventName);
-            this.dismiss();
+            this.events.publish('photocrop:close');
+            this.viewCtrl.dismiss({form: this.form, image: this.image});
         }
-    }
-
-    cropImage(): void {
-        this.modalCtrl.create(IonPhotoCropModal, {eventName: this._eventName}).present();
     }
 
     dismiss(cancel?) {

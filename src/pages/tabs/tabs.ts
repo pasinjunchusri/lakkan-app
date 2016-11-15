@@ -9,6 +9,8 @@ import {IonicUtil} from "../../providers/ionic-util";
 import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
 import {PhotoShareModal} from "../../components/photo-share-modal/photo-share-modal";
 import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
+import {Gallery} from "../../providers/gallery";
+import {ParseFile} from "../../providers/parse-file";
 
 @Component({
     templateUrl: 'tabs.html'
@@ -30,17 +32,39 @@ export class TabsPage {
                 private util: IonicUtil,
                 private modalCtrl: ModalController,
                 private render: Renderer,
-                private events: Events
+                private events: Events,
+                private provider: Gallery,
+                private ParseFile: ParseFile
     ) {
         this.cordova = this.util.cordova;
 
-        this.events.subscribe(this._eventName, _imageCroped => {
-            this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0]}).present();
+        // Open Capture Photo
+        this.events.subscribe('photoservice', eventName => {
+            this.openCapture(eventName[0]);
         });
 
-        this.events.subscribe('photoservice', eventName => {
-            console.log('photoservice', eventName);
-            this.openCapture(eventName[0]);
+        // Open Share Modal
+        this.events.subscribe(this._eventName, _imageCroped => {
+            let modal = this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0]});
+            modal.onDidDismiss(response => {
+                console.log(response);
+                if (response) {
+                    this.ParseFile.upload({base64: response.image}).then(image => {
+                        let form   = response.form;
+                        form.image = image;
+
+                        this.provider.put(form).then(item => {
+                            console.log(item);
+                            item.loading = false;
+                            this.events.publish('home:reload');
+
+                        }).catch(error => {
+                            console.log(error);
+                        });
+                    });
+                }
+            });
+            modal.present();
         });
     }
 

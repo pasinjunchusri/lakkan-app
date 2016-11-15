@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {NavController, Events, App} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavController, Events, App, Content} from 'ionic-angular';
 import {Gallery} from "../../providers/gallery";
 import {UserListPage} from "../user-list/user-list";
 import {Auth} from "../../providers/auth";
@@ -11,6 +11,7 @@ import _ from 'underscore';
     templateUrl: 'tab-home.html',
 })
 export class TabHomePage {
+    @ViewChild('Content') content: Content;
 
     params = {
         limit    : 5,
@@ -37,17 +38,23 @@ export class TabHomePage {
                 private app: App
     ) {
 
-        events.subscribe('home:reload', () => this.doRefresh(null));
+        // Realod
+        events.subscribe('home:reload', () => {
+            this.loading     = true;
+            this.data        = [];
+            this.params.page = 1;
+            this.feed();
+        });
     }
 
     ionViewDidEnter() {
         console.log('ionViewDidEnter');
-        //this.app.setTitle('Schedule');
+        this.feed();
     }
 
-    ngAfterViewInit() {
-        console.log('ngAfterViewInit');
-        this.feed();
+
+    uploadTest(){
+        this.events.publish('upload:gallery',null)
     }
 
     selectType(privacity: string) {
@@ -99,6 +106,10 @@ export class TabHomePage {
                 reject(this.errorText)
             });
         });
+    }
+
+    scrollTop() {
+        this.content.scrollToTop();
     }
 
     doInfinite(event) {

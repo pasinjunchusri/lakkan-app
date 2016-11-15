@@ -81,7 +81,8 @@ export class PhotoListPopoverComponent {
                     text   : this._translateYes,
                     handler: () => {
                         this.ionicUtil.onLoading();
-                        this.provider.destroy(this.item.obj).then(() => {
+                        console.log();
+                        this.provider.destroy(this.item.id).then(() => {
                             this.ionicUtil.endLoading();
 
                             // Event Emit
