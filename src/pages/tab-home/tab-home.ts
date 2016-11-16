@@ -14,7 +14,7 @@ export class TabHomePage {
     @ViewChild('Content') content: Content;
 
     params = {
-        limit    : 5,
+        limit    : 24,
         page     : 1,
         privacity: 'public'
     };
