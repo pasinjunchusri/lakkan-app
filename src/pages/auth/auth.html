@@ -14,90 +14,119 @@
 <ion-content>
 
     <div [ngSwitch]="authType">
-        <form *ngSwitchCase="'login'" #loginCreds="ngForm" (ngSubmit)="login(loginCreds)" novalidate>
-            <ion-item>
-                <ion-label floating color="primary">{{'Username'| translate}}</ion-label>
-                <ion-input [(ngModel)]="formLogin.username" name="username" type="text" #username="ngModel"
-                           spellcheck="false" autocapitalize="off"
-                           required>
-                </ion-input>
-            </ion-item>
-            <p [hidden]="username.valid || !submitted" color="danger" padding-left>
-                {{'Username is required' | translate}}
-            </p>
-            <ion-item>
-                <ion-label floating color="primary"> {{'Password' | translate}}</ion-label>
-                <ion-input [(ngModel)]="formLogin.password" name="password" type="password" #password="ngModel"
-                           required></ion-input>
-            </ion-item>
-            <p [hidden]="password.valid || !submitted" color="danger" padding-left>
-                {{'Password is required' | translate }}
-            </p>
+        <form *ngSwitchCase="'login'" [formGroup]="formLogin"  #rFormLogin="ngForm" (ngSubmit)="login(rFormLogin)">
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>{{'Username' | translate}}</ion-label>
+                    <ion-input type="text" formControlName="username"></ion-input>
+                </ion-item>
+                <ion-item class="form-error-list"
+                          *ngIf="!formLogin.controls.username.pristine && !formLogin.controls.username.valid">
+                    <p class="form-error" item-right
+                       *ngIf="!formLogin.controls.username.pristine && formLogin.controls.username.hasError('required')">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>{{'Password'|translate}}</ion-label>
+                    <ion-input type="password" formControlName="password"></ion-input>
+                </ion-item>
+                <ion-item class="form-error-list"
+                          *ngIf="!formLogin.controls.password.pristine && !formLogin.controls.password.valid">
+                    <p class="form-error" item-right
+                       *ngIf="!formLogin.controls.password.pristine && formLogin.controls.password.hasError('required')">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                </ion-item>
+            </ion-list>
             <ion-row>
-                <ion-col><a ion-button block clear (click)="resetPass()">{{'Forgot Password' | translate}}</a></ion-col>
                 <ion-col>
-                    <button ion-button block type="submit">{{'Login' | translate}}</button>
+                    <a ion-button block clear full (click)="resetPassword()">{{'Lost your password?'|translate}}</a>
+                </ion-col>
+                <ion-col>
+                    <button ion-button block full color="secondary" type="submit">{{'Log in' | translate}}
+                    </button>
                 </ion-col>
             </ion-row>
         </form>
-        <form *ngSwitchCase="'signup'" #signupCreds="ngForm" (ngSubmit)="signup(signupCreds)" novalidate>
-            <ion-item>
-                <ion-label floating color="primary">{{'Name' | translate}}</ion-label>
-                <ion-input [(ngModel)]="formSignup.name" name="name" type="text" #name="ngModel" required>
-                </ion-input>
-            </ion-item>
-            <p [hidden]="name.valid || !submitted " color="danger" padding-left>
-                {{'Name is required' | translate }}
-            </p>
-            <ion-item>
-                <ion-label floating color="primary">{{'Gender' | translate }}</ion-label>
-                <ion-select [(ngModel)]="formSignup.gender" name="gender" #gender="ngModel" required>
-                    <ion-option value="male">{{'Male' | translate }}</ion-option>
-                    <ion-option value="female">{{'Female' | translate }}</ion-option>
-                </ion-select>
-            </ion-item>
-            <p [hidden]="gender.valid || !submitted" color="danger" padding-left>
-                {{'Gender' | translate }}
-            </p>
-            <ion-item>
-                <ion-label floating color="primary">{{'Username'| translate}}</ion-label>
-                <ion-input [(ngModel)]="formSignup.username" name="username" type="text" #username="ngModel"
-                           spellcheck="false" autocapitalize="off"
-                           required>
-                </ion-input>
-            </ion-item>
-            <p [hidden]="username.valid || !submitted" color="danger" padding-left>
-                {{'Username is required' | translate}}
-            </p>
-            <ion-item>
-                <ion-label floating color="primary">{{'Email'| translate}}</ion-label>
-                <ion-input [(ngModel)]="formSignup.email" name="email" type="email" #email="ngModel" required>
-                </ion-input>
-            </ion-item>
-            <p [hidden]="email.valid || !submitted " color="danger" padding-left>
-                {{'Email is required' | translate}}
-            </p>
-            <ion-item>
-                <ion-label floating color="primary">{{'Password' | translate}}</ion-label>
-                <ion-input [(ngModel)]="formSignup.password" name="password" type="password" #password="ngModel"
-                           required></ion-input>
-            </ion-item>
-            <p [hidden]="password.valid || !submitted" color="danger" padding-left>
-                {{'Password is required' | translate}}
-            </p>
+
+        <form *ngSwitchCase="'signup'" [formGroup]="formSignup"  #rFormSignup="ngForm" (ngSubmit)="createUser(rFormSignup)">
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>{{'Name'| translate}} *</ion-label>
+                    <ion-input type="text" formControlName="name"></ion-input>
+                </ion-item>
+                <ion-item class="form-error-list"
+                          *ngIf="!formSignup.controls.name.pristine && !formSignup.controls.name.valid">
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.name.pristine && formSignup.controls.name.hasError('required')">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>{{'Email' | translate}} *</ion-label>
+                    <ion-input #email type="email" formControlName="email"
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"></ion-input>
+                </ion-item>
+                <ion-item class="form-error-list"
+                          *ngIf="!formSignup.controls.email.pristine && !formSignup.controls.email.valid">
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.email.pristine && formSignup.controls.email.hasError('required')">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.email.pristine && !formSignup.controls.email.valid">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>{{ 'Password' | translate }} *</ion-label>
+                    <ion-input #password type="password" formControlName="password"></ion-input>
+                </ion-item>
+                <ion-item class="form-error-list"
+                          *ngIf="!formSignup.controls.password.pristine && !formSignup.controls.password.valid">
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.password.pristine && formSignup.controls.password.hasError('required')">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.password.pristine && formSignup.controls.password?.errors?.minlength">
+                        {{'Password must have more than 5 characters' | translate}}
+                    </p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>{{'Confirm password' | translate}} *</ion-label>
+                    <ion-input type="password" formControlName="passwordConfirmation"></ion-input>
+                </ion-item>
+                <ion-item class="form-error-list"
+                          *ngIf="!formSignup.controls.passwordConfirmation.pristine && !formSignup.controls.passwordConfirmation.valid">
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.passwordConfirmation.pristine && formSignup.controls.passwordConfirmation.hasError('required')">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.passwordConfirmation.pristine && formSignup.controls.passwordConfirmation?.errors?.minlength">
+                        {{'Password must have more than 5 characters' | translate}}
+                    </p>
+                </ion-item>
+            </ion-list>
             <ion-row>
                 <ion-col>
-                    <button ion-button block type="submit">{{'Signup' | translate}}</button>
+                    <button type="submit" full ion-button block color="secondary">{{'Sign up' | translate}}</button>
                 </ion-col>
             </ion-row>
         </form>
     </div>
+
     <ion-row>
         <ion-col><a ion-button block icon-left color="facebook" (click)="loginFacebook()">
             <ion-icon name="logo-facebook"></ion-icon>
-            {{'Signup with Facebook' | translate }}</a></ion-col>
+            {{'Signup with Facebook' | translate }}</a>
+        </ion-col>
     </ion-row>
-    <div padding>
-        <p *ngIf="error" class="error">{{ error._body }}</p>
-    </div>
+
 </ion-content>

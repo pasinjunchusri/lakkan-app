@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
+import {Validators, FormBuilder} from "@angular/forms";
 import {App, AlertController, NavController} from 'ionic-angular';
-import {User} from "../../providers/user";
-import {TabsPage} from "../tabs/tabs";
-import {IonicUtil} from "../../providers/ionic-util";
 import {Facebook} from 'ionic-native';
 import {FacebookService} from "ng2-facebook-sdk";
+
+import {TabsPage} from "../tabs/tabs";
 import {UserAvatarPage} from "../user-avatar/user-avatar";
+import {IonicUtil} from "../../providers/ionic-util";
+import {User} from "../../providers/user";
 
 @Component({
     selector   : 'page-auth',
@@ -13,26 +15,14 @@ import {UserAvatarPage} from "../user-avatar/user-avatar";
 })
 
 export class AuthPage {
-    authType: string   = 'login';
+    authType: string = 'login';
     error: string;
-    submitted: boolean = false;
     facebook: any;
     facebookNative: Facebook;
     facebookBrowser: FacebookService;
 
-    formLogin: {
-        username?: string,
-        password?: string
-    } = {};
-
-    formSignup: {
-        name?: string,
-        email?: string,
-        gender?: string,
-        status?: string,
-        username?: string,
-        password?: string
-    } = {};
+    formLogin: any;
+    formSignup: any;
 
     alertTranslate: any = {};
     cordova: boolean    = false;
@@ -42,7 +32,8 @@ export class AuthPage {
                 private alertCtrl: AlertController,
                 private util: IonicUtil,
                 private fb: FacebookService,
-                private app: App
+                private app: App,
+                private formBuilder: FormBuilder
     ) {
         // Define Facebook Browser and Native
         this.facebookNative  = Facebook;
@@ -51,7 +42,7 @@ export class AuthPage {
         this.cordova  = this.util.cordova;
         this.facebook = this.cordova ? this.facebookNative : this.facebookBrowser;
 
-        this.formSignup.gender = 'male';
+        //this.formSignup.gender = 'male';
 
         // Translate Search Bar Placeholder
         this.util.translate('Enter your email so we can send you a link to reset your password').then((res: string) => { this.alertTranslate.message = res; });
@@ -63,12 +54,32 @@ export class AuthPage {
         this.util.translate('Submit').then((res: string) => { this.alertTranslate.submit = res; });
     }
 
+    ionViewWillLoad() {
+        this.formLogin = this.formBuilder.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        });
+
+        // Validate user registration form
+        this.formSignup = this.formBuilder.group({
+            name                : ['', Validators.required],
+            email               : ['', Validators.required],
+            username            : ['', Validators.required],
+            gender              : ['', Validators.required],
+            password            : ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+            passwordConfirmation: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+        });
+    }
+
+
     login(form): void {
-        this.submitted = true;
         if (form.valid) {
             this.util.onLoading();
 
-            this.provider.signIn(this.formLogin).then(user => {
+            let newForm = IonicUtil.parseForm(this.formLogin);
+            console.log(newForm);
+
+            this.provider.signIn(newForm).then(user => {
                 console.log(user);
                 console.log(this.provider.current());
                 this.util.endLoading();
@@ -81,28 +92,41 @@ export class AuthPage {
         }
     }
 
-    signup(form) {
-        console.log(form, this.formSignup);
-        this.submitted = true;
-        if (form.valid) {
-            this.util.onLoading();
-            this.provider.signUp(this.formSignup).then(user => {
-                console.log(user);
-                this.provider.current = user;
-                this.util.endLoading();
-                this.onPageTabs();
-            }, error => {
-                this.util.endLoading();
-                this.util.toast(error.message);
-            });
+    validPassword(password, confirm):boolean {
+        return (password == confirm) ? true : false;
+    }
+
+    createUser(form): void {
+        let newForm = IonicUtil.parseForm(this.formSignup);
+
+        if (this.validPassword(newForm['password'], newForm['passwordConfirmation'])) {
+            if (form.valid) {
+                this.util.onLoading();
+
+                delete newForm['passwordConfirmation'];
+                console.log(newForm);
+
+                this.provider.signUp(newForm).then(user => {
+                    console.log(user);
+                    this.provider.current = user;
+                    this.util.endLoading();
+                    this.onPageTabs();
+                }, error => {
+                    this.util.endLoading();
+                    this.util.toast(error.message);
+                });
+            }
+
+        } else {
+            this.util.toast('Password not confirm');
         }
     }
 
-    onPageTabs() {
+    onPageTabs(): void {
         this.app.getRootNav().setRoot(TabsPage);
     }
 
-    loginFacebook() {
+    loginFacebook(): void {
 
         this.util.onLoading();
         this.facebook.getLoginStatus().then(response => {
@@ -169,7 +193,7 @@ export class AuthPage {
     }
 
 
-    resetPass() {
+    resetPassword(): void {
 
         this.alertCtrl.create({
             title  : this.alertTranslate.title,

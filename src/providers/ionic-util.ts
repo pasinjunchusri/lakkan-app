@@ -3,6 +3,7 @@ import {Platform, LoadingController, ToastController, AlertController} from "ion
 import {TranslateService} from "ng2-translate";
 import {InAppBrowser} from "ionic-native";
 import {Logging} from "./logging";
+import * as _ from 'underscore';
 
 declare var device: any;
 declare var navigator: any;
@@ -32,6 +33,14 @@ export class IonicUtil {
             this._heightPlatform = platform.height();
         });
 
+    }
+
+    public static parseForm(form) {
+        let object = new Object();
+        _.each(form.controls, (value, key) => {
+            object[key] = value['value'];
+        });
+        return object;
     }
 
     isOnline() {
