@@ -18,7 +18,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-refresher (ionRefresh)="doRefresh($event)" [hidden]="loading">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <photo-list [event]="eventName" ></photo-list>
