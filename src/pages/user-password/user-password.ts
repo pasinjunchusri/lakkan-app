@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ViewController} from 'ionic-angular';
-import {User} from '../../providers/user';
-import {IonicUtil} from '../../providers/ionic-util';
+import {UserProvider} from '../../providers/user';
+import {IonicUtilProvider} from '../../providers/ionic-util';
 
 interface IPassword {
     password: string
@@ -21,8 +21,8 @@ export class UserPasswordPage {
     };
 
     constructor(private viewCtrl: ViewController,
-                private ionicUtil: IonicUtil,
-                private provider: User,
+                private ionicUtil: IonicUtilProvider,
+                private provider: UserProvider,
     ) {
 
     }

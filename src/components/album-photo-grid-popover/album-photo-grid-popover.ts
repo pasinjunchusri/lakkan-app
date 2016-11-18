@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
 import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
-import {IonicUtil} from '../../providers/ionic-util';
-import {GalleryAlbum} from '../../providers/gallery-album';
+import {IonicUtilProvider} from '../../providers/ionic-util';
+import {GalleryAlbumProvider} from '../../providers/gallery-album';
 
 @Component({
     selector: 'album-photo-grid-popover',
@@ -25,11 +25,11 @@ export class AlbumPhotoGridPopoverComponent {
     constructor(private viewCtrl: ViewController,
                 private navParams: NavParams,
                 private alertCtrl: AlertController,
-                private ionicUtil: IonicUtil,
-                private provider: GalleryAlbum,
+                private ionicUtil: IonicUtilProvider,
+                private provider: GalleryAlbumProvider,
                 private events: Events,
                 private modalCtrl: ModalController,
-                private util: IonicUtil
+                private util: IonicUtilProvider
     ) {
         this.id = this.navParams.get('id');
         console.log(this.id);

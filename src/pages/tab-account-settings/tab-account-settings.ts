@@ -3,10 +3,10 @@ import {App, ModalController} from 'ionic-angular';
 import {IntroPage} from "../intro/intro";
 import {UserPasswordPage} from "../user-password/user-password";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import {AboutPage} from "../about/about";
 import {LanguageModalComponent} from "../../components/language-modal/language-modal";
-import {User} from "../../providers/user";
+import {UserProvider} from "../../providers/user";
 
 
 @Component({
@@ -16,10 +16,10 @@ import {User} from "../../providers/user";
 export class TabAccountSettingsPage {
 
 
-    constructor(private User: User,
+    constructor(private User: UserProvider,
                 private app: App,
                 private modalCtrl: ModalController,
-                private util: IonicUtil
+                private util: IonicUtilProvider
     ) {}
 
 

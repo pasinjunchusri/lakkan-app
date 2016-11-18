@@ -2,8 +2,8 @@ import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
 import {NavController} from "ionic-angular";
 import {Geolocation} from "ionic-native";
 
-import {IonicUtil} from "../../providers/ionic-util";
-import {Gallery} from "../../providers/gallery";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+import {GalleryProvider} from "../../providers/gallery";
 import {PhotoPage} from "../photo/photo";
 
 import _ from 'underscore';
@@ -30,8 +30,8 @@ export class TabSearchMapPage implements OnInit {
     markers: any     = [];
 
 
-    constructor(private util: IonicUtil,
-                private provider: Gallery,
+    constructor(private util: IonicUtilProvider,
+                private provider: GalleryProvider,
                 private navCtrl: NavController
     ) {
         this.cordova = this.util.cordova;

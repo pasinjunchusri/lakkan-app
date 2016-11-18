@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Platform, LoadingController, ToastController, AlertController} from "ionic-angular";
 import {TranslateService} from "ng2-translate";
 import {InAppBrowser} from "ionic-native";
-import {Logging} from "./logging";
+import {LoggingProvider} from "./logging";
 import * as _ from 'underscore';
 
 declare var device: any;
@@ -10,7 +10,7 @@ declare var navigator: any;
 declare var Connection: any;
 
 @Injectable()
-export class IonicUtil {
+export class IonicUtilProvider {
     private _loading: any;
     public cordova: boolean = false;
     public _widthPlatform: any;
@@ -20,7 +20,7 @@ export class IonicUtil {
                 private loadingCtrl: LoadingController,
                 private toastCtrl: ToastController,
                 public translateService: TranslateService,
-                private logger: Logging,
+                private logger: LoggingProvider,
                 private alertCtrl: AlertController
     ) {
 
@@ -169,7 +169,7 @@ export class IonicUtil {
     }
 
     static getIconForPOI(poi) {
-        let poiLevel = IonicUtil.getMaxLevelOfPOI(poi);
+        let poiLevel = IonicUtilProvider.getMaxLevelOfPOI(poi);
         let iconURL  = "assets/images/icons/map/level" + poiLevel;
 
         if (poi.UsageType != null && poi.UsageType.Title.indexOf("Private") > -1) {

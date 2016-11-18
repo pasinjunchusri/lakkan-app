@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
 import {Events, NavController} from 'ionic-angular';
-import {GalleryAlbum} from '../../providers/gallery-album';
+import {GalleryAlbumProvider} from '../../providers/gallery-album';
 import {AlbumPhotoGridComponent} from '../album-photo-grid/album-photo-grid';
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
 
 @Component({
@@ -29,10 +29,10 @@ export class AlbumGridComponent implements OnInit {
     canEdit: boolean       = false;
     _width: any;
 
-    constructor(private provider: GalleryAlbum,
+    constructor(private provider: GalleryAlbumProvider,
                 private events: Events,
                 private navCtrl: NavController,
-                private util: IonicUtil,
+                private util: IonicUtilProvider,
     ) {
         this._width = this.util._widthPlatform / 3 + 'px';
 

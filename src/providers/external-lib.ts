@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
 import {FacebookInitParams, FacebookService} from "ng2-facebook-sdk";
-import {IonicUtil} from "./ionic-util";
+import {IonicUtilProvider} from "./ionic-util";
 import {GOOGLE_MAPS_WEB, facebook_appVersion} from "../config";
 import {facebook_appId, language_default, languages} from '../config'
 
 @Injectable()
-export class ExternalLib {
+export class ExternalLibProvider {
 
-    constructor(private util: IonicUtil,
+    constructor(private util: IonicUtilProvider,
                 private fb: FacebookService,
     ) {
-        console.log('Hello ExternalLib Provider');
+        console.log('Hello ExternalLibProvider Provider');
     }
 
     public googleMaps() {

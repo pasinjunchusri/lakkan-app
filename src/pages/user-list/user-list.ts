@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {User} from "../../providers/user";
+import {UserProvider} from "../../providers/user";
 import {ProfilePage} from "../profile/profile";
 import {TranslateService} from "ng2-translate";
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
 
 @Component({
@@ -31,9 +31,9 @@ export class UserListPage {
     }
 
     constructor(private navCtrl: NavController,
-                private provider: User,
+                private provider: UserProvider,
                 private translate: TranslateService,
-                private util: IonicUtil
+                private util: IonicUtilProvider
     ) {
         // Translate Search Bar Placeholder
         this.translate.get(this.placeholder).subscribe((res: string) => this.placeholder = res);

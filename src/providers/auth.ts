@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class Auth {
+export class AuthProvider {
     private _mSessionToken: any;
     public current: any;
 

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavParams} from 'ionic-angular';
-import {Gallery} from "../../providers/gallery";
+import {GalleryProvider} from "../../providers/gallery";
 
 
 @Component({
@@ -14,7 +14,7 @@ export class PhotoPage {
     _loading: boolean = false;
 
     constructor(private navParams: NavParams,
-                private provider: Gallery
+                private provider: GalleryProvider
     ) {
         this.item = this.navParams.get('item');
         this._id   = this.navParams.get('id');

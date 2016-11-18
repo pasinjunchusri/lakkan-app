@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Events} from "ionic-angular";
-import {Gallery} from "../../providers/gallery";
-import _ from 'underscore';
-import {IParams} from "../../models/parse.params.model";
 
+import {IParams} from "../../models/parse.params.model";
+import {GalleryProvider} from "../../providers/gallery";
+
+import _ from 'underscore';
 
 @Component({
     selector   : 'photo-list',
@@ -26,7 +27,7 @@ export class PhotoListComponent implements OnInit {
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
 
-    constructor(private provider: Gallery,
+    constructor(private provider: GalleryProvider,
                 private events: Events
     ) {
 

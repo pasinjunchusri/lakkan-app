@@ -6,8 +6,8 @@ import {FacebookService} from "ng2-facebook-sdk";
 
 import {TabsPage} from "../tabs/tabs";
 import {UserAvatarPage} from "../user-avatar/user-avatar";
-import {IonicUtil} from "../../providers/ionic-util";
-import {User} from "../../providers/user";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+import {UserProvider} from "../../providers/user";
 
 @Component({
     selector   : 'page-auth',
@@ -28,9 +28,9 @@ export class AuthPage {
     cordova: boolean    = false;
 
     constructor(private navCtrl: NavController,
-                private provider: User,
+                private provider: UserProvider,
                 private alertCtrl: AlertController,
-                private util: IonicUtil,
+                private util: IonicUtilProvider,
                 private fb: FacebookService,
                 private app: App,
                 private formBuilder: FormBuilder
@@ -76,7 +76,7 @@ export class AuthPage {
         if (form.valid) {
             this.util.onLoading();
 
-            let newForm = IonicUtil.parseForm(this.formLogin);
+            let newForm = IonicUtilProvider.parseForm(this.formLogin);
             console.log(newForm);
 
             this.provider.signIn(newForm).then(user => {
@@ -97,7 +97,7 @@ export class AuthPage {
     }
 
     createUser(form): void {
-        let newForm = IonicUtil.parseForm(this.formSignup);
+        let newForm = IonicUtilProvider.parseForm(this.formSignup);
 
         if (this.validPassword(newForm['password'], newForm['passwordConfirmation'])) {
             if (form.valid) {
@@ -161,7 +161,7 @@ export class AuthPage {
                     success: (user) => {
                         if (!user.existed()) {
                             // New user
-                            console.warn("User signed up and logged in through Facebook!", user);
+                            console.warn("UserProvider signed up and logged in through Facebook!", user);
 
                             this.provider.facebookSyncProfile(fbData)
                                 .then(result => {
@@ -170,8 +170,8 @@ export class AuthPage {
                                 });
 
                         } else {
-                            // Old User
-                            console.info("User logged in through Facebook!", user);
+                            // Old UserProvider
+                            console.info("UserProvider logged in through Facebook!", user);
                             this.provider.facebookSyncProfile(fbData)
                                 .then(result => {
                                     this.util.endLoading();
@@ -181,9 +181,9 @@ export class AuthPage {
                         }
                     },
                     error  : (user, error) => {
-                        console.error('User cancelled the Facebook login or did not fully authorize.', user, error);
+                        console.error('UserProvider cancelled the Facebook login or did not fully authorize.', user, error);
                         this.util.endLoading();
-                        this.util.toast('User cancelled the Facebook login or did not fully authorize');
+                        this.util.toast('UserProvider cancelled the Facebook login or did not fully authorize');
 
                     }
                 });

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ViewController} from "ionic-angular";
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import {TranslateService} from "ng2-translate";
 import {languages} from "../../config";
 
@@ -15,7 +15,7 @@ export class LanguageModalComponent {
     _words: string = '';
 
     constructor(private viewCtrl: ViewController,
-                private util: IonicUtil,
+                private util: IonicUtilProvider,
                 private translate: TranslateService
     ) {
         this._languages = languages;

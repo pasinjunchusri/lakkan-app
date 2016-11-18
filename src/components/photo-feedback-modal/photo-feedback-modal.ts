@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import {ViewController, NavParams} from "ionic-angular";
-import {GallerFeedback} from "../../providers/gallery-feedback";
-import {User} from "../../providers/user";
+import {GallerFeedbackProvider} from "../../providers/gallery-feedback";
+import {UserProvider} from "../../providers/user";
 import {TranslateService} from "ng2-translate";
 
 
@@ -21,11 +21,11 @@ export class PhotoFeedbackModalComponent {
         lang   : '',
     };
 
-    constructor(private ionic: IonicUtil,
+    constructor(private ionic: IonicUtilProvider,
                 private viewCtrl: ViewController,
                 private navParams: NavParams,
-                private provider: GallerFeedback,
-                private User: User,
+                private provider: GallerFeedbackProvider,
+                private User: UserProvider,
                 private translate: TranslateService
     ) {
 

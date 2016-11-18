@@ -1,11 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {ModalController, NavController, PopoverController} from "ionic-angular";
-import {Gallery} from "../../providers/gallery";
-import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-modal";
+
+import {GalleryProvider} from "../../providers/gallery";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+import {UserProvider} from "../../providers/user";
+
 import {ProfilePage} from "../../pages/profile/profile";
+import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-modal";
 import {PhotoListPopoverComponent} from "../photo-list-popover/photo-list-popover";
-import {IonicUtil} from "../../providers/ionic-util";
-import {User} from "../../providers/user";
 
 @Component({
     selector   : 'photo-card',
@@ -19,12 +21,12 @@ export class PhotoCardComponent {
     loadingLike: boolean = false;
     _width: any;
 
-    constructor(private provider: Gallery,
+    constructor(private provider: GalleryProvider,
                 private navCtrl: NavController,
                 private modalCtrl: ModalController,
                 private popoverCtrl: PopoverController,
-                private util: IonicUtil,
-                private User: User
+                private util: IonicUtilProvider,
+                private User: UserProvider
     ) {
         this.username = User.current().username;
         this._width = util._widthPlatform + 'px';

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {GalleryActivity} from "../../providers/gallery-activity";
+import {GalleryActivityProvider} from "../../providers/gallery-activity";
 import {ProfilePage} from "../profile/profile";
 import _ from 'underscore';
 import {PhotoPage} from "../photo/photo";
@@ -26,7 +26,7 @@ export class TabActivityPage {
     }
 
     constructor(private navCtrl: NavController,
-                private provider: GalleryActivity
+                private provider: GalleryActivityProvider
     ) {
 
     }

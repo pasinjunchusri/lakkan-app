@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class ParsePush {
+export class ParsePushProvider {
     private _installationId;
     private current: any;
 

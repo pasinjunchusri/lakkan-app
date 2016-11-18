@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {PhotoPage} from "../../pages/photo/photo";
-import {Gallery} from "../../providers/gallery";
-import {IonicUtil} from "../../providers/ionic-util";
+import {GalleryProvider} from "../../providers/gallery";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
 import _ from 'underscore';
 import {IParams} from "../../models/parse.params.model";
@@ -32,8 +32,8 @@ export class TabSearchPage {
     moreItem: boolean      = false;
 
     constructor(private navCtrl: NavController,
-                private provider: Gallery,
-                private util: IonicUtil,
+                private provider: GalleryProvider,
+                private util: IonicUtilProvider,
     ) {
 
         // Translate Search Bar Placeholder

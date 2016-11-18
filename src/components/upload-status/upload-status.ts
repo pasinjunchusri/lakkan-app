@@ -1,8 +1,8 @@
 import {Component, NgZone} from '@angular/core';
 import {Events} from "ionic-angular";
 
-import {ParseFile} from "../../providers/parse-file";
-import {Gallery} from "../../providers/gallery";
+import {ParseFileProvider} from "../../providers/parse-file";
+import {GalleryProvider} from "../../providers/gallery";
 import _ from 'underscore';
 
 export interface IUpload {
@@ -31,8 +31,8 @@ export class UploadStatusComponent {
     uploads: any[]   = [];
     loading: boolean = false;
 
-    constructor(private ParseFile: ParseFile,
-                private provider: Gallery,
+    constructor(private ParseFile: ParseFileProvider,
+                private provider: GalleryProvider,
                 private events: Events,
                 private zone: NgZone
     ) {

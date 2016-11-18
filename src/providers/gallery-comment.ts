@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class GalleryComment {
+export class GalleryCommentProvider {
 
     private _fields = [
         'text',
@@ -38,7 +38,7 @@ export class GalleryComment {
         const _limit = params.limit || 24;
 
         return new Promise((resolve, reject) => {
-            new Parse.Query('GalleryComment')
+            new Parse.Query('GalleryCommentProvider')
                 .equalTo('gallery', params.gallery)
                 .descending('createdAt')
                 .limit(_limit)

@@ -5,12 +5,12 @@ import {TabHomePage} from "../tab-home/tab-home";
 import {TabSearchPage} from "../tab-search/tab-search";
 import {TabActivityPage} from "../tab-activity/tab-activity";
 import {TabAccountPage} from "../tab-account/tab-account";
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
 import {PhotoShareModal} from "../../components/photo-share-modal/photo-share-modal";
 import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
-import {Gallery} from "../../providers/gallery";
-import {ParseFile} from "../../providers/parse-file";
+import {GalleryProvider} from "../../providers/gallery";
+import {ParseFileProvider} from "../../providers/parse-file";
 
 @Component({
     templateUrl: 'tabs.html'
@@ -29,12 +29,12 @@ export class TabsPage {
     _eventName: string = 'photoshare';
 
     constructor(private photoService: IonPhotoService,
-                private util: IonicUtil,
+                private util: IonicUtilProvider,
                 private modalCtrl: ModalController,
                 private render: Renderer,
                 private events: Events,
-                private provider: Gallery,
-                private ParseFile: ParseFile
+                private provider: GalleryProvider,
+                private ParseFile: ParseFileProvider
     ) {
         this.cordova = this.util.cordova;
 

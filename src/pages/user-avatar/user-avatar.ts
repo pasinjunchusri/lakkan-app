@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {IonicUtil} from "../../providers/ionic-util";
-import {User} from "../../providers/user";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+import {UserProvider} from "../../providers/user";
 import {TabsPage} from "../tabs/tabs";
 
 @Component({
@@ -16,8 +16,8 @@ export class UserAvatarPage {
     _user: any;
 
     constructor(private navCtrl: NavController,
-                private ionic: IonicUtil,
-                private User: User,
+                private ionic: IonicUtilProvider,
+                private User: UserProvider,
     ) {
         this._user = User.current().attributes;
 

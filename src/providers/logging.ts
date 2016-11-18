@@ -8,7 +8,7 @@ export enum LogLevel {
 }
 
 @Injectable()
-export class Logging {
+export class LoggingProvider {
     public logLevel: LogLevel;
 
     constructor() {

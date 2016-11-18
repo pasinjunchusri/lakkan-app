@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class GalleryActivity {
+export class GalleryActivityProvider {
 
     private _fields      = [
         'name',

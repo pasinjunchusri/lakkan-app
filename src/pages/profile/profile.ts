@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {NavController, Events, ModalController, NavParams} from "ionic-angular";
-import {UserData} from "../../providers/user-data";
+import {UserDataProvider} from "../../providers/user-data";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 
 
@@ -35,7 +35,7 @@ export class ProfilePage {
     }
 
     constructor(public navCtrl: NavController,
-                public User: UserData,
+                public User: UserDataProvider,
                 public events: Events,
                 public navParams: NavParams,
                 public modalCtrl: ModalController

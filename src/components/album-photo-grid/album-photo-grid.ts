@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {Gallery} from "../../providers/gallery";
+import {GalleryProvider} from "../../providers/gallery";
 import {Events, NavController, ViewController, NavParams, PopoverController} from 'ionic-angular';
 import {PhotoPage} from "../../pages/photo/photo";
 import {AlbumPhotoGridPopoverComponent} from '../album-photo-grid-popover/album-photo-grid-popover';
 import _ from 'underscore';
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'album-photo-grid',
@@ -26,13 +26,13 @@ export class AlbumPhotoGridComponent {
     canEdit: boolean       = false;
     _width: any;
 
-    constructor(private provider: Gallery,
+    constructor(private provider: GalleryProvider,
                 private events: Events,
                 private navCtrl: NavController,
                 private viewCtrl: ViewController,
                 private navParams: NavParams,
                 private popoverCtrl: PopoverController,
-                private util: IonicUtil,
+                private util: IonicUtilProvider,
     ) {
         console.log(this.navParams.get('id'));
         this.params.id = this.navParams.get('id');

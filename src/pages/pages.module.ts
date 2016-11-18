@@ -54,7 +54,7 @@ import {PhotoMapComponent} from "../components/photo-map/photo-map";
 import {LocationModalComponent} from "../components/location-modal/location-modal";
 import {TabSearchMapPage} from "./tab-search-map/tab-search-map";
 import {UploadStatusComponent} from "../components/upload-status/upload-status";
-import {Logging} from "../providers/logging";
+import {LoggingProvider} from "../providers/logging";
 import {TabSearchMapSettingsPage} from "./tab-search-map-settings/tab-search-map-settings";
 import {AlbumInputComponent} from "../components/album-input/album-input";
 import {AlbumListModalPage} from "../components/album-list-modal/album-list-modal";
@@ -62,7 +62,7 @@ import {UserAvatarPage} from "./user-avatar/user-avatar";
 import {GmapsAutocompleteModalPage} from "../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal";
 import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
-import {ExternalLib} from "../providers/external-lib";
+import {ExternalLibProvider} from "../providers/external-lib";
 
 export const APP_PAGES = [
     IntroPage,
@@ -139,8 +139,8 @@ export class PagesModule {
 
     constructor(private translate: TranslateService,
                 private config: Config,
-                private logger: Logging,
-                private lib: ExternalLib
+                private logger: LoggingProvider,
+                private lib: ExternalLibProvider
     ) {
         this.lib.googleMaps();
         this.lib.facebookLoad();

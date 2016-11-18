@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ParsePush} from "./parse-push";
-import {IonicUtil} from "./ionic-util";
+import {ParsePushProvider} from "./parse-push";
+import {IonicUtilProvider} from "./ionic-util";
 import {IUserFollow, IUser} from "../models/user.model";
 
 declare var Parse: any;
 
 @Injectable()
-export class User {
+export class UserProvider {
     private _fields          = [
         'name',
         'username',
@@ -20,7 +20,7 @@ export class User {
     private _ParseObject     = Parse.User.extend({});
             cordova: boolean = false;
 
-    constructor(private ParsePush: ParsePush, private util: IonicUtil) {
+    constructor(private ParsePush: ParsePushProvider, private util: IonicUtilProvider) {
         this.cordova = this.util.cordova;
 
         this._fields.map(field => {
@@ -73,13 +73,13 @@ export class User {
 
     profile(user: any) {
         return new Promise((resolve, reject) => {
-            new Parse.Query('UserData').equalTo('user', user).first().then((userData) => {
+            new Parse.Query('UserDataProvider').equalTo('user', user).first().then((userData) => {
                 if (userData) {
                     resolve(userData);
                 } else {
                     reject(Parse.Promise.error({
                         code   : 1,
-                        message: 'User Data not found'
+                        message: 'UserProvider Data not found'
                     }));
                 }
             }, reject);
@@ -134,7 +134,7 @@ export class User {
         user.set('username', data.username);
         user.set('email', data.email)
         user.set('password', data.password)
-        user.set('roleName', 'User')
+        user.set('roleName', 'UserProvider')
         return user.signUp(null);
 
     }

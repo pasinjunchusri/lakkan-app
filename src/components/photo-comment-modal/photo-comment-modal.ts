@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavParams, ViewController} from "ionic-angular";
-import {GalleryComment} from "../../providers/gallery-comment";
-import {IonicUtil} from "../../providers/ionic-util";
+import {GalleryCommentProvider} from "../../providers/gallery-comment";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
 
 @Component({
@@ -27,8 +27,8 @@ export class PhotoCommentModalComponent {
 
     constructor(private navparams: NavParams,
                 private viewCtrl: ViewController,
-                private provider: GalleryComment,
-                private util: IonicUtil
+                private provider: GalleryCommentProvider,
+                private util: IonicUtilProvider
     ) {
         this.gallery        = this.navparams.data.obj;
         this.params.gallery = this.gallery;

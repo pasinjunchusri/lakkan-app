@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class ParseFile {
+export class ParseFileProvider {
 
     private _file: any;
     private _filename: string     = 'file.jpg'

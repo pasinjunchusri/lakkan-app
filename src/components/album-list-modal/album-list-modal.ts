@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Events, ViewController, ModalController} from 'ionic-angular';
-import {GalleryAlbum} from "../../providers/gallery-album";
+import {GalleryAlbumProvider} from "../../providers/gallery-album";
 import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
 
 @Component({
@@ -28,8 +28,8 @@ export class AlbumListModalPage {
     showErrorView: boolean = false;
     moreItem: boolean      = false;
 
-    constructor(private util: IonicUtil,
-                private provider: GalleryAlbum,
+    constructor(private util: IonicUtilProvider,
+                private provider: GalleryAlbumProvider,
                 private events: Events,
                 private viewCtrl: ViewController,
                 private modalCtrl: ModalController

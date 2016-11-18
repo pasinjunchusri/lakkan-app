@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {NavController, ModalController, Events} from 'ionic-angular';
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
-import {UserData} from "../../providers/user-data";
-import {ParseFile} from "../../providers/parse-file";
-import {User} from "../../providers/user";
-import {IonicUtil} from "../../providers/ionic-util";
+import {UserDataProvider} from "../../providers/user-data";
+import {ParseFileProvider} from "../../providers/parse-file";
+import {UserProvider} from "../../providers/user";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-tab-account',
@@ -29,12 +29,12 @@ export class TabAccountPage {
     }
 
     constructor(private navCtrl: NavController,
-                private userData: UserData,
+                private userData: UserDataProvider,
                 private events: Events,
                 private modalCtrl: ModalController,
-                private ParseFile: ParseFile,
-                private User: User,
-                private util: IonicUtil
+                private ParseFile: ParseFileProvider,
+                private User: UserProvider,
+                private util: IonicUtilProvider
     ) {
 
         this.user            = userData.current();

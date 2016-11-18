@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Gallery} from "../../providers/gallery";
+import {GalleryProvider} from "../../providers/gallery";
 import {Events, NavController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
 import _ from 'underscore';
-import {IonicUtil} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'photo-grid',
@@ -27,10 +27,10 @@ export class PhotoGridComponent implements  OnInit{
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
 
-    constructor(private provider: Gallery,
+    constructor(private provider: GalleryProvider,
                 private events: Events,
                 private navCtrl: NavController,
-                private util: IonicUtil
+                private util: IonicUtilProvider
     ) {
 
         this._width = util._widthPlatform / 3 + 'px';

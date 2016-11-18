@@ -5,7 +5,7 @@ import {IGallery} from "../models/gallery.model";
 declare var Parse: any;
 
 @Injectable()
-export class Gallery {
+export class GalleryProvider {
 
     private _fields = [
         'title',

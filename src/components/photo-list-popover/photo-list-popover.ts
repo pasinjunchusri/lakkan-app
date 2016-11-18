@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
 import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
-import {IonicUtil} from '../../providers/ionic-util';
-import {Gallery} from "../../providers/gallery";
+import {IonicUtilProvider} from '../../providers/ionic-util';
+import {GalleryProvider} from "../../providers/gallery";
 import {PhotoFeedbackModalComponent} from "../photo-feedback-modal/photo-feedback-modal";
 
 @Component({
@@ -29,11 +29,11 @@ export class PhotoListPopoverComponent {
     constructor(private viewCtrl: ViewController,
                 private navParams: NavParams,
                 private alertCtrl: AlertController,
-                private ionicUtil: IonicUtil,
-                private provider: Gallery,
+                private ionicUtil: IonicUtilProvider,
+                private provider: GalleryProvider,
                 private events: Events,
                 private modalCtrl: ModalController,
-                private util: IonicUtil
+                private util: IonicUtilProvider
     ) {
         this.item = this.navParams.get('item');
         console.log(this.item);

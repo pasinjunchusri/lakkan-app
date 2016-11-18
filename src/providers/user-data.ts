@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class UserData {
+export class UserDataProvider {
 
     private _fields = [
         'followingsTotal',

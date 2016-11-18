@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ViewController, Events} from 'ionic-angular';
-import {IonicUtil} from "../../providers/ionic-util";
-import {User} from "../../providers/user";
-import {ParseFile} from "../../providers/parse-file";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+import {UserProvider} from "../../providers/user";
+import {ParseFileProvider} from "../../providers/parse-file";
 
 @Component({
     selector   : 'page-account-edit-modal',
@@ -17,11 +17,11 @@ export class AccountEditModalPage {
     _eventName: string = 'photoprofile';
 
     constructor(private viewCtrl: ViewController,
-                private ionic: IonicUtil,
-                private User: User,
+                private ionic: IonicUtilProvider,
+                private User: UserProvider,
                 private events: Events,
-                private util: IonicUtil,
-                private ParseFile: ParseFile,
+                private util: IonicUtilProvider,
+                private ParseFile: ParseFileProvider,
     ) {
         this._user = User.current().attributes;
 

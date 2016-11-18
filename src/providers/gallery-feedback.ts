@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var Parse: any;
 
 @Injectable()
-export class GallerFeedback {
+export class GallerFeedbackProvider {
 
     private _fields = [
         'title',
