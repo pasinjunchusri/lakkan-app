@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ParsePushProvider} from "./parse-push";
 import {IonicUtilProvider} from "./ionic-util";
-import {IUserFollow, IUser} from "../models/user.model";
+import {IUserFollow} from "../models/user.model";
 
 declare var Parse: any;
 
@@ -57,7 +57,7 @@ export class UserProvider {
     }
 
 
-    update(form: IUser) {
+    update(form) {
         return Parse.User.current().save(form);
     }
 

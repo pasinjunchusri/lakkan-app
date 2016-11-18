@@ -56,15 +56,15 @@ export class AuthPage {
 
     ionViewWillLoad() {
         this.formLogin = this.formBuilder.group({
-            username: ['', Validators.required],
-            password: ['', Validators.required]
+            username: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+            password: ['', Validators.compose([Validators.required, Validators.minLength(5)])],
         });
 
         // Validate user registration form
         this.formSignup = this.formBuilder.group({
             name                : ['', Validators.required],
             email               : ['', Validators.required],
-            username            : ['', Validators.required],
+            username            : ['', Validators.compose([Validators.required, Validators.minLength(4)])],
             gender              : ['', Validators.required],
             password            : ['', Validators.compose([Validators.required, Validators.minLength(6)])],
             passwordConfirmation: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
@@ -76,10 +76,7 @@ export class AuthPage {
         if (form.valid) {
             this.util.onLoading();
 
-            let newForm = IonicUtilProvider.parseForm(this.formLogin);
-            console.log(newForm);
-
-            this.provider.signIn(newForm).then(user => {
+            this.provider.signIn(this.formLogin.value).then(user => {
                 console.log(user);
                 console.log(this.provider.current());
                 this.util.endLoading();
@@ -92,12 +89,12 @@ export class AuthPage {
         }
     }
 
-    validPassword(password, confirm):boolean {
+    validPassword(password, confirm): boolean {
         return (password == confirm) ? true : false;
     }
 
     createUser(form): void {
-        let newForm = IonicUtilProvider.parseForm(this.formSignup);
+        let newForm = this.formSignup;
 
         if (this.validPassword(newForm['password'], newForm['passwordConfirmation'])) {
             if (form.valid) {

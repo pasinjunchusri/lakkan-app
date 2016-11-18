@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
+import {InAppBrowser} from "ionic-native";
 import {Platform, LoadingController, ToastController, AlertController} from "ionic-angular";
 import {TranslateService} from "ng2-translate";
-import {InAppBrowser} from "ionic-native";
 import {LoggingProvider} from "./logging";
 import * as _ from 'underscore';
 
@@ -37,8 +37,8 @@ export class IonicUtilProvider {
 
     public static parseForm(form) {
         let object = new Object();
-        _.each(form.controls, (value, key) => {
-            object[key] = value['value'];
+        _.each(form.value, (value, key) => {
+            object[key] = value;
         });
         return object;
     }

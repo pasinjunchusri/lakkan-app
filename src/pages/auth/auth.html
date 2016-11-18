@@ -20,11 +20,14 @@
                     <ion-label floating>{{'Username' | translate}}</ion-label>
                     <ion-input type="text" formControlName="username"></ion-input>
                 </ion-item>
-                <ion-item class="form-error-list"
-                          *ngIf="!formLogin.controls.username.pristine && !formLogin.controls.username.valid">
+                <ion-item class="form-error-list" *ngIf="!formLogin.controls.username.pristine && !formLogin.controls.username.valid">
                     <p class="form-error" item-right
                        *ngIf="!formLogin.controls.username.pristine && formLogin.controls.username.hasError('required')">
                         {{'This is a required field.' | translate}}
+                    </p>
+                    <p class="form-error" item-right
+                       *ngIf="!formLogin.controls.username.pristine && formLogin.controls.username?.errors?.minlength">
+                        {{'Password must have more than 4 characters' | translate}}
                     </p>
                 </ion-item>
 
@@ -38,6 +41,11 @@
                        *ngIf="!formLogin.controls.password.pristine && formLogin.controls.password.hasError('required')">
                         {{'This is a required field.' | translate}}
                     </p>
+                    <p class="form-error" item-right
+                       *ngIf="!formLogin.controls.password.pristine && formLogin.controls.password?.errors?.minlength">
+                        {{'Password must have more than 6 characters' | translate}}
+                    </p>
+
                 </ion-item>
             </ion-list>
             <ion-row>
@@ -74,10 +82,6 @@
                           *ngIf="!formSignup.controls.email.pristine && !formSignup.controls.email.valid">
                     <p class="form-error" item-right
                        *ngIf="!formSignup.controls.email.pristine && formSignup.controls.email.hasError('required')">
-                        {{'This is a required field.' | translate}}
-                    </p>
-                    <p class="form-error" item-right
-                       *ngIf="!formSignup.controls.email.pristine && !formSignup.controls.email.valid">
                         {{'This is a required field.' | translate}}
                     </p>
                 </ion-item>
