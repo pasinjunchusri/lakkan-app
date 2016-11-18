@@ -1,10 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, Events, App, Content} from 'ionic-angular';
-import {Gallery} from "../../providers/gallery";
+import {NavController, Events, Content} from 'ionic-angular';
 import {UserListPage} from "../user-list/user-list";
-import {Auth} from "../../providers/auth";
-import {IntroPage} from "../intro/intro";
-import _ from 'underscore';
 
 @Component({
     selector   : 'page-tab-home',
@@ -14,133 +10,55 @@ export class TabHomePage {
     @ViewChild('Content') content: Content;
 
     params = {
-        limit    : 24,
+        limit    : 10,
         page     : 1,
         privacity: 'public'
     };
 
-    privacity: string      = 'public';
-    errorIcon: string      = 'ios-images-outline';
-    errorText: string      = '';
-    data                   = [];
-    loading: boolean       = true;
-    showEmptyView: boolean = false;
-    showErrorView: boolean = false;
-    moreItem: boolean      = false;
-    address                = {
-        place: ''
-    }
+    eventName: string = 'home';
+    privacity: string = 'public';
+    moreItem: boolean = false;
 
     constructor(private navCtrl: NavController,
-                private provider: Gallery,
                 private events: Events,
-                private Auth: Auth,
-                private app: App
     ) {
 
-        // Realod
-        events.subscribe('home:reload', () => {
-            this.loading     = true;
-            this.data        = [];
-            this.params.page = 1;
-            this.feed();
-        });
-    }
+        this.eventName = 'home';
+        setTimeout(() => this.onSelectPrivacity(), 1000);
 
-    ionViewDidEnter() {
-        console.log('ionViewDidEnter');
-        this.feed();
+        // More Item
+        this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);
     }
 
 
-    uploadTest(){
-        this.events.publish('upload:gallery',null)
-    }
-
-    selectType(privacity: string) {
-        this.params.page      = 1;
-        this.privacity        = privacity;
+    public onSelectPrivacity(privacity: string = 'public') {
         this.params.privacity = privacity;
-        this.loading          = true;
-        this.feed();
+        this.sendParams();
     }
 
-    onPageUsers() {
+    public onPageUsers() {
         this.navCtrl.push(UserListPage);
     }
 
-    feed() {
-        return new Promise((resolve, reject) => {
-            console.log('Load Feed', this.params, this.loading);
-
-            if (this.params.page == 1) {
-                this.data = [];
-            }
-
-            this.provider.feed(this.params).then(data => {
-                if (data && data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => {
-                        this.data.push(item);
-                    });
-                    this.showErrorView = false;
-                    this.showEmptyView = false;
-                    this.moreItem      = true;
-                } else {
-                    this.moreItem = false;
-                }
-
-                if (!this.data.length) {
-                    this.showEmptyView = true;
-                }
-
-                this.loading = false;
-                resolve(data);
-            }, error => {
-                if (error['message'] == 'unauthrorized') {
-                    this.Auth.logout();
-                    this.app.getRootNav().setRoot(IntroPage);
-                }
-                this.errorText     = error.message;
-                this.showErrorView = true;
-                this.loading       = false;
-                reject(this.errorText)
-            });
-        });
-    }
-
-    scrollTop() {
+    public scrollTop() {
         this.content.scrollToTop();
     }
 
-    doInfinite(event) {
+    public doInfinite(event) {
         this.params.page++;
-        this.feed().then(() => {
-            if (event) {
-                event.complete()
-            }
-        }).catch(() => {
-            if (event) {
-                event.complete()
-            }
-        });
+        this.events.unsubscribe(this.eventName + ':complete');
+        this.events.subscribe(this.eventName + ':complete', () => event.complete());
+        this.sendParams();
     }
 
-    doRefresh(event) {
-        this.data        = [];
+    public doRefresh(event?) {
+        event.complete();
         this.params.page = 1;
-        this.feed().then(() => {
-            if (event) {
-                event.complete()
-            }
-        }).catch(() => {
-            if (event) {
-                event.complete()
-            }
-        });
+        this.sendParams();
     }
 
-    doTry() {
-        this.loading = true;
-        this.doRefresh(null);
+    private sendParams(): void {
+        this.events.publish(this.eventName + ':params', this.params);
     }
+
 }

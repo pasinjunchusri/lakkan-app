@@ -1,6 +1,7 @@
-export interface ParseParams {
+export interface IParams {
     limit: number,
     page: number,
-    privacity: string,
+    privacity?: string,
     username?: string,
+    words?: string;
 }

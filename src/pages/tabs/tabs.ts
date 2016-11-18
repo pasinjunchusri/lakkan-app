@@ -56,6 +56,7 @@ export class TabsPage {
                         this.provider.put(form).then(item => {
                             console.log(item);
                             item.loading = false;
+                            console.warn('Event home:reload');
                             this.events.publish('home:reload');
 
                         }).catch(error => {

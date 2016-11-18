@@ -3,17 +3,17 @@
 <div class="center" *ngIf="showErrorView" padding>
   <div class="error ">
     <ion-icon [name]="errorIcon"></ion-icon>
-    <p>{{ "errorText" | translate }}</p>
-    <button ion-button color="primary" (click)="onQuery()">
-                {{ 'tryAgainText' | translate }}
-            </button>
+    <p>{{ 'Connection unavailable' | translate }}</p>
+    <button ion-button color="primary" (click)="doTry()">
+      {{ 'Try again' | translate }}
+    </button>
   </div>
 </div>
 <!-- empty-->
 <div class="center" *ngIf="showEmptyView" padding>
   <div class="error">
     <ion-icon [name]="errorIcon"></ion-icon>
-    <p>{{ 'Photo not found' | translate }}</p>
+    <p>{{ 'Photos not found' | translate }}</p>
   </div>
 </div>
 <div *ngIf="data.length">

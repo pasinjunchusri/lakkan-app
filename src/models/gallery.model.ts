@@ -9,5 +9,6 @@ export interface IGallery {
 }
 
 export interface IGalleryFollow {
-    userId?: string;
+    userId: string;
+    galleryId: string;
 }

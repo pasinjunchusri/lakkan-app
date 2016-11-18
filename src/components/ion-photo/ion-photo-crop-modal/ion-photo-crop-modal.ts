@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavParams, ViewController, Events} from 'ionic-angular';
 declare const Cropper: any;
 declare const document: any;
@@ -8,7 +8,6 @@ declare const document: any;
     templateUrl: 'ion-photo-crop-modal.html'
 })
 export class IonPhotoCropModal {
-    @ViewChild('imagSrc') input: ElementRef;
 
     img: any;
     image: any;
@@ -30,19 +29,18 @@ export class IonPhotoCropModal {
 
     // image Crop Method
     imageLoaded() {
-        console.log(this.input);
         let image    = document.getElementById('image');
         this.cropper = new Cropper(image, {
             aspectRatio             : 1 / 1,
             dragMode                : 'move',
             autoCropArea            : 1,
             viewMode                : 1,
-            restore                 : false,
+            restore                 : true,
             guides                  : true,
             center                  : true,
             highlight               : false,
-            cropBoxMovable          : true,
-            cropBoxResizable        : true,
+            cropBoxMovable          : false,
+            cropBoxResizable        : false,
             toggleDragModeOnDblclick: false,
             responsive              : true,
             //minCanvasWidth          : 640,
@@ -57,7 +55,6 @@ export class IonPhotoCropModal {
 
     crop() {
         let image = this.cropper.getCroppedCanvas().toDataURL('image/jpeg');
-        console.log(this._eventName);
         this.events.publish(this._eventName, image);
     }
 

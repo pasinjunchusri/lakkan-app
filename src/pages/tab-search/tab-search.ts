@@ -5,6 +5,7 @@ import {Gallery} from "../../providers/gallery";
 import {IonicUtil} from "../../providers/ionic-util";
 import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
 import _ from 'underscore';
+import {IParams} from "../../models/parse.params.model";
 
 @Component({
     selector   : 'page-tab-search',
@@ -16,7 +17,7 @@ export class TabSearchPage {
     placeholder: string = 'Search';
     _width: any;
 
-    params = {
+    params: IParams = {
         limit: 48,
         page : 1,
         words: '',

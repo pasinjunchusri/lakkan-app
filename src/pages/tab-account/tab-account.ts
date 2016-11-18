@@ -14,14 +14,12 @@ import {IonicUtil} from "../../providers/ionic-util";
 export class TabAccountPage {
     user: any;
     username: string;
-    loadingProfile: boolean = true;
-    loading: boolean        = true;
+    loading: boolean = true;
     type: string            = 'list';
     profile: any;
-    showEmptyView: boolean  = false;
-    showErrorView: boolean  = false;
     moreItem: boolean       = false;
     _eventName: string      = 'changephoto';
+    eventName: string       = 'account';
 
     params = {
         limit    : 12,
@@ -38,28 +36,24 @@ export class TabAccountPage {
                 private User: User,
                 private util: IonicUtil
     ) {
+
         this.user            = userData.current();
         this.username        = this.user.username;
         this.params.username = this.username;
+
+        this.eventName = this.username;
         console.log(this.user, this.params);
 
-        this.events.subscribe('photolist:complete', () => {
-            this.loading  = false;
-            this.moreItem = true;
-        });
+        // More Item
+        this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);
 
 
-        this.events.subscribe('photolist:empty', () => {
-            this.moreItem = false;
-        });
-
-        this.loadingProfile = true;
+        this.loading = true;
         this.userData.profile(this.username).then(profile => {
             this.profile        = profile;
-            this.loadingProfile = false;
+            this.loading = false;
         });
 
-        setTimeout(() => this.onSelectType('list'), 200);
 
         // Change Photo user
         events.subscribe(this._eventName, imageCroped => {
@@ -68,6 +62,7 @@ export class TabAccountPage {
                 this.User.updatePhoto(image).then(user => {
                     console.log(user);
                     this.user = user;
+                    this.doRefresh();
                     this.util.endLoading();
                 });
 
@@ -75,22 +70,23 @@ export class TabAccountPage {
             this.user.photo._url = imageCroped[0];
             this.events.publish('photocrop:close');
         });
+
+        setTimeout(() => this.onSelectType(), 1000);
     }
+
 
     changePhoto() {
         this.events.publish('photoservice', this._eventName);
     }
 
     onEditProfile() {
-        let modal = this.modalCtrl.create(AccountEditModalPage);
-        modal.present();
+        this.modalCtrl.create(AccountEditModalPage).present();
     }
 
 
-    onSelectType(type: string) {
-        this.type    = type;
-        this.loading = true;
-        setTimeout(() => this.events.publish('photolist:params', this.params), 150);
+    onSelectType(type: string = 'list') {
+        this.type = type;
+        this.sendParams();
     }
 
     onPageSettings() {
@@ -98,25 +94,20 @@ export class TabAccountPage {
 
     }
 
-    doInfinite(event) {
+    public doInfinite(event) {
         this.params.page++;
-
-        this.loading = true;
-        this.events.publish('photolist:params', this.params);
-
-        this.events.unsubscribe('photolist:complete', null);
-        this.events.subscribe('photolist:complete', () => {
-            event.complete();
-        });
+        this.events.unsubscribe(this.eventName + ':complete');
+        this.events.subscribe(this.eventName + ':complete', () => event.complete());
+        this.sendParams();
     }
 
-    doRefresh(event) {
+    public doRefresh(event?) {
+        event.complete();
         this.params.page = 1;
+        this.sendParams();
+    }
 
-        this.loading = true;
-        this.events.publish('photolist:params', this.params);
-        this.events.subscribe('photolist:complete', () => {
-            event.complete();
-        });
+    private sendParams(): void {
+        this.events.publish(this.eventName + ':params', this.params);
     }
 }

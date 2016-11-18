@@ -22,18 +22,18 @@
             <ion-col width-75>
                 <ion-row>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
-                        <b *ngIf="!loadingProfile">{{ profile.galleriesTotal || 0}}</b>
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.galleriesTotal || 0}}</b>
                         <p>{{'posts'|translate}}</p>
                     </ion-col>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
-                        <b *ngIf="!loadingProfile">{{ profile.followersTotal || 0}}</b>
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.followersTotal || 0}}</b>
                         <p>{{'followers'|translate}}</p>
                     </ion-col>
                     <ion-col class="text-center">
-                        <ion-spinner *ngIf="loadingProfile"></ion-spinner>
-                        <b *ngIf="!loadingProfile">{{ profile.followingsTotal || 0}}</b>
+                        <ion-spinner *ngIf="loading"></ion-spinner>
+                        <b *ngIf="!loading">{{ profile.followingsTotal || 0}}</b>
                         <p>{{'following'|translate}}</p>
                     </ion-col>
                 </ion-row>
@@ -68,33 +68,13 @@
         </ion-segment-button>
     </ion-segment>
 
-
-    <!-- error -->
-    <div class="center" *ngIf="showErrorView" padding>
-        <div class="error ">
-            <ion-icon [name]="errorIcon"></ion-icon>
-            <p>{{ 'Connection unavailable' | translate }}</p>
-            <button ion-button color="primary" (click)="doTry()">
-                {{ 'Try again' | translate }}
-            </button>
-        </div>
-    </div>
-    <!-- empty-->
-    <div class="center" *ngIf="showEmptyView" padding>
-        <div class="error">
-            <ion-icon [name]="errorIcon"></ion-icon>
-            <p>{{ 'Activity not found' | translate }}</p>
-        </div>
-    </div>
-
-
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <photo-list *ngIf="type=='list'"></photo-list>
-    <photo-grid *ngIf="type=='grid'"></photo-grid>
-    <album-grid *ngIf="type=='album'"></album-grid>
+    <photo-list [event]="eventName" *ngIf="type=='list'"></photo-list>
+    <photo-grid [event]="eventName" *ngIf="type=='grid'"></photo-grid>
+    <album-grid [event]="eventName" *ngIf="type=='album'"></album-grid>
 
     <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

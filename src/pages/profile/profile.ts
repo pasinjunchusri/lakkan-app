@@ -12,10 +12,10 @@ export class ProfilePage {
 
     user: any;
     username: string;
-    loadingProfile: boolean = true;
-    loading: boolean        = true;
+    loading: boolean = true;
     type: string            = 'list';
     moreItem: boolean       = true;
+    eventName: string;
 
     profile: any = {
         name           : '',
@@ -41,26 +41,17 @@ export class ProfilePage {
                 public modalCtrl: ModalController
     ) {
 
-        this.username = this.navParams.get('username');
+        this.username        = this.navParams.get('username');
         this.params.username = this.username;
+        this.eventName       = this.username;
 
-        this.events.subscribe('photolist:complete', () => {
-            this.loading  = false;
-            this.moreItem = true;
-        });
-
-
-        this.events.subscribe('photolist:empty', () => {
-            this.moreItem = false;
-        });
-
-        this.loadingProfile = true;
+        this.loading = true;
         this.User.profile(this.username).then(profile => {
             this.profile        = profile;
-            this.loadingProfile = false;
+            this.loading = false;
         });
 
-        setTimeout(() => this.onSelectType('list'), 200);
+        setTimeout(() => this.onSelectType('list'), 1000);
     }
 
     onEditProfile() {
@@ -68,40 +59,26 @@ export class ProfilePage {
         modal.present();
     }
 
-
     onSelectType(type: string) {
         this.type    = type;
-        this.loading = true;
-        setTimeout(() => this.events.publish('photolist:params', this.params), 150);
+        this.sendParams();
     }
 
-    doInfinite(event) {
-        if (!this.loading) {
-            this.params.page++;
-
-            this.loading = true;
-            this.events.publish('photolist:params', this.params);
-
-            this.events.unsubscribe('photolist:complete', null);
-            this.events.subscribe('photolist:complete', () => {
-                this.loading = false;
-                event.complete();
-            });
-        }
+    public doInfinite(event) {
+        this.params.page++;
+        this.events.unsubscribe(this.eventName + ':complete');
+        this.events.subscribe(this.eventName + ':complete', () => event.complete());
+        this.sendParams();
     }
 
-    doRefresh(event) {
-        if (!this.loading) {
-            this.params.page = 1;
+    public doRefresh(event?) {
+        event.complete();
+        this.params.page = 1;
+        this.sendParams();
+    }
 
-            this.loading = true;
-            this.events.publish('photolist:params', this.params);
-            this.events.unsubscribe('photolist:complete', null);
-            this.events.subscribe('photolist:complete', () => {
-                this.loading = false;
-                event.complete();
-            });
-        }
+    private sendParams(): void {
+        this.events.publish(this.eventName + ':params', this.params);
     }
 
 }
