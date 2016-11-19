@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavController, Events, Content} from 'ionic-angular';
 import {UserListPage} from "../user-list/user-list";
+import {IParams} from "../../models/parse.params.model";
 
 @Component({
     selector   : 'page-tab-home',
@@ -9,7 +10,7 @@ import {UserListPage} from "../user-list/user-list";
 export class TabHomePage {
     @ViewChild('Content') content: Content;
 
-    params = {
+    params: IParams = {
         limit    : 10,
         page     : 1,
         privacity: 'public'
@@ -28,6 +29,7 @@ export class TabHomePage {
 
         // More Item
         this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);
+        this.events.subscribe('home:top', () => this.scrollTop());
     }
 
 

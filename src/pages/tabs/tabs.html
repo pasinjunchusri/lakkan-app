@@ -1,7 +1,7 @@
-<ion-tabs tabsPlacement="bottom" color="primary">
+<ion-tabs tabsPlacement="bottom" color="primary" preloadTabs="false" #myTabs>
     <ion-tab [root]="tabHome" tabIcon="home"></ion-tab>
     <ion-tab [root]="tabSearch" tabIcon="globe"></ion-tab>
-    <ion-tab (ionSelect)="openCapture(_eventName)"  tabIcon="camera"></ion-tab>
+    <ion-tab [root]="tabCapture" (ionSelect)="openCapture(_eventName)" tabIcon="camera"></ion-tab>
     <ion-tab [root]="tabActivity" tabIcon="heart"></ion-tab>
     <ion-tab [root]="tabProfile" tabIcon="person"></ion-tab>
 </ion-tabs>
@@ -12,4 +12,4 @@
        (change)="onChange($event)"
        accept="image/x-png, image/gif, image/jpeg"
        max-size="2048"
-       style="display: none;" >
+       style="display: none;">

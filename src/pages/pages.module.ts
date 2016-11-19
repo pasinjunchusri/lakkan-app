@@ -63,6 +63,7 @@ import {GmapsAutocompleteModalPage} from "../components/gmaps-autocomplete-modal
 import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal";
 import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
 import {ExternalLibProvider} from "../providers/external-lib";
+import {TabCapturePage} from "./tab-capture/tab-capture";
 
 export const APP_PAGES = [
     IntroPage,
@@ -73,6 +74,7 @@ export const APP_PAGES = [
     TabSearchMapPage,
     TabSearchMapSettingsPage,
     TabActivityPage,
+    TabCapturePage,
     TabAccountPage,
     TabAccountPopoverPage,
     TabAccountSettingsPage,

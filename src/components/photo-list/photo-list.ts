@@ -22,10 +22,10 @@ export class PhotoListComponent implements OnInit {
 
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
-    data                   = [];
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    data                   = [];
 
     constructor(private provider: GalleryProvider,
                 private events: Events
@@ -47,6 +47,7 @@ export class PhotoListComponent implements OnInit {
             this.params.page = 1;
             this.data        = []
             this.feed();
+            this.events.publish('home:top');
         });
     }
 

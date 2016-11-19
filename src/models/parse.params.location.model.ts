@@ -1,3 +1,3 @@
-export interface ParseParamsLocation {
+export interface IParamsLocation {
     location?: any,
 }

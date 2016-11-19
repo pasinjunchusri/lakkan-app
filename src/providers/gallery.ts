@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ParseParamsLocation} from "../models/parse.params.location.model";
+
+import {IParamsLocation} from "../models/parse.params.location.model";
 import {IGallery} from "../models/gallery.model";
 
 declare var Parse: any;
@@ -47,7 +48,7 @@ export class GalleryProvider {
         });
     }
 
-    near(params: ParseParamsLocation) {
+    near(params: IParamsLocation) {
         let query = new Parse.Query(this._ParseObject);
         // Limit by page
         query.exists('location');

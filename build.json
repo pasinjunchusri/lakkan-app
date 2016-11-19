@@ -1,8 +1,8 @@
 {
      "android": {
          "release": {
-             "keystore": "keytool -list -v -keystore /Users/movibe/Sites/PlayStore/agfoccus.keystore",
-             "alias": "agfoccus"
+             "keystore": "keytool -list -v -keystorekey.keystore",
+             "alias": "alias"
          }
      }
  }

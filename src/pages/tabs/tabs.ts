@@ -1,18 +1,19 @@
 import {Component, ElementRef, ViewChild, Renderer} from '@angular/core';
-import {ModalController, Events} from "ionic-angular";
+import {ModalController, Events, Tabs} from "ionic-angular";
 
 import {TabHomePage} from "../tab-home/tab-home";
 import {TabSearchPage} from "../tab-search/tab-search";
+import {TabCapturePage} from "../tab-capture/tab-capture";
 import {TabActivityPage} from "../tab-activity/tab-activity";
 import {TabAccountPage} from "../tab-account/tab-account";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+
 import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
 import {PhotoShareModal} from "../../components/photo-share-modal/photo-share-modal";
 import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
-import {GalleryProvider} from "../../providers/gallery";
-import {ParseFileProvider} from "../../providers/parse-file";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
+    selector   : 'tabs',
     templateUrl: 'tabs.html'
 })
 
@@ -21,9 +22,12 @@ export class TabsPage {
     // should be each tab's root Page
     tabHome: any     = TabHomePage;
     tabSearch: any   = TabSearchPage;
+    tabCapture: any  = TabCapturePage;
     tabActivity: any = TabActivityPage;
     tabProfile: any  = TabAccountPage;
+
     @ViewChild('inputFile') input: ElementRef;
+    @ViewChild('myTabs') tabRef: Tabs;
 
     cordova: boolean   = false;
     _eventName: string = 'photoshare';
@@ -31,10 +35,8 @@ export class TabsPage {
     constructor(private photoService: IonPhotoService,
                 private util: IonicUtilProvider,
                 private modalCtrl: ModalController,
-                private render: Renderer,
                 private events: Events,
-                private provider: GalleryProvider,
-                private ParseFile: ParseFileProvider
+                private render: Renderer
     ) {
         this.cordova = this.util.cordova;
 
@@ -49,20 +51,7 @@ export class TabsPage {
             modal.onDidDismiss(response => {
                 console.log(response);
                 if (response) {
-                    this.ParseFile.upload({base64: response.image}).then(image => {
-                        let form   = response.form;
-                        form.image = image;
-
-                        this.provider.put(form).then(item => {
-                            console.log(item);
-                            item.loading = false;
-                            console.warn('Event home:reload');
-                            this.events.publish('home:reload');
-
-                        }).catch(error => {
-                            console.log(error);
-                        });
-                    });
+                    this.events.publish('upload:gallery', response);
                 }
             });
             modal.present();
@@ -82,6 +71,8 @@ export class TabsPage {
         } else {
             this.render.invokeElementMethod(this.input.nativeElement, 'click');
         }
+
+        setTimeout(() => this.tabRef.select(0), 50);
     }
 
     cropImage(image) {
@@ -93,8 +84,10 @@ export class TabsPage {
         let image     = files[0];
         let reader    = new FileReader();
         reader.onload = (evt) => {
-            let image = evt.srcElement['result'];
-            this.cropImage(image)
+            if (evt) {
+                let image = evt.srcElement['result'];
+                this.cropImage(image)
+            }
         };
         reader.readAsDataURL(image);
     }
