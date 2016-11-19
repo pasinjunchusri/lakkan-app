@@ -54,7 +54,7 @@ export class IonPhotoService {
                         icon   : 'camera',
                         handler: () => {
                             if (this._cordova) {
-                                this.camera().then(image => resolve(image)).catch(error => reject(error));
+                                this.camera().then(image => resolve('data:image/jpeg;base64,'+image)).catch(error => reject(error));
                             } else {
                                 reject(this._translateNotCordova);
                             }
@@ -65,7 +65,7 @@ export class IonPhotoService {
                         icon   : 'images',
                         handler: () => {
                             if (this._cordova) {
-                                this.photoLibrary().then(image => resolve(image)).catch(error => reject(error));
+                                this.photoLibrary().then(image => resolve('data:image/jpeg;base64,'+image)).catch(error => reject(error));
                             } else {
                                 reject(this._translateNotCordova);
                             }
