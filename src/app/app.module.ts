@@ -5,6 +5,7 @@ import {HttpModule} from "@angular/http";
 import {IonicApp, IonicModule} from 'ionic-angular';
 
 import {MyApp} from './app.component';
+
 import {APP_PAGES, PagesModule} from "../pages/pages.module";
 
 import {IonicImageLoader} from "ionic-image-loader";
