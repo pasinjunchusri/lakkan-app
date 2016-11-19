@@ -1,4 +1,4 @@
-import {IonicModule, Config} from 'ionic-angular';
+import {IonicModule, Config, Platform} from 'ionic-angular';
 import {NgModule} from '@angular/core';
 import {Http} from '@angular/http';
 import {CommonModule} from '@angular/common';
@@ -64,6 +64,8 @@ import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal
 import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
 import {ExternalLibProvider} from "../providers/external-lib";
 import {TabCapturePage} from "./tab-capture/tab-capture";
+
+declare var window: any;
 
 export const APP_PAGES = [
     IntroPage,
@@ -142,11 +144,13 @@ export class PagesModule {
     constructor(private translate: TranslateService,
                 private config: Config,
                 private logger: LoggingProvider,
-                private lib: ExternalLibProvider
+                private lib: ExternalLibProvider,
+                private platform: Platform
     ) {
         this.lib.googleMaps();
         this.lib.facebookLoad();
         this.translateConfig();
+        this.androidPermission();
     }
 
 
@@ -182,4 +186,29 @@ export class PagesModule {
         this.config.set('backButtonText', '');
 
     }
+
+    androidPermission() {
+        if (this.platform.is('android') && this.platform.is('cordova')) {
+
+            // IMAGE PICKER PERMISSION
+            let imagePicker = window.imagePicker;
+            if (imagePicker) {
+                imagePicker.hasReadPermission((result) => window.imagePicker.requestReadPermission());
+            }
+
+            // CAMERA PERMISSION
+            let permissions = window.cordova.plugins.permissions;
+
+            if (permissions) {
+                permissions.requestPermission(permissions.CAMERA, (status) => {
+                        if (!status.hasPermission) {
+                            console.warn('Camera permission is not turned on');
+                        }
+                    },
+                    () => console.warn('Camera permission is not turned on'));
+            }
+
+        }
+    }
+
 }

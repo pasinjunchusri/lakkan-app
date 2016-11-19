@@ -23,8 +23,7 @@ tmp/
 temp/
 hooks/
 platforms/
-plugins/*
-!plugins/fetch.json
+plugins/
 www/
 resources/android/*
 resources/ios/*
