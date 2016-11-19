@@ -56,6 +56,11 @@ export const languages: [any]         = [
         code: 'ru',
         flag: 'ru'
     },
+    {
+        name: 'Bengali (Bangla)',
+        code: 'bn',
+        flag: 'bn'
+    },
 
 ];
 export const language_default: string = 'en';

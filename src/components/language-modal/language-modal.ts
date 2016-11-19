@@ -2,7 +2,9 @@ import {Component} from '@angular/core';
 import {ViewController} from "ionic-angular";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {TranslateService} from "ng2-translate";
+
 import {languages} from "../../config";
+import _ from 'underscore';
 
 @Component({
     selector   : 'language-modal',
@@ -18,14 +20,15 @@ export class LanguageModalComponent {
                 private util: IonicUtilProvider,
                 private translate: TranslateService
     ) {
-        this._languages = languages;
+        this._languages = _.sortBy(languages, 'name');
         this.startTranslate();
     }
 
     doSearch() {
-        this._languages = languages.filter(item => {
+        let filter =  languages.filter(item => {
             return item.name.toLowerCase().indexOf(this._words.toLowerCase()) > -1;
         });
+        this._languages = _.sortBy(filter, 'name');
     }
 
     startTranslate() {
