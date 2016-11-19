@@ -21,6 +21,42 @@ export const languages: [any]         = [
         code: 'pt_BR',
         flag: 'br'
     },
+    {
+        name: 'German',
+        code: 'de',
+        flag: 'de'
+    },
+    {
+        name: 'French',
+        code: 'fr',
+        flag: 'fr'
+    },
+    {
+        name: 'Greek',
+        code: 'el',
+        flag: 'el'
+    },
+    {
+        name: 'Spanish',
+        code: 'es',
+        flag: 'es'
+    },
+    {
+        name: 'Japanese',
+        code: 'ja',
+        flag: 'ja'
+    },
+    {
+        name: 'Chinese',
+        code: 'zh',
+        flag: 'zh'
+    },
+    {
+        name: 'Russian',
+        code: 'ru',
+        flag: 'ru'
+    },
+
 ];
 export const language_default: string = 'en';
 
