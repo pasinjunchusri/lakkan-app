@@ -8,7 +8,7 @@ export class ParsePushProvider {
     private current: any;
 
     constructor() {
-        this.current = Parse.User.current();
+
     }
 
     init(): Promise<any> {
@@ -44,6 +44,8 @@ export class ParsePushProvider {
 
     subscribeUser(): Promise<any> {
         return new Promise((resolve, reject) => {
+
+            this.current = Parse.User.current();
 
             if (ParsePushPlugin && this.current) {
                 ParsePushPlugin.subscribe(this.current['username']);

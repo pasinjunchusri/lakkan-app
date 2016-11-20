@@ -7,6 +7,7 @@ import {IntroPage} from "../pages/intro/intro";
 
 import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
 import {ImageLoaderConfig} from "ionic-image-loader";
+import {ParsePushProvider} from "../providers/parse-push";
 
 
 @Component({
@@ -21,8 +22,9 @@ export class MyApp implements OnInit {
         Parse.serverURL = PARSE_SERVER_URL;
     }
 
-    constructor(platform: Platform,
-                imageLoaderConfig: ImageLoaderConfig
+    constructor(private platform: Platform,
+                private imageLoaderConfig: ImageLoaderConfig,
+                private Push: ParsePushProvider
     ) {
 
 
@@ -42,6 +44,7 @@ export class MyApp implements OnInit {
 
             console.log(Parse.User.current());
             if (!Parse.User.current()) {
+                this.Push.init();
                 this.rootPage = IntroPage;
             } else {
                 this.rootPage = TabsPage;
