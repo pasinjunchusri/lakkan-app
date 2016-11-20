@@ -38,7 +38,7 @@ export class GalleryCommentProvider {
         const _limit = params.limit || 24;
 
         return new Promise((resolve, reject) => {
-            new Parse.Query('GalleryCommentProvider')
+            new Parse.Query(this._ParseObject)
                 .equalTo('gallery', params.gallery)
                 .descending('createdAt')
                 .limit(_limit)

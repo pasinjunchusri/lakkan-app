@@ -29,6 +29,7 @@ export class TabsPage {
     @ViewChild('inputFile') input: ElementRef;
     @ViewChild('myTabs') tabRef: Tabs;
 
+    open: boolean      = false;
     cordova: boolean   = false;
     _eventName: string = 'photoshare';
 
@@ -61,18 +62,20 @@ export class TabsPage {
 
     openCapture(eventname) {
         this._eventName = eventname;
-        if (this.cordova) {
+        if (this.cordova && !this.open) {
+            this.open = true;
             this.photoService.open()
                 .then(image => this.cropImage(image))
                 .catch(error => {
                     console.log(error);
                     this.util.toast(error);
+                    this.open = false;
                 });
         } else {
             this.render.invokeElementMethod(this.input.nativeElement, 'click');
         }
 
-        setTimeout(() => this.tabRef.select(0), 50);
+        setTimeout(() => this.tabRef.select(0), 100);
     }
 
     cropImage(image) {
