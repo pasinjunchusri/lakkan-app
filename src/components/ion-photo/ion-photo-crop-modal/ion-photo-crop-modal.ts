@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavParams, ViewController, Events} from 'ionic-angular';
+import {NavParams, ViewController, Events, Platform} from 'ionic-angular';
 declare const Cropper: any;
 declare const document: any;
 
@@ -16,11 +16,15 @@ export class IonPhotoCropModal {
 
     constructor(private navParams: NavParams,
                 private viewCtrl: ViewController,
-                private events: Events
+                private events: Events,
+                private platform: Platform
     ) {
         this._eventName = this.navParams.get('eventName')
         this.img        = this.navParams.get('base64');
         this.events.subscribe('photocrop:close', () => this.dismiss());
+        this.platform.registerBackButtonAction(() => {
+            this.dismiss();
+        });
     }
 
     ionViewDidLoad() {

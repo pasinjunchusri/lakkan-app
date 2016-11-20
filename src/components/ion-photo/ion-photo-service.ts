@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActionSheetController, Platform} from "ionic-angular";
-import {Camera} from 'ionic-native';
+import {Camera, ImagePicker} from 'ionic-native';
 import {TranslateService} from "ng2-translate";
 
 @Injectable()
@@ -54,7 +54,7 @@ export class IonPhotoService {
                         icon   : 'camera',
                         handler: () => {
                             if (this._cordova) {
-                                this.camera().then(image => resolve('data:image/jpeg;base64,'+image)).catch(error => reject(error));
+                                this.camera().then(image => resolve(image)).catch(error => reject(error));
                             } else {
                                 reject(this._translateNotCordova);
                             }
@@ -65,7 +65,7 @@ export class IonPhotoService {
                         icon   : 'images',
                         handler: () => {
                             if (this._cordova) {
-                                this.photoLibrary().then(image => resolve('data:image/jpeg;base64,'+image)).catch(error => reject(error));
+                                this.photoLibrary().then(image => resolve(image)).catch(error => reject(error));
                             } else {
                                 reject(this._translateNotCordova);
                             }
@@ -82,16 +82,15 @@ export class IonPhotoService {
     camera() {
         return new Promise((resolve, reject) => {
             let _options = {
-                targetWidth    : this._setting.width,
-                targetHeight   : this._setting.height,
-                quality        : this._setting.quality,
-                sourceType     : Camera.PictureSourceType.CAMERA,
-                destinationType: Camera.DestinationType.DATA_URL
-            };
+                targetWidth : this._setting.width,
+                targetHeight: this._setting.height,
+                quality     : this._setting.quality,
+                sourceType  : Camera.PictureSourceType.CAMERA
+            }
 
             Camera.getPicture(_options).then((imageData) => {
                 // imageData is a base64 encoded string
-                this._base64Image = 'data:image/jpeg;base64,' + imageData;
+                this._base64Image = imageData;
                 resolve(this._base64Image);
             }, (err) => {
                 console.log(err);
@@ -103,16 +102,15 @@ export class IonPhotoService {
     photoLibrary() {
         return new Promise((resolve, reject) => {
             let _options = {
-                targetWidth       : this._setting.width,
-                targetHeight      : this._setting.height,
+                width             : this._setting.width,
+                height            : this._setting.height,
                 quality           : this._setting.quality,
-                sourceType        : Camera.PictureSourceType.PHOTOLIBRARY,
-                destinationType   : Camera.DestinationType.DATA_URL
+                maximumImagesCount: 1,
             };
 
-            Camera.getPicture(_options).then((imageData) => {
+            ImagePicker.getPictures(_options).then((imageData) => {
                 // imageData is a base64 encoded string
-                this._base64Image = 'data:image/jpeg;base64,' + imageData;
+                this._base64Image = imageData[0];
                 resolve(this._base64Image);
             }, (err) => {
                 console.log(err);
