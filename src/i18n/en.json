@@ -18,6 +18,7 @@
   "Username": "Username",
   "Username is required": "Username is required",
   "Password": "Password",
+  "Confirm password": "Confirm password",
   "Password is required": "assword is required",
   "Forgot Password": "Forgot Password",
   "Login with Facebook": "Login with Facebook",
@@ -91,5 +92,8 @@
   "About": "About",
   "Terms of Service": "Terms of Service",
   "Open Source Libraries": "Open Source Libraries",
+  "Album": "Album",
+  "Title": "Title",
+  "Description": "Description",
   "Logout": "Logout"
 }

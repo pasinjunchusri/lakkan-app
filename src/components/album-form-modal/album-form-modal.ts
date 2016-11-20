@@ -2,6 +2,9 @@ import {Component} from '@angular/core';
 import {ViewController, NavParams} from 'ionic-angular';
 import {GalleryAlbumProvider} from '../../providers/gallery-album';
 import {IonicUtilProvider} from '../../providers/ionic-util';
+import {FormBuilder, Validators} from "@angular/forms";
+
+import * as _ from 'underscore';
 
 @Component({
     selector   : 'album-form-modal',
@@ -9,17 +12,13 @@ import {IonicUtilProvider} from '../../providers/ionic-util';
 })
 export class AlbumFormModalComponent {
     id: string;
-    form: any = {
-        title      : '',
-        description: ''
-    };
-
-    submitted: boolean = false;
+    form: any;
 
     constructor(private viewCtrl: ViewController,
                 private provider: GalleryAlbumProvider,
                 private ionicUtil: IonicUtilProvider,
-                private navParams: NavParams
+                private navParams: NavParams,
+                private formBuilder: FormBuilder
     ) {
         this.id = this.navParams.get('id');
         if (this.id) {
@@ -28,29 +27,36 @@ export class AlbumFormModalComponent {
 
     }
 
+    ionViewWillLoad() {
+        this.form = this.formBuilder.group({
+            id         : [''],
+            title      : ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+            description: [''],
+        });
+
+    }
+
     get() {
         this.ionicUtil.onLoading();
         this.provider.get(this.id).then(album => {
-            console.log(album);
-            this.form = album;
+            _.each(album.attributes, (value, key) => {
+                if (this.form.controls[key]) {
+                    this.form.controls[key].setValue(value);
+                }
+            });
             this.ionicUtil.endLoading();
         })
     }
 
-    submit(form: any) {
-        this.submitted = true;
+    submit(form: any): void {
+
         if (form.valid) {
             console.log(this.form);
-            if (this.form.id) {
-                this.form.save();
-                this.dismiss();
-            } else {
-                this.ionicUtil.onLoading();
-                this.provider.put(this.form).then(parseItem => {
-                    this.ionicUtil.endLoading();
-                    this.viewCtrl.dismiss(parseItem);
-                });
-            }
+            this.ionicUtil.onLoading();
+            this.provider.put(this.form.values).then(parseItem => {
+                this.ionicUtil.endLoading();
+                this.viewCtrl.dismiss(parseItem);
+            });
         }
     }
 

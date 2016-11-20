@@ -16,8 +16,9 @@
     "Login":  "ログイン",
     "Signup":  "アカウント登録",
     "Username":  "ユーザーネーム",
-    "Username is required":  "<strong>ERROR</strong>: The username or password you entered is incorrect. <a href=\"https://www.technologyreview.jp/insider/profile/reset-my-password/\" title=\"Password Lost and Found\">Lost your password</a>?",
+    "Username is required":  "ユーザー名は必須です",
     "Password":  "パスワード",
+    "Confirm password":  "確認のためパスワードをもう一度入力してください",
     "Password is required":  "パスワードは必須入力です。",
     "Forgot Password":  "パスワードを忘れたら",
     "Login with Facebook":  "Facebookでログインする",
@@ -91,5 +92,8 @@
     "About":  "当社について",
     "Terms of Service":  "利用規約",
     "Open Source Libraries":  "オープン ソース ライブラリ",
+    "Album":  "アルバム",
+    "Title":  "タイトル",
+    "Description":  "詳細説明",
     "Logout":  "ログアウト"
 }

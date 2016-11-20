@@ -18,6 +18,7 @@
     "Username":  "Nom d'utilisateur",
     "Username is required":  "Nom d’utilisateur requis",
     "Password":  "Mot de passe",
+    "Confirm password":  "Confirmez votre mot de passe",
     "Password is required":  "Mot de passe requis",
     "Forgot Password":  "Mot de passe oublié ?",
     "Login with Facebook":  "Connexion via Facebook",
@@ -91,5 +92,8 @@
     "About":  "À propos",
     "Terms of Service":  "Conditions d'utilisation",
     "Open Source Libraries":  "Bibliothèques Open Source",
+    "Album":  "Album",
+    "Title":  "Titre",
+    "Description":  "Description",
     "Logout":  "Déconnexion"
 }

@@ -18,6 +18,7 @@
     "Username":  "Όνομα χρήστη",
     "Username is required":  "Απαιτείται όνομα χρήστη.",
     "Password":  "Κωδικός πρόσβασης",
+    "Confirm password":  "Επιβαιβέωση κωδικού",
     "Password is required":  "Απαιτείται κωδικός πρόσβασης",
     "Forgot Password":  "Ξεχάσατε τον κωδικό",
     "Login with Facebook":  "Είσοδος με Facebook",
@@ -91,5 +92,8 @@
     "About":  "Σχετικά",
     "Terms of Service":  "ΟΡΟΙ ΥΠΗΡΕΣΙΑΣ",
     "Open Source Libraries":  "Ανοικτών πηγής βιβλιοθηκών",
+    "Album":  "Άλμπουμ",
+    "Title":  "Τίτλος",
+    "Description":  "Περιγραφή",
     "Logout":  "Αποσύνδεση"
 }

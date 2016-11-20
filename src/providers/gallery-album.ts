@@ -56,7 +56,6 @@ export class GalleryAlbumProvider {
             item.location = new Parse.GeoPoint(item.address.geo);
         }
 
-
         if (!item.id) {
             let objPlace = new this._ParseObject();
             return objPlace.save(item);

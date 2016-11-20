@@ -1,28 +1,35 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Album Form</ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
+    <ion-toolbar color="primary">
+        <ion-title>{{'Album' | translate }}</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
                 <ion-icon name="close"></ion-icon>
             </button>
-    </ion-buttons>
-  </ion-toolbar>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form #rForm="ngForm" (ngSubmit)="submit(rForm)" novalidate>
-    <ion-item>
-      <ion-label floating color="primary">Album Name</ion-label>
-      <ion-input #title="ngModel" type="text" [(ngModel)]="form.title" name="title" required></ion-input>
-    </ion-item>
-    <p [hidden]="title.valid || !submitted" color="danger" padding-left>
-      Title is required
-    </p>
-    <ion-item>
-      <ion-label floating color="primary">Description</ion-label>
-      <ion-textarea [(ngModel)]="form.description" name="description"></ion-textarea>
-    </ion-item>
-    <div padding>
-      <button ion-button type="submit" block>Submit</button>
-    </div>
-  </form>
+    <form [formGroup]="form" #rForm="ngForm" (ngSubmit)="submit(rForm)">
+        <ion-item>
+            <ion-label floating>{{'Title' | translate}}</ion-label>
+            <ion-input type="text" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item class="form-error-list" *ngIf="!form.controls.title.pristine && !form.controls.title.valid">
+            <p class="form-error" item-right
+               *ngIf="!form.controls.title.pristine && form.controls.title.hasError('required')">
+                {{'This is a required field.' | translate}}
+            </p>
+            <p class="form-error" item-right
+               *ngIf="!form.controls.title.pristine && form.controls.title?.errors?.minlength">
+                {{'Password must have more than 4 characters' | translate}}
+            </p>
+        </ion-item>
+        <ion-item>
+            <ion-label floating color="primary">{{'Description' | translate}}</ion-label>
+            <ion-textarea formControlName="description"></ion-textarea>
+        </ion-item>
+        <div padding>
+            <button ion-button type="submit" block>{{ 'Submit' | translate }}</button>
+        </div>
+    </form>
 </ion-content>

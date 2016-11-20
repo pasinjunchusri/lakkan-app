@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Platform} from "ionic-angular";
 
 declare var Parse: any;
 
@@ -6,27 +7,22 @@ declare var Parse: any;
 export class ParsePushProvider {
     private _installationId;
     private current: any;
+    private cordova: boolean = false;
 
-    constructor() {
-
+    constructor(private platform: Platform) {
+        this.cordova = this.platform.is('cordova') ? true : false;
     }
 
-    init(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            if (ParsePushPlugin) {
-                ParsePushPlugin.getInstallationId((id) => {
-                    this._installationId = id;
-                    console.log("device installationId: " + id);
-                    this.subscribeUser();
-                    resolve(id);
-                }, (e) => {
-                    console.log('error', e);
-                    reject(e);
-                });
-            } else {
-                reject('Not Parse Push');
-            }
-        })
+    init(): void {
+        if (this.cordova && ParsePushPlugin) {
+            ParsePushPlugin.getInstallationId((id) => {
+                this._installationId = id;
+                console.log("device installationId: " + id);
+                this.subscribeUser();
+            }, (e) => {
+                //console.log('error', e);
+            });
+        }
     }
 
     getSubscriptions(): Promise<any> {

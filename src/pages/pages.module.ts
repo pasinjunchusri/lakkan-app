@@ -54,7 +54,6 @@ import {PhotoMapComponent} from "../components/photo-map/photo-map";
 import {LocationModalComponent} from "../components/location-modal/location-modal";
 import {TabSearchMapPage} from "./tab-search-map/tab-search-map";
 import {UploadStatusComponent} from "../components/upload-status/upload-status";
-import {LoggingProvider} from "../providers/logging";
 import {TabSearchMapSettingsPage} from "./tab-search-map-settings/tab-search-map-settings";
 import {AlbumInputComponent} from "../components/album-input/album-input";
 import {AlbumListModalPage} from "../components/album-list-modal/album-list-modal";
@@ -64,6 +63,8 @@ import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal
 import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
 import {ExternalLibProvider} from "../providers/external-lib";
 import {TabCapturePage} from "./tab-capture/tab-capture";
+
+import _ from 'underscore';
 
 declare var window: any;
 
@@ -143,7 +144,6 @@ export class PagesModule {
 
     constructor(private translate: TranslateService,
                 private config: Config,
-                private logger: LoggingProvider,
                 private lib: ExternalLibProvider,
                 private platform: Platform
     ) {
@@ -155,34 +155,21 @@ export class PagesModule {
 
 
     translateConfig() {
-        let userLang = navigator.language.split('-')[0]; // use navigator lang if available
-        userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default;
-
+        let userLang   = navigator.language.split('-')[0]; // use navigator lang if available
+        let searchLang = _.find(languages, {name: userLang});
+        let language   = (searchLang) ? searchLang : language_default;
 
         this.translate.addLangs(languages.map(lang => lang.code.split('_')[0]));
 
         // this language will be used as a fallback when a translation isn't found in the current language
-        this.translate.setDefaultLang(language_default);
+        this.translate.setDefaultLang(language);
 
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
-        this.translate.use(userLang).subscribe(() => {
-            this.logger.log("Testing translation");
-
-            this.translate.get('cancel', {value: 'world'}).subscribe((res: string) => {
-                console.log(res);
-                //=> 'hello world'
-            }, (err) => {
-                console.log("Translation error:" + err);
-            });
-
-            this.translate.get("cancel").subscribe(data => {
-                this.logger.log("Translation test:" + data);
-            });
-        });
+        this.translate.use(language);
 
         // set lang back button
-        //this.translate.get('backButtonText').subscribe((res: string) => this.config.set('backButtonText', res));
+        //this.translate.get('backButtonText').subscribe((res: string) => this.config.set('Back', res));
         this.config.set('backButtonText', '');
 
     }

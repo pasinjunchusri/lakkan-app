@@ -18,6 +18,7 @@
     "Username":  "Nombre de usuario",
     "Username is required":  "Se requiere nombre de usuario",
     "Password":  "Contraseña",
+    "Confirm password":  "Confirma tu contraseña",
     "Password is required":  "Debes escribir una contraseña.",
     "Forgot Password":  "Olvidó la Contraseña",
     "Login with Facebook":  "Iniciar sesión con Facebook",
@@ -91,5 +92,8 @@
     "About":  "Acerca de",
     "Terms of Service":  "Condiciones de servicio",
     "Open Source Libraries":  "Bibliotecas de código abierto",
+    "Album":  "Álbum",
+    "Title":  "Título",
+    "Description":  "Descripción",
     "Logout":  "Cerrar sesión"
 }

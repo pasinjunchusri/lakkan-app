@@ -18,6 +18,7 @@
     "Username":  "Логин",
     "Username is required":  "Пожалуйста, введите имя пользователя.",
     "Password":  "Пароль",
+    "Confirm password":  "Повторите пароль",
     "Password is required":  "Требуется ввести пароль.",
     "Forgot Password":  "Забыли пароль",
     "Login with Facebook":  "Войти через Facebook",
@@ -91,5 +92,8 @@
     "About":  "О",
     "Terms of Service":  "Пользовательское соглашение",
     "Open Source Libraries":  "Открытым исходным кодом библиотеки",
+    "Album":  "Альбом",
+    "Title":  "Загаловок",
+    "Description":  "Описание",
     "Logout":  "Выход"
 }

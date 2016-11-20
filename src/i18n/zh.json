@@ -18,6 +18,7 @@
     "Username":  "用户名",
     "Username is required":  "用户名为必填项",
     "Password":  "密码",
+    "Confirm password":  "确认密码",
     "Password is required":  "密码是必需的",
     "Forgot Password":  "忘記密碼？",
     "Login with Facebook":  "使用Facebook登录",
@@ -91,5 +92,8 @@
     "About":  "关于",
     "Terms of Service":  "服務條款",
     "Open Source Libraries":  "开放源码库",
+    "Album":  "相册",
+    "Title":  "檔案標題",
+    "Description":  "简介",
     "Logout":  "注销"
 }

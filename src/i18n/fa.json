@@ -18,6 +18,7 @@
     "Username":  "نام کاربری",
     "Username is required":  "نام کاربری مورد نیاز است",
     "Password":  "کلمه عبور",
+    "Confirm password":  "تایید پسورد",
     "Password is required":  "رمز عبور مورد نیاز است",
     "Forgot Password":  "فراموشی کلمه عبور",
     "Login with Facebook":  "ورود با فیس بوک",
@@ -91,5 +92,8 @@
     "About":  "درباره",
     "Terms of Service":  "شرایط استفاده از خدمات",
     "Open Source Libraries":  "کتابخانه ها منبع باز",
+    "Album":  "آلبوم",
+    "Title":  "عنوان",
+    "Description":  "شرح",
     "Logout":  "خروج"
 }
