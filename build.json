@@ -1,8 +1,10 @@
 {
-     "android": {
-         "release": {
-             "keystore": "keytool -list -v -keystorekey.keystore",
-             "alias": "alias"
-         }
-     }
- }
+  "android": {
+    "release": {
+      "keystore": "yourkey.keystore",
+      "alias": "alias",
+      "storePassword": "password",
+      "password" : "password"
+    }
+  }
+}
