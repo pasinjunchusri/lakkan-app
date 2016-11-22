@@ -150,16 +150,22 @@ export class PagesModule {
         this.translateConfig();
         this.androidPermission();
         if (!this.platform.is('cordova')) {
-            this.lib.facebookLoad();
-            this.lib.googleMaps();
+            setTimeout(() => {
+                this.lib.facebookLoad();
+                this.lib.googleMaps();
+            }, 1000);
         }
     }
 
 
     translateConfig() {
-        let userLang   = navigator.language.split('-')[0]; // use navigator lang if available
+        let userLang   = navigator.language.split('-')[0] || 'en'; // use navigator lang if available
         let searchLang = _.find(languages, {code: userLang});
-        let language   = (searchLang) ? searchLang : language_default;
+        let language   = language_default;
+        if (searchLang.length) {
+            language = searchLang[0];
+        }
+        console.log('language', userLang, searchLang, language);
 
         this.translate.addLangs(languages.map(lang => lang.code.split('_')[0]));
 

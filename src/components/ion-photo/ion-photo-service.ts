@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActionSheetController, Platform} from "ionic-angular";
-import {Camera, ImagePicker} from 'ionic-native';
+import {Camera} from 'ionic-native';
 import {TranslateService} from "ng2-translate";
 
 @Injectable()
