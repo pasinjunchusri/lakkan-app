@@ -91,17 +91,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.synconset.imagepicker": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Telerik-Verified-Plugins/ImagePicker",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {
-            "PHOTO_LIBRARY_USAGE_DESCRIPTION": "Imagens para selecionar"
-        }
-    },
     "cordova-plugin-inappbrowser": {
         "source": {
             "type": "registry",
@@ -142,5 +131,16 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "com.synconset.imagepicker": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Telerik-Verified-Plugins/ImagePicker",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {
+            "PHOTO_LIBRARY_USAGE_DESCRIPTION": "Imagens para selecionar"
+        }
     }
 }

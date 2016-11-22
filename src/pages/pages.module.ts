@@ -159,18 +159,16 @@ export class PagesModule {
 
 
     translateConfig() {
-        let userLang   = navigator.language.split('-')[0] || 'en'; // use navigator lang if available
-        let searchLang = _.find(languages, {code: userLang});
-        let language   = language_default;
-        if (searchLang.length) {
-            language = searchLang[0];
-        }
-        console.log('language', userLang, searchLang, language);
+        // use navigator lang if available
+        let userLang = navigator.language.indexOf('-') ? navigator.language.split('-')[0] : navigator.language;
+        let language = _.find(languages, {code: userLang}) ? _.find(languages, {code: userLang}).code : language_default;
 
-        this.translate.addLangs(languages.map(lang => lang.code.split('_')[0]));
+        console.log('language', userLang, language);
+
+        this.translate.addLangs(languages.map(lang => lang.code));
 
         // this language will be used as a fallback when a translation isn't found in the current language
-        this.translate.setDefaultLang(language);
+        this.translate.setDefaultLang(language_default);
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
         this.translate.use(language);
