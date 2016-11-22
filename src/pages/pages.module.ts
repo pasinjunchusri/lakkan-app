@@ -148,13 +148,13 @@ export class PagesModule {
                 private platform: Platform
     ) {
         this.translateConfig();
-        this.androidPermission();
-        if (!this.platform.is('cordova')) {
-            setTimeout(() => {
+        setTimeout(() => {
+            this.androidPermission();
+            if (!this.platform.is('cordova')) {
                 this.lib.facebookLoad();
                 this.lib.googleMaps();
-            }, 1000);
-        }
+            }
+        }, 1000);
     }
 
 

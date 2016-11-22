@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
+import {NgModule, ErrorHandler} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {HttpModule} from "@angular/http";
-import {IonicApp, IonicModule} from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {Storage} from "@ionic/storage";
 
 import {MyApp} from './app.component';
@@ -32,7 +32,11 @@ import {FacebookService} from "ng2-facebook-sdk";
         MyApp,
         APP_PAGES,
     ],
-    providers      : [FacebookService, Storage],
+    providers      : [
+        FacebookService,
+        Storage,
+        {provide: ErrorHandler, useClass: IonicErrorHandler}
+    ],
     bootstrap      : [IonicApp],
 })
 export class AppModule {
