@@ -13,12 +13,12 @@ export const GOOGLE_MAPS_WEB: string     = 'AIzaSyC8eGCewEpCrfG_2OWoMHMsvDzglPIV
 export const languages: [any]         = [
     {
         name: 'English',
-        code: 'en_US',
+        code: 'en',
         flag: 'en'
     },
     {
         name: 'Portugues',
-        code: 'pt_BR',
+        code: 'pt',
         flag: 'br'
     },
     {

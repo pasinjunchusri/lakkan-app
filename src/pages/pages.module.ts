@@ -147,23 +147,24 @@ export class PagesModule {
                 private lib: ExternalLibProvider,
                 private platform: Platform
     ) {
-        this.lib.googleMaps();
-        this.lib.facebookLoad();
         this.translateConfig();
         this.androidPermission();
+        if (!this.platform.is('cordova')) {
+            this.lib.facebookLoad();
+            this.lib.googleMaps();
+        }
     }
 
 
     translateConfig() {
         let userLang   = navigator.language.split('-')[0]; // use navigator lang if available
-        let searchLang = _.find(languages, {name: userLang});
+        let searchLang = _.find(languages, {code: userLang});
         let language   = (searchLang) ? searchLang : language_default;
 
         this.translate.addLangs(languages.map(lang => lang.code.split('_')[0]));
 
         // this language will be used as a fallback when a translation isn't found in the current language
         this.translate.setDefaultLang(language);
-
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
         this.translate.use(language);

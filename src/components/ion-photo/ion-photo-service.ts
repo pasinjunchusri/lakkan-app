@@ -102,15 +102,16 @@ export class IonPhotoService {
     photoLibrary() {
         return new Promise((resolve, reject) => {
             let _options = {
-                width             : this._setting.width,
-                height            : this._setting.height,
+                targetWidth       : this._setting.width,
+                targetHeight      : this._setting.height,
                 quality           : this._setting.quality,
+                sourceType        : Camera.PictureSourceType.PHOTOLIBRARY,
                 maximumImagesCount: 1,
             };
 
-            ImagePicker.getPictures(_options).then((imageData) => {
+            Camera.getPicture(_options).then(imageData => {
                 // imageData is a base64 encoded string
-                this._base64Image = imageData[0];
+                this._base64Image = imageData;
                 resolve(this._base64Image);
             }, (err) => {
                 console.log(err);

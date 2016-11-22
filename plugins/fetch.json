@@ -91,17 +91,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "org.wbt11a.nativecamera": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/zebra1024/cordova-plugin-wezka-nativecamera",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {
-            "PHOTO_CAMERA_USAGE_DESCRIPTION": "Imagens para selecionar"
-        }
-    },
     "com.synconset.imagepicker": {
         "source": {
             "type": "git",
@@ -141,6 +130,15 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-network-information@~1.3.0"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-camera": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/apache/cordova-plugin-camera.git",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}
