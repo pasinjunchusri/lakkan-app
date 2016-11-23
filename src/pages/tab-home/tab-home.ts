@@ -1,7 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavController, Events, Content} from 'ionic-angular';
-import {UserListPage} from "../user-list/user-list";
 import {IParams} from "../../models/parse.params.model";
+import {ChatChannelPage} from "../chat-channel/chat-channel";
+import {UserListPage} from "../user-list/user-list";
 
 @Component({
     selector   : 'page-tab-home',
@@ -36,6 +37,10 @@ export class TabHomePage {
     public onSelectPrivacity(privacity: string = 'public') {
         this.params.privacity = privacity;
         this.sendParams();
+    }
+
+    public onPageChat() {
+        this.navCtrl.push(ChatChannelPage);
     }
 
     public onPageUsers() {

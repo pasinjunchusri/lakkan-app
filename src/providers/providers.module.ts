@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
+import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-
 // Providers
 import {IonicUtilProvider} from "./ionic-util";
+import {LoggingProvider} from "./logging";
 import {AuthProvider} from "./auth";
 import {UserProvider} from "./user";
 import {GalleryProvider} from "./gallery";
@@ -12,9 +12,10 @@ import {ParseFileProvider} from "./parse-file";
 import {ParsePushProvider} from "./parse-push";
 import {GallerFeedbackProvider} from "./gallery-feedback";
 import {UserDataProvider} from "./user-data";
-import {GalleryAlbumProvider} from './gallery-album';
-import {LoggingProvider} from "./logging";
+import {GalleryAlbumProvider} from "./gallery-album";
 import {ExternalLibProvider} from "./external-lib";
+import {ChatChannelProvider} from "./chat-channel";
+import {ChatMessageProvider} from "./chat-message";
 
 export const sharedProviders = [
     IonicUtilProvider,
@@ -29,7 +30,9 @@ export const sharedProviders = [
     GalleryCommentProvider,
     GallerFeedbackProvider,
     ParseFileProvider,
-    ParsePushProvider
+    ParsePushProvider,
+    ChatChannelProvider,
+    ChatMessageProvider,
 ];
 
 @NgModule({

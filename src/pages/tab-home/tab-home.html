@@ -2,8 +2,11 @@
     <ion-navbar color="primary">
         <ion-title><img src="assets/img/logo.svg" class="logo" ></ion-title>
         <ion-buttons end>
+            <button ion-button icon-only (click)="onPageChat()">
+                <ion-icon name="paper-plane"></ion-icon>
+            </button>
             <button ion-button icon-only (click)="onPageUsers()">
-                <ion-icon name="contacts"></ion-icon>
+                <ion-icon name="person"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>

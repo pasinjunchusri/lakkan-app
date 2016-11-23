@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>{{'Channels'| translate}}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="onModalChatForm()">
+                <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <loader *ngIf="loading "></loader>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Connection unavailable' | translate }}</p>
+            <button ion-button color="primary" (click)="doTry()">
+                {{ 'Try again' | translate }}
+            </button>
+        </div>
+    </div>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Activity not found' | translate }}</p>
+        </div>
+    </div>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+
+        <ion-item *ngFor="let item of data" (click)="onPageMessage(item)">
+            <ion-avatar item-left>
+                <!-- Profile 1-->
+                <img *ngIf="item.profiles.length>1 && item.profiles[0].attributes.photo" [src]="item.profiles[0].attributes.photo._url" >
+                <img *ngIf="item.profiles.length>1 && !item.profiles[0].attributes.photo" src="assets/img/user.png">
+
+                <!-- Profile 2-->
+                <img class="img2" *ngIf="item.profiles.length>1 && item.profiles[1].attributes.photo" [src]="item.profiles[1].attributes.photo._url" >
+                <img class="img2" *ngIf="item.profiles.length>1 && !item.profiles[1].attributes.photo" src="assets/img/user.png">
+
+                <!-- One Profile-->
+                <img *ngIf="item.profiles.length==1 && item.profiles[0].attributes.photo" [src]="item.profiles[0].attributes.photo._url" >
+                <img *ngIf="item.profiles.length==1 && !item.profiles[0].attributes.photo" src="assets/img/user.png">
+            </ion-avatar>
+            <h2 style="text-wrap: normal">
+                <span *ngFor="let profile of item.profiles">{{profile.attributes.name}}</span>
+            </h2>
+            <p *ngIf="item.message">{{item.message.attributes.message}}</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

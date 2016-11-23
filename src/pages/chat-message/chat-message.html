@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>{{'Chat' | translate}}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only>
+                <ion-icon name="information-circle"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let item of data">
+            {{item}}
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-input [(ngModel)]="form.message" type="text" placeholder="Message"></ion-input>
+        <ion-buttons end>
+            <button ion-button color="primary" (click)="onSendMessage()">
+                <ion-icon name="send"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

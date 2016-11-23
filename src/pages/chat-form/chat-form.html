@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-searchbar [(ngModel)]="words" (ionInput)="doSearch()" (ionCancel)="doCancel()"
+                       [placeholder]="placeholder"></ion-searchbar>
+
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content >
+    <ion-list>
+        <ion-item *ngFor="let item of data">
+            <ion-avatar item-left>
+                <img *ngIf="!item.photo" src="assets/img/user.png">
+                <img *ngIf="item.photo" [src]="item.photo.url()">
+            </ion-avatar>
+            <ion-label>
+                <h2>{{item.username}}</h2>
+                <p>{{item.name}}</p>
+            </ion-label>
+            <ion-checkbox color="primary" [(ngModel)]="item.checked" item-right></ion-checkbox>
+        </ion-item>
+
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+        <ion-toolbar>
+            <ion-input [(ngModel)]="form.text" type="text" placeholder="Message" ></ion-input>
+            <ion-buttons end>
+                <button ion-button color="primary" (click)="onCreateChannel()">
+                    <ion-icon name="send"></ion-icon>
+                </button>
+            </ion-buttons>
+        </ion-toolbar>
+</ion-footer>

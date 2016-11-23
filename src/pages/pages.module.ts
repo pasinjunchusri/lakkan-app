@@ -3,6 +3,8 @@ import {NgModule} from '@angular/core';
 import {Http} from '@angular/http';
 import {CommonModule} from '@angular/common';
 
+import _ from 'underscore';
+
 // External Libs
 import {MomentModule} from 'angular2-moment';
 import {IonicImageLoader} from 'ionic-image-loader';
@@ -63,8 +65,9 @@ import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal
 import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
 import {ExternalLibProvider} from "../providers/external-lib";
 import {TabCapturePage} from "./tab-capture/tab-capture";
-
-import _ from 'underscore';
+import {ChatChannelPage} from "./chat-channel/chat-channel";
+import {ChatFormPage} from "./chat-form/chat-form";
+import {ChatMessagePage} from "./chat-message/chat-message";
 
 declare var window: any;
 
@@ -89,6 +92,11 @@ export const APP_PAGES = [
     AboutPage,
     UserAvatarPage,
     GmapsAutocompleteModalPage,
+
+    // Chat
+    ChatChannelPage,
+    ChatFormPage,
+    ChatMessagePage,
 
     // Modal
     AlbumListModalPage,
