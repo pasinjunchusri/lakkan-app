@@ -53,7 +53,7 @@ export class AlbumFormModalComponent {
         if (form.valid) {
             console.log(this.form);
             this.ionicUtil.onLoading();
-            this.provider.put(this.form.values).then(parseItem => {
+            this.provider.put(this.form.value).then(parseItem => {
                 this.ionicUtil.endLoading();
                 this.viewCtrl.dismiss(parseItem);
             });

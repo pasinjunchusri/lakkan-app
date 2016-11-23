@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {ParsePushProvider} from "./parse-push";
 import {IonicUtilProvider} from "./ionic-util";
 import {IUserFollow} from "../models/user.model";
@@ -43,7 +43,7 @@ export class UserProvider {
     }
 
     current(): any {
-        return Parse.User.current();
+        return new Parse.User.current();
     }
 
     fetch() {
@@ -71,19 +71,8 @@ export class UserProvider {
         return Parse.User.requestPasswordReset(email);
     }
 
-    profile(user: any) {
-        return new Promise((resolve, reject) => {
-            new Parse.Query('UserDataProvider').equalTo('user', user).first().then((userData) => {
-                if (userData) {
-                    resolve(userData);
-                } else {
-                    reject(Parse.Promise.error({
-                        code   : 1,
-                        message: 'UserProvider Data not found'
-                    }));
-                }
-            }, reject);
-        });
+    profile(username: string) {
+        return Parse.Cloud.run('profile', {username: username})
     }
 
     logout(): void {

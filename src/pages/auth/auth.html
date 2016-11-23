@@ -14,13 +14,14 @@
 <ion-content>
 
     <div [ngSwitch]="authType">
-        <form *ngSwitchCase="'login'" [formGroup]="formLogin"  #rFormLogin="ngForm" (ngSubmit)="login(rFormLogin)">
+        <form *ngSwitchCase="'login'" [formGroup]="formLogin" #rFormLogin="ngForm" (ngSubmit)="login(rFormLogin)">
             <ion-list>
                 <ion-item>
                     <ion-label floating>{{'Username' | translate}}</ion-label>
                     <ion-input type="text" formControlName="username"></ion-input>
                 </ion-item>
-                <ion-item class="form-error-list" *ngIf="!formLogin.controls.username.pristine && !formLogin.controls.username.valid">
+                <ion-item class="form-error-list"
+                          *ngIf="!formLogin.controls.username.pristine && !formLogin.controls.username.valid">
                     <p class="form-error" item-right
                        *ngIf="!formLogin.controls.username.pristine && formLogin.controls.username.hasError('required')">
                         {{'This is a required field.' | translate}}
@@ -53,13 +54,14 @@
                     <a ion-button block clear full (click)="resetPassword()">{{'Forgot Password'|translate}}</a>
                 </ion-col>
                 <ion-col>
-                    <button ion-button block full color="secondary" type="submit">{{'Log in' | translate}}
+                    <button ion-button block full color="primary" type="submit">{{'Log in' | translate}}
                     </button>
                 </ion-col>
             </ion-row>
         </form>
 
-        <form *ngSwitchCase="'signup'" [formGroup]="formSignup"  #rFormSignup="ngForm" (ngSubmit)="createUser(rFormSignup)">
+        <form *ngSwitchCase="'signup'" [formGroup]="formSignup" #rFormSignup="ngForm"
+              (ngSubmit)="createUser(rFormSignup)">
             <ion-list>
                 <ion-item>
                     <ion-label floating>{{'Name'| translate}} *</ion-label>
@@ -82,6 +84,19 @@
                           *ngIf="!formSignup.controls.email.pristine && !formSignup.controls.email.valid">
                     <p class="form-error" item-right
                        *ngIf="!formSignup.controls.email.pristine && formSignup.controls.email.hasError('required')">
+                        {{'This is a required field.' | translate}}
+                    </p>
+                </ion-item>
+
+                <!--Username-->
+                <ion-item>
+                    <ion-label floating>{{'Username' | translate}} *</ion-label>
+                    <ion-input #username type="text" formControlName="username"></ion-input>
+                </ion-item>
+                <ion-item class="form-error-list"
+                          *ngIf="!formSignup.controls.username.pristine && !formSignup.controls.username.valid">
+                    <p class="form-error" item-right
+                       *ngIf="!formSignup.controls.username.pristine && formSignup.controls.username.hasError('required')">
                         {{'This is a required field.' | translate}}
                     </p>
                 </ion-item>
@@ -120,7 +135,7 @@
             </ion-list>
             <ion-row>
                 <ion-col>
-                    <button type="submit" full ion-button block color="secondary">{{'Sign up' | translate}}</button>
+                    <button type="submit" full ion-button block color="primary">{{'Sign up' | translate}}</button>
                 </ion-col>
             </ion-row>
         </form>

@@ -28,7 +28,7 @@ export class PhotoCardComponent {
                 private util: IonicUtilProvider,
                 private User: UserProvider
     ) {
-        this.username = User.current().username;
+        this.username = User.current()['username'];
         this._width = util._widthPlatform + 'px';
     }
 

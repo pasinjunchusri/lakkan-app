@@ -1,9 +1,8 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {Validators, FormBuilder} from "@angular/forms";
-import {App, AlertController, NavController} from 'ionic-angular';
-import {Facebook} from 'ionic-native';
+import {App, AlertController, NavController} from "ionic-angular";
+import {Facebook} from "ionic-native";
 import {FacebookService} from "ng2-facebook-sdk";
-
 import {TabsPage} from "../tabs/tabs";
 import {UserAvatarPage} from "../user-avatar/user-avatar";
 import {IonicUtilProvider} from "../../providers/ionic-util";
@@ -89,30 +88,30 @@ export class AuthPage {
         }
     }
 
-    validPassword(password, confirm): boolean {
+    validPassword(password: string, confirm: string): boolean {
+        console.log(password, confirm);
         return (password == confirm) ? true : false;
     }
 
     createUser(form): void {
-        let newForm = this.formSignup;
+        let newForm = this.formSignup.value;
+        console.log(form);
 
-        if (this.validPassword(newForm['password'], newForm['passwordConfirmation'])) {
-            if (form.valid) {
-                this.util.onLoading();
+        if (this.validPassword(newForm.password, newForm.passwordConfirmation)) {
+            this.util.onLoading();
 
-                delete newForm['passwordConfirmation'];
-                console.log(newForm);
-
-                this.provider.signUp(newForm).then(user => {
-                    console.log(user);
-                    this.provider.current = user;
-                    this.util.endLoading();
-                    this.onPageTabs();
-                }, error => {
-                    this.util.endLoading();
-                    this.util.toast(error.message);
-                });
-            }
+            delete newForm['passwordConfirmation'];
+            console.log(newForm);
+            this.provider.signUp(newForm).then(user => {
+                console.log(user);
+                this.provider.current = user;
+                this.util.endLoading();
+                this.onPageTabs();
+            }, error => {
+                console.log(error);
+                this.util.endLoading();
+                this.util.toast(error.message);
+            });
 
         } else {
             this.util.toast('Password not confirm');

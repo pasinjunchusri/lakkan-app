@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {NavController, ModalController, Events} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController, ModalController, Events} from "ionic-angular";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
 import {UserDataProvider} from "../../providers/user-data";
@@ -12,14 +12,15 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
     templateUrl: 'tab-account.html'
 })
 export class TabAccountPage {
+    photo: any;
     user: any;
     username: string;
-    loading: boolean = true;
-    type: string            = 'list';
+    loading: boolean   = true;
+    type: string       = 'list';
     profile: any;
-    moreItem: boolean       = false;
-    _eventName: string      = 'changephoto';
-    eventName: string       = 'account';
+    moreItem: boolean  = false;
+    _eventName: string = 'changephoto';
+    eventName: string  = 'account';
 
     params = {
         limit    : 12,
@@ -37,12 +38,9 @@ export class TabAccountPage {
                 private util: IonicUtilProvider
     ) {
 
-        this.user            = userData.current();
+        this.user            = this.userData.current();
         this.username        = this.user.username;
         this.params.username = this.username;
-
-        this.eventName = this.username;
-        console.log(this.user, this.params);
 
         // More Item
         this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);
@@ -50,28 +48,36 @@ export class TabAccountPage {
 
         this.loading = true;
         this.userData.profile(this.username).then(profile => {
-            this.profile        = profile;
+            this.profile = profile;
             this.loading = false;
         });
 
 
         // Change Photo user
         events.subscribe(this._eventName, imageCroped => {
-            this.util.onLoading();
             this.ParseFile.upload({base64: imageCroped[0]}).then(image => {
                 this.User.updatePhoto(image).then(user => {
                     console.log(user);
                     this.user = user;
                     this.doRefresh();
-                    this.util.endLoading();
                 });
 
             })
-            this.user.photo._url = imageCroped[0];
+            this.user.photo = imageCroped[0];
             this.events.publish('photocrop:close');
         });
 
         setTimeout(() => this.onSelectType(), 1000);
+    }
+
+    ionViewDidLoad(){
+
+
+        if (this.user.photo) {
+            this.photo = this.user.photo._url;
+        } else {
+            this.photo = 'assets/img/user.png';
+        }
     }
 
 
