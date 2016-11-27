@@ -11,9 +11,9 @@
     </ion-navbar>
 </ion-header>
 
-
-<ion-content >
-    <ion-list>
+<ion-content>
+    <loader *ngIf="loading"></loader>
+    <ion-list *ngIf="!loading">
         <ion-item *ngFor="let item of data">
             <ion-avatar item-left>
                 <img *ngIf="!item.photo" src="assets/img/user.png">
@@ -30,12 +30,13 @@
 </ion-content>
 
 <ion-footer>
-        <ion-toolbar>
-            <ion-input [(ngModel)]="form.text" type="text" placeholder="Message" ></ion-input>
-            <ion-buttons end>
-                <button ion-button color="primary" (click)="onCreateChannel()">
-                    <ion-icon name="send"></ion-icon>
-                </button>
-            </ion-buttons>
-        </ion-toolbar>
+    <ion-toolbar>
+        <p padding-left>{{'Select users' | translate}}</p>
+        <ion-buttons end>
+            <button (click)="onCreateChannel()" ion-button icon-right color="primary">
+                {{'Next' | translate}}
+                <ion-icon name="send"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-footer>

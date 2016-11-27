@@ -43,8 +43,18 @@ export class ChatChannelProvider {
         return new Parse.Query(this._ParseObject).get(objectId);
     }
 
-    create(item?: any) {
-        return new this._ParseObject().save(item);
+    create(users: any) {
+        console.log(users);
+        return new Promise((resolve, reject) => {
+            let channel  = new this._ParseObject();
+            let relation = channel.relation('users');
+            relation.add(Parse.User.current());
+            console.log('relation',relation);
+            users.map(user => {
+                relation.add(user);
+            });
+            channel.save().then(resolve, reject);
+        });
     }
 
     put(item: IChatChannel) {

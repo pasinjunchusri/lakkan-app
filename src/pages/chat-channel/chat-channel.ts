@@ -27,7 +27,7 @@ export class ChatChannelPage {
                 private modalCtrl: ModalController,
                 private events: Events
     ) {
-        this.events.subscribe('channel:update', this.onQuery);
+        this.events.subscribe('channel:update', () => this.onQuery());
     }
 
     ionViewDidLoad() {
@@ -42,14 +42,18 @@ export class ChatChannelPage {
     onQuery() {
         this.loading = true;
         this.provider.find().then(data => {
-            this.loading = false;
             console.log(data);
             if (data) {
                 this.data = data;
             } else {
                 this.moreItem = false;
             }
-        })
+            this.loading = false;
+        }, error => console.log(error));
+    }
+
+    doRefresh(){
+        this.onQuery();
     }
 
     onModalChatForm() {

@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {NavController, Events, Content} from 'ionic-angular';
+import {Component, ViewChild} from "@angular/core";
+import {Events, Content, App} from "ionic-angular";
 import {IParams} from "../../models/parse.params.model";
 import {ChatChannelPage} from "../chat-channel/chat-channel";
 import {UserListPage} from "../user-list/user-list";
@@ -21,8 +21,8 @@ export class TabHomePage {
     privacity: string = 'public';
     moreItem: boolean = false;
 
-    constructor(private navCtrl: NavController,
-                private events: Events,
+    constructor(private events: Events,
+                private app: App
     ) {
 
         this.eventName = 'home';
@@ -40,11 +40,11 @@ export class TabHomePage {
     }
 
     public onPageChat() {
-        this.navCtrl.push(ChatChannelPage);
+        this.app.getRootNav().push(ChatChannelPage);
     }
 
     public onPageUsers() {
-        this.navCtrl.push(UserListPage);
+        this.app.getRootNav().push(UserListPage);
     }
 
     public scrollTop() {

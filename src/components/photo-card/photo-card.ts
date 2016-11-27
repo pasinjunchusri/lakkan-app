@@ -9,6 +9,8 @@ import {ProfilePage} from "../../pages/profile/profile";
 import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-modal";
 import {PhotoListPopoverComponent} from "../photo-list-popover/photo-list-popover";
 
+declare const Parse:any;
+
 @Component({
     selector   : 'photo-card',
     templateUrl: 'photo-card.html'
@@ -28,7 +30,7 @@ export class PhotoCardComponent {
                 private util: IonicUtilProvider,
                 private User: UserProvider
     ) {
-        this.username = User.current()['username'];
+        this.username = Parse.User.current()['username'];
         this._width = util._widthPlatform + 'px';
     }
 

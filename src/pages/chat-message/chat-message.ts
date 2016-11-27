@@ -1,5 +1,5 @@
-import {Component, NgZone} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {Component, ViewChild} from "@angular/core";
+import {NavController, NavParams, Content, Events} from "ionic-angular";
 import {ChatMessageProvider} from "../../providers/chat-message";
 import {UserProvider} from "../../providers/user";
 import {IonicUtilProvider} from "../../providers/ionic-util";
@@ -12,28 +12,48 @@ declare var Parse: any;
 })
 export class ChatMessagePage {
 
+    @ViewChild(Content) content: Content;
+
     channel: any;
     user: any;
 
-    data      = [];
+    errorIcon: string      = 'ios-images-outline';
+    errorText: string      = '';
+    loading: boolean       = true;
+    showEmptyView: boolean = false;
+    showErrorView: boolean = false;
+    data                   = [];
+
     form: any = {
         text: ''
     };
 
-    zone: any;
 
     constructor(public navCtrl: NavController,
                 private navParams: NavParams,
-                private provider: ChatMessageProvider,
                 private User: UserProvider,
                 private Message: ChatMessageProvider,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private events: Events
     ) {
-        this.zone = new NgZone({enableLongStackTrace: false});
+
     }
 
     ionViewDidLoad() {
         console.log('Hello ChatMessagePage Page');
+
+        this.events.subscribe('addMessage', message => {
+            console.log('addMessage', message);
+            if (message && message[0]) {
+                this.data.push(message[0]);
+                setTimeout(() => {
+                    if (this.content.scrollToBottom) {
+                        this.content.scrollToBottom(300)
+                    }
+                }, 100);
+            }
+        });
+
         this.channel = this.navParams.get('channel');
         this.user    = this.User.current();
 
@@ -45,35 +65,24 @@ export class ChatMessagePage {
 
         let chatMessage = Parse.Object.extend('ChatMessage');
 
-        let query = new Parse.Query('ChatMessage');
-            //.equalTo('channel', this.channel.obj);
+        let query = new Parse.Query(chatMessage).equalTo('channel', this.channel.obj);
 
-        var subscription = query.subscribe();
-        subscription.on("create", function (message) {
-            console.log("Message created", message);
-            //addMessage(message);
-        });
+        query.subscribe()
+             .on('create', message => this.events.publish('addMessage', {user: message.get('user'), message: message.get('message')}));
 
-        subscription.on("leave", function (obj) {
-            console.log("Message deleted", obj);
-            //deleteMessage(message);
-        });
 
-        query.find().then(data => {
-            console.log(data);
+        // Find
+        query.include('user').find().then(data => {
             if (data) {
-                data.map(item => this.data.push(item));
+                data.map(item => this.events.publish('addMessage', {user: item.user, message: item.message}));
+            } else {
+                this.showEmptyView = true;
             }
+            this.loading = false;
         });
 
-        //this.provider.find(this.channel.obj).then(messages => {
-        //    console.log(messages);
-        //    this.data = messages;
-        //})
-
-
-        console.log(this.channel);
     }
+
 
     onSendMessage() {
         this.util.onLoading();

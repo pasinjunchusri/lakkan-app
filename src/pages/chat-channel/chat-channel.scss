@@ -1,8 +1,32 @@
 page-chat-channel {
+  .img {
+    z-index: 1;
+    border: 2px solid #fff;
+    position: relative;
+    top: 5px;
+    left:2.5px;
+    max-width: 3.5rem !important;
+    max-height: 3.5rem !important;
+  }
   .img2 {
     display: block;
-    position: relative;
-    top: -3px;
-    z-index: -1;
+    position: absolute;
+    top: 10px;
+    z-index: 0;
+    left: 9px;
+    border: 1px solid #fff;
+    max-width: 3.5rem !important;
+    max-height: 3.5rem !important;
   }
+
+  ion-label {
+    h2 {
+      display: inline-block;
+      padding-right: 10px;
+      &:after {
+        content: ','
+      }
+    }
+  }
+
 }

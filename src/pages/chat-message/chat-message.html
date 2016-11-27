@@ -11,9 +11,40 @@
 
 
 <ion-content>
-    <ion-list>
+    <loader *ngIf="loading && !data.length"></loader>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Connection unavailable' | translate }}</p>
+            <button ion-button color="primary" (click)="doTry()">
+                {{ 'Try again' | translate }}
+            </button>
+        </div>
+    </div>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Photos not found' | translate }}</p>
+        </div>
+    </div>
+
+    <ion-list *ngIf="!loading">
         <ion-item *ngFor="let item of data">
-            {{item}}
+            <ion-avatar *ngIf="item.user.id == user.id" item-left="">
+                <img *ngIf="item.user.photo" [src]="item.user.photo._url">
+                <img *ngIf="!item.user.photo" src="assets/img/user.png">
+            </ion-avatar>
+
+            <ion-avatar *ngIf="item.user.id != user.id" item-right="">
+                <img *ngIf="item.user.photo" [src]="item.user.photo._url">
+                <img *ngIf="!item.user.photo" src="assets/img/user.png">
+            </ion-avatar>
+
+            {{item.message}}
+
+            <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
         </ion-item>
     </ion-list>
 </ion-content>
