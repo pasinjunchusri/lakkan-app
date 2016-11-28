@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {NavController, ModalController, Events} from "ionic-angular";
+import {Component, ViewChild} from "@angular/core";
+import {NavController, ModalController, Events, Content} from "ionic-angular";
 import {ChatFormPage} from "../chat-form/chat-form";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import {ChatMessagePage} from "../chat-message/chat-message";
@@ -9,6 +9,9 @@ import {ChatMessagePage} from "../chat-message/chat-message";
     templateUrl: 'chat-channel.html'
 })
 export class ChatChannelPage {
+
+    @ViewChild('Content') content: Content;
+
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
     data                   = [];
@@ -36,25 +39,43 @@ export class ChatChannelPage {
     }
 
     onPageMessage(item) {
-        this.navCtrl.push(ChatMessagePage, {channel: item})
+        this.navCtrl.push(ChatMessagePage, {channel: item.id})
     }
 
-    onQuery() {
-        this.loading = true;
-        this.provider.find().then(data => {
-            console.log(data);
-            if (data) {
-                this.data = data;
-            } else {
-                this.moreItem = false;
-            }
-            this.loading = false;
-        }, error => console.log(error));
+    onQuery(force: boolean = false) {
+        return new Promise((resolve, reject) => {
+            this.loading = true;
+            let query    = force ? this.provider.find() : this.provider.findCache();
+
+            query.then(data => {
+                console.log(data);
+                if (data) {
+                    this.data = data;
+                } else {
+                    this.moreItem = false;
+                }
+                this.loading = false;
+                resolve(data);
+            }, error => reject(error));
+        });
     }
 
-    doRefresh(){
-        this.onQuery();
+
+    public scrollTop() {
+        this.content.scrollToTop();
     }
+
+    public doInfinite(event) {
+        this.params.page++;
+        this.onQuery().then(() => event.complete());
+    }
+
+    public doRefresh(event?) {
+        this.onQuery(true)
+        this.params.page = 1;
+        this.onQuery().then(() => event.complete());
+    }
+
 
     onModalChatForm() {
         this.modalCtrl.create(ChatFormPage).present();

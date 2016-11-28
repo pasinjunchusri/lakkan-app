@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, App} from 'ionic-angular';
 import {PhotoPage} from "../../pages/photo/photo";
 import {GalleryProvider} from "../../providers/gallery";
 import {IonicUtilProvider} from "../../providers/ionic-util";
@@ -34,6 +34,7 @@ export class TabSearchPage {
     constructor(private navCtrl: NavController,
                 private provider: GalleryProvider,
                 private util: IonicUtilProvider,
+                private app: App
     ) {
 
         // Translate Search Bar Placeholder
@@ -44,11 +45,13 @@ export class TabSearchPage {
     }
 
     openSearchMap() {
-        this.navCtrl.push(TabSearchMapPage);
+        //this.navCtrl.push(TabSearchMapPage);
+        this.app.getRootNav().push(TabSearchMapPage);
     }
 
     openPhoto(item) {
-        this.navCtrl.push(PhotoPage, {item: item});
+        //this.navCtrl.push(PhotoPage, {item: item});
+        this.app.getRootNav().push(PhotoPage, {item: item});
     }
 
     feed() {

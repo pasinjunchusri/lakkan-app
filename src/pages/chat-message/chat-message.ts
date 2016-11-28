@@ -3,6 +3,7 @@ import {NavController, NavParams, Content, Events} from "ionic-angular";
 import {ChatMessageProvider} from "../../providers/chat-message";
 import {UserProvider} from "../../providers/user";
 import {IonicUtilProvider} from "../../providers/ionic-util";
+import {ChatChannelProvider} from "../../providers/chat-channel";
 
 declare var Parse: any;
 
@@ -32,6 +33,7 @@ export class ChatMessagePage {
     constructor(public navCtrl: NavController,
                 private navParams: NavParams,
                 private User: UserProvider,
+                private Channel: ChatChannelProvider,
                 private Message: ChatMessageProvider,
                 private util: IonicUtilProvider,
                 private events: Events
@@ -54,32 +56,33 @@ export class ChatMessagePage {
             }
         });
 
-        this.channel = this.navParams.get('channel');
+        let channel_id = this.navParams.get('channel');
         this.user    = this.User.current();
 
-        this.form = {
-            channel: this.channel.obj,
-            user   : this.User.current(),
-            message: ''
-        }
-
-        let chatMessage = Parse.Object.extend('ChatMessage');
-
-        let query = new Parse.Query(chatMessage).equalTo('channel', this.channel.obj);
-
-        query.subscribe()
-             .on('create', message => this.events.publish('addMessage', {user: message.get('user'), message: message.get('message')}));
-
-
-        // Find
-        query.include('user').find().then(data => {
-            if (data) {
-                data.map(item => this.events.publish('addMessage', {user: item.user, message: item.message}));
-            } else {
-                this.showEmptyView = true;
+        this.Channel.get(channel_id).then(channel => {
+            this.channel = channel;
+            this.form = {
+                channel: this.channel,
+                user   : this.User.current(),
+                message: ''
             }
-            this.loading = false;
-        });
+
+            let chatMessage = Parse.Object.extend('ChatMessage');
+            let query       = new Parse.Query(chatMessage).equalTo('channel', this.channel);
+
+            query.subscribe().on('create', message => this.events.publish('addMessage', {user: message.get('user'), message: message.get('message')}));
+
+
+            // Find
+            query.include('user').find().then(data => {
+                if (data) {
+                    data.map(item => this.events.publish('addMessage', {user: item.user, message: item.message}));
+                } else {
+                    this.showEmptyView = true;
+                }
+                this.loading = false;
+            });
+        })
 
     }
 

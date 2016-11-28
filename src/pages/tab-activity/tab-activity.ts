@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, App} from 'ionic-angular';
 import {GalleryActivityProvider} from "../../providers/gallery-activity";
 import {ProfilePage} from "../profile/profile";
 import _ from 'underscore';
@@ -26,7 +26,8 @@ export class TabActivityPage {
     }
 
     constructor(private navCtrl: NavController,
-                private provider: GalleryActivityProvider
+                private provider: GalleryActivityProvider,
+                private app: App
     ) {
 
     }
@@ -36,13 +37,15 @@ export class TabActivityPage {
     }
 
     profile(username: string) {
-        this.navCtrl.push(ProfilePage, {username: username});
+        //this.navCtrl.push(ProfilePage, {username: username});
+        this.app.getRootNav().push(ProfilePage, {username: username});
     }
 
     openPhoto(item) {
 
         console.log();
-        this.navCtrl.push(PhotoPage, {item: item.item.get('gallery')});
+        //this.navCtrl.push(PhotoPage, {item: item.item.get('gallery')});
+        this.app.getRootNav().push(PhotoPage, {item: item.item.get('gallery')});
     }
 
     feed() {

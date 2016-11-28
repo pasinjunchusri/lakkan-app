@@ -3,6 +3,7 @@ import {Events, Content, App} from "ionic-angular";
 import {IParams} from "../../models/parse.params.model";
 import {ChatChannelPage} from "../chat-channel/chat-channel";
 import {UserListPage} from "../user-list/user-list";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-tab-home',
@@ -14,7 +15,7 @@ export class TabHomePage {
     params: IParams = {
         limit    : 10,
         page     : 1,
-        privacity: 'public'
+        privacity: 'public',
     };
 
     eventName: string = 'home';
@@ -22,11 +23,19 @@ export class TabHomePage {
     moreItem: boolean = false;
 
     constructor(private events: Events,
-                private app: App
+                private app: App,
+                private util : IonicUtilProvider
     ) {
 
         this.eventName = 'home';
-        setTimeout(() => this.onSelectPrivacity(), 1000);
+
+        // Load Cache
+        setTimeout(() => this.events.publish(this.eventName + ':cache'), 500);
+
+        // Request
+        if (this.util.isOnline()) {
+            setTimeout(() => this.sendParams(), 10000);
+        }
 
         // More Item
         this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);

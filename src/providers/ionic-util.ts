@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {InAppBrowser} from "ionic-native";
 import {Platform, LoadingController, ToastController, AlertController} from "ionic-angular";
 import {TranslateService} from "ng2-translate";
 import {LoggingProvider} from "./logging";
-import * as _ from 'underscore';
+import * as _ from "underscore";
 
 declare var device: any;
 declare var navigator: any;

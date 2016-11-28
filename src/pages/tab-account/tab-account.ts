@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, ModalController, Events} from "ionic-angular";
+import {NavController, ModalController, Events, App} from "ionic-angular";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
 import {UserDataProvider} from "../../providers/user-data";
@@ -35,7 +35,8 @@ export class TabAccountPage {
                 private modalCtrl: ModalController,
                 private ParseFile: ParseFileProvider,
                 private User: UserProvider,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private app: App
     ) {
 
         this.user            = this.userData.current();
@@ -96,7 +97,8 @@ export class TabAccountPage {
     }
 
     onPageSettings() {
-        this.navCtrl.push(TabAccountSettingsPage)
+        //this.navCtrl.push(TabAccountSettingsPage)
+        this.app.getRootNav().push(TabAccountSettingsPage)
 
     }
 

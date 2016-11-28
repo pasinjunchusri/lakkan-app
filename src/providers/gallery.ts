@@ -1,8 +1,11 @@
-import {Injectable} from '@angular/core';
-
+import {Injectable} from "@angular/core";
 import {IParamsLocation} from "../models/parse.params.location.model";
 import {IGallery} from "../models/gallery.model";
+import * as PouchDB from "pouchdb";
+import _ from "underscore";
 
+
+//PouchDB.debug.enable('*');
 declare var Parse: any;
 
 @Injectable()
@@ -28,7 +31,13 @@ export class GalleryProvider {
 
     private _ParseObject: any = Parse.Object.extend('Gallery', {});
 
+    db: any;
+    data: any[] = [];
+
     constructor() {
+
+        this.db = new PouchDB('Gallery');
+
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () {return this.get(field)},
@@ -46,6 +55,11 @@ export class GalleryProvider {
                 }));
             }
         });
+    }
+
+    cleanDB(): Promise<any> {
+        this.data = [];
+        return new Promise((resolve, reject) => this.db.destroy().then(() => this.db = new PouchDB('Gallery')).then(resolve, reject));
     }
 
     near(params: IParamsLocation) {
@@ -71,9 +85,60 @@ export class GalleryProvider {
         return Parse.Cloud.run('searchGallery', params);
     }
 
-    feed(params: any){
-        return Parse.Cloud.run('feedGallery', params);
+    feed(params: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            Parse.Cloud.run('feedGallery', params).then((data: any) => {
+                let _data = [];
+                _.map(data, (item: any) => {
+                    let obj      = item;
+                    obj._id      = item.id;
+                    obj.user     = item.user.attributes;
+                    obj.comments = [];
+
+                    if (item.commentsTotal) {
+                        let comments = [];
+                        item.comments.map(comment => {
+                            let _comment  = comment.attributes;
+                            _comment.user = comment.user.attributes;
+                            comments.push(_comment);
+                        })
+                        obj.comments = comments;
+                    }
+                    this.db.put(obj);
+                    this.data.push(obj);
+                    _data.push(obj);
+                });
+
+                resolve(_data);
+
+            }, reject);
+        });
     }
+
+    loadCache(): Promise<any> {
+        return new Promise(resolve => {
+            this.db.allDocs({include_docs: true}).then(data => {
+                if (data.total_rows) {
+                    data.rows.map(row => {
+                        //let doc = JSON.stringify(row.doc.data);
+                        if (row.doc.image) {
+                            row.doc.image._url = row.doc.image.url;
+                        }
+                        if (row.doc.user.image) {
+                            row.doc.user.image._url = row.doc.user.image.url;
+                        }
+                        row.doc.createdAt = new Date(row.doc.createdAt);
+                        this.data.push(row.doc);
+                    });
+                }
+                resolve(this.data);
+            })
+        });
+    }
+
+    //feed(params: any){
+    //    return Parse.Cloud.run('feedGallery', params);
+    //}
 
     comments(params) {
         return Parse.Cloud.run('commentGallery', params);

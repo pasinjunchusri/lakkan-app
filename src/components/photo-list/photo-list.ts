@@ -1,10 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from "@angular/core";
 import {Events} from "ionic-angular";
-
 import {IParams} from "../../models/parse.params.model";
 import {GalleryProvider} from "../../providers/gallery";
-
-import _ from 'underscore';
+import _ from "underscore";
 
 @Component({
     selector   : 'photo-list',
@@ -49,6 +47,8 @@ export class PhotoListComponent implements OnInit {
             this.feed();
             this.events.publish('home:top');
         });
+
+        this.events.subscribe(this.event + ':cache', () => this.cache());
     }
 
     private feed(): void {
@@ -75,6 +75,25 @@ export class PhotoListComponent implements OnInit {
             this.errorText     = error.message;
             this.showErrorView = true;
             this.events.publish(this.event + ':complete', null);
+        });
+    }
+
+    private cache(): Promise<any> {
+        console.log('Load cache');
+        return new Promise((resolve, reject) => {
+
+            this.provider.loadCache().then(_data => {
+                if (_data && _data.length) {
+                    _.sortBy(_data, 'createdAt').reverse().map(item => {
+                        this.data.push(item);
+                    });
+                }
+
+                this.provider.cleanDB();
+                resolve(this.data);
+            });
+
+
         });
     }
 

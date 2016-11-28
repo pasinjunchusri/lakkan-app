@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GalleryProvider} from "../../providers/gallery";
-import {Events, NavController} from "ionic-angular";
+import {Events, App} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
 import _ from 'underscore';
 import {IonicUtilProvider} from "../../providers/ionic-util";
@@ -29,7 +29,7 @@ export class PhotoGridComponent implements  OnInit{
 
     constructor(private provider: GalleryProvider,
                 private events: Events,
-                private navCtrl: NavController,
+                private app: App,
                 private util: IonicUtilProvider
     ) {
 
@@ -55,7 +55,7 @@ export class PhotoGridComponent implements  OnInit{
 
     openPhoto(item) {
         console.log(item);
-        this.navCtrl.push(PhotoPage, {item: item});
+        this.app.getRootNav().push(PhotoPage, {item: item});
     }
 
     private feed(): void {

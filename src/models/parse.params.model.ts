@@ -4,4 +4,5 @@ export interface IParams {
     privacity?: string,
     username?: string,
     words?: string;
+    cache?: boolean;
 }
