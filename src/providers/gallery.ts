@@ -4,8 +4,6 @@ import {IGallery} from "../models/gallery.model";
 import * as PouchDB from "pouchdb";
 import _ from "underscore";
 
-
-//PouchDB.debug.enable('*');
 declare var Parse: any;
 
 @Injectable()
@@ -87,51 +85,59 @@ export class GalleryProvider {
 
     feed(params: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            Parse.Cloud.run('feedGallery', params).then((data: any) => {
-                let _data = [];
-                _.map(data, (item: any) => {
-                    let obj      = item;
-                    obj._id      = item.id;
-                    obj.user     = item.user.attributes;
-                    obj.comments = [];
+            this.cleanDB()
+                .then(() => Parse.Cloud.run('feedGallery', params))
+                .then(data => {
+                    let _data = [];
+                    _.map(data, (item: any) => {
+                        let obj      = item;
+                        obj._id      = item.id;
+                        obj.user     = item.user.attributes;
+                        obj.comments = [];
 
-                    if (item.commentsTotal) {
-                        let comments = [];
-                        item.comments.map(comment => {
-                            let _comment  = comment.attributes;
-                            _comment.user = comment.user.attributes;
-                            comments.push(_comment);
-                        })
-                        obj.comments = comments;
-                    }
-                    this.db.put(obj);
-                    this.data.push(obj);
-                    _data.push(obj);
-                });
-
-                resolve(_data);
-
-            }, reject);
+                        if (item.commentsTotal) {
+                            let comments = [];
+                            item.comments.map(comment => {
+                                let _comment  = comment.attributes;
+                                _comment.user = comment.user.attributes;
+                                comments.push(_comment);
+                            })
+                            obj.comments = comments;
+                        }
+                        this.db.put(obj);
+                        this.data.push(obj);
+                        _data.push(obj);
+                    });
+                })
+                .then(() => this.findCache())
+                .then((data: any) => {
+                    resolve(data);
+                }, reject);
         });
     }
 
-    loadCache(): Promise<any> {
+
+    findCache(): Promise<any> {
         return new Promise(resolve => {
             this.db.allDocs({include_docs: true}).then(data => {
-                if (data.total_rows) {
-                    data.rows.map(row => {
-                        //let doc = JSON.stringify(row.doc.data);
-                        if (row.doc.image) {
-                            row.doc.image._url = row.doc.image.url;
-                        }
-                        if (row.doc.user.image) {
-                            row.doc.user.image._url = row.doc.user.image.url;
-                        }
-                        row.doc.createdAt = new Date(row.doc.createdAt);
-                        this.data.push(row.doc);
-                    });
+                if (this.data.length > 0) {
+                    resolve(this.data)
+                } else {
+                    if (data.total_rows) {
+                        data.rows.map(row => {
+                            //let doc = JSON.stringify(row.doc.data);
+                            if (row.doc.image) {
+                                row.doc.image._url = row.doc.image.url;
+                            }
+                            if (row.doc.user.image) {
+                                row.doc.user.image._url = row.doc.user.image.url;
+                            }
+                            row.doc.createdAt = new Date(row.doc.createdAt);
+                            this.data.push(row.doc);
+                        });
+                    }
+                    resolve(this.data);
                 }
-                resolve(this.data);
             })
         });
     }

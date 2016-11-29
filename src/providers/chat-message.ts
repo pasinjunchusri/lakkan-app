@@ -1,11 +1,15 @@
 import {Injectable} from "@angular/core";
 import {IGallery} from "../models/gallery.model";
-import {IChatMessage} from "../models/chat-message.model";
-
+import {IChatMessage, IChatMessageCache} from "../models/chat-message.model";
+import * as PouchDB from "pouchdb";
+import _ from "underscore";
 declare var Parse: any;
 
 @Injectable()
 export class ChatMessageProvider {
+
+    db: any;
+    data: any[] = [];
 
     private _fields = [
         'channel',
@@ -17,6 +21,9 @@ export class ChatMessageProvider {
     private _ParseObject: any = Parse.Object.extend('ChatMessage', {});
 
     constructor() {
+
+        this.db = new PouchDB('ChatMessage', {auto_compaction: true});
+
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
                 get: function () {return this.get(field)},
@@ -36,12 +43,74 @@ export class ChatMessageProvider {
         });
     }
 
-    find(channel: any) {
-        let query = new Parse.Query(this._ParseObject);
-        // Limit by page
-        query.equalTo('channel', channel)
-        query.include('users')
-        return query.find();
+    find(channelId: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.cleanChannel(channelId)
+                .then(() => new Parse.Cloud.run('getChatMessages', {channel: channelId}))
+                .then(data => {
+                    console.log('getChatMessages ', data);
+                    return Promise.all(data.map(item => {
+                        this.data = [];
+                        return this.cache(item);
+                    }))
+                })
+                .then(() => this.findCache(channelId))
+                .then(resolve)
+                .catch(reject);
+        });
+    }
+
+    cache(message: IChatMessageCache): Promise<any> {
+        console.log(message);
+        if (message['image']) {
+            message['image'] = message['image'].attributes;
+        }
+        return this.db.put(message);
+    }
+
+    cleanChannel(channel: string): Promise<any> {
+        return new Promise(resolve => {
+            this.db.allDocs({include_docs: true}).then(result => {
+                return Promise.all(result.rows.map(row => {
+                    if (row.doc.channel == channel) {
+                        return this.db.remove(row.doc)
+                    }
+                })).then(resolve)
+            })
+
+
+        });
+    }
+
+
+    findCache(channelId: string): Promise<any> {
+        return new Promise(resolve => {
+            if (this.data.length > 0) {
+                let result = _.filter(this.data, item => item.channel == channelId);
+                resolve(result);
+            } else {
+                this.db.allDocs({include_docs: true}).then(data => {
+                    this.data = [];
+                    if (data.total_rows) {
+                        data.rows.map(row => this.data.push(row.doc));
+                        let currentUser = new Parse.User.current();
+                        // Update Photo user
+                        this.data       = this.data.map(message => {
+                            if (message.user.id === currentUser.id) {
+                                message.user.photo = currentUser['photo'];
+                            }
+                            if (message.createdAt) {
+                                message.createdAt = new Date(message.createdAt)
+                            }
+                            console.log(message);
+                            return message;
+                        });
+                    }
+                    let result = _.filter(this.data, item => item.channel == channelId);
+                    resolve(result)
+                });
+            }
+        });
     }
 
 

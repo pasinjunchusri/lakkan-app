@@ -1,17 +1,17 @@
 import {Component, ViewChild} from "@angular/core";
-import {NavController, ModalController, Events, Content} from "ionic-angular";
-import {ChatFormPage} from "../chat-form/chat-form";
+import {NavController, Content, ViewController, App, NavParams} from "ionic-angular";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import {ChatMessagePage} from "../chat-message/chat-message";
 
 @Component({
-    selector   : 'page-chat-channel',
-    templateUrl: 'chat-channel.html'
+    selector   : 'page-chat-share-photo',
+    templateUrl: 'chat-share-photo.html'
 })
-export class ChatChannelPage {
+export class ChatSharePhotoPage {
 
     @ViewChild('Content') content: Content;
 
+    image: any;
     errorIcon: string      = 'chatbubbles';
     errorText: string      = '';
     data                   = [];
@@ -20,29 +20,29 @@ export class ChatChannelPage {
     showErrorView: boolean = false;
     moreItem: boolean      = false;
 
-    params = {
-        limit: 20,
-        page : 1
-    }
 
     constructor(public navCtrl: NavController,
                 private provider: ChatChannelProvider,
-                private modalCtrl: ModalController,
-                private events: Events
+                private viewCtrl: ViewController,
+                private app: App,
+                private params: NavParams
     ) {
-        this.events.subscribe('channel:update', () => this.find());
     }
 
     ionViewDidLoad() {
         console.log('Hello ChatChannelPage Page');
-        this.findCache().then(cache => {
-            console.log('cache', cache);
-            this.find();
-        });
+
+        this.image = this.params.get('image');
+
+        console.log(this.image);
+
+        this.findCache();
     }
 
     onPageMessage(item) {
-        this.navCtrl.push(ChatMessagePage, {channel: item.id});
+        this.dismiss();
+        this.app.getRootNav().push(ChatMessagePage, {channel: item.id, image: this.image});
+        //this.navCtrl.push(ChatMessagePage, {channel: item.id, photo: this.photo});
     }
 
 
@@ -103,19 +103,13 @@ export class ChatChannelPage {
         this.content.scrollToTop();
     }
 
-    public doInfinite(event) {
-        this.params.page++;
-        this.find().then(() => event.complete());
-    }
 
     public doRefresh(event?) {
-        this.params.page = 1;
         this.find().then(() => event.complete());
     }
 
-
-    onModalChatForm() {
-        this.modalCtrl.create(ChatFormPage).present();
+    dismiss() {
+        this.viewCtrl.dismiss();
     }
 
 }

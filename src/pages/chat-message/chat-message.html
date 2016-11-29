@@ -30,23 +30,33 @@
         </div>
     </div>
 
-    <ion-list *ngIf="!loading">
-        <ion-item *ngFor="let item of data">
-            <ion-avatar *ngIf="item.user.id == user.id" item-left="">
-                <img *ngIf="item.user.photo" [src]="item.user.photo._url">
-                <img *ngIf="!item.user.photo" src="assets/img/user.png">
-            </ion-avatar>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-            <ion-avatar *ngIf="item.user.id != user.id" item-right="">
-                <img *ngIf="item.user.photo" [src]="item.user.photo._url">
-                <img *ngIf="!item.user.photo" src="assets/img/user.png">
-            </ion-avatar>
+    <div *ngIf="!loading">
 
-            {{item.message}}
+        <div class="message-wrapper" *ngFor="let item of data">
 
-            <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
-        </ion-item>
-    </ion-list>
+            <div>
+                <img class="profile-pic" [ngClass]="item.class" *ngIf="item.user.photo" [src]="item.user.photo._url">
+                <img class="profile-pic" [ngClass]="item.class" *ngIf="!item.user.photo" src="assets/img/user.png">
+
+                <div class="chat-bubble " [ngClass]="item.class">
+
+                    <img *ngIf="item.image" [src]="item.image.image._url"/>
+
+                    <div class="message"> {{item.message}}</div>
+
+                    <div class="message-detail">
+                        <span class="bold">{{item.user.username}}</span>,
+                        <span>{{item.createdAt | amTimeAgo}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </ion-content>
 
 <ion-footer>

@@ -11,8 +11,6 @@ import _ from 'underscore';
     templateUrl: 'user-list.html'
 })
 export class UserListPage {
-
-
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
     data                   = [];

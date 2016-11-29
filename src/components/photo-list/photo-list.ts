@@ -61,9 +61,7 @@ export class PhotoListComponent implements OnInit {
 
         this.provider.feed(this.params).then(data => {
             if (data && data.length) {
-                _.sortBy(data, 'createdAt').reverse().map(item => {
-                    this.data.push(item);
-                });
+                _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
                 this.events.publish(this.event + ':moreItem', true);
             } else {
                 this.showEmptyView = false;
@@ -82,13 +80,10 @@ export class PhotoListComponent implements OnInit {
         console.log('Load cache');
         return new Promise((resolve, reject) => {
 
-            this.provider.loadCache().then(_data => {
+            this.provider.findCache().then(_data => {
                 if (_data && _data.length) {
-                    _.sortBy(_data, 'createdAt').reverse().map(item => {
-                        this.data.push(item);
-                    });
+                    _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
                 }
-
                 this.provider.cleanDB();
                 resolve(this.data);
             });

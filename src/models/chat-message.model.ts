@@ -10,3 +10,12 @@ export interface IChatMessage {
     url?: any;
     save?: any;
 }
+
+
+export interface IChatMessageCache {
+    _id: string;
+    message: string;
+    user: any;
+    channel: string;
+    createdAt: any;
+}

@@ -1,9 +1,9 @@
 <ion-header>
     <ion-navbar color="primary">
         <ion-title>{{'Chats'| translate}}</ion-title>
-        <ion-buttons end>
-            <button ion-button icon-only (click)="onModalChatForm()">
-                <ion-icon name="add"></ion-icon>
+        <ion-buttons start>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -57,7 +57,4 @@
         </ion-item>
     </ion-list>
 
-    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
 </ion-content>

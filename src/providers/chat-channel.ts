@@ -46,10 +46,15 @@ export class ChatChannelProvider {
             this.cleanDB()
                 .then(() => Parse.Cloud.run('getChatChannel'))
                 .then(data => {
-                    console.log(data);
                     data.map(item => {
-                        let obj = item;
-                        obj._id = item.id;
+                        let obj      = item;
+                        obj._id      = item.id;
+                        obj.profiles = item.profiles.map(profile => profile.attributes);
+                        obj.users    = item.users.map(user => user.attributes);
+                        if (item.message) {
+                            obj.message = item.message.attributes;
+                        }
+
                         console.info(obj);
                         this.db.put(obj);
                     });
@@ -74,20 +79,10 @@ export class ChatChannelProvider {
                 resolve(this.data)
             } else {
                 this.db.allDocs({include_docs: true}).then(data => {
-                    this.data = [];
                     if (data.total_rows) {
-                        data.rows.map(row => {
-                            //let doc = JSON.stringify(row.doc.data);
-                            row.doc.createdAt = new Date(row.doc.createdAt);
-                            this.data.push(row.doc);
-                        });
-                        resolve(this.data);
-                        console.info('cache', this.data);
-                    } else {
-                        this.find().then(data => {
-                            resolve(this.data);
-                        })
+                        this.data = data.rows.map(row => row.doc);
                     }
+                    resolve(this.data);
                 })
             }
         });
@@ -98,18 +93,17 @@ export class ChatChannelProvider {
         return new Parse.Query(this._ParseObject).get(objectId);
     }
 
-    create(users: any) {
-        console.log(users);
-        return new Promise((resolve, reject) => {
-            let channel  = new this._ParseObject();
-            let relation = channel.relation('users');
-            relation.add(Parse.User.current());
-            console.log('relation', relation);
-            users.map(user => {
-                relation.add(user);
-            });
-            channel.save().then(resolve, reject);
-        });
+    create(users: any): Promise<any> {
+        // Define new Parse Object in memory
+        let channel  = new this._ParseObject();
+        // Define relattion in Parse Object
+        let relation = channel.relation('users');
+        // Add Actual user
+        users.push(new Parse.User.current());
+        // Map Users for relation
+        users.map(user => relation.add(user));
+        // Create and save new Channel
+        return channel.save()
     }
 
     put(item: IChatChannel) {

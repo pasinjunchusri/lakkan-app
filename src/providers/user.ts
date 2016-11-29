@@ -2,11 +2,20 @@ import {Injectable} from "@angular/core";
 import {ParsePushProvider} from "./parse-push";
 import {IonicUtilProvider} from "./ionic-util";
 import {IUserFollow} from "../models/user.model";
-
+import * as PouchDB from "pouchdb";
+//import _ from "underscore";
 declare var Parse: any;
 
 @Injectable()
 export class UserProvider {
+    db: any;
+    dbFollowing: any;
+    dbFolllowers: any;
+
+    data: any[]          = [];
+    dataFollowers: any[] = [];
+    dataFollowing: any[] = [];
+
     private _fields          = [
         'name',
         'username',
@@ -22,6 +31,11 @@ export class UserProvider {
 
     constructor(private ParsePush: ParsePushProvider, private util: IonicUtilProvider) {
         this.cordova = this.util.cordova;
+
+        // Start
+        this.db           = new PouchDB('User');
+        this.dbFollowing  = new PouchDB('UserFollowing');
+        this.dbFolllowers = new PouchDB('UserFollowers');
 
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
@@ -178,16 +192,46 @@ export class UserProvider {
         return Parse.Cloud.run('listUsers', params)
     }
 
-    getFollowers(username: string) {
-        return Parse.Cloud.run('getFollowers', {username: username})
-    }
-
     getLikers(galleryId: string) {
         return Parse.Cloud.run('getLikers', {galleryId: galleryId})
     }
 
-    getFollowing(username: string) {
-        return Parse.Cloud.run('getFollowing', {username: username})
+    getFollowers(username: string): Promise<any> {
+        return Parse.Cloud.run('getFollowers', {username: username})
+    }
+
+    getFollowing(username: string, force: boolean = false): Promise<any> {
+        return new Promise(resolve => {
+            if (!force) {
+                if (this.dataFollowing) {
+                    resolve(this.dataFollowing);
+                } else {
+                    this.getFollowingCache().then(resolve)
+                }
+            } else {
+                Parse.Cloud.run('getFollowing', {username: username}).then(data => {
+                    if (data) {
+                        let promises = [];
+                        data.map(item => promises.push(this.dbFollowing.put(item)));
+                        Promise.all(promises)
+                               .then(this.getFollowingCache)
+                               .then(resolve);
+                    }
+                })
+            }
+        });
+    }
+
+    getFollowingCache(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.dbFollowing.allDocs({include_docs: true}).then(result => {
+                if (result.total_rows) {
+                    this.dataFollowing = [];
+                    result.rows.map(row => this.dataFollowing.push(row.doc));
+                    resolve(this.dataFollowing)
+                }
+            })
+        });
     }
 
 }
