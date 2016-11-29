@@ -61,6 +61,11 @@ export const languages: [any]         = [
         code: 'bn',
         flag: 'bn'
     },
+    {
+        name: 'Turkish',
+        code: 'tr',
+        flag: 'tr'
+    },
 
 ];
 export const language_default: string = 'en';
