@@ -53,7 +53,6 @@ export class ChatMessageProvider {
                         if (message['image']) {
                             message['image'] = message['image'].attributes;
                         }
-                        console.log(message);
                         return this.db.put(message);
                     }))
                 })
@@ -64,18 +63,15 @@ export class ChatMessageProvider {
     }
 
     cacheFind(data): Promise<any> {
-        console.log('cacheFind ', data);
         return Promise.all(data.map(message => {
             if (message['image']) {
                 message['image'] = message['image'].attributes;
             }
-            console.log(message);
             return this.db.put(message);
         }))
     }
 
     cache(message: any): Promise<any> {
-        console.log('cache', message);
         return this.db.post(message);
     }
 
@@ -83,7 +79,6 @@ export class ChatMessageProvider {
         return new Promise(resolve => {
             this.db.allDocs({include_docs: true}).then(result => {
                 return Promise.all(result.rows.map(row => {
-                    console.log(row.doc.channel == channel, row.doc);
                     if (row.doc.channel == channel) {
                         return this.db.remove(row.doc);
                     }
@@ -112,7 +107,6 @@ export class ChatMessageProvider {
                             if (message.createdAt) {
                                 message.createdAt = new Date(message.createdAt)
                             }
-                            console.log(message);
                             return message;
                         });
                     }

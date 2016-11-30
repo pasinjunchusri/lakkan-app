@@ -35,9 +35,13 @@ export class ChatChannelPage {
 
     ionViewDidLoad() {
         console.log('Hello ChatChannelPage Page');
-        this.findCache().then(cache => {
-            console.log('cache', cache);
-            this.find();
+        this.provider.findCache().then(data => {
+            console.log('cache', data);
+            if (data) {
+                this.parseResult(data);
+            } else {
+                this.find();
+            }
         });
     }
 
@@ -46,50 +50,31 @@ export class ChatChannelPage {
     }
 
 
-    findCache() {
-        return new Promise((resolve, reject) => {
-            this.loading = true;
-            this.provider.findCache().then(data => {
-                console.log(data);
-                if (data) {
-                    this.data          = data;
-                    this.showEmptyView = false;
-                    this.showErrorView = false;
-                } else {
-                    this.moreItem = false;
-                }
+    parseResult(data) {
+        console.log(data);
+        if (data) {
+            data.map(item => this.data.push(item));
+            this.showEmptyView = false;
+            this.showErrorView = false;
+        } else {
+            this.moreItem = false;
+        }
 
-                if (this.data.length < 1) {
-                    this.showEmptyView = true;
-                }
+        if (this.data.length < 1) {
+            this.showEmptyView = true;
+        }
 
-                this.loading = false;
-                resolve(data);
-            }, error => {
-                this.showErrorView = true;
-                reject(error);
-            });
-        });
+        this.loading = false;
+        return data;
     }
 
     find() {
         return new Promise((resolve, reject) => {
             this.loading = true;
+            this.data    = [];
             this.provider.find().then(data => {
                 console.log(data);
-                if (data) {
-                    this.data          = data;
-                    this.showEmptyView = false;
-                    this.showErrorView = false;
-                } else {
-                    this.moreItem = false;
-                }
-
-                if (this.data.length < 1) {
-                    this.showEmptyView = true;
-                }
-
-                this.loading = false;
+                this.parseResult(data);
                 resolve(data);
             }, error => {
                 this.showErrorView = true;

@@ -97,17 +97,8 @@ export class ChatChannelProvider {
         return new Parse.Query(this._ParseObject).get(objectId);
     }
 
-    create(users: any): Promise<any> {
-        // Define new Parse Object in memory
-        let channel  = new this._ParseObject();
-        // Define relattion in Parse Object
-        let relation = channel.relation('users');
-        // Add Actual user
-        users.push(new Parse.User.current());
-        // Map Users for relation
-        users.map(user => relation.add(user));
-        // Create and save new Channel
-        return channel.save()
+    create(params: {users: any[], message?: string }): Promise<any> {
+        return new Parse.Cloud.run('createChatChannel', params)
     }
 
     put(item: IChatChannel) {

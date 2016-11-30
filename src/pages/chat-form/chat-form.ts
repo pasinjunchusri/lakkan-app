@@ -40,29 +40,36 @@ export class ChatFormPage {
 
     ionViewDidLoad() {
         console.log('Hello ChatFormPage Page');
-        this.User.getFollowing(this.username).then(data => {
+        this.User.followingCache().then(data => {
             if (data) {
-                data.map(item => {
-                    item.checked = false;
-                    this.data.push(item);
-                });
-                this.loading = false;
+                this.parseResult(data);
+            } else {
+                this.User.getFollowing(this.username).then(this.parseResult);
             }
+        })
+    }
+
+    parseResult(data) {
+        this.data = [];
+        data.map(item => {
+            item.checked = false;
+            this.data.push(item);
         });
+        this.loading = false;
     }
 
     dismiss() {
         this.viewCtrl.dismiss();
     }
 
-    onCreateChannel(){
+    onCreateChannel() {
         console.log(this.form);
-        let users = this.data.filter(item => item.checked).map(item => item.userObj);
+        let users = this.data.filter(item => item.checked).map(item => item._id);
         console.log(users);
         if (users.length) {
 
             this.util.onLoading();
-            this.Channel.create(users).then(data => {
+            this.Channel.create({users: users}).then(data => {
                 console.log('saved', data);
                 this.events.publish('channel:update');
                 this.util.endLoading();
