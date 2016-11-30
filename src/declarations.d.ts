@@ -16,5 +16,5 @@
 /// <reference path="../node_modules/typescript-collections/dist/lib/index.d.ts" />
 
 declare module '*';
-declare var plugins: any;
-declare var ParsePushPlugin: any;
+declare const plugins: any;
+declare const ParsePushPlugin: any;

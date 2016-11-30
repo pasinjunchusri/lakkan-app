@@ -8,6 +8,7 @@ import {PhotoPage} from "../photo/photo";
 
 import _ from 'underscore';
 
+declare const Parse:any;
 declare const google: any;
 
 @Component({

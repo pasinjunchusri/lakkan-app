@@ -4,6 +4,7 @@ import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
 import {IonicUtilProvider} from '../../providers/ionic-util';
 import {GalleryProvider} from "../../providers/gallery";
 import {PhotoFeedbackModalComponent} from "../photo-feedback-modal/photo-feedback-modal";
+declare const Parse:any;
 
 @Component({
     selector: 'photo-list-popover',

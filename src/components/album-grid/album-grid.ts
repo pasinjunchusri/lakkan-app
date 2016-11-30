@@ -5,6 +5,7 @@ import {GalleryAlbumProvider} from '../../providers/gallery-album';
 import {AlbumPhotoGridComponent} from '../album-photo-grid/album-photo-grid';
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
+declare const Parse:any;
 
 @Component({
     selector   : 'album-grid',

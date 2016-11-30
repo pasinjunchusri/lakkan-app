@@ -8,6 +8,8 @@ import {UserAvatarPage} from "../user-avatar/user-avatar";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
 
+declare const Parse:any;
+
 @Component({
     selector   : 'page-auth',
     templateUrl: 'auth.html'

@@ -9,6 +9,7 @@ import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
 import {ImageLoaderConfig} from "ionic-image-loader";
 import {ParsePushProvider} from "../providers/parse-push";
 
+declare const Parse:any;
 
 @Component({
     template: `<ion-nav [root]="rootPage" #content></ion-nav>`
