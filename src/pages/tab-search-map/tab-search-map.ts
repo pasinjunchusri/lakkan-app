@@ -1,21 +1,20 @@
-import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
+import {Component, ViewChild, ElementRef} from "@angular/core";
 import {NavController} from "ionic-angular";
 import {Geolocation} from "ionic-native";
-
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {GalleryProvider} from "../../providers/gallery";
+import {ExternalLibProvider} from "../../providers/external-lib";
 import {PhotoPage} from "../photo/photo";
+import _ from "underscore";
 
-import _ from 'underscore';
-
-declare const Parse:any;
+declare const Parse: any;
 declare const google: any;
 
 @Component({
     selector   : 'page-tab-search-map',
     templateUrl: 'tab-search-map.html',
 })
-export class TabSearchMapPage implements OnInit {
+export class TabSearchMapPage {
 
     @ViewChild('map') mapElement: ElementRef;
 
@@ -33,12 +32,14 @@ export class TabSearchMapPage implements OnInit {
 
     constructor(private util: IonicUtilProvider,
                 private provider: GalleryProvider,
-                private navCtrl: NavController
+                private navCtrl: NavController,
+                private lib: ExternalLibProvider
     ) {
         this.cordova = this.util.cordova;
     }
 
-    ngOnInit() {
+    ionViewDidLoad() {
+        this.lib.googleMaps();
         this.loadMap();
     }
 

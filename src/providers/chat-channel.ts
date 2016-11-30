@@ -20,7 +20,7 @@ export class ChatChannelProvider {
 
     constructor() {
 
-        this.db = new PouchDB('ChatChannel');
+        this.db = new PouchDB('ChatChannel', {auto_compaction: true});
 
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
@@ -69,7 +69,11 @@ export class ChatChannelProvider {
 
     cleanDB(): Promise<any> {
         this.data = [];
-        return new Promise((resolve, reject) => this.db.destroy().then(() => this.db = new PouchDB('ChatChannel')).then(resolve, reject));
+        return new Promise(resolve => {
+            this.db
+                .allDocs({include_docs: true})
+                .then(result => Promise.all(result.rows.map(row => this.db.remove(row.doc))).then(resolve));
+        });
     }
 
 

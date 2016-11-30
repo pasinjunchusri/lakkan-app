@@ -30,11 +30,11 @@ export class TabHomePage {
         this.eventName = 'home';
 
         // Load Cache
-        setTimeout(() => this.events.publish(this.eventName + ':cache'), 500);
+        //setTimeout(() => this.events.publish(this.eventName + ':cache'), 500);
 
         // Request
         if (this.util.isOnline()) {
-            setTimeout(() => this.sendParams(), 10000);
+            setTimeout(() => this.sendParams(), 500);
         }
 
         // More Item

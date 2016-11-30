@@ -78,9 +78,10 @@ export class PhotoListComponent implements OnInit {
 
     private cache(): Promise<any> {
         console.log('Load cache');
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
 
             this.provider.findCache().then(_data => {
+                console.log('cache', _data);
                 if (_data && _data.length) {
                     _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
                 }

@@ -1,11 +1,10 @@
 import {Component, ViewChild} from "@angular/core";
 import {NavController, NavParams, Content, Events} from "ionic-angular";
 import {ChatMessageProvider} from "../../providers/chat-message";
-import {UserProvider} from "../../providers/user";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import _ from "underscore";
-declare var Parse: any;
+declare const Parse: any;
 
 @Component({
     selector   : 'page-chat-message',
@@ -35,7 +34,6 @@ export class ChatMessagePage {
 
     constructor(public navCtrl: NavController,
                 private navParams: NavParams,
-                private oni: UserProvider,
                 private Channel: ChatChannelProvider,
                 private Message: ChatMessageProvider,
                 private util: IonicUtilProvider,
@@ -62,7 +60,7 @@ export class ChatMessagePage {
                     _id      : item.id,
                     message  : item.attributes.message,
                     user     : item.attributes.user.attributes,
-                    channel  : item.attributes.channel.id,
+                    channel  : this.channelId,
                     createdAt: item.createdAt,
                     class    : 'right',
                 };
@@ -96,7 +94,11 @@ export class ChatMessagePage {
                     this.form.image = this.image;
                     this.onSendMessage();
                 }
+            }).catch(error => {
+                console.log('Error');
             });
+        }).catch(error => {
+            console.log('Error');
         });
     }
 

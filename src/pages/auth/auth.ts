@@ -7,6 +7,7 @@ import {TabsPage} from "../tabs/tabs";
 import {UserAvatarPage} from "../user-avatar/user-avatar";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
+import {ExternalLibProvider} from "../../providers/external-lib";
 
 declare const Parse:any;
 
@@ -34,8 +35,14 @@ export class AuthPage {
                 private util: IonicUtilProvider,
                 private fb: FacebookService,
                 private app: App,
-                private formBuilder: FormBuilder
+                private formBuilder: FormBuilder,
+                private lib: ExternalLibProvider
     ) {
+
+        if (!this.util.cordova) {
+            this.lib.facebookLoad();
+        }
+
         // Define Facebook Browser and Native
         this.facebookNative  = Facebook;
         this.facebookBrowser = fb;

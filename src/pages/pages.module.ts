@@ -63,7 +63,6 @@ import {UserAvatarPage} from "./user-avatar/user-avatar";
 import {GmapsAutocompleteModalPage} from "../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 import {PhotoShareModal} from "../components/photo-share-modal/photo-share-modal";
 import {IonPhotoModule} from "../components/ion-photo/ion-photo.module";
-import {ExternalLibProvider} from "../providers/external-lib";
 import {TabCapturePage} from "./tab-capture/tab-capture";
 import {ChatChannelPage} from "./chat-channel/chat-channel";
 import {ChatFormPage} from "./chat-form/chat-form";
@@ -154,16 +153,11 @@ export class PagesModule {
 
     constructor(private translate: TranslateService,
                 private config: Config,
-                private lib: ExternalLibProvider,
                 private platform: Platform
     ) {
         this.translateConfig();
         setTimeout(() => {
             this.androidPermission();
-            if (!this.platform.is('cordova')) {
-                this.lib.facebookLoad();
-                this.lib.googleMaps();
-            }
         }, 1000);
     }
 

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {IGallery} from "../models/gallery.model";
-import {IChatMessage, IChatMessageCache} from "../models/chat-message.model";
+import {IChatMessage} from "../models/chat-message.model";
 import * as PouchDB from "pouchdb";
 import _ from "underscore";
 declare var Parse: any;
@@ -45,13 +45,16 @@ export class ChatMessageProvider {
 
     find(channelId: string): Promise<any> {
         return new Promise((resolve, reject) => {
+            this.data = [];
             this.cleanChannel(channelId)
                 .then(() => new Parse.Cloud.run('getChatMessages', {channel: channelId}))
                 .then(data => {
-                    console.log('getChatMessages ', data);
-                    return Promise.all(data.map(item => {
-                        this.data = [];
-                        return this.cache(item);
+                    return Promise.all(data.map(message => {
+                        if (message['image']) {
+                            message['image'] = message['image'].attributes;
+                        }
+                        console.log(message);
+                        return this.db.put(message);
                     }))
                 })
                 .then(() => this.findCache(channelId))
@@ -60,25 +63,32 @@ export class ChatMessageProvider {
         });
     }
 
-    cache(message: IChatMessageCache): Promise<any> {
-        console.log(message);
-        if (message['image']) {
-            message['image'] = message['image'].attributes;
-        }
-        return this.db.put(message);
+    cacheFind(data): Promise<any> {
+        console.log('cacheFind ', data);
+        return Promise.all(data.map(message => {
+            if (message['image']) {
+                message['image'] = message['image'].attributes;
+            }
+            console.log(message);
+            return this.db.put(message);
+        }))
+    }
+
+    cache(message: any): Promise<any> {
+        console.log('cache', message);
+        return this.db.post(message);
     }
 
     cleanChannel(channel: string): Promise<any> {
         return new Promise(resolve => {
             this.db.allDocs({include_docs: true}).then(result => {
                 return Promise.all(result.rows.map(row => {
+                    console.log(row.doc.channel == channel, row.doc);
                     if (row.doc.channel == channel) {
-                        return this.db.remove(row.doc)
+                        return this.db.remove(row.doc);
                     }
                 })).then(resolve)
-            })
-
-
+            });
         });
     }
 
