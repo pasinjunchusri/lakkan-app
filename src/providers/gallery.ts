@@ -6,7 +6,7 @@ import * as PouchDB from "pouchdb";
 declare var Parse: any;
 
 //PouchDB.debug.enable('*');
-// PouchDB.debug.disable();
+//PouchDB.debug.disable();
 
 @Injectable()
 export class GalleryProvider {
@@ -114,10 +114,10 @@ export class GalleryProvider {
                 views        : item.views,
                 user         : {
                     id      : item.user.user.id,
-                    name    : item.user.user.attributes.name,
-                    username: item.user.user.attributes.username,
-                    photo   : item.user.user.attributes.photo,
-
+                    name    : item.user.name,
+                    username: item.user.username,
+                    photo   : item.user.photo,
+                    status   : item.user.status,
                 },
             };
 
