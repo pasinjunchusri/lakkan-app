@@ -32,7 +32,7 @@ export class ExternalLibProvider {
             this.util.tryConnect().then(() => {
                 this.facebookLib();
             }).catch(() => {
-                this.util.toast('Google Maps not avaible');
+                this.util.toast('Facebook not avaible');
             });
         }
     }
@@ -61,7 +61,7 @@ export class ExternalLibProvider {
             xfbml  : true,
             version: facebook_appVersion
         };
-        setTimeout(() => this.fb.init(fbParams), 2000);
+        setTimeout(() => this.fb.init(fbParams), 500);
     }
 
 }
