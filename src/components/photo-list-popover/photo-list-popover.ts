@@ -38,7 +38,7 @@ export class PhotoListPopoverComponent {
     ) {
         this.item = this.navParams.get('item');
         console.log(this.item);
-        this.canEdit = (this.username == this.item.user.attributes['username']) ? true : false;
+        this.canEdit = (this.username == this.item.user.username) ? true : false;
         this.util.translate('Destroy photo').then((res: string) => this._translateDestroyTitle = res);
         this.util.translate('You are sure destroy this photo?').then((res: string) => this._translateDestroyMessage = res);
         this.util.translate('Cancel').then((res: string) => this._translateCancel = res);
