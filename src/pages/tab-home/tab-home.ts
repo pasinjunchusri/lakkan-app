@@ -24,22 +24,36 @@ export class TabHomePage {
 
     constructor(private events: Events,
                 private app: App,
-                private util : IonicUtilProvider
+                private util: IonicUtilProvider
     ) {
 
         this.eventName = 'home';
+    }
+
+    ionViewDidLoad(){
+        console.log('ionViewDidLoad home');
 
         // Load Cache
-        //setTimeout(() => this.events.publish(this.eventName + ':cache'), 500);
+        setTimeout(() => this.events.publish(this.eventName + ':cache', this.params), 500);
 
         // Request
-        if (this.util.isOnline()) {
-            setTimeout(() => this.sendParams(), 500);
-        }
+        //if (this.util.isOnline()) {
+        //    setTimeout(() => this.sendParams(), 2000);
+        //}
+    }
 
+
+    ionViewWillEnter(){
+        console.info('ionViewWillEnter home');
         // More Item
-        this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);
-        this.events.subscribe('home:top', () => this.scrollTop());
+        this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem);
+        this.events.subscribe('scroll:up', () => this.scrollTop());
+    }
+
+    ionViewDidLeave(){
+        console.warn('ionViewDidLeave home');
+        this.events.unsubscribe(this.eventName + ':moreItem');
+        this.events.unsubscribe('scroll:up');
     }
 
 
