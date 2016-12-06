@@ -5,5 +5,11 @@
 </ion-header>
 
 <ion-content padding>
-
+    <input *ngIf="!cordova"
+           #inputFile
+           type="file"
+           (change)="onChange($event)"
+           accept="image/x-png, image/gif, image/jpeg"
+           max-size="2048"
+           style="display: none;">
 </ion-content>

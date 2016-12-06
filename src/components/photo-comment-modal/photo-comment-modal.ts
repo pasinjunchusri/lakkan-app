@@ -1,8 +1,10 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {NavParams, ViewController} from "ionic-angular";
 import {GalleryCommentProvider} from "../../providers/gallery-comment";
 import {IonicUtilProvider} from "../../providers/ionic-util";
-import _ from 'underscore';
+import {GalleryProvider} from "../../providers/gallery";
+import _ from "underscore";
+declare const Parse: any;
 
 @Component({
     selector   : 'photo-comment-modal',
@@ -19,58 +21,91 @@ export class PhotoCommentModalComponent {
     moreItem: boolean      = false;
     gallery: any;
     form: any;
-    params                 = {
-        limit  : 20,
-        page   : 1,
-        gallery: null
+    galleryId: string;
+    user: any;
+
+    params = {
+        limit    : 20,
+        page     : 1,
+        galleryId: null
     };
 
     constructor(private navparams: NavParams,
                 private viewCtrl: ViewController,
                 private provider: GalleryCommentProvider,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private Gallery: GalleryProvider
     ) {
-        this.gallery        = this.navparams.data.obj;
-        this.params.gallery = this.gallery;
-        this.form           = {
-            gallery: this.gallery,
-            text   : ''
-        }
-        this.onQuery();
+        this.form = {
+            text: ''
+        };
+
+        this.user = new Parse.User.current();
+
+        //this.gallery        = this.navparams.data.obj;
+        //this.onQuery();
     }
 
+    //this.params.galleryId = this.gallery.id;
+
+    ionViewWillEnter() {
+        console.info('ionViewWillEnter photoComment');
+        this.galleryId = this.navparams.data.galleryId;
+        // More Item
+        this.onGallery(this.galleryId);
+        this.params.galleryId = this.galleryId;
+    }
+
+    onGallery(galleryId: string) {
+        this.util.onLoading();
+        this.Gallery.get(galleryId).then(gallery => {
+                this.form.gallery = gallery;
+                return this.onQuery()
+            })
+            .then(() => this.util.endLoading())
+            .catch(error => {
+                this.util.toast('Error');
+                this.util.endLoading();
+                this.loading       = false;
+                this.showErrorView = true;
+            })
+        ;
+    }
 
     onQuery() {
         return new Promise((resolve, reject) => {
-            console.log('Load Feed', this.params, this.loading);
 
             if (this.params.page == 1) {
                 this.data = [];
             }
 
             this.provider.feed(this.params).then((data: [any]) => {
-                if (data && data.length) {
-                    _.sortBy(data, 'createdAt').map(item => {
-                        this.data.push(item);
-                    });
+                if (data) {
+                    this.data = this.parseData(data);
                     this.showErrorView = false;
                     this.showEmptyView = false;
                     this.moreItem      = true;
                 } else {
-                    if (!this.data.length) {
-                        this.showEmptyView = false;
-                    }
-                    this.moreItem = false;
+                    this.showEmptyView = true;
+                    this.moreItem      = false;
                 }
 
                 this.loading = false;
                 resolve(data);
-            }, error => {
+            }).catch(error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 reject(this.errorText)
             });
         });
+    }
+
+    parseData(data: any[]): any[] {
+        return _.sortBy(data, 'createdAt').map(item => {
+            item.class = item.user.id === this.user.id ? 'right' : 'left';
+            return item;
+        });
+
     }
 
     dismiss() {

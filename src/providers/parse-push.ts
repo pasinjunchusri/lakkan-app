@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {Platform} from "ionic-angular";
 
 declare var Parse: any;
@@ -18,10 +18,10 @@ export class ParsePushProvider {
             ParsePushPlugin.getInstallationId((id) => {
                 this._installationId = id;
                 console.log("device installationId: " + id);
-                this.subscribeUser();
-            }, (e) => {
-                //console.log('error', e);
-            });
+                this.subscribeUser().then(user => {
+                    console.log('User subscribe', user);
+                });
+            }, error => console.log);
         }
     }
 
@@ -37,23 +37,22 @@ export class ParsePushProvider {
         })
     }
 
-
     subscribeUser(): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            this.current = Parse.User.current();
+            this.current = new Parse.User.current();
 
             if (ParsePushPlugin && this.current) {
-                ParsePushPlugin.subscribe(this.current['username']);
+                ParsePushPlugin.subscribe(this.current['username'], resolve);
             } else {
                 reject('Not device');
             }
         });
     }
 
-    on(event, callback) {
+    on(event: string, callback: any): void {
         if (ParsePushPlugin) {
-            this.on(event, callback);
+            ParsePushPlugin.on(event, callback);
         }
     }
 

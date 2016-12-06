@@ -39,18 +39,17 @@ export class AuthPage {
                 private lib: ExternalLibProvider
     ) {
 
-        if (!this.util.cordova) {
-            this.lib.facebookLoad();
-        }
-
         // Define Facebook Browser and Native
         this.facebookNative  = Facebook;
         this.facebookBrowser = fb;
-
         this.cordova  = this.util.cordova;
-        this.facebook = this.cordova ? this.facebookNative : this.facebookBrowser;
 
-        //this.formSignup.gender = 'male';
+        if (!this.cordova) {
+            this.loadFacebok();
+        } else {
+            this.facebook = this.facebookNative;
+        }
+
 
         // Translate Search Bar Placeholder
         this.util.translate('Enter your email so we can send you a link to reset your password').then((res: string) => { this.alertTranslate.message = res; });
@@ -60,6 +59,15 @@ export class AuthPage {
         this.util.translate('Email').then((res: string) => { this.alertTranslate.email = res; });
         this.util.translate('Cancel').then((res: string) => { this.alertTranslate.cancel = res; });
         this.util.translate('Submit').then((res: string) => { this.alertTranslate.submit = res; });
+    }
+
+    loadFacebok(){
+        this.lib.facebookLoad().then(()=>{
+            this.facebook = this.facebookBrowser;
+        }).catch(error=>{
+            this.util.toast(error);
+            this.util.tryConnect().then(()=>this.loadFacebok());
+        });
     }
 
     ionViewWillLoad() {
@@ -150,8 +158,6 @@ export class AuthPage {
     }
 
     processFacebookLogin(authData) {
-
-        console.log('Profcess Facebook');
         this.facebook.api('/me?fields=id,name,birthday,last_name,first_name,email,gender', ['public_profile'])
             .then((fbData) => {
                 console.log('fbData', fbData);

@@ -4,5 +4,5 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <photo-card [item]="item"></photo-card>
+    <photo-card *ngIf="!loading" [item]="item"></photo-card>
 </ion-content>

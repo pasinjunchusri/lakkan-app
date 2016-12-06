@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {NavController, App} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController, App} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
 import {GalleryProvider} from "../../providers/gallery";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
-import _ from 'underscore';
+import _ from "underscore";
 import {IParams} from "../../models/parse.params.model";
 
 @Component({
@@ -36,33 +36,35 @@ export class TabSearchPage {
                 private util: IonicUtilProvider,
                 private app: App
     ) {
+    }
 
+    ionViewDidLoad(){
         // Translate Search Bar Placeholder
         this.util.translate('Search').then((res: string) => this.placeholder = res);
         this._width = this.util._widthPlatform / 3 + 'px';
-        this.feed();
-
+        this.cache();
     }
 
     openSearchMap() {
-        //this.navCtrl.push(TabSearchMapPage);
         this.app.getRootNav().push(TabSearchMapPage);
     }
 
     openPhoto(item) {
-        //this.navCtrl.push(PhotoPage, {item: item});
-        this.app.getRootNav().push(PhotoPage, {item: item});
+        this.app.getRootNav().push(PhotoPage, {id: item.id});
     }
 
-    feed() {
-        return new Promise((resolve, reject) => {
-            console.log('Load Feed' , this.params , this.loading);
+    private feed(): Promise<any> {
+        console.log('Load Feed', this.params, this.loading);
 
+        return new Promise((resolve, reject) => {
             if (this.params.page == 1) {
-                this.data = [];
+                this.data    = [];
+                this.loading = true;
             }
 
             this.provider.feed(this.params).then(data => {
+
+                console.log('feed', data);
                 if (data && data.length) {
                     _.sortBy(data, 'createdAt').reverse().map(item => {
                         this.data.push(item);
@@ -76,15 +78,27 @@ export class TabSearchPage {
                     }
                     this.moreItem = false;
                 }
-
-                this.loading = false;
                 resolve(data);
-            }, error => {
+            }).catch(error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 this.loading       = false;
-                reject(this.errorText);
+                reject(error);
             });
+        });
+    }
+
+    private cache(): void {
+        console.log('Load cache', this.params);
+        this.provider.findCache(this.params).then(_data => {
+            console.log('cache', _data);
+            if (_data.length) {
+                _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
+                this.loading = false;
+                this.moreItem      = true;
+            } else {
+                this.feed();
+            }
         });
     }
 

@@ -1,11 +1,10 @@
 import {Component} from "@angular/core";
-import {NavController, ModalController, Events, App} from "ionic-angular";
+import {ModalController, Events, App} from "ionic-angular";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
 import {UserDataProvider} from "../../providers/user-data";
 import {ParseFileProvider} from "../../providers/parse-file";
 import {UserProvider} from "../../providers/user";
-import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-tab-account',
@@ -29,13 +28,11 @@ export class TabAccountPage {
         username : ''
     }
 
-    constructor(private navCtrl: NavController,
-                private userData: UserDataProvider,
+    constructor(private userData: UserDataProvider,
                 private events: Events,
                 private modalCtrl: ModalController,
                 private ParseFile: ParseFileProvider,
                 private User: UserProvider,
-                private util: IonicUtilProvider,
                 private app: App
     ) {
 
@@ -97,7 +94,6 @@ export class TabAccountPage {
     }
 
     onPageSettings() {
-        //this.navCtrl.push(TabAccountSettingsPage)
         this.app.getRootNav().push(TabAccountSettingsPage)
 
     }

@@ -1,9 +1,12 @@
 import {Injectable} from "@angular/core";
 import {IParamsLocation} from "../models/parse.params.location.model";
 import {IGallery} from "../models/gallery.model";
+import {IParams} from "../models/parse.params.model";
 import * as PouchDB from "pouchdb";
+import _ from "underscore";
 
-declare var Parse: any;
+declare const Parse: any;
+declare const require: any;
 
 //PouchDB.debug.enable('*');
 //PouchDB.debug.disable();
@@ -57,7 +60,7 @@ export class GalleryProvider {
         });
     }
 
-    near(params: IParamsLocation): Promise<any> {
+    public near(params: IParamsLocation): Promise<any> {
         let query = new Parse.Query(this._ParseObject);
         // Limit by page
         query.exists('location');
@@ -68,88 +71,68 @@ export class GalleryProvider {
         return query.find();
     }
 
-    likeGallery(objectId: string): Promise<any> {
+    public likeGallery(objectId: string): Promise<any> {
         return Parse.Cloud.run('likeGallery', {galleryId: objectId});
     }
 
-    follow(params): Promise<any> {
+    public follow(params): Promise<any> {
         return Parse.Cloud.run('followUser', params);
     }
 
-    search(params): Promise<any> {
+    public search(params): Promise<any> {
         return Parse.Cloud.run('searchGallery', params);
     }
 
-    cleanDB(): Promise<any> {
+    public cleanCache(): Promise<any> {
         this.data = [];
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.db
                 .allDocs({include_docs: true})
-                .then(result => Promise.all(result.rows.map(row => this.db.remove(row.doc))).then(resolve));
+                .then(result => Promise.all(result.rows.map(row => this.db.remove(row.doc))))
+                .then(resolve)
+                .catch(reject);
         });
     }
 
-    public feed(params: any): Promise<any> {
+    public feed(params: IParams): Promise<any> {
         return new Promise((resolve, reject) => {
-            let result = [];
-            Parse.Cloud.run('feedGallery', params)
-                 .then(data => data.map(item => result.push(item)))
-                 .then((data: any) => resolve(result))
+            Parse.Cloud
+                 .run('feedGallery', params)
+                 .then(data => {
+                     let _data = [];
+                     data.map(item => _data.push(item));
+                     resolve(_data)
+                 })
                  .catch(reject);
         });
     }
 
-    cacheFind(data): Promise<any> {
-        let promises = [];
-        data.map(item => {
-            let obj = {
-                _id          : item.id,
-                comments     : [],
-                commentsTotal: item.commentsTotal,
-                createdAt    : item.createdAt,
-                image        : item.image,
-                imageThumb   : item.imageThumb,
-                likesTotal   : item.likesTotal,
-                title        : item.title,
-                views        : item.views,
-                user         : {
-                    id      : item.user.user.id,
-                    name    : item.user.name,
-                    username: item.user.username,
-                    photo   : item.user.photo,
-                    status   : item.user.status,
-                },
-            };
-
-            obj.comments = item.comments.map(comment => {
-                return {
-                    id       : comment.id,
-                    text     : comment.text,
-                    user     : comment.user,
-                    galleryId: item.id
-                };
-            })
-            promises.push(obj);
-        });
-
-        console.log(promises);
-        return Promise.all(promises.map(item => this.db.put(item)));
+    public feedCache(data: any): Promise<any> {
+        let db = new PouchDB('Gallery', {auto_compaction: true});
+        return Promise.all(data.map(item => db.put(item)));
     }
 
-
-    public findCache(): Promise<any> {
+    public findCache(params: IParams): Promise<any> {
         return new Promise(resolve => {
             this.db.allDocs({include_docs: true}).then(data => {
-                if (this.data.length > 0) {
-                    resolve(this.data)
-                } else {
-                    if (data.total_rows) {
-                        data.rows.map(row => {
-                            //let doc = JSON.stringify(row.doc.data);
-                            row.doc.createdAt = new Date(row.doc.createdAt);
-                            this.data.push(row.doc);
-                        });
+                console.log(data);
+                this.data = [];
+                if (data.total_rows) {
+                    data.rows.map(row => {
+                        //let doc = JSON.stringify(row.doc.data);
+                        row.doc.createdAt = new Date(row.doc.createdAt);
+                        this.data.push(row.doc);
+                    });
+
+                    if (params.username) {
+                        let _data = _.find(this.data, {username: params.username});
+                        console.log('cache username', _data);
+                        resolve(_data);
+                    } else {
+                        console.log('cache', this.data);
+                        resolve(this.data);
                     }
+                } else {
                     resolve(this.data);
                 }
             })
@@ -169,8 +152,12 @@ export class GalleryProvider {
     }
 
     // Parse Crud
-    get(objectId: string) {
+    get(objectId: string): Promise<any> {
         return new Parse.Query(this._ParseObject).include('profile').get(objectId);
+    }
+
+    getCache(objectId: string): Promise<any> {
+        return this.db.get(objectId);
     }
 
     put(item: IGallery) {

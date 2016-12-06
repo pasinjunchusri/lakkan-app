@@ -5,6 +5,7 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
 import {GalleryProvider} from "../../providers/gallery";
 import {ExternalLibProvider} from "../../providers/external-lib";
 import {PhotoPage} from "../photo/photo";
+import {IParamsLocation} from "../../models/parse.params.location.model";
 import _ from "underscore";
 
 declare const Parse: any;
@@ -19,9 +20,8 @@ export class TabSearchMapPage {
     @ViewChild('map') mapElement: ElementRef;
 
     map: any;
-    cordova: boolean = false;
 
-    params = {
+    params: IParamsLocation = {
         location: null,
         distance: 100
     };
@@ -35,12 +35,22 @@ export class TabSearchMapPage {
                 private navCtrl: NavController,
                 private lib: ExternalLibProvider
     ) {
-        this.cordova = this.util.cordova;
+
     }
 
     ionViewDidLoad() {
-        this.lib.googleMaps();
-        this.loadMap();
+        this.loadGoogleMaps();
+    }
+
+    loadGoogleMaps() {
+        this.lib.googleMaps().then(() => {
+            this.loadMap();
+        }).catch(error => {
+            this.util.toast(error);
+            this.util.tryConnect()
+                .then(() => this.loadGoogleMaps())
+                .catch(this.util.toast);
+        });
     }
 
     loadMap() {
@@ -80,12 +90,12 @@ export class TabSearchMapPage {
 
     }
 
-    openPhoto(item) {
-        this.navCtrl.push(PhotoPage, {item: item});
+    openPhoto(item: any): void {
+        this.navCtrl.push(PhotoPage, {item: item.id});
     }
 
 
-    position(latitude: number, longitude: number) {
+    position(latitude: number, longitude: number): any {
         return new google.maps.LatLng(latitude, longitude);
     }
 
@@ -153,10 +163,10 @@ export class TabSearchMapPage {
                 this.setGallerys(data);
             }
             this.loading = false;
-        }, error => {
+        }).catch(error => {
 
             console.log(error);
-            //reject(this.errorText)
+            this.util.toast(error);
         });
     }
 }

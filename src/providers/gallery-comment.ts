@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 
 declare var Parse: any;
 
@@ -32,29 +32,15 @@ export class GalleryCommentProvider {
         });
     }
 
-    feed(params: any) {
-
-        const _page  = params.page || 1;
-        const _limit = params.limit || 24;
-
-        return new Promise((resolve, reject) => {
-            new Parse.Query(this._ParseObject)
-                .equalTo('gallery', params.gallery)
-                .descending('createdAt')
-                .limit(_limit)
-                .skip((_page * _limit) - _limit)
-                .find()
-                .then((data: any) => {resolve(data)}, reject)
-        });
-
+    feed(params: any): Promise<any> {
+        return Parse.Cloud.run('getComments', params);
     }
 
-    create(item) {
-        let ParseObjectRow = new this._ParseObject();
-        return ParseObjectRow.save(item);
+    create(item: any): Promise<any> {
+        return new this._ParseObject().save(item);
     }
 
-    put(item) {
+    put(item: any): Promise<any> {
 
         if (item.address && item.address.geo) {
             item.location = new Parse.GeoPoint(item.address.geo);
@@ -69,7 +55,7 @@ export class GalleryCommentProvider {
 
     }
 
-    destroy(item) {
+    destroy(item): Promise<any> {
         return item.destroy();
     }
 }

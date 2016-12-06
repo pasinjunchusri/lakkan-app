@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {Events, ViewController, ModalController} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {Events, ViewController, ModalController} from "ionic-angular";
 import {GalleryAlbumProvider} from "../../providers/gallery-album";
 import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
 import {IonicUtilProvider} from "../../providers/ionic-util";
-import _ from 'underscore';
+import _ from "underscore";
 
 @Component({
     selector   : 'page-album-list-modal',
@@ -40,8 +40,8 @@ export class AlbumListModalPage {
         events.subscribe('album:reload', () => this.doRefresh(null));
     }
 
-    ngOnInit() {
-        this.feed()
+    ionViewWillEnter() {
+        this.cache();
     }
 
     selectAlbum(album: any) {
@@ -68,11 +68,9 @@ export class AlbumListModalPage {
                 this.data = [];
             }
 
-            this.provider.list(this.params).then(data => {
+            this.provider.find(this.params).then(data => {
                 if (data && data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => {
-                        this.data.push(item);
-                    });
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
                     this.showErrorView = false;
                     this.showEmptyView = false;
                     this.moreItem      = true;
@@ -85,12 +83,25 @@ export class AlbumListModalPage {
 
                 this.loading = false;
                 resolve(data);
-            }, error => {
+            }).catch(error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 this.loading       = false;
                 reject(this.errorText)
             });
+        });
+    }
+
+    private cache(): void {
+        console.log('Load cache', this.params);
+        this.provider.findCache(this.params).then(_data => {
+            console.log('cache', _data);
+            if (_data.length) {
+                _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
+                this.loading = false;
+            } else {
+                this.feed();
+            }
         });
     }
 
@@ -119,7 +130,13 @@ export class AlbumListModalPage {
     doRefresh(event) {
         this.data        = [];
         this.params.page = 1;
-        this.feed().then(() => event.complete()).catch(() => event.complete());
+        // Clean Cache and Reload
+        this.provider.cleanCache()
+            .then(() => this.feed())
+            .then(this.provider.findCache)
+            .then(() => event.complete())
+            .catch(() => event.complete());
+        ;
     }
 
     doTry() {

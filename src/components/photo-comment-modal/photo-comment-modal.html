@@ -11,13 +11,13 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <loader *ngIf="loading && !data.length"></loader>
+  <loader *ngIf="loading"></loader>
   <!-- error -->
   <div class="center" *ngIf="showErrorView" padding>
     <div class="error ">
       <ion-icon [name]="errorIcon"></ion-icon>
       <p>{{ "errorText" | translate }}</p>
-      <button ion-button color="primary" (click)="onQuery()">
+      <button ion-button color="primary" (click)="onGallery()">
                 {{ 'tryAgainText' | translate }}
             </button>
     </div>
@@ -26,24 +26,35 @@
   <div class="center" *ngIf="showEmptyView" padding>
     <div class="error">
       <ion-icon [name]="errorIcon"></ion-icon>
-      <p>{{ 'Comments not found' | translate }}</p>
+      <p>{{ 'Not Comments' | translate }}</p>
     </div>
   </div>
-  <ion-list *ngIf="data.length">
-    <ion-item *ngFor="let item of data">
-      <ion-avatar item-left>
-        <img *ngIf="item.get('user').get('photo')" [src]="item.get('user').get('photo').url()">
-        <img *ngIf="!item.get('user').get('photo')" src="assets/img/user.png">
-      </ion-avatar>
-      <p><b>{{item.get('user').get('username')}}</b> {{item.get('text')}}</p>
-      <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
-    </ion-item>
-  </ion-list>
+
+  <div class="message-wrapper" *ngFor="let item of data">
+      <div>
+
+          <img-loader class="profile-pic" [ngClass]="item.class" *ngIf="item.user.photo" [src]="item.user.photo._url"></img-loader>
+          <img-loader class="profile-pic" [ngClass]="item.class" *ngIf="!item.user.photo" src="assets/img/user.png"></img-loader>
+
+          <div class="chat-bubble " [ngClass]="item.class">
+
+              <div class="message"> {{item.text}}</div>
+
+              <div class="message-detail">
+                  <span class="bold">{{item.user.username}}</span>,
+                  <span>{{item.createdAt | date:'HH:mm'}}</span>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+
 </ion-content>
 <ion-footer>
   <form #rForm="ngForm" (ngSubmit)="onComment(rForm)" novalidate>
     <ion-toolbar>
-      <ion-input [(ngModel)]="form.text" focus name="comment" type="text" focus placeholder="Comment in here" required></ion-input>
+      <ion-input [(ngModel)]="form.text" focus name="comment" type="text" focus placeholder="{{'Comment in here' | translate }}" required></ion-input>
       <ion-buttons end>
         <button ion-button color="primary">
                     <ion-icon name="send"></ion-icon>

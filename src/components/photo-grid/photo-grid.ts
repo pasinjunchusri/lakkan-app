@@ -1,35 +1,34 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from "@angular/core";
+import {Events} from "ionic-angular";
 import {GalleryProvider} from "../../providers/gallery";
-import {Events, App} from "ionic-angular";
-import {PhotoPage} from "../../pages/photo/photo";
-import _ from 'underscore';
 import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IParams} from "../../models/parse.params.model";
+import _ from "underscore";
 
 @Component({
     selector   : 'photo-grid',
     templateUrl: 'photo-grid.html'
 })
-export class PhotoGridComponent implements  OnInit{
+export class PhotoGridComponent implements OnInit {
 
     @Input() username?: string;
     @Input() event: string;
 
-    params = {
+    params: IParams = {
         limit: 15,
         page : 1
     };
 
-    _width: any;
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
-    data                   = [];
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    data                   = [];
+    _width: any;
 
     constructor(private provider: GalleryProvider,
                 private events: Events,
-                private app: App,
                 private util: IonicUtilProvider
     ) {
 
@@ -37,51 +36,88 @@ export class PhotoGridComponent implements  OnInit{
     }
 
     ngOnInit() {
-        console.info(this.event + ':params');
-        this.events.subscribe(this.event + ':params', params => {
-            if (params) {
-                this.params = params[0];
-            }
+        // Cache Request
+        this.events.subscribe(this.event + ':cache', (params: IParams) => {
+            console.info(this.event + ':cache', params);
+            this.params = params;
+            this.cache();
+        });
+
+        // Server Request
+        this.events.subscribe(this.event + ':params', (params: IParams) => {
+            console.info(this.event + ':params', params);
+            this.params = params;
             this.feed();
         });
 
-        console.info(this.event + ':reload');
+        // Reload
         this.events.subscribe(this.event + ':reload', () => {
+            console.info(this.event + ':reload');
             this.params.page = 1;
             this.data        = []
-            this.feed();
+            // Clean Cache and Reload
+            this.provider.cleanCache()
+                .then(() => this.feed())
+                .then(this.provider.feedCache)
+                .then(() => this.events.publish('scroll:up'))
+                .catch(console.error);
+            ;
         });
     }
 
-    openPhoto(item) {
-        console.log(item);
-        this.app.getRootNav().push(PhotoPage, {item: item});
+    ionViewDidLoad() {
+        console.info('ionViewDidLoad photolist');
     }
 
-    private feed(): void {
+    ionViewWillEnter() {
+        console.info('ionViewWillEnter photolist');
+    }
+
+    ionViewDidLeave() {
+        console.info('ionViewDidLeave photolist');
+    }
+
+    private feed(): Promise<any> {
         console.log('Load Feed', this.params, this.loading);
 
-        if (this.params.page == 1) {
-            this.data    = [];
-            this.loading = true;
-        }
-
-        this.provider.feed(this.params).then(data => {
-            if (data && data.length) {
-                _.sortBy(data, 'createdAt').reverse().map(item => {
-                    this.data.push(item);
-                });
-                this.events.publish(this.event + ':moreItem', true);
-            } else {
-                this.showEmptyView = false;
+        return new Promise((resolve, reject) => {
+            if (this.params.page == 1) {
+                this.data    = [];
+                this.loading = true;
             }
 
-            this.loading = false;
-            this.events.publish(this.event + ':complete', null);
-        }, error => {
-            this.errorText     = error.message;
-            this.showErrorView = true;
-            this.events.publish(this.event + ':complete', null);
+            this.provider.feed(this.params).then(data => {
+                console.info(data);
+                if (data) {
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+                    this.events.publish(this.event + ':moreItem', true);
+                } else {
+                    this.showEmptyView = false;
+                }
+                this.loading = false;
+                this.events.publish(this.event + ':complete', null);
+                resolve(data);
+            }).catch(error => {
+                this.errorText     = error.message;
+                this.showErrorView = true;
+                this.loading       = false;
+                this.events.publish(this.event + ':complete', null);
+                reject(error);
+            });
+        });
+    }
+
+    private cache(): void {
+        console.log('Load cache', this.params);
+        this.provider.findCache(this.params).then(_data => {
+            console.log('cache', _data);
+            if (_data.length) {
+                _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
+                this.loading = false;
+                this.events.publish(this.event + ':moreItem', true);
+            } else {
+                this.feed();
+            }
         });
     }
 

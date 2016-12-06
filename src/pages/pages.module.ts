@@ -153,7 +153,7 @@ export class PagesModule {
 
     constructor(private translate: TranslateService,
                 private config: Config,
-                private platform: Platform
+                private platform: Platform,
     ) {
         this.translateConfig();
         setTimeout(() => {

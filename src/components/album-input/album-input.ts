@@ -1,4 +1,4 @@
-import {Component, NgZone} from '@angular/core';
+import {Component} from '@angular/core';
 import {ModalController, Events} from "ionic-angular";
 import {AlbumListModalPage} from "../album-list-modal/album-list-modal";
 
@@ -12,14 +12,8 @@ export class AlbumInputComponent {
 
     constructor(private modalCtrl: ModalController,
                 private events: Events,
-                private ngZone: NgZone,
     ) {
-        events.subscribe('album:selected', album => {
-            this.ngZone.run(()=>{
-                this.item = album[0].attributes;
-                console.log(this.item);
-            });
-        });
+        events.subscribe('album:selected', album => this.item = album);
     }
 
     openAlbumList() {

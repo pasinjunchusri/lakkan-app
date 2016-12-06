@@ -41,11 +41,9 @@ export class TabActivityPage {
         this.app.getRootNav().push(ProfilePage, {username: username});
     }
 
-    openPhoto(item) {
-
-        console.log();
-        //this.navCtrl.push(PhotoPage, {item: item.item.get('gallery')});
-        this.app.getRootNav().push(PhotoPage, {item: item.item.get('gallery')});
+    openPhoto(id:string) {
+        console.log('openphoto', id);
+        this.app.getRootNav().push(PhotoPage, {id: id});
     }
 
     feed() {

@@ -10,7 +10,11 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content >
+<ion-content>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <loader *ngIf="loading && !data.length"></loader>
     <!-- error -->
     <div class="center" *ngIf="showErrorView" padding>

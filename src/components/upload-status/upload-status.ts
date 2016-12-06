@@ -27,7 +27,7 @@ export class UploadStatusComponent {
                 private events: Events
     ) {
 
-        this.events.subscribe('upload:gallery', item => this.add(item[0]));
+        this.events.subscribe('upload:gallery', item => this.add(item));
     }
 
     add(item: IUpload) {
@@ -51,9 +51,7 @@ export class UploadStatusComponent {
                 console.log(item);
                 item.loading = false;
                 this.uploads.splice(index, 1);
-
                 this.events.publish('home:reload');
-
             }).catch(error => {
                 console.log(error);
                 this.uploads[index].loading = false;

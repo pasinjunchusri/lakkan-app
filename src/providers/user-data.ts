@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 
 declare var Parse: any;
 
@@ -44,7 +44,8 @@ export class UserDataProvider {
         return new Parse.User.current();
     }
 
-    profile(username) {
+    profile(username: string): Promise<any> {
         return Parse.Cloud.run('profile', {username: username})
     }
+
 }

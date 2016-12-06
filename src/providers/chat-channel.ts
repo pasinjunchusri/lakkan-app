@@ -54,16 +54,14 @@ export class ChatChannelProvider {
                         if (item.message) {
                             obj.message = item.message.attributes;
                         }
-
                         console.info(obj);
                         this.db.put(obj);
                     });
                     return data;
                 })
                 .then(() => this.findCache())
-                .then((data: any) => {
-                    resolve(data);
-                }, reject);
+                .then(resolve)
+                .catch(reject);
         });
     }
 
@@ -97,7 +95,7 @@ export class ChatChannelProvider {
         return new Parse.Query(this._ParseObject).get(objectId);
     }
 
-    create(params: {users: any[], message?: string }): Promise<any> {
+    create(params: {users: any[], message?: string}): Promise<any> {
         return new Parse.Cloud.run('createChatChannel', params)
     }
 

@@ -18,17 +18,17 @@
                     <ion-col class="text-center">
                         <ion-spinner *ngIf="loading"></ion-spinner>
                         <b *ngIf="!loading">{{ profile.galleriesTotal || 0}}</b>
-                        <p>posts</p>
+                        <p>{{'posts' | translate }}</p>
                     </ion-col>
                     <ion-col class="text-center">
                         <ion-spinner *ngIf="loading"></ion-spinner>
                         <b *ngIf="!loading">{{ profile.followersTotal || 0}}</b>
-                        <p>followers</p>
+                        <p>{{'followers' | translate}}</p>
                     </ion-col>
                     <ion-col class="text-center">
                         <ion-spinner *ngIf="loading"></ion-spinner>
                         <b *ngIf="!loading">{{ profile.followingsTotal || 0}}</b>
-                        <p>following</p>
+                        <p>{{'following' | translate }}</p>
                     </ion-col>
                 </ion-row>
                 <ion-row>
@@ -36,12 +36,12 @@
                         <div *ngIf="loading" class="text-center">
                             <ion-spinner></ion-spinner>
                         </div>
-                        <div *ngIf="!loading">
+                        <div *ngIf="!loading" (click)="follow(profile)">
                             <button *ngIf="profile.isFollow" ion-button block color="primary" small>
-                                Unfollow
+                                {{ 'Unfollow' | translate }}
                             </button>
                             <button *ngIf="!profile.isFollow" outline ion-button block color="primary" small>
-                                Follow
+                                {{ 'Follow' | translate }}
                             </button>
                         </div>
                     </ion-col>

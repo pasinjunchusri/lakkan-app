@@ -38,15 +38,15 @@ export class UserListPage {
         this._width = this.util._widthPlatform / 3 + 'px';
     }
 
-    ngOnInit() {
+    ionViewDidLoad() {
         this.feed()
     }
 
-    profile(username: string) {
+    profile(username: string):void {
         this.navCtrl.push(ProfilePage, {username: username});
     }
 
-    feed() {
+    feed():Promise<any> {
         return new Promise((resolve, reject) => {
             console.log('Load Feed', this.params, this.loading);
 
@@ -55,10 +55,10 @@ export class UserListPage {
             }
 
             this.provider.list(this.params).then(data => {
+                console.log(data);
                 if (data && data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => {
-                        this.data.push(item);
-                    });
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+
                     this.showErrorView = false;
                     this.showEmptyView = false;
                     this.moreItem      = true;
@@ -70,8 +70,8 @@ export class UserListPage {
                 }
 
                 this.loading = false;
-                resolve(data);
-            }, error => {
+                resolve(this.data);
+            }).catch(error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 this.loading       = false;
@@ -80,9 +80,9 @@ export class UserListPage {
         });
     }
 
-    follow(user) {
+    follow(user):void {
         user.loading = true;
-        this.provider.follow({userId: user.userObj.id}).then(resp => {
+        this.provider.follow({userId: user.id}).then(resp => {
             console.log('Follow result', resp);
             user.isFollow = (resp === 'follow') ? true : false;
             if (resp == 'follow') {

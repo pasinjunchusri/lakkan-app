@@ -1,9 +1,11 @@
 import {Injectable} from "@angular/core";
+import {Storage} from "@ionic/storage";
 import {ParsePushProvider} from "./parse-push";
 import {IonicUtilProvider} from "./ionic-util";
 import {IUserFollow} from "../models/user.model";
 import * as PouchDB from "pouchdb";
-//import _ from "underscore";
+import {IParams} from "../models/parse.params.model";
+import _ from "underscore";
 declare var Parse: any;
 
 @Injectable()
@@ -29,7 +31,10 @@ export class UserProvider {
     private _ParseObject     = Parse.User.extend({});
             cordova: boolean = false;
 
-    constructor(private ParsePush: ParsePushProvider, private util: IonicUtilProvider) {
+    constructor(private ParsePush: ParsePushProvider,
+                private util: IonicUtilProvider,
+                private Storage: Storage
+    ) {
         this.cordova = this.util.cordova;
 
         // Start
@@ -85,9 +90,43 @@ export class UserProvider {
         return Parse.User.requestPasswordReset(email);
     }
 
-    profile(username: string) {
+    getProfile(username: string): Promise<any> {
         return Parse.Cloud.run('profile', {username: username})
     }
+
+    getProfileCache(username: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.findCache().then(data => resolve(_.find(data, {username: username})));
+        });
+    }
+
+    public findCache(params?: IParams): Promise<any> {
+        return new Promise(resolve => {
+            this.db.allDocs({include_docs: true}).then(data => {
+                console.log(data);
+                this.data = [];
+                if (data.total_rows) {
+                    data.rows.map(row => {
+                        //let doc = JSON.stringify(row.doc.data);
+                        row.doc.createdAt = new Date(row.doc.createdAt);
+                        this.data.push(row.doc);
+                    });
+
+                    if (params.username) {
+                        let _data = _.find(this.data, {username: params.username});
+                        console.log('cache username', _data);
+                        resolve(_data);
+                    } else {
+                        console.log('cache', this.data);
+                        resolve(this.data);
+                    }
+                } else {
+                    resolve(this.data);
+                }
+            })
+        });
+    }
+
 
     logout(): void {
         Parse.User.logOut();
@@ -145,6 +184,7 @@ export class UserProvider {
     signIn(obj) {
         return new Promise((resolve, reject) => {
             Parse.User.logIn(obj.username, obj.password).then(currentUser => {
+                console.log('logIn', currentUser);
 
                 if (this.cordova) {
                     // Parse Push
@@ -154,6 +194,24 @@ export class UserProvider {
 
             }, reject);
         });
+    }
+
+    setStorage(user: any): void {
+        let obj = {
+            id      : user.id,
+            name    : user.get('name'),
+            username: user.get('username'),
+            email   : user.get('email'),
+            gender  : user.get('gender'),
+            photo   : user.get('photo'),
+            status  : user.get('status'),
+        };
+        console.log(obj);
+        this.Storage.set('user', obj)
+    }
+
+    getStorage(): Promise<any> {
+        return this.Storage.get('user');
     }
 
     changePassword(password: string) {
@@ -172,11 +230,8 @@ export class UserProvider {
         return Parse.Cloud.run('validateUsername', {username: input});
     }
 
-    all(params: any) {
-        return Parse.Cloud.run('getUsers', params);
-    }
 
-    follow(params: IUserFollow) {
+    follow(params: IUserFollow):Promise<any> {
         return Parse.Cloud.run('followUser', params);
     }
 
@@ -188,7 +243,7 @@ export class UserProvider {
         return Parse.Cloud.run('findUserFacebookId', {facebookId: facebookId});
     }
 
-    list(params: any) {
+    list(params: any):Promise<any> {
         return Parse.Cloud.run('listUsers', params)
     }
 

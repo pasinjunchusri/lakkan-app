@@ -13,7 +13,7 @@ export class TabHomePage {
     @ViewChild('Content') content: Content;
 
     params: IParams = {
-        limit    : 10,
+        limit    : 18,
         page     : 1,
         privacity: 'public',
     };
@@ -30,27 +30,30 @@ export class TabHomePage {
         this.eventName = 'home';
     }
 
-    ionViewDidLoad(){
+    ionViewDidLoad() {
         console.log('ionViewDidLoad home');
 
         // Load Cache
         setTimeout(() => this.events.publish(this.eventName + ':cache', this.params), 500);
 
         // Request
-        //if (this.util.isOnline()) {
-        //    setTimeout(() => this.sendParams(), 2000);
-        //}
+        if (this.util.isOnline()) {
+            setTimeout(() => {
+                this.params.page = 1;
+                this.events.publish(this.eventName + ':reload', this.params);
+            }, 2000);
+        }
     }
 
 
-    ionViewWillEnter(){
+    ionViewWillEnter() {
         console.info('ionViewWillEnter home');
         // More Item
         this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem);
         this.events.subscribe('scroll:up', () => this.scrollTop());
     }
 
-    ionViewDidLeave(){
+    ionViewDidLeave() {
         console.warn('ionViewDidLeave home');
         this.events.unsubscribe(this.eventName + ':moreItem');
         this.events.unsubscribe('scroll:up');
@@ -71,7 +74,8 @@ export class TabHomePage {
     }
 
     public scrollTop() {
-        this.content.scrollToTop();
+        console.log('Scroll Top');
+        //this.content.scrollToTop(1000);
     }
 
     public doInfinite(event) {
@@ -82,9 +86,11 @@ export class TabHomePage {
     }
 
     public doRefresh(event?) {
-        event.complete();
+        if (event) {
+            event.complete();
+        }
         this.params.page = 1;
-        this.sendParams();
+        this.events.publish(this.eventName + ':reload', this.params);
     }
 
     private sendParams(): void {

@@ -1,3 +1,4 @@
 export interface IParamsLocation {
-    location?: any,
+    location?: any;
+    distance: number;
 }

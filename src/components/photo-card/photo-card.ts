@@ -1,8 +1,7 @@
 import {Component, Input} from "@angular/core";
-import {ModalController, NavController, PopoverController} from "ionic-angular";
+import {ModalController, PopoverController, App} from "ionic-angular";
 import {GalleryProvider} from "../../providers/gallery";
 import {IonicUtilProvider} from "../../providers/ionic-util";
-import {UserProvider} from "../../providers/user";
 import {ProfilePage} from "../../pages/profile/profile";
 import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-modal";
 import {PhotoListPopoverComponent} from "../photo-list-popover/photo-list-popover";
@@ -23,11 +22,10 @@ export class PhotoCardComponent {
     _width: any;
 
     constructor(private provider: GalleryProvider,
-                private navCtrl: NavController,
+                private app: App,
                 private modalCtrl: ModalController,
                 private popoverCtrl: PopoverController,
-                private util: IonicUtilProvider,
-                private User: UserProvider
+                private util: IonicUtilProvider
     ) {
         this.username = Parse.User.current()['username'];
         this._width   = util._widthPlatform + 'px';
@@ -43,12 +41,12 @@ export class PhotoCardComponent {
 
     openComments(item):void {
         console.log(item);
-        this.modalCtrl.create(PhotoCommentModalComponent, item).present();
+        this.modalCtrl.create(PhotoCommentModalComponent, {galleryId: item.id}).present();
     }
 
-    profile(username: string):void {
+    openProfile(username: string):void {
         console.log('username', username);
-        this.navCtrl.push(ProfilePage, {username: username})
+        this.app.getRootNav().push(ProfilePage, {username: username})
     }
 
     onLike(item):void {

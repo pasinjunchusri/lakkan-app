@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
-import {Events, NavController} from 'ionic-angular';
-import {GalleryAlbumProvider} from '../../providers/gallery-album';
-import {AlbumPhotoGridComponent} from '../album-photo-grid/album-photo-grid';
+import {Component, Input, OnInit} from "@angular/core";
+import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
+import {Events, NavController} from "ionic-angular";
+import {GalleryAlbumProvider} from "../../providers/gallery-album";
+import {AlbumPhotoGridComponent} from "../album-photo-grid/album-photo-grid";
 import {IonicUtilProvider} from "../../providers/ionic-util";
-import _ from 'underscore';
-declare const Parse:any;
+import _ from "underscore";
+declare const Parse: any;
 
 @Component({
     selector   : 'album-grid',
@@ -25,6 +25,7 @@ export class AlbumGridComponent implements OnInit {
     errorText: string      = '';
     data                   = [];
     loading: boolean       = true;
+    moreItem: boolean      = false;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     canEdit: boolean       = false;
@@ -72,30 +73,35 @@ export class AlbumGridComponent implements OnInit {
         this.navCtrl.push(AlbumFormModalComponent);
     }
 
-    private feed(): void {
-        console.log('Load Feed', this.params, this.loading);
+    feed() {
+        return new Promise((resolve, reject) => {
+            console.log('Load Feed', this.params, this.loading);
 
-        if (this.params.page == 1) {
-            this.data    = [];
-            this.loading = true;
-        }
-
-        this.provider.list(this.params).then(data => {
-            if (data && data.length) {
-                _.sortBy(data, 'createdAt').reverse().map(item => {
-                    this.data.push(item);
-                });
-                this.events.publish(this.event + ':moreItem', true);
-            } else {
-                this.showEmptyView = false;
+            if (this.params.page == 1) {
+                this.data = [];
             }
 
-            this.loading = false;
-            this.events.publish(this.event + ':complete', null);
-        }, error => {
-            this.errorText     = error.message;
-            this.showErrorView = true;
-            this.events.publish(this.event + ':complete', null);
+            this.provider.find(this.params).then(data => {
+                if (data && data.length) {
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+                    this.showErrorView = false;
+                    this.showEmptyView = false;
+                    this.moreItem      = true;
+                } else {
+                    if (!this.data.length) {
+                        this.showEmptyView = false;
+                    }
+                    this.moreItem = false;
+                }
+
+                this.loading = false;
+                resolve(data);
+            }).catch(error => {
+                this.errorText     = error.message;
+                this.showErrorView = true;
+                this.loading       = false;
+                reject(this.errorText)
+            });
         });
     }
 

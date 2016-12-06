@@ -45,7 +45,7 @@
     "cordova-sqlite-storage": {
         "source": {
             "type": "registry",
-            "id": "cordova-sqlite-storage@~1.4.8"
+            "id": "cordova-sqlite-storage@0.7.14"
         },
         "is_top_level": true,
         "variables": {}
@@ -141,6 +141,18 @@
         "is_top_level": true,
         "variables": {
             "PHOTO_LIBRARY_USAGE_DESCRIPTION": "Imagens para selecionar"
+        }
+    },
+    "ionic-plugin-deeplinks": {
+        "source": {
+            "type": "registry",
+            "id": "ionic-plugin-deeplinks"
+        },
+        "is_top_level": true,
+        "variables": {
+            "URL_SCHEME": "photogram",
+            "DEEPLINK_SCHEME": "https",
+            "DEEPLINK_HOST": "photogram.codevibe.io"
         }
     }
 }

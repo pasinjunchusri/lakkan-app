@@ -1,7 +1,9 @@
 import {Component} from "@angular/core";
-import {NavController, Events, ModalController, NavParams} from "ionic-angular";
-import {UserDataProvider} from "../../providers/user-data";
+import {Events, ModalController, NavParams} from "ionic-angular";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
+import {UserProvider} from "../../providers/user";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IParams} from "../../models/parse.params.model";
 
 
 @Component({
@@ -12,12 +14,13 @@ export class ProfilePage {
 
     user: any;
     username: string;
-    loading: boolean = true;
-    type: string            = 'list';
-    moreItem: boolean       = true;
+    loading: boolean  = true;
+    type: string      = 'list';
+    moreItem: boolean = true;
     eventName: string;
 
     profile: any = {
+        id             : '',
         name           : '',
         username       : '',
         photo          : null,
@@ -27,18 +30,18 @@ export class ProfilePage {
         followingsTotal: 0,
     };
 
-    params = {
+    params: IParams = {
         limit    : 12,
         page     : 1,
         privacity: 'public',
         username : ''
     }
 
-    constructor(public navCtrl: NavController,
-                public User: UserDataProvider,
-                public events: Events,
-                public navParams: NavParams,
-                public modalCtrl: ModalController
+    constructor(private User: UserProvider,
+                private events: Events,
+                private navParams: NavParams,
+                private modalCtrl: ModalController,
+                private util: IonicUtilProvider
     ) {
 
         this.username        = this.navParams.get('username');
@@ -46,22 +49,50 @@ export class ProfilePage {
         this.eventName       = this.username;
 
         this.loading = true;
-        this.User.profile(this.username).then(profile => {
-            this.profile        = profile;
-            this.loading = false;
+        this.User.getProfileCache(this.username).then(profile => {
+            if (profile) {
+                this.profile         = profile;
+                this.profile.loading = false;
+            } else {
+                this.loadProfile();
+            }
         });
+
 
         setTimeout(() => this.onSelectType('list'), 1000);
     }
 
-    onEditProfile() {
-        let modal = this.modalCtrl.create(AccountEditModalPage);
-        modal.present();
+    loadProfile() {
+        this.User.getProfile(this.username).then(profile => {
+            this.profile         = profile;
+            this.profile.loading = false;
+            this.loading         = false;
+        }).catch(this.util.toast);
+    }
+
+    onEditProfile(): void {
+        this.modalCtrl.create(AccountEditModalPage).present();
     }
 
     onSelectType(type: string) {
-        this.type    = type;
+        this.type = type;
         this.sendParams();
+    }
+
+    follow(user): void {
+        console.log('user', user);
+        user.loading = true;
+        this.User.follow({userId: user.id}).then(resp => {
+            console.log('Follow result', resp);
+            user.isFollow = (resp === 'follow') ? true : false;
+            if (resp == 'follow') {
+                user.followersTotal += 1;
+            }
+            if (resp == 'unfollow') {
+                user.followersTotal -= 1;
+            }
+            user.loading = false;
+        });
     }
 
     public doInfinite(event) {
@@ -72,9 +103,11 @@ export class ProfilePage {
     }
 
     public doRefresh(event?) {
-        event.complete();
+        if (event) {
+            event.complete();
+        }
         this.params.page = 1;
-        this.sendParams();
+        this.events.publish(this.eventName + ':reload', this.params);
     }
 
     private sendParams(): void {

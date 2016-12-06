@@ -37,7 +37,7 @@ export class ChatChannelPage {
         console.log('Hello ChatChannelPage Page');
         this.provider.findCache().then(data => {
             console.log('cache', data);
-            if (data) {
+            if (data.length) {
                 this.parseResult(data);
             } else {
                 this.find();

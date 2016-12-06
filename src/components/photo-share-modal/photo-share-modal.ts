@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {NavParams, ViewController, Events, ModalController} from "ionic-angular";
 import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-autocomplete-modal";
 //import {GmapsAutocompleteModalPage} from "../../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal";
@@ -29,14 +29,8 @@ export class PhotoShareModal {
         this.image     = this.navparams.get('base64');
         this.eventName = this.navparams.get('eventName');
 
-        events.subscribe('album:selected', album => {
-            this.form.album = album[0];
-        });
-
-        events.subscribe(this._eventName, _imageCroped => {
-            console.log('Imagem cortada');
-            this.image = _imageCroped[0];
-        });
+        events.subscribe('album:selected', album => this.form.albumId = album.id);
+        events.subscribe(this._eventName, _imageCroped => this.image = _imageCroped);
     }
 
     showAddressModal() {

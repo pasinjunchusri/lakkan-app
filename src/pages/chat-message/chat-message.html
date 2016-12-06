@@ -39,12 +39,12 @@
         <div class="message-wrapper" *ngFor="let item of data">
 
             <div>
-                <img class="profile-pic" [ngClass]="item.class" *ngIf="item.user.photo" [src]="item.user.photo._url">
-                <img class="profile-pic" [ngClass]="item.class" *ngIf="!item.user.photo" src="assets/img/user.png">
+                <img-loader class="profile-pic" [ngClass]="item.class" *ngIf="item.user.photo" [src]="item.user.photo._url"></img-loader>
+                <img-loader class="profile-pic" [ngClass]="item.class" *ngIf="!item.user.photo" src="assets/img/user.png"></img-loader>
 
                 <div class="chat-bubble " [ngClass]="item.class">
 
-                    <img *ngIf="item.image" [src]="item.image.image._url"/>
+                    <img-loader *ngIf="item.image" [src]="item.image.image._url"></img-loader>
 
                     <div class="message"> {{item.message}}</div>
 

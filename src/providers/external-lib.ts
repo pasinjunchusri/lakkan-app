@@ -1,8 +1,7 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {FacebookInitParams, FacebookService} from "ng2-facebook-sdk";
 import {IonicUtilProvider} from "./ionic-util";
-import {GOOGLE_MAPS_WEB, facebook_appVersion} from "../config";
-import {facebook_appId, language_default, languages} from '../config'
+import {GOOGLE_MAPS_WEB, facebook_appVersion, facebook_appId, language_default, languages} from "../config";
 
 @Injectable()
 export class ExternalLibProvider {
@@ -14,38 +13,36 @@ export class ExternalLibProvider {
     }
 
     public googleMaps() {
-        if (this.util.isOnline()) {
-            this.googleMapsLib();
-        } else {
-            this.util.tryConnect().then(() => {
-                this.googleMaps();
-            }).catch(() => {
-                this.util.toast('Google Maps not avaible');
-            });
-        }
+        return new Promise((resolve, reject) => {
+            if (this.util.isOnline()) {
+                this.googleMapsLib().then(resolve);
+            } else {
+                reject('GoogleMaps not avaible');
+
+            }
+        });
     }
 
     public facebookLoad() {
-        if (this.util.isOnline()) {
-            this.facebookLib();
-        } else {
-            this.util.tryConnect().then(() => {
-                this.facebookLib();
-            }).catch(() => {
-                this.util.toast('Facebook not avaible');
-            });
-        }
+        return new Promise((resolve, reject) => {
+            if (this.util.isOnline()) {
+                this.facebookLib().then(resolve);
+            } else {
+                reject('Facebook not avaible');
+            }
+        });
     }
 
-    private googleMapsLib(): void {
+    private googleMapsLib(): Promise<any> {
         // Create Google Maps in Browser
         let script = document.createElement('script');
         script.id  = 'gmaps';
         script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=' + GOOGLE_MAPS_WEB;
         document.body.appendChild(script);
+        return Promise.resolve();
     }
 
-    private facebookLib(): void {
+    private facebookLib(): Promise<any> {
         let userLang = navigator.language.split('-')[0]; // use navigator lang if available
         userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
         let lang     = languages.filter(item => {
@@ -62,6 +59,7 @@ export class ExternalLibProvider {
             version: facebook_appVersion
         };
         setTimeout(() => this.fb.init(fbParams), 500);
+        return Promise.resolve();
     }
 
 }
