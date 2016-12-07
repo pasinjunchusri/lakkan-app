@@ -123,15 +123,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-camera": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/apache/cordova-plugin-camera.git",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "com.synconset.imagepicker": {
         "source": {
             "type": "git",
@@ -154,5 +145,14 @@
             "DEEPLINK_SCHEME": "https",
             "DEEPLINK_HOST": "photogram.codevibe.io"
         }
+    },
+    "cordova-plugin-camera": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/apache/cordova-plugin-camera.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

@@ -13,7 +13,6 @@ export class TabCapturePage {
 
     @ViewChild('inputFile') input: ElementRef;
 
-
     cordova: boolean   = false;
     _eventName: string = 'photoshare';
 
@@ -49,10 +48,12 @@ export class TabCapturePage {
     }
 
     openCapture() {
-
         if (this.cordova) {
             this.photoService.open()
-                .then(this.cropImage)
+                .then(image => {
+                    console.log('image', image);
+                    this.cropImage(image);
+                })
                 .catch(this.util.toast);
         } else {
             this.render.invokeElementMethod(this.input.nativeElement, 'click');
