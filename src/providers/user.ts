@@ -231,7 +231,7 @@ export class UserProvider {
     }
 
 
-    follow(params: IUserFollow):Promise<any> {
+    follow(params: IUserFollow): Promise<any> {
         return Parse.Cloud.run('followUser', params);
     }
 
@@ -243,7 +243,7 @@ export class UserProvider {
         return Parse.Cloud.run('findUserFacebookId', {facebookId: facebookId});
     }
 
-    list(params: any):Promise<any> {
+    list(params: any): Promise<any> {
         return Parse.Cloud.run('listUsers', params)
     }
 
@@ -261,26 +261,7 @@ export class UserProvider {
         return new Promise((resolve, reject) => {
             this.cleanDBFollowing()
                 .then(() => Parse.Cloud.run('getFollowing', {username: username}))
-                .then(data => {
-                    data.map(item => {
-                        let obj       = {
-                            _id            : item.userObj.id,
-                            user           : item.userObj.attributes,
-                            followersTotal : item.followersTotal,
-                            followingsTotal: item.followingsTotal,
-                            isFollow       : item.isFollow,
-                            name           : item.name,
-                            username       : item.username,
-                            photo          : item.photo,
-                            galleries      : []
-                        };
-                        obj.galleries = item.galleries.map(item => item.attributes);
-                        //obj.user = item.user.attributes;
-                        console.info(obj);
-                        this.dbFollowing.put(obj);
-                    });
-                    return data;
-                })
+                .then(data => data.map(item => this.dbFollowing.put(item)))
                 .then(() => this.followingCache())
                 .then((data: any) => {
                     resolve(data);
