@@ -9,7 +9,7 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
 import {ExternalLibProvider} from "../../providers/external-lib";
 
-declare const Parse:any;
+declare const Parse: any;
 
 @Component({
     selector   : 'page-auth',
@@ -26,8 +26,10 @@ export class AuthPage {
     formLogin: any;
     formSignup: any;
 
-    alertTranslate: any = {};
-    cordova: boolean    = false;
+    alertTranslate: any        = {};
+    cordova: boolean           = false;
+    inputPasswordType: string  = 'password';
+    inputPasswordShow: boolean = false;
 
     constructor(private navCtrl: NavController,
                 private provider: UserProvider,
@@ -42,7 +44,7 @@ export class AuthPage {
         // Define Facebook Browser and Native
         this.facebookNative  = Facebook;
         this.facebookBrowser = fb;
-        this.cordova  = this.util.cordova;
+        this.cordova         = this.util.cordova;
 
         if (!this.cordova) {
             this.loadFacebok();
@@ -61,12 +63,12 @@ export class AuthPage {
         this.util.translate('Submit').then((res: string) => { this.alertTranslate.submit = res; });
     }
 
-    loadFacebok(){
-        this.lib.facebookLoad().then(()=>{
+    loadFacebok() {
+        this.lib.facebookLoad().then(() => {
             this.facebook = this.facebookBrowser;
-        }).catch(error=>{
+        }).catch(error => {
             this.util.toast(error);
-            this.util.tryConnect().then(()=>this.loadFacebok());
+            this.util.tryConnect().then(() => this.loadFacebok());
         });
     }
 
@@ -87,6 +89,10 @@ export class AuthPage {
         });
     }
 
+    toggleInputPassword() {
+        this.inputPasswordShow = !this.inputPasswordShow;
+        this.inputPasswordType = this.inputPasswordShow ? 'text' : 'password';
+    }
 
     login(form): void {
         if (form.valid) {

@@ -34,7 +34,10 @@
 
                 <ion-item>
                     <ion-label floating>{{'Password'|translate}}</ion-label>
-                    <ion-input type="password" formControlName="password"></ion-input>
+                    <ion-input [type]="inputPasswordType" formControlName="password"></ion-input>
+                    <a ion-button clear (click)="toggleInputPassword()" item-right>
+                        <ion-icon name="eye"  ></ion-icon>
+                    </a>
                 </ion-item>
                 <ion-item class="form-error-list"
                           *ngIf="!formLogin.controls.password.pristine && !formLogin.controls.password.valid">
@@ -103,7 +106,10 @@
 
                 <ion-item>
                     <ion-label floating>{{ 'Password' | translate }} *</ion-label>
-                    <ion-input #password type="password" formControlName="password"></ion-input>
+                    <ion-input #password [type]="inputPasswordType" formControlName="password"></ion-input>
+                    <a ion-button clear (click)="toggleInputPassword()" item-right>
+                        <ion-icon name="eye"  ></ion-icon>
+                    </a>
                 </ion-item>
                 <ion-item class="form-error-list"
                           *ngIf="!formSignup.controls.password.pristine && !formSignup.controls.password.valid">
@@ -119,7 +125,7 @@
 
                 <ion-item>
                     <ion-label floating>{{'Confirm password' | translate}} *</ion-label>
-                    <ion-input type="password" formControlName="passwordConfirmation"></ion-input>
+                    <ion-input [type]="inputPasswordType" formControlName="passwordConfirmation"></ion-input>
                 </ion-item>
                 <ion-item class="form-error-list"
                           *ngIf="!formSignup.controls.passwordConfirmation.pristine && !formSignup.controls.passwordConfirmation.valid">
