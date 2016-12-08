@@ -7,6 +7,8 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
 import {AboutPage} from "../about/about";
 import {LanguageModalComponent} from "../../components/language-modal/language-modal";
 import {UserProvider} from "../../providers/user";
+import {ChatChannelProvider} from "../../providers/chat-channel";
+import {GalleryProvider} from "../../providers/gallery";
 
 
 @Component({
@@ -19,7 +21,9 @@ export class TabAccountSettingsPage {
     constructor(private User: UserProvider,
                 private app: App,
                 private modalCtrl: ModalController,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private ChatChannel: ChatChannelProvider,
+                private Gallery: GalleryProvider
     ) {}
 
 
@@ -45,6 +49,9 @@ export class TabAccountSettingsPage {
 
     logout(): void {
         this.User.logout();
+        this.User.cleanDBFollowing();
+        this.Gallery.cleanCache()
+        this.ChatChannel.cleanDB();
         this.app.getRootNav().setRoot(IntroPage);
     }
 

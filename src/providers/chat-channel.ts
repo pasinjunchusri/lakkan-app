@@ -67,10 +67,12 @@ export class ChatChannelProvider {
 
     cleanDB(): Promise<any> {
         this.data = [];
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.db
                 .allDocs({include_docs: true})
-                .then(result => Promise.all(result.rows.map(row => this.db.remove(row.doc))).then(resolve));
+                .then(result => Promise.all(result.rows.map(row => this.db.remove(row.doc))))
+                .then(resolve)
+                .catch(reject);
         });
     }
 
