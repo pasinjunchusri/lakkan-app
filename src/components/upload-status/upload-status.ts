@@ -32,7 +32,7 @@ export class UploadStatusComponent {
 
     add(item: IUpload) {
         console.log('uploadProccess', item);
-        let newItem = {loading: true, form: item.form, image: item.image, status: 'sending', code: this.getRandomInt()};
+        let newItem = {loading: true, form: item.form, image: item.image[0], status: 'sending', code: this.getRandomInt()};
         this.uploads.push(newItem);
         let index = _.findIndex(this.uploads, {code: newItem.code});
         this.process(index);
