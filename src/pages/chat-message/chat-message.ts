@@ -147,11 +147,9 @@ export class ChatMessagePage {
 
 
     onSendMessage(): void {
-        this.util.onLoading();
         this.Message.create(this.form).then(message => {
             console.log(message);
             this.initForm();
-            this.util.endLoading();
         });
     }
 
