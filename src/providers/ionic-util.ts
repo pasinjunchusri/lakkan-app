@@ -43,10 +43,9 @@ export class IonicUtilProvider {
         return object;
     }
 
-    isOnline() {
+    isOnline(): boolean {
         if (this.cordova && navigator.connection) {
-            let networkState = navigator.connection.type;
-            return networkState !== Connection.NONE;
+            return navigator.connection.type !== Connection.NONE;
         } else {
             return navigator.onLine;
         }

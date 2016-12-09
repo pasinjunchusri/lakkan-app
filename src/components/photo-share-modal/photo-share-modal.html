@@ -5,7 +5,7 @@
                 {{'Cancel' | translate}}
             </button>
         </ion-buttons>
-        <ion-title>{{'Share photo' | translate }}</ion-title>
+        <ion-title>{{'Share' | translate }}</ion-title>
         <ion-buttons end>
             <button ion-button clear (click)="submit(shareImageForm)">
                 {{'Next' | translate}}
@@ -44,7 +44,7 @@
                     <ion-icon name="close" (click)="clearAddress()" icon-right></ion-icon>
                 </div>
                 <div (click)="showAddressModal()" *ngIf="!address['resume']">
-                    <h2>{{ 'Add location' | translate}}</h2>
+                    <h2>{{ 'Location' | translate}}</h2>
                 </div>
             </ion-item>
         </ion-list>

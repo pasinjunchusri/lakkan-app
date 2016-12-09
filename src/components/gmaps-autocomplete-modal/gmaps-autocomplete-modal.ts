@@ -1,5 +1,7 @@
-import {Component, NgZone} from '@angular/core';
-import {ViewController} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {ViewController} from "ionic-angular";
+import {ExternalLibProvider} from "../../providers/external-lib";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 
 @Component({
@@ -9,8 +11,10 @@ import {ViewController} from 'ionic-angular';
 export class GmapsAutocompleteModalPage {
 
     _data: any;
-    _service          = new google.maps.places.AutocompleteService();
-    _geocoder         = new google.maps.Geocoder();
+    _service: any;
+    _geocoder: any;
+    loading: boolean = true;
+
     componentForm     = {
         street_number              : 'long_name',
         //number
@@ -50,9 +54,23 @@ export class GmapsAutocompleteModalPage {
     };
 
     constructor(private viewCtrl: ViewController,
-                private zone: NgZone
+                private lib: ExternalLibProvider,
+                private util: IonicUtilProvider
     ) {
+        this.loadGmaps();
+    }
 
+    loadGmaps() {
+        this.lib.googleMaps().then(() => {
+            setTimeout(() => {
+                this._service  = new google.maps.places.AutocompleteService();
+                this._geocoder = new google.maps.Geocoder();
+                this.loading   = false;
+            }, 1000);
+        }).catch(error => {
+            this.util.toast(error);
+            this.util.tryConnect().then(() => this.loadGmaps());
+        });
     }
 
 
@@ -70,13 +88,15 @@ export class GmapsAutocompleteModalPage {
     }
 
     doSearch() {
+        this.loading = true;
         if (this.autocomplete.query == '') {
             this._data = [];
             return;
         }
         this._service.getPlacePredictions({input: this.autocomplete.query}, (predictions, status) => {
             this._data = [];
-            this.zone.run(() => predictions.map(item => this._data.push(item)));
+            predictions.map(item => this._data.push(item));
+            this.loading = false;
         });
     }
 

@@ -15,7 +15,7 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <loader *ngIf="loading && !data.length"></loader>
+    <loader *ngIf="loading"></loader>
     <!-- error -->
     <div class="center" *ngIf="showErrorView" padding>
         <div class="error ">

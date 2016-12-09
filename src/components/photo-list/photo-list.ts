@@ -49,10 +49,12 @@ export class PhotoListComponent implements OnInit {
         });
 
         // Reload
-        this.events.subscribe(this.event + ':reload', (params: IParams) => {
+        this.events.subscribe(this.event + ':reload', (params) => {
             console.warn('photo-grid', this.event + ':reload');
-            this.params = params[0];
-            this.data   = []
+            if (params) {
+                this.params = params[0];
+            }
+            this.data = []
             // Clean Cache and Reload
             this.feed()
                 .then(() => this.events.publish('scroll:up'))
@@ -85,7 +87,7 @@ export class PhotoListComponent implements OnInit {
                     this.events.publish(this.event + ':moreItem', true);
                 }
 
-                if(!this.data.length){
+                if (!this.data.length) {
                     this.showEmptyView = true;
                     this.events.publish(this.event + ':moreItem', true);
                 }

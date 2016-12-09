@@ -1,9 +1,8 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {Events} from "ionic-angular";
-
 import {ParseFileProvider} from "../../providers/parse-file";
 import {GalleryProvider} from "../../providers/gallery";
-import _ from 'underscore';
+import _ from "underscore";
 import {IUpload} from "../../models/upload.model";
 
 @Component({
@@ -32,7 +31,7 @@ export class UploadStatusComponent {
 
     add(item: IUpload) {
         console.log('uploadProccess', item);
-        let newItem = {loading: true, form: item.form, image: item.image[0], status: 'sending', code: this.getRandomInt()};
+        let newItem = {loading: true, form: item.form, image: item.image[0], status: 'sending', code: new Date().getTime()};
         this.uploads.push(newItem);
         let index = _.findIndex(this.uploads, {code: newItem.code});
         this.process(index);
@@ -51,7 +50,7 @@ export class UploadStatusComponent {
                 console.log(item);
                 item.loading = false;
                 this.uploads.splice(index, 1);
-                this.events.publish('home:reload');
+                this.events.publish('home:reload',null);
             }).catch(error => {
                 console.log(error);
                 this.uploads[index].loading = false;
