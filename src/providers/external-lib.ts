@@ -45,9 +45,7 @@ export class ExternalLibProvider {
     private facebookLib(): Promise<any> {
         let userLang = navigator.language.split('-')[0]; // use navigator lang if available
         userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
-        let lang     = languages.filter(item => {
-            return item.code.toLowerCase().indexOf(userLang.toLowerCase()) > -1;
-        });
+        let lang     = languages.filter(item => item.code.toLowerCase().indexOf(userLang.toLowerCase()) > -1);
         // Create Facebook in Browser
         let script   = document.createElement('script');
         script.id    = 'facebook';
@@ -58,7 +56,10 @@ export class ExternalLibProvider {
             xfbml  : true,
             version: facebook_appVersion
         };
-        setTimeout(() => this.fb.init(fbParams), 500);
+
+        console.log('script', script);
+        setTimeout(() => this.fb.init(fbParams), 1000);
+        //setTimeout(() => Parse.FacebookUtils.init(fbParams), 1000);
         return Promise.resolve();
     }
 

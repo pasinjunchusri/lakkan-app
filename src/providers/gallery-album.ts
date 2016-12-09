@@ -44,21 +44,7 @@ export class GalleryAlbumProvider {
     }
 
     find(params: any): Promise<any> {
-        return new Promise((resolve, reject) => {
-            Parse.Cloud.run('listAlbum', params)
-                 .then(data => {
-                     let _data = [];
-                     data.map(item => {
-                         let obj = item;
-                         obj._id = item.id;
-                         console.info(obj);
-                         this.db.put(obj);
-                         _data.push(obj);
-                     });
-                     resolve(_data);
-                 })
-                 .catch(reject);
-        });
+        return Parse.Cloud.run('listAlbum', params);
     }
 
     cleanCache(): Promise<any> {
@@ -88,6 +74,10 @@ export class GalleryAlbumProvider {
 
     photo(params: any) {
         return Parse.Cloud.run('photoAlbum', params);
+    }
+
+    getAlbum(params) {
+        return Parse.Cloud.run('getAlbum', params);
     }
 
     // Parse Crud

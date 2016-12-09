@@ -48,6 +48,7 @@ export class TabAccountPage {
         this.userData.profile(this.username).then(profile => {
             this.profile = profile;
             this.loading = false;
+            this.onSelectType();
         });
 
 
@@ -65,10 +66,9 @@ export class TabAccountPage {
             this.events.publish('photocrop:close');
         });
 
-        setTimeout(() => this.onSelectType(), 1000);
     }
 
-    ionViewDidLoad(){
+    ionViewDidLoad() {
 
 
         if (this.user.photo) {
@@ -90,7 +90,7 @@ export class TabAccountPage {
 
     onSelectType(type: string = 'list') {
         this.type = type;
-        this.sendParams();
+        setTimeout(() => this.events.publish(this.eventName + ':reload', this.params), 1000);
     }
 
     onPageSettings() {

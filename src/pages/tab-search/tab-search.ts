@@ -38,11 +38,12 @@ export class TabSearchPage {
     ) {
     }
 
-    ionViewDidLoad(){
+    ionViewDidLoad() {
         // Translate Search Bar Placeholder
         this.util.translate('Search').then((res: string) => this.placeholder = res);
         this._width = this.util._widthPlatform / 3 + 'px';
-        this.cache();
+        //this.cache();
+        this.feed();
     }
 
     openSearchMap() {
@@ -63,12 +64,9 @@ export class TabSearchPage {
             }
 
             this.provider.feed(this.params).then(data => {
-
                 console.log('feed', data);
-                if (data && data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => {
-                        this.data.push(item);
-                    });
+                if (data.length) {
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
                     this.showErrorView = false;
                     this.showEmptyView = false;
                     this.moreItem      = true;
@@ -78,6 +76,7 @@ export class TabSearchPage {
                     }
                     this.moreItem = false;
                 }
+                this.loading = false;
                 resolve(data);
             }).catch(error => {
                 this.errorText     = error.message;
@@ -88,19 +87,19 @@ export class TabSearchPage {
         });
     }
 
-    private cache(): void {
-        console.log('Load cache', this.params);
-        this.provider.findCache(this.params).then(_data => {
-            console.log('cache', _data);
-            if (_data.length) {
-                _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
-                this.loading = false;
-                this.moreItem      = true;
-            } else {
-                this.feed();
-            }
-        });
-    }
+    //private cache(): void {
+    //    console.log('Load cache', this.params);
+    //    this.provider.findCache(this.params).then(_data => {
+    //        console.log('cache', _data);
+    //        if (_data.length) {
+    //            _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
+    //            this.loading  = false;
+    //            this.moreItem = true;
+    //        } else {
+    //            this.feed();
+    //        }
+    //    });
+    //}
 
     doSearch() {
         this.params.words = this.words;

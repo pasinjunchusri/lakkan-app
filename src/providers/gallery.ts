@@ -95,16 +95,7 @@ export class GalleryProvider {
     }
 
     public feed(params: IParams): Promise<any> {
-        return new Promise((resolve, reject) => {
-            Parse.Cloud
-                 .run('feedGallery', params)
-                 .then(data => {
-                     let _data = [];
-                     data.map(item => _data.push(item));
-                     resolve(_data)
-                 })
-                 .catch(reject);
-        });
+        return Parse.Cloud.run('feedGallery', params);
     }
 
     public feedCache(data: any): Promise<any> {
@@ -147,13 +138,9 @@ export class GalleryProvider {
         return Parse.Cloud.run('commentGallery', params);
     }
 
-    getAlbum(params) {
-        return Parse.Cloud.run('getAlbum', params);
-    }
-
     // Parse Crud
     get(objectId: string): Promise<any> {
-        return new Parse.Query(this._ParseObject).include('profile').get(objectId);
+        return Parse.Cloud.run('getGallery',{id: objectId});
     }
 
     getCache(objectId: string): Promise<any> {

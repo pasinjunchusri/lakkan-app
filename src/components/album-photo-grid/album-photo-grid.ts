@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
-import {GalleryProvider} from "../../providers/gallery";
-import {Events, NavController, ViewController, NavParams, PopoverController} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {Events, NavController, ViewController, NavParams, PopoverController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
-import {AlbumPhotoGridPopoverComponent} from '../album-photo-grid-popover/album-photo-grid-popover';
-import _ from 'underscore';
+import {AlbumPhotoGridPopoverComponent} from "../album-photo-grid-popover/album-photo-grid-popover";
 import {IonicUtilProvider} from "../../providers/ionic-util";
+import {GalleryAlbumProvider} from "../../providers/gallery-album";
+import _ from "underscore";
+declare const Parse: any;
 
 @Component({
     selector   : 'album-photo-grid',
@@ -23,10 +24,12 @@ export class AlbumPhotoGridComponent {
     loading: boolean       = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
+    moreItem: boolean      = false;
     canEdit: boolean       = false;
+    username: any;
     _width: any;
 
-    constructor(private provider: GalleryProvider,
+    constructor(private provider: GalleryAlbumProvider,
                 private events: Events,
                 private navCtrl: NavController,
                 private viewCtrl: ViewController,
@@ -34,60 +37,87 @@ export class AlbumPhotoGridComponent {
                 private popoverCtrl: PopoverController,
                 private util: IonicUtilProvider,
     ) {
-        console.log(this.navParams.get('id'));
-        this.params.id = this.navParams.get('id');
-        this._width    = this.util._widthPlatform / 3 + 'px';
-        this.feed();
-
-        events.subscribe('albumgrid:reload', () => this.feed());
-        events.subscribe('albumgrid:destroy', () => this.dismiss());
+        this._width   = this.util._widthPlatform / 3 + 'px';
+        this.username = new Parse.User.current().get('username');
     }
 
-    dismiss() {
+    ionViewWillEnter() {
+        console.log(this.navParams.get('id'));
+        this.params.id = this.navParams.get('id');
+
+        this.events.subscribe('albumgrid:reload', () => this.feed());
+        this.events.subscribe('albumgrid:destroy', () => this.dismiss());
+        this.provider.get(this.params.id).then(album => {
+            console.log('album', album);
+            this.canEdit = this.validCanEdit(album.user.get('username'));
+            this.feed();
+        })
+    }
+
+    dismiss(): void {
         this.viewCtrl.dismiss();
     }
 
-    openPhoto(item) {
-        console.log(item);
-        this.navCtrl.push(PhotoPage, {item: item});
+    openPhoto(item): void {
+        this.navCtrl.push(PhotoPage, {id: item.id});
     }
 
-    popover(event) {
+    popover(event): void {
         this.popoverCtrl.create(AlbumPhotoGridPopoverComponent, {id: this.params.id}).present({ev: event});
     }
 
-    feed() {
+    feed(): Promise<any> {
         return new Promise((resolve, reject) => {
-            console.log('Load Feed', this.params, this.loading);
-
             if (this.params.page == 1) {
                 this.data    = [];
                 this.loading = true;
             }
 
+            console.log('-----feed', this.params);
             this.provider.getAlbum(this.params).then(data => {
 
-                if (this.canEdit) {
-                    this.data.push({create: true});
-                }
 
-                if (data && data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => {
-                        this.data.push(item);
-                    });
-                } else {
+                console.log('-----result', data);
+                if (data) {
+                    this.showErrorView = false;
                     this.showEmptyView = false;
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+                } else {
+                    this.moreItem = false;
                 }
 
+                if (!this.data.length) {
+                    this.showEmptyView = true;
+                }
                 this.loading = false;
-                this.events.publish('photolist:complete');
                 resolve(data);
-            }, error => {
+            }).catch(error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
-                this.events.publish('photolist:complete');
+                this.loading       = false;
+                reject(error);
             });
         });
+    }
+
+    validCanEdit(username): boolean {
+        return (this.username == username) ? true : false;
+    }
+
+    public doInfinite(event) {
+        if (event) {
+            event.complete();
+        }
+        this.params.page++;
+        this.feed();
+    }
+
+    public doRefresh(event?) {
+        if (event) {
+            event.complete();
+        }
+        this.params.page = 1;
+        this.feed();
     }
 
 }

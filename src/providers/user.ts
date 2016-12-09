@@ -26,7 +26,6 @@ export class UserProvider {
         'email',
         'photo',
         'photoThumb',
-        'roleName',
     ];
     private _ParseObject     = Parse.User.extend({});
             cordova: boolean = false;
@@ -176,7 +175,6 @@ export class UserProvider {
         user.set('username', data.username);
         user.set('email', data.email)
         user.set('password', data.password)
-        user.set('roleName', 'UserProvider')
         return user.signUp(null);
 
     }
@@ -289,7 +287,7 @@ export class UserProvider {
                         this.data = data.rows.map(row => row.doc);
                     }
                     resolve(this.data);
-                })
+                });
             }
         });
     }

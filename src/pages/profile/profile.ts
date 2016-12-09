@@ -34,7 +34,7 @@ export class ProfilePage {
         limit    : 12,
         page     : 1,
         privacity: 'public',
-        username : ''
+        username : null
     }
 
     constructor(private User: UserProvider,
@@ -43,10 +43,10 @@ export class ProfilePage {
                 private modalCtrl: ModalController,
                 private util: IonicUtilProvider
     ) {
-
         this.username        = this.navParams.get('username');
         this.params.username = this.username;
         this.eventName       = this.username;
+        console.log('Open Profile', this.username);
 
         this.loading = true;
         this.User.getProfileCache(this.username).then(profile => {
@@ -56,10 +56,12 @@ export class ProfilePage {
             } else {
                 this.loadProfile();
             }
+            this.onSelectType();
         });
+    }
 
+    ionViewWillEnter() {
 
-        setTimeout(() => this.onSelectType('list'), 1000);
     }
 
     loadProfile() {
@@ -74,9 +76,9 @@ export class ProfilePage {
         this.modalCtrl.create(AccountEditModalPage).present();
     }
 
-    onSelectType(type: string) {
+    onSelectType(type: string = 'list') {
         this.type = type;
-        this.sendParams();
+        setTimeout(() => this.events.publish(this.eventName + ':reload', this.params), 500);
     }
 
     follow(user): void {
@@ -111,6 +113,7 @@ export class ProfilePage {
     }
 
     private sendParams(): void {
+        console.log('sendParams', this.params);
         this.events.publish(this.eventName + ':params', this.params);
     }
 

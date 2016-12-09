@@ -1,4 +1,4 @@
-<loader *ngIf="loading && !data.length"></loader>
+<loader *ngIf="loading"></loader>
 <!-- error -->
 <div class="center" *ngIf="showErrorView" padding>
     <div class="error ">
@@ -19,16 +19,16 @@
 <div *ngFor="let item of data; let index = index">
     <ion-row *ngIf="index % 3 === 0 ">
         <ion-col width-33 *ngIf="index < data.length">
-            <img (click)="openPhoto(data[index])" [src]="data[index].imageThumb.url()"
-                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+            <img-loader (click)="openPhoto(data[index])" [src]="data[index].imageThumb.url()"
+                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
         </ion-col>
         <ion-col width-33 *ngIf="index +1 < data.length">
-            <img (click)="openPhoto(data[index+1])" [src]="data[index+1].imageThumb.url()"
-                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+            <img-loader (click)="openPhoto(data[index+1])" [src]="data[index+1].imageThumb.url()"
+                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
         </ion-col>
         <ion-col width-33 *ngIf="index +2 < data.length">
-            <img (click)="openPhoto(data[index+2])" [src]="data[index+2].imageThumb.url()"
-                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+            <img-loader (click)="openPhoto(data[index+2])" [src]="data[index+2].imageThumb.url()"
+                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
         </ion-col>
     </ion-row>
 </div>

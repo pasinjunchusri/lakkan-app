@@ -1,4 +1,4 @@
-<loader *ngIf="loading && !data.length"></loader>
+<loader *ngIf="loading "></loader>
 <!-- error -->
 <div class="center" *ngIf="showErrorView" padding>
     <div class="error ">
@@ -18,21 +18,34 @@
 </div>
 <div *ngFor="let item of data; let index = index">
 
-    <ion-row *ngIf="index % 3 === 0 ">
-        <ion-col width-50 *ngIf="index < data.length && data[index].create">
-            <img (click)="albumForm()" src="assets/img/albumnew.png"/>
+    <ion-row *ngIf="index % 2 === 0 ">
+        <ion-col width-50 *ngIf="index < data.length">
+
+            <div *ngIf="data[index].create">
+                <img (click)="albumForm()" src="assets/img/albumnew.png"/>
+            </div>
+
+            <div *ngIf="!data[index].create">
+                <img-loader (click)="openAlbum(data[index])"
+                            *ngIf="data[index].imageThumb"
+                            [src]="data[index].imageThumb._url"
+                            [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
+                <img *ngIf="!data[index].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
+            </div>
         </ion-col>
-        <ion-col width-33 *ngIf="index < data.length && !data[index].create">
-            <img (click)="openPhoto(data[index])" [src]="data[index].imageThumb.url()"
-                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+        <ion-col width-50 *ngIf="index +1 < data.length">
+            <img-loader (click)="openAlbum(data[index+1])"
+                        *ngIf="data[index+1].imageThumb"
+                        [src]="data[index+1].imageThumb._url"
+                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
+            <img *ngIf="!data[index+1].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
         </ion-col>
-        <ion-col width-33 *ngIf="index +1 < data.length && !data[index].create">
-            <img (click)="openPhoto(data[index+1])" [src]="data[index+1].imageThumb.url()"
-                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
-        </ion-col>
-        <ion-col width-33 *ngIf="index +2 < data.length && !data[index].create">
-            <img (click)="openPhoto(data[index+2])" [src]="data[index+2].imageThumb.url()"
-                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+        <ion-col width-50 *ngIf="index +2 < data.length">
+            <img-loader (click)="openAlbum(data[index+2])"
+                        *ngIf="data[index+2].imageThumb"
+                        [src]="data[index+2].imageThumb._url"
+                        [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
+            <img *ngIf="!data[index+2].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
         </ion-col>
     </ion-row>
 </div>

@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from "@angular/core";
+import {App, Events, NavController} from "ionic-angular";
 import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
-import {Events, NavController} from "ionic-angular";
 import {GalleryAlbumProvider} from "../../providers/gallery-album";
 import {AlbumPhotoGridComponent} from "../album-photo-grid/album-photo-grid";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from "underscore";
+import {IParams} from "../../models/parse.params.model";
 declare const Parse: any;
 
 @Component({
@@ -17,15 +18,15 @@ export class AlbumGridComponent implements OnInit {
     @Input() event: string;
 
     params = {
-        limit: 15,
-        page : 1
+        limit   : 15,
+        page    : 1,
+        username: null
     };
 
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
     data                   = [];
     loading: boolean       = true;
-    moreItem: boolean      = false;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     canEdit: boolean       = false;
@@ -35,6 +36,7 @@ export class AlbumGridComponent implements OnInit {
                 private events: Events,
                 private navCtrl: NavController,
                 private util: IonicUtilProvider,
+                private app: App,
     ) {
         this._width = this.util._widthPlatform / 3 + 'px';
 
@@ -43,64 +45,85 @@ export class AlbumGridComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.info(this.event + ':params');
+        this.username = Parse.User.current().get('username');
+
         this.events.subscribe(this.event + ':params', params => {
-            if (params) {
-                this.params = params[0];
-                if (this.params['username']) {
-                    let username = Parse.User.current().get('username');
-                    console.log(this.params['username'], username);
-                    this.canEdit = (this.params['username'] == username) ? true : false;
-                }
-            }
+            console.warn('album starter ', this.event + ':params', params);
+            this.params = params[0];
             this.feed();
         });
 
-        console.info(this.event + ':reload');
-        this.events.subscribe(this.event + ':reload', () => {
-            this.params.page = 1;
-            this.data        = []
+        // Server Request
+        this.events.subscribe(this.event + ':params', (params: IParams) => {
+            console.info(this.event + ':params', params);
+            this.params = params[0];
             this.feed();
+        });
+
+        // Reload
+        this.events.subscribe(this.event + ':reload', (params: IParams) => {
+            console.warn('album-grid', this.event + ':reload');
+            this.params  = params[0];
+            this.canEdit = this.validCanEdit(this.params.username);
+            // Clean Cache and Reload
+            this.feed()
+                .then(() => this.events.publish('scroll:up'))
+                .catch(console.error);
+            ;
         });
     }
 
-    openAlbum(item) {
-        console.log(item);
-        this.navCtrl.push(AlbumPhotoGridComponent, {id: item.id});
+    validCanEdit(username): boolean {
+        return (this.username == username) ? true : false;
     }
 
-    albumForm() {
+    ngOnDestroy() {
+        console.warn('element destroy album grid');
+        this.events.unsubscribe(this.event + ':reload');
+        this.events.unsubscribe(this.event + ':params');
+        this.events.unsubscribe('albumgrid:reload');
+        this.events.unsubscribe('albumgrid:destroy');
+    }
+
+    openAlbum(item): void {
+        this.app.getRootNav().push(AlbumPhotoGridComponent, {id: item.id});
+    }
+
+    albumForm(): void {
         this.navCtrl.push(AlbumFormModalComponent);
     }
 
-    feed() {
+    feed(): Promise<any> {
         return new Promise((resolve, reject) => {
-            console.log('Load Feed', this.params, this.loading);
-
             if (this.params.page == 1) {
                 this.data = [];
+                if (this.validCanEdit(this.params.username)) {
+                    this.data.push({create: true})
+                }
             }
 
             this.provider.find(this.params).then(data => {
-                if (data && data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+                if (data) {
                     this.showErrorView = false;
                     this.showEmptyView = false;
-                    this.moreItem      = true;
-                } else {
-                    if (!this.data.length) {
-                        this.showEmptyView = false;
-                    }
-                    this.moreItem = false;
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+                    this.events.publish(this.event + ':moreItem', true);
+                }
+
+                if(!this.data.length){
+                    this.showEmptyView = true;
+                    this.events.publish(this.event + ':moreItem', true);
                 }
 
                 this.loading = false;
+                this.events.publish(this.event + ':complete', null);
                 resolve(data);
             }).catch(error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 this.loading       = false;
-                reject(this.errorText)
+                this.events.publish(this.event + ':complete', null);
+                reject(this.errorText);
             });
         });
     }

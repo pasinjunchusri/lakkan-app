@@ -29,6 +29,7 @@ export class AuthPage {
     alertTranslate: any        = {};
     cordova: boolean           = false;
     inputPasswordType: string  = 'password';
+    inputPasswordIcon: string  = 'eye-off';
     inputPasswordShow: boolean = false;
 
     constructor(private navCtrl: NavController,
@@ -92,6 +93,7 @@ export class AuthPage {
     toggleInputPassword() {
         this.inputPasswordShow = !this.inputPasswordShow;
         this.inputPasswordType = this.inputPasswordShow ? 'text' : 'password';
+        this.inputPasswordIcon = this.inputPasswordShow ? 'eye' : 'eye-off';
     }
 
     login(form): void {
@@ -103,7 +105,7 @@ export class AuthPage {
                 console.log(this.provider.current());
                 this.util.endLoading();
                 this.onPageTabs();
-            }, error => {
+            }).catch( error => {
                 console.log(error);
                 this.util.endLoading();
                 this.util.toast(error.message);
@@ -130,7 +132,7 @@ export class AuthPage {
                 this.provider.current = user;
                 this.util.endLoading();
                 this.onPageTabs();
-            }, error => {
+            }).catch( error => {
                 console.log(error);
                 this.util.endLoading();
                 this.util.toast(error.message);
@@ -158,9 +160,30 @@ export class AuthPage {
                 this.facebook.login(['public_profile']).then((authData) => {
                     console.log('facebook login', authData);
                     this.processFacebookLogin(authData);
+                }).catch( error => {
+                    console.log(error);
+                    this.util.endLoading();
+                    this.util.toast(error.message);
                 });
             }
+        }).catch( error => {
+            console.log(error);
+            this.util.endLoading();
+            this.util.toast(error.message);
         });
+
+        //Parse.FacebookUtils.logIn("user_likes,email", {
+        //    success: function (user) {
+        //        if (!user.existed()) {
+        //            alert("User signed up and logged in through Facebook!");
+        //        } else {
+        //            alert("User logged in through Facebook!");
+        //        }
+        //    },
+        //    error  : function (user, error) {
+        //        alert("User cancelled the Facebook login or did not fully authorize.");
+        //    }
+        //});
     }
 
     processFacebookLogin(authData) {
@@ -239,6 +262,9 @@ export class AuthPage {
                                     this.util.toast(this.alertTranslate.emailRecoverySend);
                                 }, 500);
                                 return false;
+                            }).catch(error=>{
+                                this.util.toast('Server error');
+                                this.util.endLoading();
                             });
                         } else {
                             this.util.toast(this.alertTranslate.emailRequired);

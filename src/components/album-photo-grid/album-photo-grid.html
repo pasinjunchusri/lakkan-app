@@ -1,49 +1,54 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Album Photos</ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-                <ion-icon name="close"></ion-icon>
+    <ion-navbar color="primary">
+        <ion-title>{{'Photos'| translate}}</ion-title>
+        <ion-buttons end>
+            <button *ngIf="canEdit" ion-button icon-only (click)="popover($event)">
+                <ion-icon name="more"></ion-icon>
             </button>
-    </ion-buttons>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="popover($event)">
-          <ion-icon name="more"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-  <loader *ngIf="loading && !data.length"></loader>
-  <!-- error -->
-  <div class="center" *ngIf="showErrorView" padding>
-    <div class="error ">
-      <ion-icon [name]="errorIcon"></ion-icon>
-      <p>{{ "errorText" | translate }}</p>
-      <button ion-button color="primary" (click)="onQuery()">{{ 'tryAgainText' | translate }}</button>
+    <loader *ngIf="loading"></loader>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <!-- error -->
+    <div class="center" *ngIf="showErrorView" padding>
+        <div class="error ">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ "errorText" | translate }}</p>
+            <button ion-button color="primary" (click)="onQuery()">{{ 'tryAgainText' | translate }}</button>
+        </div>
     </div>
-  </div>
-  <!-- empty-->
-  <div class="center" *ngIf="showEmptyView" padding>
-    <div class="error">
-      <ion-icon [name]="errorIcon"></ion-icon>
-      <p>{{ 'Album not found' | translate }}</p>
+    <!-- empty-->
+    <div class="center" *ngIf="showEmptyView" padding>
+        <div class="error">
+            <ion-icon [name]="errorIcon"></ion-icon>
+            <p>{{ 'Album not found' | translate }}</p>
+        </div>
     </div>
-  </div>
-  <div *ngFor="let item of data; let index = index">
-    <ion-row *ngIf="index % 3 === 0 ">
-      <ion-col width-33 *ngIf="index < data.length">
-        <img (click)="openPhoto(data[index])" [src]="data[index].imageThumb.url()"
-                    [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
-      </ion-col>
-      <ion-col width-33 *ngIf="index +1 < data.length">
-        <img (click)="openPhoto(data[index+1])" [src]="data[index+1].imageThumb.url()"
-                    [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
-      </ion-col>
-      <ion-col width-33 *ngIf="index +2 < data.length">
-        <img (click)="openPhoto(data[index+2])" [src]="data[index+2].imageThumb.url()"
-                    [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
-      </ion-col>
-    </ion-row>
-  </div>
+    <div *ngIf="!loading">
+        <div *ngFor="let item of data; let index = index">
+            <ion-row *ngIf="index % 3 === 0 ">
+                <ion-col width-33 *ngIf="index < data.length">
+                    <img (click)="openPhoto(data[index])" [src]="data[index].imageThumb._url"
+                         [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+                </ion-col>
+                <ion-col width-33 *ngIf="index +1 < data.length">
+                    <img (click)="openPhoto(data[index+1])" [src]="data[index+1].imageThumb._url"
+                         [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+                </ion-col>
+                <ion-col width-33 *ngIf="index +2 < data.length">
+                    <img (click)="openPhoto(data[index+2])" [src]="data[index+2].imageThumb._url"
+                         [ngStyle]="{'min-height': _width, 'min-widht': _width}"/>
+                </ion-col>
+            </ion-row>
+        </div>
+    </div>
+
+
+    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

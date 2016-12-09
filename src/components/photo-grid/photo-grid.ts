@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {Events} from "ionic-angular";
+import {NavController, Events} from "ionic-angular";
+import _ from "underscore";
 import {GalleryProvider} from "../../providers/gallery";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {IParams} from "../../models/parse.params.model";
-import _ from "underscore";
+import {PhotoPage} from "../../pages/photo/photo";
 
 @Component({
     selector   : 'photo-grid',
@@ -15,8 +16,9 @@ export class PhotoGridComponent implements OnInit {
     @Input() event: string;
 
     params: IParams = {
-        limit: 15,
-        page : 1
+        limit   : 15,
+        page    : 1,
+        username: null
     };
 
     errorIcon: string      = 'ios-images-outline';
@@ -29,7 +31,8 @@ export class PhotoGridComponent implements OnInit {
 
     constructor(private provider: GalleryProvider,
                 private events: Events,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private nav: NavController
     ) {
 
         this._width = util._widthPlatform / 3 + 'px';
@@ -38,47 +41,36 @@ export class PhotoGridComponent implements OnInit {
     ngOnInit() {
         // Cache Request
         this.events.subscribe(this.event + ':cache', (params: IParams) => {
-            console.info(this.event + ':cache', params);
-            this.params = params;
+            console.warn('photo-grid', this.event + ':cache', params);
+            this.params = params[0];
             this.cache();
         });
 
         // Server Request
         this.events.subscribe(this.event + ':params', (params: IParams) => {
-            console.info(this.event + ':params', params);
-            this.params = params;
+            console.warn('photo-grid', this.event + ':params', params);
+            this.params = params[0];
             this.feed();
         });
 
         // Reload
-        this.events.subscribe(this.event + ':reload', () => {
-            console.info(this.event + ':reload');
-            this.params.page = 1;
-            this.data        = []
+        this.events.subscribe(this.event + ':reload', (params: IParams) => {
+            console.warn('photo-grid', this.event + ':reload');
+            this.params = params[0];
+            this.data   = []
             // Clean Cache and Reload
-            this.provider.cleanCache()
-                .then(() => this.feed())
-                .then(this.provider.feedCache)
+            this.feed()
                 .then(() => this.events.publish('scroll:up'))
                 .catch(console.error);
             ;
         });
     }
 
-    ionViewDidLoad() {
-        console.info('ionViewDidLoad photolist');
-    }
-
-    ionViewWillEnter() {
-        console.info('ionViewWillEnter photolist');
-    }
-
-    ionViewDidLeave() {
-        console.info('ionViewDidLeave photolist');
+    openPhoto(item): void {
+        this.nav.push(PhotoPage, {id: item.id});
     }
 
     private feed(): Promise<any> {
-        console.log('Load Feed', this.params, this.loading);
 
         return new Promise((resolve, reject) => {
             if (this.params.page == 1) {
@@ -86,14 +78,20 @@ export class PhotoGridComponent implements OnInit {
                 this.loading = true;
             }
 
+            console.log('-----feed', this.params);
             this.provider.feed(this.params).then(data => {
-                console.info(data);
                 if (data) {
+                    this.showErrorView = false;
+                    this.showEmptyView = false;
                     _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
                     this.events.publish(this.event + ':moreItem', true);
-                } else {
-                    this.showEmptyView = false;
                 }
+
+                if(!this.data.length){
+                    this.showEmptyView = true;
+                    this.events.publish(this.event + ':moreItem', true);
+                }
+
                 this.loading = false;
                 this.events.publish(this.event + ':complete', null);
                 resolve(data);
