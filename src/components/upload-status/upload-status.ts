@@ -27,7 +27,7 @@ export class UploadStatusComponent {
                 private events: Events
     ) {
 
-        this.events.subscribe('upload:gallery', item => this.add(item));
+        this.events.subscribe('upload:gallery', item => this.add(item[0]));
     }
 
     add(item: IUpload) {
