@@ -140,7 +140,7 @@ export class GalleryProvider {
 
     // Parse Crud
     get(objectId: string): Promise<any> {
-        return Parse.Cloud.run('getGallery',{id: objectId});
+        return Parse.Cloud.run('getGallery', {id: objectId});
     }
 
     getCache(objectId: string): Promise<any> {
@@ -164,10 +164,6 @@ export class GalleryProvider {
     }
 
     destroy(objectId: string) {
-        return new Promise((resolve, reject) => {
-            this.get(objectId).then(item => {
-                item.destroy().then(resolve).catch(reject);
-            }).catch(reject);
-        });
+        return Parse.Cloud.run('destroyGallery', {id: objectId});
     }
 }
