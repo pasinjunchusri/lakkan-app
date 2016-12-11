@@ -19,6 +19,7 @@ export class ChatMessagePage {
     channelId: string;
     user: any;
     image: any;
+    users: any;
 
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
@@ -49,22 +50,23 @@ export class ChatMessagePage {
         this.user      = new Parse.User.current();
         this.image     = this.params.get('image');
 
-        console.log(this.image);
-
         this.events.subscribe('addMessage', message => {
             console.log('addMessage', message);
             if (message && message[0]) {
 
-                let item = message[0];
-                let obj  = {
+                let item  = message[0];
+                let obj   = {
                     _id      : item.id,
-                    message  : item.attributes.message,
-                    user     : item.attributes.user.attributes,
+                    message  : item.get('message'),
                     channel  : this.channelId,
                     createdAt: item.createdAt,
                     class    : 'right',
+                    user     : {},
                 };
+                obj.user  = _.findWhere(this.users, {id: item.get('user').id});
+                obj.class = this.userClass(obj.user);
 
+                console.log('obj', obj);
                 this.Message.cache(obj);
                 this.data.push(obj);
                 this.scrollTop();
@@ -72,8 +74,15 @@ export class ChatMessagePage {
             }
         });
 
-        this.Channel.get(this.channelId).then(channel => {
-            this.channel = channel;
+
+        Promise.all([
+            this.Channel.get(this.channelId),
+            this.Channel.getCache(this.channelId)
+        ]).then(data => {
+            console.log('channel', data);
+
+            this.channel = data[0];
+            this.users   = data[1].users;
             this.initForm();
 
             let chatMessage = Parse.Object.extend('ChatMessage');
@@ -145,12 +154,23 @@ export class ChatMessagePage {
 
     }
 
+    userClass(user) {
+        return user.id === this.user.id ? 'right' : 'left';
+    }
+
 
     onSendMessage(): void {
-        this.Message.create(this.form).then(message => {
-            console.log(message);
+        let message = this.form.message;
+        if (message) {
             this.initForm();
-        });
+            this.Message.create(this.form).then(message => {
+                console.log(message);
+            }).catch(error => {
+                this.util.toast('Error');
+                this.form.message = message;
+            });
+        }
+
     }
 
 }

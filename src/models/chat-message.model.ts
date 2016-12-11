@@ -1,6 +1,6 @@
 export interface IChatMessage {
     id?: string,
-    channel: any,
+    channelId: string,
     message: string;
     user: string;
     image?: any;

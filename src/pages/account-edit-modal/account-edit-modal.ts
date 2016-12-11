@@ -1,11 +1,10 @@
-import {Component} from '@angular/core';
-import {ViewController, Events} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {ViewController, Events} from "ionic-angular";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
 import {ParseFileProvider} from "../../providers/parse-file";
 import {FormBuilder, Validators} from "@angular/forms";
-
-import * as _ from 'underscore';
+import * as _ from "underscore";
 
 @Component({
     selector   : 'page-account-edit-modal',
@@ -80,11 +79,11 @@ export class AccountEditModalPage {
                 console.log(result);
                 this.ionic.endLoading();
                 this.dismiss();
-            }, error => {
+            }).catch(error => {
                 console.log(error);
                 this.dismiss();
                 this.ionic.endLoading();
-            })
+            });
         }
     }
 

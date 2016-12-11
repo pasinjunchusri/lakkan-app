@@ -50,9 +50,11 @@ export class PhotoListComponent implements OnInit {
 
         // Reload
         this.events.subscribe(this.event + ':reload', (params) => {
-            console.warn('photo-grid', this.event + ':reload');
-            if (params) {
+            console.warn('photo-list', this.event + ':reload', params);
+            if (params[0]) {
                 this.params = params[0];
+            } else {
+                this.params.page = 1;
             }
             this.data = []
             // Clean Cache and Reload

@@ -27,8 +27,7 @@
             </ion-item>
             <ion-item>
                 <ion-label>{{'Privacity' | translate}}</ion-label>
-                <ion-select [(ngModel)]="form.privacity" name="privacity"
-                            #privacity="ngModel">
+                <ion-select [(ngModel)]="form.privacity" name="privacity">
                     <ion-option value="public">{{'Public' | translate}}</ion-option>
                     <ion-option value="followers">{{'Followers' | translate}}</ion-option>
                     <ion-option value="me">{{'Me' | translate }}</ion-option>

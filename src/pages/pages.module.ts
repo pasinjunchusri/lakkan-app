@@ -68,6 +68,7 @@ import {ChatChannelPage} from "./chat-channel/chat-channel";
 import {ChatFormPage} from "./chat-form/chat-form";
 import {ChatMessagePage} from "./chat-message/chat-message";
 import {ChatSharePhotoPage} from "./chat-share-photo/chat-share-photo";
+import {PhotoEditPage} from "./photo-edit/photo-edit";
 
 declare var window: any;
 
@@ -106,6 +107,7 @@ export const APP_PAGES = [
     LoaderComponent,
     PhotoCommentModalComponent,
     PhotoFeedbackModalComponent,
+    PhotoEditPage,
     PhotoGridComponent,
     PhotoMapComponent,
     PhotoListComponent,

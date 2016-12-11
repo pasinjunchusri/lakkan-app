@@ -99,6 +99,10 @@ export class UserProvider {
         });
     }
 
+    getCache(id: string): Promise<any> {
+        return this.db.get(id);
+    }
+
     public findCache(params?: IParams): Promise<any> {
         return new Promise(resolve => {
             this.db.allDocs({include_docs: true}).then(data => {

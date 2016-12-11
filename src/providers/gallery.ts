@@ -83,6 +83,11 @@ export class GalleryProvider {
         return Parse.Cloud.run('searchGallery', params);
     }
 
+    public updatedGallery(params: any): Promise<any> {
+        console.log('update', params);
+        return Parse.Cloud.run('updateGallery', params);
+    }
+
     public cleanCache(): Promise<any> {
         this.data = [];
         return new Promise((resolve, reject) => {

@@ -30,19 +30,13 @@ export class ChatSharePhotoPage {
     }
 
     ionViewDidLoad() {
-        console.log('Hello ChatChannelPage Page');
-
         this.image = this.params.get('image');
-
-        console.log(this.image);
-
         this.findCache();
     }
 
     onPageMessage(item) {
         this.dismiss();
         this.app.getRootNav().push(ChatMessagePage, {channel: item.id, image: this.image});
-        //this.navCtrl.push(ChatMessagePage, {channel: item.id, photo: this.photo});
     }
 
 

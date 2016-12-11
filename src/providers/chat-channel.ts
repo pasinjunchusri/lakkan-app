@@ -44,21 +44,8 @@ export class ChatChannelProvider {
     find(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.cleanDB()
-                .then(() => Parse.Cloud.run('getChatChannel'))
-                .then(data => {
-                    data.map(item => {
-                        let obj      = item;
-                        obj._id      = item.id;
-                        obj.profiles = item.profiles.map(profile => profile.attributes);
-                        obj.users    = item.users.map(user => user.attributes);
-                        if (item.message) {
-                            obj.message = item.message.attributes;
-                        }
-                        console.info(obj);
-                        this.db.put(obj);
-                    });
-                    return data;
-                })
+                .then(() => Parse.Cloud.run('getChatChannels'))
+                .then(data => data.map(item => this.db.put(item)))
                 .then(() => this.findCache())
                 .then(resolve)
                 .catch(reject);
@@ -90,6 +77,10 @@ export class ChatChannelProvider {
                 })
             }
         });
+    }
+
+    getCache(id: string) {
+        return this.db.get(id);
     }
 
     // Parse Crud

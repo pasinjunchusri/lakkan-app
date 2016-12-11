@@ -43,9 +43,8 @@ export class AuthPage {
     ) {
 
         // Define Facebook Browser and Native
-        this.facebookNative  = Facebook;
-        this.facebookBrowser = fb;
-        this.cordova         = this.util.cordova;
+        this.facebookNative = Facebook;
+        this.cordova        = this.util.cordova;
 
         if (!this.cordova) {
             this.loadFacebok();
@@ -66,7 +65,7 @@ export class AuthPage {
 
     loadFacebok() {
         this.lib.facebookLoad().then(() => {
-            this.facebook = this.facebookBrowser;
+            setTimeout(() => this.facebook = this.fb, 1000);
         }).catch(error => {
             this.util.toast(error);
             this.util.tryConnect().then(() => this.loadFacebok());
@@ -105,7 +104,7 @@ export class AuthPage {
                 console.log(this.provider.current());
                 this.util.endLoading();
                 this.onPageTabs();
-            }).catch( error => {
+            }).catch(error => {
                 console.log(error);
                 this.util.endLoading();
                 this.util.toast(error.message);
@@ -132,7 +131,7 @@ export class AuthPage {
                 this.provider.current = user;
                 this.util.endLoading();
                 this.onPageTabs();
-            }).catch( error => {
+            }).catch(error => {
                 console.log(error);
                 this.util.endLoading();
                 this.util.toast(error.message);
@@ -160,13 +159,13 @@ export class AuthPage {
                 this.facebook.login(['public_profile']).then((authData) => {
                     console.log('facebook login', authData);
                     this.processFacebookLogin(authData);
-                }).catch( error => {
+                }).catch(error => {
                     console.log(error);
                     this.util.endLoading();
                     this.util.toast(error.message);
                 });
             }
-        }).catch( error => {
+        }).catch(error => {
             console.log(error);
             this.util.endLoading();
             this.util.toast(error.message);
@@ -262,7 +261,7 @@ export class AuthPage {
                                     this.util.toast(this.alertTranslate.emailRecoverySend);
                                 }, 500);
                                 return false;
-                            }).catch(error=>{
+                            }).catch(error => {
                                 this.util.toast('Server error');
                                 this.util.endLoading();
                             });

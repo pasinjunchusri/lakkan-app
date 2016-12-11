@@ -3,6 +3,8 @@ import {NavController, ModalController, Events, Content} from "ionic-angular";
 import {ChatFormPage} from "../chat-form/chat-form";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import {ChatMessagePage} from "../chat-message/chat-message";
+import _ from "underscore";
+declare const Parse: any;
 
 @Component({
     selector   : 'page-chat-channel',
@@ -34,9 +36,7 @@ export class ChatChannelPage {
     }
 
     ionViewDidLoad() {
-        console.log('Hello ChatChannelPage Page');
         this.provider.findCache().then(data => {
-            console.log('cache', data);
             if (data.length) {
                 this.parseResult(data);
             } else {
@@ -53,7 +53,11 @@ export class ChatChannelPage {
     parseResult(data) {
         console.log(data);
         if (data) {
-            data.map(item => this.data.push(item));
+            let user = new Parse.User.current();
+            data.map(channel => {
+                channel.users = _.filter(channel.users, _user => user.id != _user['id']);
+                this.data.push(channel);
+            });
             this.showEmptyView = false;
             this.showErrorView = false;
         } else {
@@ -73,7 +77,6 @@ export class ChatChannelPage {
             this.loading = true;
             this.data    = [];
             this.provider.find().then(data => {
-                console.log(data);
                 this.parseResult(data);
                 resolve(data);
             }, error => {

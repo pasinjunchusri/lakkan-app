@@ -1,17 +1,17 @@
 <ion-list>
-    <ion-item *ngIf="!item" (click)="openAlbumList()">
+    <ion-item *ngIf="!album.title" (click)="openAlbumList()">
         <ion-thumbnail item-left>
             <img src="assets/img/albumnone.png">
         </ion-thumbnail>
         <h2>{{'Select album' | translate}}</h2>
     </ion-item>
-    <ion-item *ngIf="item" (click)="openAlbumList()">
+    <ion-item *ngIf="album.title" (click)="openAlbumList()">
         <ion-thumbnail item-left>
-            <img *ngIf="!item.imageThumb" src="assets/img/albumnew.png" alt="">
-            <img *ngIf="item.imageThumb" [src]="item.imageThumb._url">
+            <img *ngIf="!album.imageThumb" src="assets/img/albumnone.png">
+            <img *ngIf="album.imageThumb" [src]="album.imageThumb._url">
         </ion-thumbnail>
-        <h2>{{item.title}}</h2>
-        <p>{{item.description}}</p>
-        <p>{{item.qtyPhotos}}</p>
+        <h2>{{album.title}}</h2>
+        <p>{{album.description}}</p>
+        <p>{{'photos'| translate }} {{album.qtyPhotos}}</p>
     </ion-item>
 </ion-list>

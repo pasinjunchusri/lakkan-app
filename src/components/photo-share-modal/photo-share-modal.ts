@@ -29,8 +29,8 @@ export class PhotoShareModal {
         this.image     = this.navparams.get('base64');
         this.eventName = this.navparams.get('eventName');
 
-        events.subscribe('album:selected', album => this.form.albumId = album.id);
-        events.subscribe(this._eventName, _imageCroped => this.image = _imageCroped);
+        events.subscribe('album:selected', album => this.form.albumId = album[0].id);
+        events.subscribe(this._eventName, _imageCroped => this.image = _imageCroped[0]);
     }
 
     showAddressModal() {

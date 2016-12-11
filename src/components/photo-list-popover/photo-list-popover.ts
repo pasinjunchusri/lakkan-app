@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
-import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
 import {IonicUtilProvider} from '../../providers/ionic-util';
 import {GalleryProvider} from "../../providers/gallery";
 import {PhotoFeedbackModalComponent} from "../photo-feedback-modal/photo-feedback-modal";
+import {PhotoEditPage} from "../../pages/photo-edit/photo-edit";
 declare const Parse:any;
 
 @Component({
@@ -11,7 +11,6 @@ declare const Parse:any;
     template: `
   <ion-list>
       <button ion-item (click)="report()">{{'Report' | translate}}</button>
-      <button ion-item (click)="share()">{{'Share' | translate}}</button>
       <button *ngIf="canEdit" ion-item (click)="edit()">{{ 'Edit photo' | translate}}</button>
       <button *ngIf="canEdit" ion-item (click)="destroy()">{{'Destroy photo' | translate}}</button>
 </ion-list>
@@ -58,13 +57,9 @@ export class PhotoListPopoverComponent {
         this.close();
     }
 
-    share() {
-        this.close();
-    }
-
     edit() {
         this.close();
-        this.modalCtrl.create(AlbumFormModalComponent, {item: this.item}).present();
+        this.modalCtrl.create(PhotoEditPage, {item: this.item}).present();
     }
 
     destroy() {
@@ -89,6 +84,9 @@ export class PhotoListPopoverComponent {
                             // Event Emit
                             this.events.publish('albumgrid:destroy');
                             this.events.publish('home:reload', null);
+                        }).catch(error=>{
+                            console.log(error);
+                            this.util.toast('Error')
                         });
                     }
                 }

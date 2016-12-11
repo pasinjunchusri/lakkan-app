@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button clear (click)="dismiss(true)">
+                {{'Cancel' | translate}}
+            </button>
+        </ion-buttons>
+        <ion-title>{{'Edit' | translate }}</ion-title>
+        <ion-buttons end>
+            <button ion-button clear (click)="submit(rForm)">
+                {{'Next' | translate}}
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-list >
+        <ion-item>
+            <ion-avatar item-left>
+                <img-loader *ngIf="item.user.photo" [src]="item.user.photo._url" width="40px"
+                            height="40px"></img-loader>
+                <img *ngIf="!item.user.photo" src="assets/img/user.png">
+            </ion-avatar>
+            <h2>{{item.user.username}}</h2>
+            <p>{{item.user.status}}</p>
+
+            <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
+
+        </ion-item>
+        <img-loader [src]="item.image._url" [ngStyle]="{'min-height': _width, 'max-widht': _width}"></img-loader>
+        <form #rForm="ngForm" (ngSubmit)="submit(rForm)">
+            <ion-item>
+                <ion-label floating>{{'Title' | translate }}</ion-label>
+                <ion-input type="text" [(ngModel)]="form.title" name="title"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'Privacity' | translate}}</ion-label>
+                <ion-select [(ngModel)]="form.privacity" name="privacity">
+                    <ion-option value="public">{{'Public' | translate}}</ion-option>
+                    <ion-option value="followers">{{'Followers' | translate}}</ion-option>
+                    <ion-option value="me">{{'Me' | translate }}</ion-option>
+                </ion-select>
+            </ion-item>
+            <!-- Album -->
+            <album-input [album]="item.album"></album-input>
+            <!-- Location -->
+            <ion-item>
+                <ion-icon name="pin" item-left></ion-icon>
+                <!--<div *ngIf="address['resume']">-->
+                <!--<h2>{{address['resume']}}</h2>-->
+                <!--<ion-icon name="close" (click)="clearAddress()" icon-right></ion-icon>-->
+                <!--</div>-->
+                <!--<div (click)="showAddressModal()" *ngIf="!address['resume']">-->
+                <!--<h2>{{ 'Location' | translate}}</h2>-->
+                <!--</div>-->
+            </ion-item>
+        </form>
+    </ion-list>
+</ion-content>

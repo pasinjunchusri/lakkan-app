@@ -41,9 +41,8 @@ export class ParsePushProvider {
         return new Promise((resolve, reject) => {
 
             this.current = new Parse.User.current();
-
             if (ParsePushPlugin && this.current) {
-                ParsePushPlugin.subscribe(this.current['username'], resolve);
+                ParsePushPlugin.subscribe(this.current.get('username'), resolve);
             } else {
                 reject('Not device');
             }

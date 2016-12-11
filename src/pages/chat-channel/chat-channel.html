@@ -35,24 +35,24 @@
         <ion-item *ngFor="let item of data" (click)="onPageMessage(item)">
             <ion-avatar item-left>
                 <!-- One Profile-->
-                <img-loader *ngIf="item.profiles.length==1 && item.profiles[0].photo" [src]="item.profiles[0].photo._url"></img-loader>
-                <img *ngIf="item.profiles.length==1 && !item.profiles[0].photo" src="assets/img/user.png">
+                <img-loader *ngIf="item.users.length==1 && item.users[0].photo" [src]="item.users[0].photo._url"></img-loader>
+                <img *ngIf="item.users.length==1 && !item.users[0].photo" src="assets/img/user.png">
 
 
                 <!-- Profile 1-->
-                <img-loader class="img" *ngIf="item.profiles.length>1 && item.profiles[0].photo" [src]="item.profiles[0].photo._url"></img-loader>
-                <img class="img" *ngIf="item.profiles.length>1 && !item.profiles[0].photo" src="assets/img/user.png">
+                <img-loader class="img" *ngIf="item.users.length>1 && item.users[0].photo" [src]="item.users[0].photo._url"></img-loader>
+                <img class="img" *ngIf="item.users.length>1 && !item.users[0].photo" src="assets/img/user.png">
 
 
                 <!-- Profile 2-->
-                <img-loader class="img2" *ngIf="item.profiles.length>1 && item.profiles[1].photo" [src]="item.profiles[1].photo._url"></img-loader>
-                <img class="img2" *ngIf="item.profiles.length>1 && !item.profiles[1].photo" src="assets/img/user.png">
+                <img-loader class="img2" *ngIf="item.users.length>1 && item.users[1].photo" [src]="item.users[1].photo._url"></img-loader>
+                <img class="img2" *ngIf="item.users.length>1 && !item.users[1].photo" src="assets/img/user.png">
 
             </ion-avatar>
 
             <ion-note item-right *ngIf="item.message">{{item.message.createdAt | amTimeAgo}}</ion-note>
 
-            <h2 *ngFor="let profile of item.profiles">{{profile.username}}</h2>
+            <h2 *ngFor="let profile of item.users">{{profile.username}}</h2>
             <p *ngIf="item.message">{{item.message.message}}</p>
         </ion-item>
     </ion-list>

@@ -33,6 +33,10 @@
             <ion-icon name="ios-return-right"></ion-icon>
         </button>
 
+        <button (click)="openAlbum(item.album)" ion-button large clear>
+            {{item.album.title}}
+        </button>
+
         <ion-note item-right>
             <ion-icon name="ios-heart"></ion-icon>
             {{item.likesTotal}} {{'likes' | translate}}

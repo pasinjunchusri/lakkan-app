@@ -6,6 +6,7 @@ import {ProfilePage} from "../../pages/profile/profile";
 import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-modal";
 import {PhotoListPopoverComponent} from "../photo-list-popover/photo-list-popover";
 import {ChatSharePhotoPage} from "../../pages/chat-share-photo/chat-share-photo";
+import {AlbumPhotoGridComponent} from "../album-photo-grid/album-photo-grid";
 
 declare const Parse: any;
 
@@ -47,6 +48,10 @@ export class PhotoCardComponent {
     openProfile(username: string):void {
         console.log('username', username);
         this.app.getRootNav().push(ProfilePage, {username: username})
+    }
+
+    openAlbum(item): void {
+        this.app.getRootNav().push(AlbumPhotoGridComponent, {id: item.id});
     }
 
     onLike(item):void {
