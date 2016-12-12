@@ -53,7 +53,7 @@ export class ChatChannelPage {
     parseResult(data) {
         console.log(data);
         if (data) {
-            let user = new Parse.User.current();
+            let user = Parse.User.current();
             data.map(channel => {
                 channel.users = _.filter(channel.users, _user => user.id != _user['id']);
                 this.data.push(channel);

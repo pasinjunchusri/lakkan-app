@@ -98,7 +98,7 @@ export class ChatMessageProvider {
                     this.data = [];
                     if (data.total_rows) {
                         data.rows.map(row => this.data.push(row.doc));
-                        let currentUser = new Parse.User.current();
+                        let currentUser = Parse.User.current();
                         // Update Photo user
                         this.data       = this.data.map(message => {
                             if (message.user.id === currentUser.id) {

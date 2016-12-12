@@ -38,7 +38,7 @@ export class AlbumPhotoGridComponent {
                 private util: IonicUtilProvider,
     ) {
         this._width   = this.util._widthPlatform / 3 + 'px';
-        this.username = new Parse.User.current().get('username');
+        this.username = Parse.User.current().get('username');
     }
 
     ionViewWillEnter() {

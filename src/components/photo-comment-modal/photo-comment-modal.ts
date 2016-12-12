@@ -40,7 +40,7 @@ export class PhotoCommentModalComponent {
             text: ''
         };
 
-        this.user = new Parse.User.current();
+        this.user = Parse.User.current();
 
         //this.gallery        = this.navparams.data.obj;
         //this.onQuery();

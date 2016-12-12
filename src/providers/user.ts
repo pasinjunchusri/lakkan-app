@@ -61,7 +61,7 @@ export class UserProvider {
     }
 
     current(): any {
-        return new Parse.User.current();
+        return Parse.User.current();
     }
 
     fetch() {
@@ -174,7 +174,7 @@ export class UserProvider {
     }
 
     signUp(data) {
-        let user = new Parse.User();
+        let user = Parse.User();
         user.set('name', data.name);
         user.set('username', data.username);
         user.set('email', data.email)

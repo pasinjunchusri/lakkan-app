@@ -8,11 +8,12 @@ import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-auto
     templateUrl: 'photo-share-modal.html'
 })
 export class PhotoShareModal {
-    form: any    = {
+    form         = {
         title    : '',
         privacity: 'public',
         address  : {},
-        location : null
+        albumId  : null,
+        location : null,
     };
     location: any;
     address: any = {};

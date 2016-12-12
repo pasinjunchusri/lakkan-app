@@ -41,7 +41,7 @@ export class UserDataProvider {
     }
 
     current(): any {
-        return new Parse.User.current();
+        return Parse.User.current();
     }
 
     profile(username: string): Promise<any> {

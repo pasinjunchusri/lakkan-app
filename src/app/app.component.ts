@@ -41,7 +41,7 @@ export class MyApp implements OnInit {
             // StatusBar.styleDefault();
             Splashscreen.hide();
 
-            let user = new Parse.User.current();
+            let user = Parse.User.current();
             console.log(user);
             if (!user) {
                 this.rootPage = IntroPage;

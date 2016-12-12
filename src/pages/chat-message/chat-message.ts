@@ -47,7 +47,7 @@ export class ChatMessagePage {
     ionViewDidLoad() {
 
         this.channelId = this.navParams.get('channel');
-        this.user      = new Parse.User.current();
+        this.user      = Parse.User.current();
         this.image     = this.params.get('image');
 
         this.events.subscribe('addMessage', message => {
