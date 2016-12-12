@@ -1,15 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Platform} from 'ionic-angular';
-import {Splashscreen} from 'ionic-native';
-
+import {Component, OnInit} from "@angular/core";
+import {Platform} from "ionic-angular";
+import {Splashscreen} from "ionic-native";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
-
 import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
 import {ImageLoaderConfig} from "ionic-image-loader";
 import {ParsePushProvider} from "../providers/parse-push";
 
-declare const Parse:any;
+declare const Parse: any;
 
 @Component({
     template: `<ion-nav [root]="rootPage" #content></ion-nav>`
@@ -43,11 +41,12 @@ export class MyApp implements OnInit {
             // StatusBar.styleDefault();
             Splashscreen.hide();
 
-            console.log(Parse.User.current());
-            if (!Parse.User.current()) {
-                this.Push.init();
+            let user = new Parse.User.current();
+            console.log(user);
+            if (!user) {
                 this.rootPage = IntroPage;
             } else {
+                this.Push.init();
                 this.rootPage = TabsPage;
             }
         });
