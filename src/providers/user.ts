@@ -174,7 +174,7 @@ export class UserProvider {
     }
 
     signUp(data) {
-        let user = Parse.User();
+        let user = new Parse.User();
         user.set('name', data.name);
         user.set('username', data.username);
         user.set('email', data.email)
