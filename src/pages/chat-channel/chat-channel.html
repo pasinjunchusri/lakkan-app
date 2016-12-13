@@ -52,7 +52,7 @@
 
             <ion-note item-right *ngIf="item.message">{{item.message.createdAt | amTimeAgo}}</ion-note>
 
-            <h2 *ngFor="let profile of item.users">{{profile.username}}</h2>
+            <h2 *ngFor="let profile of item.users">{{profile.name}}</h2>
             <p *ngIf="item.message">{{item.message.message}}</p>
         </ion-item>
     </ion-list>
