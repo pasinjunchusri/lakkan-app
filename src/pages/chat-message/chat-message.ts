@@ -149,6 +149,7 @@ export class ChatMessagePage {
     parseData(data: any[]): any[] {
         return _.sortBy(data, 'createdAt').map(item => {
             item.class = item.user.id === this.user.id ? 'right' : 'left';
+            item.user  = _.findWhere(this.users, {id: item.user.id});
             return item;
         });
 
@@ -162,12 +163,10 @@ export class ChatMessagePage {
     onSendMessage(): void {
         let message = this.form.message;
         if (message) {
-            this.initForm();
             this.Message.create(this.form).then(message => {
-                console.log(message);
+                this.initForm();
             }).catch(error => {
                 this.util.toast('Error');
-                this.form.message = message;
             });
         }
 

@@ -4,7 +4,7 @@
             <img-loader *ngIf="item.user.photo" [src]="item.user.photo._url" width="40px" height="40px"></img-loader>
             <img *ngIf="!item.user.photo" src="assets/img/user.png" >
         </ion-avatar>
-        <h2>{{item.user.username}}</h2>
+        <h2>{{item.user.name}}</h2>
         <p>{{item.user.status}}</p>
 
         <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
@@ -45,7 +45,7 @@
     </ion-item>
     <div padding>
         <p *ngFor="let comment of item.comments">
-            <b>{{comment.user.username}}</b> {{comment.text}}
+            <b>{{comment.user.name}}</b> {{comment.text}}
         </p>
     </div>
 

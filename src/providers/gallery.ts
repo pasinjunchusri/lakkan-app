@@ -148,6 +148,10 @@ export class GalleryProvider {
         return Parse.Cloud.run('getGallery', {id: objectId});
     }
 
+    getParse(objectId: string): Promise<any> {
+        return new Parse.Query(this._ParseObject).get(objectId);
+    }
+
     getCache(objectId: string): Promise<any> {
         return this.db.get(objectId);
     }

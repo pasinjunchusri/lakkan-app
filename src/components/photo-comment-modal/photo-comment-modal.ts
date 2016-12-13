@@ -58,7 +58,7 @@ export class PhotoCommentModalComponent {
 
     onGallery(galleryId: string) {
         this.util.onLoading();
-        this.Gallery.get(galleryId).then(gallery => {
+        this.Gallery.getParse(galleryId).then(gallery => {
                 this.form.gallery = gallery;
                 return this.onQuery()
             })
