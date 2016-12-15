@@ -1,6 +1,9 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-searchbar [(ngModel)]="search" (ionInput)="doSearch()" (ionCancel)="doCancel()"
+        <ion-searchbar [(ngModel)]="search"
+                       (ionInput)="doSearch()"
+                       (ionCancel)="doCancel()"
+                       [debounce]="1000"
                        [placeholder]="placeholder"></ion-searchbar>
     </ion-navbar>
 </ion-header>
