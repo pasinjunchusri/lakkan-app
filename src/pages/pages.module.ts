@@ -1,54 +1,44 @@
-import {IonicModule, Config, Platform} from 'ionic-angular';
-import {NgModule} from '@angular/core';
-import {Http} from '@angular/http';
-import {CommonModule} from '@angular/common';
-
-import _ from 'underscore';
-
+import {IonicModule, Config, Platform} from "ionic-angular";
+import {NgModule} from "@angular/core";
+import {Http} from "@angular/http";
+import {CommonModule} from "@angular/common";
+import _ from "underscore";
 // External Libs
-import {MomentModule} from 'angular2-moment';
-import {IonicImageLoader} from 'ionic-image-loader';
-import {TranslateStaticLoader, TranslateModule, TranslateLoader, TranslateService} from 'ng2-translate';
-
-export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, './i18n', '.json');
-}
-
+import {MomentModule} from "angular2-moment";
+import {IonicImageLoader} from "ionic-image-loader";
+import {TranslateStaticLoader, TranslateModule, TranslateLoader, TranslateService} from "ng2-translate";
 // Config
-import {language_default, languages} from '../config';
-
+import {language_default, languages} from "../config";
 // Pipes
-import {PipesModule} from '../pipes/pipes.module';
-
+import {PipesModule} from "../pipes/pipes.module";
 // Providers
-import {ProvidersModule} from '../providers/providers.module';
-
+import {ProvidersModule} from "../providers/providers.module";
 // Pages
-import {TabsPage} from '../pages/tabs/tabs';
+import {TabsPage} from "../pages/tabs/tabs";
 import {TabHomePage} from "../pages/tab-home/tab-home";
 import {TabSearchPage} from "../pages/tab-search/tab-search";
 import {TabActivityPage} from "../pages/tab-activity/tab-activity";
 import {IntroPage} from "../pages/intro/intro";
-import {AuthPage} from './auth/auth';
-import {TabAccountPage} from './tab-account/tab-account';
-import {TabAccountPopoverPage} from './tab-account-popover/tab-account-popover';
-import {AccountEditModalPage} from './account-edit-modal/account-edit-modal';
-import {TabAccountSettingsPage} from './tab-account-settings/tab-account-settings';
-import {PhotoCommentModalComponent} from '../components/photo-comment-modal/photo-comment-modal';
-import {PhotoFeedbackModalComponent} from '../components/photo-feedback-modal/photo-feedback-modal';
-import {PhotoGridComponent} from '../components/photo-grid/photo-grid';
-import {PhotoListComponent} from '../components/photo-list/photo-list';
-import {PhotoCardComponent} from '../components/photo-card/photo-card';
-import {PhotoPage} from './photo/photo';
-import {LoaderComponent} from '../components/loader/loader';
-import {UserPasswordPage} from './user-password/user-password';
-import {ProfilePage} from './profile/profile';
-import {AlbumFormModalComponent} from '../components/album-form-modal/album-form-modal';
-import {AlbumGridComponent} from '../components/album-grid/album-grid';
-import {AlbumPhotoGridComponent} from '../components/album-photo-grid/album-photo-grid';
-import {AlbumPhotoGridPopoverComponent} from '../components/album-photo-grid-popover/album-photo-grid-popover';
-import {LanguageModalComponent} from '../components/language-modal/language-modal';
-import {FocusDirective} from '../directives/focus/focus';
+import {AuthPage} from "./auth/auth";
+import {TabAccountPage} from "./tab-account/tab-account";
+import {TabAccountPopoverPage} from "./tab-account-popover/tab-account-popover";
+import {AccountEditModalPage} from "./account-edit-modal/account-edit-modal";
+import {TabAccountSettingsPage} from "./tab-account-settings/tab-account-settings";
+import {PhotoCommentModalComponent} from "../components/photo-comment-modal/photo-comment-modal";
+import {PhotoFeedbackModalComponent} from "../components/photo-feedback-modal/photo-feedback-modal";
+import {PhotoGridComponent} from "../components/photo-grid/photo-grid";
+import {PhotoListComponent} from "../components/photo-list/photo-list";
+import {PhotoCardComponent} from "../components/photo-card/photo-card";
+import {PhotoPage} from "./photo/photo";
+import {LoaderComponent} from "../components/loader/loader";
+import {UserPasswordPage} from "./user-password/user-password";
+import {ProfilePage} from "./profile/profile";
+import {AlbumFormModalComponent} from "../components/album-form-modal/album-form-modal";
+import {AlbumGridComponent} from "../components/album-grid/album-grid";
+import {AlbumPhotoGridComponent} from "../components/album-photo-grid/album-photo-grid";
+import {AlbumPhotoGridPopoverComponent} from "../components/album-photo-grid-popover/album-photo-grid-popover";
+import {LanguageModalComponent} from "../components/language-modal/language-modal";
+import {FocusDirective} from "../directives/focus/focus";
 import {UserListPage} from "./user-list/user-list";
 import {PhotoListPopoverComponent} from "../components/photo-list-popover/photo-list-popover";
 import {AboutPage} from "./about/about";
@@ -69,6 +59,11 @@ import {ChatFormPage} from "./chat-form/chat-form";
 import {ChatMessagePage} from "./chat-message/chat-message";
 import {ChatSharePhotoPage} from "./chat-share-photo/chat-share-photo";
 import {PhotoEditPage} from "./photo-edit/photo-edit";
+import {ImageCaptureComponent} from "../components/image-capture/image-capture";
+
+export function createTranslateLoader(http: Http) {
+    return new TranslateStaticLoader(http, './i18n', '.json');
+}
 
 declare var window: any;
 
@@ -122,6 +117,7 @@ export const APP_PAGES = [
     LanguageModalComponent,
     LocationModalComponent,
     UploadStatusComponent,
+    ImageCaptureComponent,
 ];
 
 @NgModule({

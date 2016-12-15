@@ -55,15 +55,11 @@ export class PhotoShareModal {
     submit(form) {
         if (form.valid) {
             this.events.unsubscribe(this.eventName);
-            this.events.publish('photocrop:close');
             this.viewCtrl.dismiss({form: this.form, image: this.image});
         }
     }
 
     dismiss(cancel?) {
-        if (cancel) {
-            this.events.publish('photocrop:close');
-        }
         this.viewCtrl.dismiss();
     }
 

@@ -1,10 +1,12 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {ModalController, Events, App} from "ionic-angular";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
 import {UserDataProvider} from "../../providers/user-data";
 import {ParseFileProvider} from "../../providers/parse-file";
 import {UserProvider} from "../../providers/user";
+import {ImageCaptureComponent} from "../../components/image-capture/image-capture";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-tab-account',
@@ -18,8 +20,9 @@ export class TabAccountPage {
     type: string       = 'list';
     profile: any;
     moreItem: boolean  = false;
-    _eventName: string = 'changephoto';
     eventName: string  = 'account';
+
+    @ViewChild('image') imageElement: ImageCaptureComponent;
 
     params = {
         limit    : 12,
@@ -33,7 +36,8 @@ export class TabAccountPage {
                 private modalCtrl: ModalController,
                 private ParseFile: ParseFileProvider,
                 private User: UserProvider,
-                private app: App
+                private app: App,
+                private util: IonicUtilProvider
     ) {
 
         this.user            = this.userData.current();
@@ -52,20 +56,6 @@ export class TabAccountPage {
         });
 
 
-        // Change Photo user
-        events.subscribe(this._eventName, imageCroped => {
-            this.ParseFile.upload({base64: imageCroped[0]}).then(image => {
-                this.User.updatePhoto(image).then(user => {
-                    console.log(user);
-                    this.user = user;
-                    this.doRefresh();
-                });
-
-            })
-            this.user.photo = imageCroped[0];
-            this.events.publish('photocrop:close');
-        });
-
     }
 
     ionViewDidLoad() {
@@ -78,9 +68,23 @@ export class TabAccountPage {
         }
     }
 
+    openCapture() {
+        this.imageElement.openCapture();
+    }
 
-    changePhoto() {
-        this.events.publish('photoservice', this._eventName);
+    changePhoto(photo) {
+        this.util.onLoading('Uploading image...');
+        this.ParseFile.upload({base64: photo}).then(image => {
+            this.User.updatePhoto(image).then(user => {
+                this.user       = user;
+                this.photo      = photo;
+                this.util.endLoading();
+                this.util.toast('Avatar updated')
+            }).catch(error => {
+                this.util.toast('Error: Not upload image')
+            });
+
+        });
     }
 
     onEditProfile() {

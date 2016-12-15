@@ -12,18 +12,20 @@
 </ion-header>
 
 <ion-content>
-    <form [formGroup]="form"  #rForm="ngForm" (ngSubmit)="submitProfile(rForm)">
-        <div class="item-avatar" (click)="changeAvatar()">
-            <ion-avatar>
-                <img *ngIf="photo" [src]="photo">
-                <img *ngIf="!photo" src="assets/img/user.png">
-            </ion-avatar>
+    <form [formGroup]="form" #rForm="ngForm" (ngSubmit)="submitProfile(rForm)">
+        <div class="item-avatar" (click)="openCapture()">
+            <image-capture #image (imageChange)="changePhoto($event)">
+                <ion-avatar>
+                    <img *ngIf="photo" [src]="photo">
+                    <img *ngIf="!photo" src="assets/img/user.png">
+                </ion-avatar>
+            </image-capture>
             <p>{{'Change Profile Photo' | translate}}</p>
         </div>
         <ion-list>
             <ion-item>
                 <ion-icon name="calendar" item-left></ion-icon>
-                <ion-input formControlName="name" type="text" placeholder="{{'Name' | translate}}" ></ion-input>
+                <ion-input formControlName="name" type="text" placeholder="{{'Name' | translate}}"></ion-input>
             </ion-item>
             <ion-item class="form-error-list"
                       *ngIf="!form.controls.name.pristine && !form.controls.name.valid">
@@ -34,7 +36,7 @@
             </ion-item>
             <ion-item>
                 <ion-icon name="person" item-left></ion-icon>
-                <ion-input formControlName="username" type="text" placeholder="{{'Username' | translate}}" ></ion-input>
+                <ion-input formControlName="username" type="text" placeholder="{{'Username' | translate}}"></ion-input>
             </ion-item>
             <ion-item class="form-error-list"
                       *ngIf="!form.controls.username.pristine && !form.controls.username.valid">
@@ -45,18 +47,18 @@
             </ion-item>
             <ion-item>
                 <ion-icon name="compass" item-left></ion-icon>
-                <ion-input formControlName="website" type="text" placeholder="{{'Website' | translate}}" ></ion-input>
+                <ion-input formControlName="website" type="text" placeholder="{{'Website' | translate}}"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-icon name="quote" item-left></ion-icon>
-                <ion-input formControlName="status" type="text" placeholder="{{'Status' | translate}}" ></ion-input>
+                <ion-input formControlName="status" type="text" placeholder="{{'Status' | translate}}"></ion-input>
             </ion-item>
             <ion-item-divider>
                 {{'PRIVATE INFORMATION' | translate}}
             </ion-item-divider>
             <ion-item>
                 <ion-icon name="mail" item-left></ion-icon>
-                <ion-input formControlName="email" type="text" placeholder="{{'Email' | translate}}" ></ion-input>
+                <ion-input formControlName="email" type="text" placeholder="{{'Email' | translate}}"></ion-input>
             </ion-item>
             <ion-item class="form-error-list"
                       *ngIf="!form.controls.email.pristine && !form.controls.email.valid">
@@ -73,7 +75,7 @@
             </ion-item>
             <ion-item>
                 <ion-icon name="phone-portrait" item-left></ion-icon>
-                <ion-input formControlName="phone" type="text" placeholder="{{'Phone' | translate}}" ></ion-input>
+                <ion-input formControlName="phone" type="text" placeholder="{{'Phone' | translate}}"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-icon name="phone-portrait" item-left></ion-icon>

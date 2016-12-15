@@ -1,10 +1,11 @@
-import {Component} from "@angular/core";
+import {ViewChild, Component} from "@angular/core";
 import {ViewController, Events} from "ionic-angular";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
 import {ParseFileProvider} from "../../providers/parse-file";
 import {FormBuilder, Validators} from "@angular/forms";
 import * as _ from "underscore";
+import {ImageCaptureComponent} from "../../components/image-capture/image-capture";
 
 @Component({
     selector   : 'page-account-edit-modal',
@@ -16,6 +17,8 @@ export class AccountEditModalPage {
     photo: any;
     _user: any;
     _eventName: string = 'photoprofile';
+
+    @ViewChild('image') imageElement: ImageCaptureComponent;
 
     constructor(private viewCtrl: ViewController,
                 private ionic: IonicUtilProvider,
@@ -68,8 +71,23 @@ export class AccountEditModalPage {
 
     }
 
-    changeAvatar() {
-        this.events.publish('photoservice', this._eventName);
+    changePhoto(photo) {
+        this.util.onLoading('Uploading image...');
+        this.ParseFile.upload({base64: photo}).then(image => {
+            this.User.updatePhoto(image).then(user => {
+                this._user       = user;
+                this.photo      = photo;
+                this.util.endLoading();
+                this.util.toast('Avatar updated')
+            }).catch(error => {
+                this.util.toast('Error: Not upload image')
+            });
+
+        });
+    }
+
+    openCapture() {
+        this.imageElement.openCapture();
     }
 
     submitProfile(rForm: any) {

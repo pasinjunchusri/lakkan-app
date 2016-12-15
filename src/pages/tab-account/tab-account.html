@@ -14,9 +14,11 @@
     <div class="profile-top">
         <ion-row>
             <ion-col width-25>
-                <div (click)="changePhoto()" class="img-avatar">
-                    <img [src]="photo"/>
-                </div>
+                <image-capture #image (imageChange)="changePhoto($event)" >
+                    <div class="img-avatar" (click)="openCapture()">
+                        <img [src]="photo"/>
+                    </div>
+                </image-capture>
             </ion-col>
             <ion-col width-75>
                 <ion-row>

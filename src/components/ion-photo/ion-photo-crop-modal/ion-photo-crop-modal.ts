@@ -58,6 +58,7 @@ export class IonPhotoCropModal {
     crop() {
         let image = this.cropper.getCroppedCanvas().toDataURL('image/jpeg');
         this.events.publish(this._eventName, image);
+        this.dismiss();
     }
 
     rotate(value: number): void {

@@ -1,55 +1,37 @@
-import {Component, ViewChild, ElementRef, Renderer} from "@angular/core";
+import {Component, Output, EventEmitter, ViewChild, ElementRef, Renderer} from "@angular/core";
 import {Events, ModalController} from "ionic-angular";
 import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
 import {IonicUtilProvider} from "../../providers/ionic-util";
-import {PhotoShareModal} from "../../components/photo-share-modal/photo-share-modal";
 import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
 
 @Component({
-    selector   : 'page-tab-capture',
-    templateUrl: 'tab-capture.html'
+    selector   : 'image-capture',
+    templateUrl: 'image-capture.html'
 })
-export class TabCapturePage {
+export class ImageCaptureComponent {
+
 
     @ViewChild('inputFile') input: ElementRef;
+    @Output() imageChange: EventEmitter<any> = new EventEmitter();
 
     cordova: boolean   = false;
-    _eventName: string = 'photoshare';
+    _eventName: string = 'imagecapture';
 
     constructor(private photoService: IonPhotoService,
                 private util: IonicUtilProvider,
                 private modalCtrl: ModalController,
-                private events: Events,
-                private render: Renderer
+                private render: Renderer,
+                private events: Events
     ) {
         this.cordova = this.util.cordova;
-
-        // Open Share Modal
-        this.events.subscribe(this._eventName, _imageCroped => {
-            let modal = this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0]});
-            modal.onDidDismiss(response => {
-                console.log(response);
-                if (response) {
-                    this.events.publish('upload:gallery', response);
-                }
-            });
-            modal.present();
-        });
-
-        if (!this.cordova) {
-            setTimeout(() => this.render.invokeElementMethod(this.input.nativeElement, 'click'), 500);
-        }
-    }
-
-    ionViewWillEnter() {
-        this.events.publish('tabHome')
-        this.openCapture();
+        this.events.subscribe(this._eventName, _imageCroped => this.imageChange.emit(_imageCroped[0]));
     }
 
     openCapture() {
         if (this.cordova) {
             this.photoService.open()
                 .then(this.cropImage)
+                .then(this.imageChange.emit)
                 .catch(this.util.toast);
         } else {
             this.render.invokeElementMethod(this.input.nativeElement, 'click');
