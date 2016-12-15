@@ -24,7 +24,7 @@ export class ImageCaptureComponent {
                 private events: Events
     ) {
         this.cordova = this.util.cordova;
-        this.events.subscribe(this._eventName, _imageCroped => this.imageChange.emit(_imageCroped[0]));
+        this.events.subscribe(this._eventName, _imageCroped => this.imageChange.emit(_imageCroped));
     }
 
     openCapture() {

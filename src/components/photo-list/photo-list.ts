@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, EventEmitter} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {Events} from "ionic-angular";
 import {IParams} from "../../models/parse.params.model";
 import {GalleryProvider} from "../../providers/gallery";
@@ -13,7 +13,6 @@ export class PhotoListComponent implements OnInit {
     @Input() username?: string;
     @Input() event: string;
 
-    @Output() dataChanged: EventEmitter<any> = new EventEmitter();
 
     params: IParams = {
         limit: 5,
@@ -37,22 +36,22 @@ export class PhotoListComponent implements OnInit {
         // Cache Request
         this.events.subscribe(this.event + ':cache', (params: IParams) => {
             console.info(this.event + ':cache', params);
-            this.params = params[0];
+            this.params = params;
             this.cache();
         });
 
         // Server Request
         this.events.subscribe(this.event + ':params', (params: IParams) => {
             console.info(this.event + ':params', params);
-            this.params = params[0];
+            this.params = params;
             this.feed();
         });
 
         // Reload
         this.events.subscribe(this.event + ':reload', (params) => {
             console.warn('photo-list', this.event + ':reload', params);
-            if (params[0]) {
-                this.params = params[0];
+            if (params) {
+                this.params = params;
             } else {
                 this.params.page = 1;
             }
@@ -73,9 +72,11 @@ export class PhotoListComponent implements OnInit {
     }
 
 
-    private feed(): Promise<any> {
+     feed(): Promise<any> {
 
         return new Promise((resolve, reject) => {
+
+            console.log(this.params);
             if (this.params.page == 1) {
                 this.data    = [];
                 this.loading = true;
@@ -107,7 +108,7 @@ export class PhotoListComponent implements OnInit {
         });
     }
 
-    private cache(): void {
+    cache(): void {
         console.log('Load cache', this.params);
         this.provider.findCache(this.params).then(_data => {
             console.log('cache', _data);

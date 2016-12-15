@@ -17,11 +17,7 @@ export class AlbumGridComponent implements OnInit {
     @Input() username?: string;
     @Input() event: string;
 
-    params = {
-        limit   : 15,
-        page    : 1,
-        username: null
-    };
+    params: IParams;
 
     errorIcon: string      = 'ios-images-outline';
     errorText: string      = '';
@@ -39,6 +35,11 @@ export class AlbumGridComponent implements OnInit {
                 private app: App,
     ) {
         this._width = this.util._widthPlatform / 3 + 'px';
+        this.params = {
+            limit   : 15,
+            page    : 1,
+            username: null
+        };
 
         events.subscribe('albumgrid:reload', () => this.feed());
         events.subscribe('albumgrid:destroy', () => this.feed());
