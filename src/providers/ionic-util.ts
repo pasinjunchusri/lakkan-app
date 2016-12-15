@@ -64,8 +64,8 @@ export class IonicUtilProvider {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    onLoading(message?: string): void {
-        this._loading = this.loadingCtrl.create();
+    onLoading(message: string = '', duration: number = 3000): void {
+        this._loading = this.loadingCtrl.create({content: message, duration: duration});
         this._loading.present();
     }
 
