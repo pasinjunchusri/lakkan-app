@@ -30,9 +30,9 @@ export class ImageCaptureComponent {
     openCapture() {
         if (this.cordova) {
             this.photoService.open()
-                .then(this.cropImage)
-                .then(this.imageChange.emit)
-                .catch(this.util.toast);
+                .then(image => this.cropImage(image))
+                .then(image => this.imageChange.emit(image))
+                .catch(error => this.util.toast(error));
         } else {
             this.render.invokeElementMethod(this.input.nativeElement, 'click');
         }
