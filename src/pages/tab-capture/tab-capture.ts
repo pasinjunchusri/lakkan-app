@@ -26,7 +26,7 @@ export class TabCapturePage {
 
         // Open Share Modal
         this.events.subscribe(this._eventName, _imageCroped => {
-            let modal = this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped[0]});
+            let modal = this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped});
             modal.onDidDismiss(response => {
                 console.log(response);
                 if (response) {

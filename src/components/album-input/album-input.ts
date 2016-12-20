@@ -12,7 +12,7 @@ export class AlbumInputComponent implements OnInit {
     constructor(private modalCtrl: ModalController,
                 private events: Events,
     ) {
-        events.subscribe('album:selected', album => this.album = album[0]);
+        events.subscribe('album:selected', album => this.album = album);
     }
 
     ngOnInit() {
