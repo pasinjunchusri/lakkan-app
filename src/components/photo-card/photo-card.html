@@ -38,11 +38,6 @@
         </button>
 
 
-        <button *ngIf="!loadingLike" ion-button large clear (click)="onLike(item)" style="float: right">
-            <ion-icon *ngIf="!item.isLiked" large name="ios-bookmark-outline"></ion-icon>
-            <ion-icon *ngIf="item.isLiked" large name="ios-bookmark"></ion-icon>
-        </button>
-
     </ion-item>
     <ion-item>
         <ion-note >
