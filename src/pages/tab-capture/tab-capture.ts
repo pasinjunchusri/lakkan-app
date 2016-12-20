@@ -49,8 +49,8 @@ export class TabCapturePage {
     openCapture() {
         if (this.cordova) {
             this.photoService.open()
-                .then(this.cropImage)
-                .catch(this.util.toast);
+                .then(image => this.cropImage(image))
+                .catch(error => this.util.toast(error));
         } else {
             this.render.invokeElementMethod(this.input.nativeElement, 'click');
         }

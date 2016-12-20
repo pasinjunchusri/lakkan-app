@@ -21,6 +21,7 @@ export class IonPhotoCropModal {
     ) {
         this._eventName = this.navParams.get('eventName')
         this.img        = this.navParams.get('base64');
+
         this.events.subscribe('photocrop:close', () => this.dismiss());
         this.platform.registerBackButtonAction(() => this.dismiss());
     }
