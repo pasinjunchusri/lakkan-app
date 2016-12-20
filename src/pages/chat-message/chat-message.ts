@@ -52,9 +52,9 @@ export class ChatMessagePage {
 
         this.events.subscribe('addMessage', message => {
             console.log('addMessage', message);
-            if (message && message[0]) {
+            if (message) {
 
-                let item  = message[0];
+                let item  = message;
                 let obj   = {
                     _id      : item.id,
                     message  : item.get('message'),

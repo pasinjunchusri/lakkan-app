@@ -1,19 +1,33 @@
-const orgCopyConfig = require('@ionic/app-scripts/config/copy.config');
-
-orgCopyConfig['parse'] = {
-  src: ['{{ROOT}}/node_modules/parse/dist/parse.min.js'],
-  dest: '{{WWW}}/assets'
-};
-
-orgCopyConfig['cropper'] = {
-  src: ['{{ROOT}}/node_modules/cropperjs/dist/cropper.min.js', 'node_modules/cropperjs/dist/cropper.min.css'],
-  dest: '{{WWW}}/assets'
-};
-
-
-orgCopyConfig['i18n'] = {
-  src: ['{{SRC}}/i18n/**/*'],
-  dest: '{{WWW}}/i18n'
-};
-
-module.exports = orgCopyConfig
+// this is a custom dictionary to make it easy to extend/override
+// provide a name for an entry, it can be anything such as 'copyAssets' or 'copyFonts'
+// then provide an object with a `src` array of globs and a `dest` string
+module.exports = {
+    copyAssets      : {
+        src : ['{{SRC}}/assets/**/*'],
+        dest: '{{WWW}}/assets'
+    },
+    copyIndexContent: {
+        src : ['{{SRC}}/index.html', '{{SRC}}/manifest.json', '{{SRC}}/service-worker.js'],
+        dest: '{{WWW}}'
+    },
+    copyFonts       : {
+        src : ['{{ROOT}}/node_modules/ionicons/dist/fonts/**/*', '{{ROOT}}/node_modules/ionic-angular/fonts/**/*'],
+        dest: '{{WWW}}/assets/fonts'
+    },
+    copyPolyfills   : {
+        src : ['{{ROOT}}/node_modules/ionic-angular/polyfills/polyfills.js'],
+        dest: '{{BUILD}}'
+    },
+    copyParse       : {
+        src : ['{{ROOT}}/node_modules/parse/dist/parse.min.js'],
+        dest: '{{WWW}}/assets'
+    },
+    copyCropper     : {
+        src : ['{{ROOT}}/node_modules/cropperjs/dist/cropper.min.js', 'node_modules/cropperjs/dist/cropper.min.css'],
+        dest: '{{WWW}}/assets'
+    },
+    copyTranslate   : {
+        src : ['{{SRC}}/i18n/**/*'],
+        dest: '{{WWW}}/i18n'
+    }
+}
