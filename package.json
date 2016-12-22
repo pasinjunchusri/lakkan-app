@@ -17,7 +17,6 @@
     "@angular/platform-browser": "2.2.1",
     "@angular/platform-browser-dynamic": "2.2.1",
     "@angular/platform-server": "2.2.1",
-    "@ionic/app-scripts": "0.0.47-201612161753",
     "@ionic/storage": "1.1.6",
     "@types/googlemaps": "^3.25.35",
     "@types/moment": "^2.13.0",

@@ -50,9 +50,9 @@
   dependencies:
     tsickle "^0.1.7"
 
-"@ionic/app-scripts@0.0.47":
-  version "0.0.47"
-  resolved "https://registry.yarnpkg.com/@ionic/app-scripts/-/app-scripts-0.0.47.tgz#79dc52ad2ce41d2eb00de7e05e692dfaf3d584bb"
+"@ionic/app-scripts@0.0.48":
+  version "0.0.48"
+  resolved "https://registry.yarnpkg.com/@ionic/app-scripts/-/app-scripts-0.0.48.tgz#9b4521b158eb2b87f1b1df2853ba5f16837c197a"
   dependencies:
     autoprefixer "6.4.1"
     chalk "1.1.3"
