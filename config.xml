@@ -122,4 +122,5 @@
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Imagens para selecionar" />
         <variable name="CAMERA_USAGE_DESCRIPTION" value="Camera para selecionar" />
     </plugin>
+    <hook type="after_prepare" src="hooks/android_custom_values.js" />
 </widget>

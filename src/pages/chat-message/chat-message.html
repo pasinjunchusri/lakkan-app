@@ -61,7 +61,7 @@
 
 <ion-footer>
     <ion-toolbar>
-        <ion-input [(ngModel)]="form.message" type="text" placeholder="Message"></ion-input>
+        <ion-input [(ngModel)]="form.message" type="text" placeholder="Message" (keyup)="kekypress($event)"></ion-input>
         <ion-buttons end>
             <button ion-button color="primary" (click)="onSendMessage()">
                 <ion-icon name="send"></ion-icon>

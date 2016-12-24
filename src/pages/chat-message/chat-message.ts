@@ -63,7 +63,7 @@ export class ChatMessagePage {
                     class    : 'right',
                     user     : {},
                 };
-                obj.user  = _.findWhere(this.users, {id: item.get('user').id});
+                obj.user  = _.findWhere(this.users, {id: message.get('user').id});
                 obj.class = this.userClass(obj.user);
 
                 console.log('obj', obj);
@@ -127,6 +127,12 @@ export class ChatMessagePage {
         }, 100);
     }
 
+    kekypress(event) {
+        if (event.keyCode == 13) {
+            this.onSendMessage();
+        }
+    }
+
     doRefresh(event?): void {
         // Find
         this.Message.find(this.channelId).then(data => {
@@ -161,10 +167,12 @@ export class ChatMessagePage {
 
 
     onSendMessage(): void {
-        let message = this.form.message;
-        if (message) {
-            this.Message.create(this.form).then(message => {
-                this.initForm();
+        if (this.form.message) {
+            let form = this.form;
+            this.initForm();
+            this.Message.create(form).then(message => {
+                console.log('return messag', message);
+                //this.initForm();
             }).catch(error => {
                 this.util.toast('Error');
             });
