@@ -2,7 +2,7 @@ page-chat-message {
   $color1: #f1f1f1;
   $color2: #e6e5eb;
 
-  img-loader {
+  img {
     background-color: #fdfdfd;
     &.profile-pic {
       width: 40px !important;
@@ -30,8 +30,8 @@ page-chat-message {
   }
 
   .message-detail {
-    white-space: nowrap;
-    font-size: 14px;
+    font-size: 11px;
+    float: right;
   }
 
   .bar.item-input-inset .item-input-wrapper input {
@@ -64,7 +64,7 @@ page-chat-message {
       bottom: 7px;
     }
 
-    img-loader {
+    img, img-loader {
       max-width: 100%;
       max-height: 300px;
       min-height: 264px;
@@ -102,10 +102,6 @@ page-chat-message {
 
   }
 
-  input, textarea, .item-input, .item-input-wrapper {
-    background-color: #f4f4f4 !important;
-  }
-
   .bold {
     font-weight: bold;
   }
@@ -117,5 +113,8 @@ page-chat-message {
   a.autolinker {
     color: #3b88c3;
     text-decoration: none;
+  }
+
+  ion-footer {
   }
 }

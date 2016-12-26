@@ -39,8 +39,8 @@
         <div class="message-wrapper" *ngFor="let item of data">
 
             <div>
-                <img-loader class="profile-pic" [ngClass]="item.class" *ngIf="item.user.photo" [src]="item.user.photo._url"></img-loader>
-                <img-loader class="profile-pic" [ngClass]="item.class" *ngIf="!item.user.photo" src="assets/img/user.png"></img-loader>
+                <img class="profile-pic" [ngClass]="item.class" *ngIf="item.user.photo" [src]="item.user.photo._url">
+                <img class="profile-pic" [ngClass]="item.class" *ngIf="!item.user.photo" src="assets/img/user.png">
 
                 <div class="chat-bubble " [ngClass]="item.class">
 
@@ -49,7 +49,6 @@
                     <div class="message"> {{item.message}}</div>
 
                     <div class="message-detail">
-                        <span class="bold">{{item.user.username}}</span>,
                         <span>{{item.createdAt | date:'HH:mm'}}</span>
                     </div>
 
