@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from "@angular/core";
 import {NavController, Events} from "ionic-angular";
 import _ from "underscore";
 import {GalleryProvider} from "../../providers/gallery";
-import {IonicUtilProvider} from "../../providers/ionic-util";
 import {IParams} from "../../models/parse.params.model";
 import {PhotoPage} from "../../pages/photo/photo";
 
@@ -27,15 +26,12 @@ export class PhotoGridComponent implements OnInit {
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     data                   = [];
-    _width: any;
 
     constructor(private provider: GalleryProvider,
                 private events: Events,
-                private util: IonicUtilProvider,
                 private nav: NavController
     ) {
 
-        this._width = util._widthPlatform / 3 + 'px';
     }
 
     ngOnInit() {

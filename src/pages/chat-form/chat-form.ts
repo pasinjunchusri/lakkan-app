@@ -11,7 +11,6 @@ import _ from 'underscore';
 })
 export class ChatFormPage {
     words: string       = '';
-    _width: any;
 
 
     errorIcon: string      = 'ios-images-outline';

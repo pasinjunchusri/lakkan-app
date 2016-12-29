@@ -15,7 +15,6 @@ export class TabSearchPage {
 
     words: string       = '';
     placeholder: string = 'Search';
-    _width: any;
 
     params: IParams = {
         limit: 48,
@@ -41,7 +40,6 @@ export class TabSearchPage {
     ionViewDidLoad() {
         // Translate Search Bar Placeholder
         this.util.translate('Search').then((res: string) => this.placeholder = res);
-        this._width = this.util._widthPlatform / 3 + 'px';
         //this.cache();
         this.feed();
     }

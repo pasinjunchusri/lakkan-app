@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {Events, NavController, ViewController, NavParams, PopoverController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
 import {AlbumPhotoGridPopoverComponent} from "../album-photo-grid-popover/album-photo-grid-popover";
-import {IonicUtilProvider} from "../../providers/ionic-util";
 import {GalleryAlbumProvider} from "../../providers/gallery-album";
 import _ from "underscore";
 declare const Parse: any;
@@ -27,7 +26,6 @@ export class AlbumPhotoGridComponent {
     moreItem: boolean      = false;
     canEdit: boolean       = false;
     username: any;
-    _width: any;
 
     constructor(private provider: GalleryAlbumProvider,
                 private events: Events,
@@ -35,9 +33,7 @@ export class AlbumPhotoGridComponent {
                 private viewCtrl: ViewController,
                 private navParams: NavParams,
                 private popoverCtrl: PopoverController,
-                private util: IonicUtilProvider,
     ) {
-        this._width   = this.util._widthPlatform / 3 + 'px';
         this.username = Parse.User.current().get('username');
     }
 

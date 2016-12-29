@@ -44,7 +44,7 @@
 
                 <div class="chat-bubble " [ngClass]="item.class">
 
-                    <img-loader *ngIf="item.image" [src]="item.image.image._url"></img-loader>
+                    <img *ngIf="item.image" [src]="item.image.image._url">
 
                     <div class="message"> {{item.message}}</div>
 

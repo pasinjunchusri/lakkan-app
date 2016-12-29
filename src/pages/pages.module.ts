@@ -5,7 +5,6 @@ import {CommonModule} from "@angular/common";
 import _ from "underscore";
 // External Libs
 import {MomentModule} from "angular2-moment";
-import {IonicImageLoader} from "ionic-image-loader";
 import {TranslateStaticLoader, TranslateModule, TranslateLoader, TranslateService} from "ng2-translate";
 // Config
 import {language_default, languages} from "../config";
@@ -125,7 +124,6 @@ export const APP_PAGES = [
         CommonModule,
         PipesModule,
         ProvidersModule,
-        IonicImageLoader,
         MomentModule,
         TranslateModule.forRoot({
             provide   : TranslateLoader,
@@ -139,7 +137,6 @@ export const APP_PAGES = [
     exports     : [
         APP_PAGES,
         MomentModule,
-        IonicImageLoader,
     ],
     declarations: [
         APP_PAGES,

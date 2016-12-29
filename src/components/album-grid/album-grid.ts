@@ -3,7 +3,6 @@ import {App, Events, NavController} from "ionic-angular";
 import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
 import {GalleryAlbumProvider} from "../../providers/gallery-album";
 import {AlbumPhotoGridComponent} from "../album-photo-grid/album-photo-grid";
-import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from "underscore";
 import {IParams} from "../../models/parse.params.model";
 declare const Parse: any;
@@ -26,15 +25,12 @@ export class AlbumGridComponent implements OnInit {
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
     canEdit: boolean       = false;
-    _width: any;
 
     constructor(private provider: GalleryAlbumProvider,
                 private events: Events,
                 private navCtrl: NavController,
-                private util: IonicUtilProvider,
                 private app: App,
     ) {
-        this._width = this.util._widthPlatform / 3 + 'px';
         this.params = {
             limit   : 15,
             page    : 1,
@@ -65,7 +61,7 @@ export class AlbumGridComponent implements OnInit {
         this.events.subscribe(this.event + ':reload', (params: IParams) => {
             console.warn('album-grid', this.event + ':reload');
             this.params  = params[0];
-            this.canEdit = this.validCanEdit(this.params.username);
+            this.canEdit = this.validCanEdit(this.params['username']);
             // Clean Cache and Reload
             this.feed()
                 .then(() => this.events.publish('scroll:up'))

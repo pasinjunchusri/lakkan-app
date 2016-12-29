@@ -1,7 +1,7 @@
 album-input {
   $thumbsize: 80px;
   ion-thumbnail {
-    img-loader {
+    img {
       display: block !important;
       height: $thumbsize !important;
       width: $thumbsize !important;

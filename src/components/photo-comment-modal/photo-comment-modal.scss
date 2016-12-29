@@ -2,7 +2,7 @@ photo-comment-modal {
   $color1: #f1f1f1;
   $color2: #e6e5eb;
 
-  img-loader {
+  img {
     background-color: #fdfdfd;
     position: relative;
     &.profile-pic {
@@ -65,7 +65,7 @@ photo-comment-modal {
       bottom: 7px;
     }
 
-    img-loader {
+    img {
       max-width: 100%;
       max-height: 300px;
       min-height: 264px;

@@ -14,6 +14,7 @@
     <allow-navigation href="http://*/*" />
     <allow-navigation href="tel:*" />
     <allow-navigation href="mailto:*" />
+    <preference name="loadUrlTimeoutValue" value="100000" />
     <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
@@ -21,7 +22,7 @@
     <preference name="StatusBarBackgroundColor" value="#045F54" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="SplashScreenDelay" value="100" />
+    <preference name="SplashScreenDelay" value="1000" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="750" />
     <preference name="SplashScreen" value="screen" />
@@ -36,6 +37,7 @@
     <preference name="ParseAppId" value="myAppId" />
     <preference name="ParseServerUrl" value="https://photogram.codevibe.io/parse/" />
     <preference name="ParseGcmSenderId" value="285805785383" />
+    <preference name="ParseMultiNotifications" value="true" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />

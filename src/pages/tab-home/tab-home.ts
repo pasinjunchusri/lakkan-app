@@ -4,6 +4,7 @@ import {IParams} from "../../models/parse.params.model";
 import {ChatChannelPage} from "../chat-channel/chat-channel";
 import {UserListPage} from "../user-list/user-list";
 import {IonicUtilProvider} from "../../providers/ionic-util";
+import {APP_NAME} from "../../config";
 
 @Component({
     selector   : 'page-tab-home',
@@ -11,6 +12,8 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
 })
 export class TabHomePage {
     @ViewChild('Content') content: Content;
+
+    appName:string = APP_NAME;
 
     params: IParams = {
         limit    : 18,

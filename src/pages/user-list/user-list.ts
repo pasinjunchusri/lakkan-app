@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {UserProvider} from "../../providers/user";
 import {ProfilePage} from "../profile/profile";
-import {TranslateService} from "ng2-translate";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
 
@@ -20,7 +19,6 @@ export class UserListPage {
     moreItem: boolean      = false;
     search: string         = '';
     placeholder: string    = 'Search user';
-    _width: any;
 
     params = {
         limit : 20,
@@ -30,12 +28,10 @@ export class UserListPage {
 
     constructor(private navCtrl: NavController,
                 private provider: UserProvider,
-                private translate: TranslateService,
                 private util: IonicUtilProvider
     ) {
         // Translate Search Bar Placeholder
-        this.translate.get(this.placeholder).subscribe((res: string) => this.placeholder = res);
-        this._width = this.util._widthPlatform / 3 + 'px';
+        this.util.translate(this.placeholder).then((res: string) => this.placeholder = res);
     }
 
     ionViewDidLoad() {

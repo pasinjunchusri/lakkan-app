@@ -1,7 +1,7 @@
 <ion-card>
     <ion-item>
         <ion-avatar (click)="openProfile(item.user.username)" item-left>
-            <img-loader *ngIf="item.user.photo" [src]="item.user.photo._url" width="40px" height="40px"></img-loader>
+            <img *ngIf="item.user.photo" [src]="item.user.photo._url" width="40px" height="40px">
             <img *ngIf="!item.user.photo" src="assets/img/user.png" >
         </ion-avatar>
         <h2>{{item.user.name || item.user.username }}</h2>
@@ -14,7 +14,7 @@
         </button>
     </ion-item>
 
-    <img-loader class="img-gallery" [src]="item.image._url" [ngStyle]="{'min-height': _width, 'min-widht': _width}"></img-loader>
+    <img class="img-gallery" [src]="item.image._url" >
 
     <ion-card-content>
         <p>{{item.title}}</p>

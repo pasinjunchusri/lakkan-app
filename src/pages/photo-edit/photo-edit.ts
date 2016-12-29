@@ -1,8 +1,6 @@
 import {Component} from "@angular/core";
 import {NavController, NavParams, ViewController, Events} from "ionic-angular";
 import {GalleryProvider} from "../../providers/gallery";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-
 
 @Component({
     selector   : 'page-photo-edit',
@@ -18,16 +16,13 @@ export class PhotoEditPage {
         address  : null,
     };
     image: any;
-    _width: any;
 
     constructor(public navCtrl: NavController,
                 private navParams: NavParams,
                 private provider: GalleryProvider,
-                private util: IonicUtilProvider,
                 private viewCtrl: ViewController,
                 private events: Events,
     ) {
-        this._width = util._widthPlatform + 'px';
     }
 
     ionViewWillLoad() {

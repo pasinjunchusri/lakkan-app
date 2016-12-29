@@ -6,7 +6,6 @@ import {IonicApp, IonicModule, IonicErrorHandler} from "ionic-angular";
 import {Storage} from "@ionic/storage";
 import {MyApp} from "./app.component";
 import {APP_PAGES, PagesModule} from "../pages/pages.module";
-import {IonicImageLoader} from "ionic-image-loader";
 import {FacebookService} from "ng2-facebook-sdk";
 import {PhotoCardComponent} from "../components/photo-card/photo-card";
 import {ProfilePage} from "../pages/profile/profile";
@@ -21,7 +20,6 @@ import {ChatMessagePage} from "../pages/chat-message/chat-message";
         BrowserModule,
         HttpModule,
         PagesModule,
-        IonicImageLoader,
         IonicModule.forRoot(MyApp, {}, {
             // DeepLinker
             // http://blog.ionic.io/deeplinking-in-ionic-apps/

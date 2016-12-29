@@ -8,6 +8,7 @@ import {UserAvatarPage} from "../user-avatar/user-avatar";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
 import {ExternalLibProvider} from "../../providers/external-lib";
+import {APP_NAME} from "../../config";
 
 declare const Parse: any;
 
@@ -22,6 +23,7 @@ export class AuthPage {
     facebook: any;
     facebookNative: Facebook;
     facebookBrowser: FacebookService;
+    appName:string = APP_NAME;
 
     formLogin: any;
     formSignup: any;

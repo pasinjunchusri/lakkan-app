@@ -4,7 +4,6 @@ import {Splashscreen} from "ionic-native";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
 import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
-import {ImageLoaderConfig} from "ionic-image-loader";
 import {ParsePushProvider} from "../providers/parse-push";
 
 declare const Parse: any;
@@ -22,18 +21,8 @@ export class MyApp implements OnInit {
     }
 
     constructor(private platform: Platform,
-                private imageLoaderConfig: ImageLoaderConfig,
                 private Push: ParsePushProvider
     ) {
-
-
-        // Image Cache
-        // enable debug mode to get console errors/warnings/logs
-        // this could be useful while trying to debug issues with the component
-        imageLoaderConfig.enableDebugMode();
-
-        // disable spinners by default, you can add [spinner]="true" to a specific component instance later on to override this
-        imageLoaderConfig.enableSpinner(true);
 
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
