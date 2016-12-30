@@ -83,6 +83,7 @@ export class PhotoListComponent implements OnInit {
             }
 
             this.provider.feed(this.params).then(data => {
+                console.log(data);
                 if (data) {
                     this.showErrorView = false;
                     this.showEmptyView = false;

@@ -2,7 +2,7 @@
     <ion-item>
         <ion-avatar (click)="openProfile(item.user.username)" item-left>
             <img *ngIf="item.user.photo" [src]="item.user.photo._url" width="40px" height="40px">
-            <img *ngIf="!item.user.photo" src="assets/img/user.png" >
+            <img *ngIf="!item.user.photo" src="assets/img/user.png">
         </ion-avatar>
         <h2>{{item.user.name || item.user.username }}</h2>
         <p>{{item.user.status}}</p>
@@ -14,7 +14,11 @@
         </button>
     </ion-item>
 
-    <img class="img-gallery" [src]="item.image._url" >
+    <img-progressive class="img-gallery"
+                     [src]="item['image']['_url']"
+                     [srcLow]="item['imageLow']['_url']">
+
+    </img-progressive>
 
     <ion-card-content>
         <p>{{item.title}}</p>
@@ -40,7 +44,7 @@
 
     </ion-item>
     <ion-item>
-        <ion-note >
+        <ion-note>
             <ion-icon name="ios-heart"></ion-icon>
             {{item.likesTotal}} {{'likes' | translate}}
         </ion-note>

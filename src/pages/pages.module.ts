@@ -59,6 +59,7 @@ import {ChatMessagePage} from "./chat-message/chat-message";
 import {ChatSharePhotoPage} from "./chat-share-photo/chat-share-photo";
 import {PhotoEditPage} from "./photo-edit/photo-edit";
 import {ImageCaptureComponent} from "../components/image-capture/image-capture";
+import {ImgProgressiveComponent} from "../components/img-progressive/img-progressive";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './i18n', '.json');
@@ -117,6 +118,7 @@ export const APP_PAGES = [
     LocationModalComponent,
     UploadStatusComponent,
     ImageCaptureComponent,
+    ImgProgressiveComponent,
 ];
 
 @NgModule({

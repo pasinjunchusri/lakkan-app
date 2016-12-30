@@ -12,9 +12,10 @@ declare var Connection: any;
 @Injectable()
 export class IonicUtilProvider {
     private _loading: any;
-    public cordova: boolean = false;
+    public cordova: boolean  = false;
     public _widthPlatform: any;
     public _heightPlatform: any;
+    private maxWidth: number = 640;
 
     constructor(private platform: Platform,
                 private loadingCtrl: LoadingController,
@@ -29,7 +30,7 @@ export class IonicUtilProvider {
         console.log('Cordova', this.cordova);
 
         platform.ready().then(() => {
-            this._widthPlatform  = platform.width();
+            this._widthPlatform  = platform.width() <= this.maxWidth ? platform.width() : this.maxWidth;
             this._heightPlatform = platform.height();
         });
 
