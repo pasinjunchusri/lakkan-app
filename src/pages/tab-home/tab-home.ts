@@ -34,7 +34,7 @@ export class TabHomePage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad home');
+        //console.log('ionViewDidLoad home');
 
         // Load Cache
         setTimeout(() => this.events.publish(this.eventName + ':cache', this.params), 500);
@@ -50,14 +50,14 @@ export class TabHomePage {
 
 
     ionViewWillEnter() {
-        console.info('ionViewWillEnter home');
+        //console.info('ionViewWillEnter home');
         // More Item
         this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem);
         this.events.subscribe('scroll:up', () => this.scrollTop());
     }
 
     ionViewDidLeave() {
-        console.warn('ionViewDidLeave home');
+        //console.warn('ionViewDidLeave home');
         this.events.unsubscribe(this.eventName + ':moreItem');
         this.events.unsubscribe('scroll:up');
     }
@@ -77,7 +77,7 @@ export class TabHomePage {
     }
 
     public scrollTop() {
-        console.log('Scroll Top');
+        //console.log('Scroll Top');
         //this.content.scrollToTop(1000);
     }
 

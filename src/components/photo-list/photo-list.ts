@@ -76,14 +76,14 @@ export class PhotoListComponent implements OnInit {
 
         return new Promise((resolve, reject) => {
 
-            console.log(this.params);
+            //console.log(this.params);
             if (this.params.page == 1) {
                 this.data    = [];
                 this.loading = true;
             }
 
             this.provider.feed(this.params).then(data => {
-                console.log(data);
+                //console.log(data);
                 if (data) {
                     this.showErrorView = false;
                     this.showEmptyView = false;

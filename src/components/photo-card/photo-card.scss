@@ -1,5 +1,8 @@
 photo-card {
+  display: block;
+  margin:0 auto ;
   min-height: 250px;
+  max-width: 640px;
 
   ion-card {
     margin: 0 !important;

@@ -31,28 +31,32 @@ export class PhotoGridComponent implements OnInit {
                 private events: Events,
                 private nav: NavController
     ) {
-
+        this.params = {
+            limit   : 15,
+            page    : 1,
+            username: null
+        };
     }
 
     ngOnInit() {
         // Cache Request
         this.events.subscribe(this.event + ':cache', (params: IParams) => {
             console.warn('photo-grid', this.event + ':cache', params);
-            this.params = params[0];
+            this.params = params;
             this.cache();
         });
 
         // Server Request
         this.events.subscribe(this.event + ':params', (params: IParams) => {
             console.warn('photo-grid', this.event + ':params', params);
-            this.params = params[0];
+            this.params = params;
             this.feed();
         });
 
         // Reload
         this.events.subscribe(this.event + ':reload', (params: IParams) => {
             console.warn('photo-grid', this.event + ':reload');
-            this.params = params[0];
+            this.params = params;
             this.data   = []
             // Clean Cache and Reload
             this.feed()
@@ -83,7 +87,7 @@ export class PhotoGridComponent implements OnInit {
                     this.events.publish(this.event + ':moreItem', true);
                 }
 
-                if(!this.data.length){
+                if (!this.data.length) {
                     this.showEmptyView = true;
                     this.events.publish(this.event + ':moreItem', true);
                 }

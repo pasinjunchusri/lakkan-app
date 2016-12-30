@@ -46,21 +46,21 @@ export class AlbumGridComponent implements OnInit {
 
         this.events.subscribe(this.event + ':params', params => {
             console.warn('album starter ', this.event + ':params', params);
-            this.params = params[0];
+            this.params = params;
             this.feed();
         });
 
         // Server Request
         this.events.subscribe(this.event + ':params', (params: IParams) => {
             console.info(this.event + ':params', params);
-            this.params = params[0];
+            this.params = params;
             this.feed();
         });
 
         // Reload
         this.events.subscribe(this.event + ':reload', (params: IParams) => {
             console.warn('album-grid', this.event + ':reload');
-            this.params  = params[0];
+            this.params  = params;
             this.canEdit = this.validCanEdit(this.params['username']);
             // Clean Cache and Reload
             this.feed()
