@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {MenuController, NavController, ModalController} from 'ionic-angular';
 import {AuthPage} from "../auth/auth";
 import {LanguageModalComponent} from "../../components/language-modal/language-modal";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 export interface Slide {
     title: string;
@@ -20,8 +21,12 @@ export class IntroPage {
 
     constructor(public navCtrl: NavController,
                 public menu: MenuController,
-                public modalCtrl: ModalController
+                public modalCtrl: ModalController,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('IntroPage');
+
         this.slides = [
             {
                 title: 'Share more incredible moments',

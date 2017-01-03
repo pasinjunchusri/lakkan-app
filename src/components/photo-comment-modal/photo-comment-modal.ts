@@ -4,6 +4,7 @@ import {GalleryCommentProvider} from "../../providers/gallery-comment";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {GalleryProvider} from "../../providers/gallery";
 import _ from "underscore";
+import {AnalyticsProvider} from "../../providers/analytics";
 declare const Parse: any;
 
 @Component({
@@ -34,8 +35,12 @@ export class PhotoCommentModalComponent {
                 private viewCtrl: ViewController,
                 private provider: GalleryCommentProvider,
                 private util: IonicUtilProvider,
-                private Gallery: GalleryProvider
+                private Gallery: GalleryProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('PhotoCommentModalPage');
+
         this.form = {
             text: ''
         };

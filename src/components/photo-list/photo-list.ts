@@ -1,8 +1,11 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {Events} from "ionic-angular";
+import {App, Events} from "ionic-angular";
+import _ from "underscore";
 import {IParams} from "../../models/parse.params.model";
 import {GalleryProvider} from "../../providers/gallery";
-import _ from "underscore";
+import {UserProvider} from "../../providers/user";
+import {AuthPage} from "../../pages/auth/auth";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'photo-list',
@@ -27,7 +30,10 @@ export class PhotoListComponent implements OnInit {
     data                   = [];
 
     constructor(private provider: GalleryProvider,
-                private events: Events
+                private events: Events,
+                private User: UserProvider,
+                private app: App,
+                private util: IonicUtilProvider,
     ) {
 
     }
@@ -72,7 +78,7 @@ export class PhotoListComponent implements OnInit {
     }
 
 
-     feed(): Promise<any> {
+    feed(): Promise<any> {
 
         return new Promise((resolve, reject) => {
 
@@ -100,6 +106,13 @@ export class PhotoListComponent implements OnInit {
                 this.events.publish(this.event + ':complete', null);
                 resolve(data);
             }).catch(error => {
+
+                if (error.code == Parse.Error['INVALID_SESSION_TOKEN']) {
+                    this.User.logout();
+                    this.app.getRootNav().setRoot(AuthPage);
+                    this.util.toast('Invalid session, please login');
+                }
+
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 this.loading       = false;
@@ -108,6 +121,7 @@ export class PhotoListComponent implements OnInit {
             });
         });
     }
+
 
     cache(): void {
         console.log('Load cache', this.params);

@@ -6,6 +6,7 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
 import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
 import _ from "underscore";
 import {IParams} from "../../models/parse.params.model";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-tab-search',
@@ -33,8 +34,11 @@ export class TabSearchPage {
     constructor(private navCtrl: NavController,
                 private provider: GalleryProvider,
                 private util: IonicUtilProvider,
-                private app: App
+                private app: App,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('TabSearchPage');
     }
 
     ionViewDidLoad() {

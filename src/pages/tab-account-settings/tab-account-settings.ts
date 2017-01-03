@@ -9,6 +9,7 @@ import {LanguageModalComponent} from "../../components/language-modal/language-m
 import {UserProvider} from "../../providers/user";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import {GalleryProvider} from "../../providers/gallery";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 
 @Component({
@@ -23,8 +24,12 @@ export class TabAccountSettingsPage {
                 private modalCtrl: ModalController,
                 private util: IonicUtilProvider,
                 private ChatChannel: ChatChannelProvider,
-                private Gallery: GalleryProvider
-    ) {}
+                private Gallery: GalleryProvider,
+                private analytics: AnalyticsProvider,
+    ) {
+        // Google Analytics
+        this.analytics.view('TabAccountSettingsPage');
+    }
 
 
     aboutPage(): void {

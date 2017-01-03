@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {NavController, NavParams, ViewController, Events} from "ionic-angular";
 import {GalleryProvider} from "../../providers/gallery";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-photo-edit',
@@ -22,7 +23,10 @@ export class PhotoEditPage {
                 private provider: GalleryProvider,
                 private viewCtrl: ViewController,
                 private events: Events,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('PhotoEditPage');
     }
 
     ionViewWillLoad() {

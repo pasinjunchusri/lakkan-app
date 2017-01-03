@@ -4,6 +4,7 @@ import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {UserProvider} from "../../providers/user";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {IParams} from "../../models/parse.params.model";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 
 @Component({
@@ -41,8 +42,12 @@ export class ProfilePage {
                 private events: Events,
                 private navParams: NavParams,
                 private modalCtrl: ModalController,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('ProfilePage');
+
         this.username        = this.navParams.get('username');
         this.params.username = this.username;
         this.eventName       = this.username;

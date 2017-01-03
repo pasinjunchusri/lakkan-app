@@ -4,6 +4,7 @@ import {UserProvider} from "../../providers/user";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-chat-form',
@@ -39,8 +40,12 @@ export class ChatFormPage {
                 private Channel: ChatChannelProvider,
                 private viewCtrl: ViewController,
                 private util: IonicUtilProvider,
-                private events: Events
+                private events: Events,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('ChatChannel page');
+
         this.username = this.User.current().username;
         console.log(this.username);
     }

@@ -5,6 +5,7 @@ import {ChatChannelPage} from "../chat-channel/chat-channel";
 import {UserListPage} from "../user-list/user-list";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {APP_NAME} from "../../config";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-tab-home',
@@ -27,8 +28,11 @@ export class TabHomePage {
 
     constructor(private events: Events,
                 private app: App,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('TabHomePage');
 
         this.eventName = 'home';
     }
@@ -37,15 +41,8 @@ export class TabHomePage {
         //console.log('ionViewDidLoad home');
 
         // Load Cache
-        setTimeout(() => this.events.publish(this.eventName + ':cache', this.params), 500);
-
-        // Request
-        if (this.util.isOnline()) {
-            setTimeout(() => {
-                this.params.page = 1;
-                this.events.publish(this.eventName + ':reload', this.params);
-            }, 2000);
-        }
+        this.params.page = 1;
+        this.events.publish(this.eventName + ':reload', this.params);
     }
 
 

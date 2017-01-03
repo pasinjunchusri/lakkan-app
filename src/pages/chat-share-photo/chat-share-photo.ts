@@ -2,6 +2,7 @@ import {Component, ViewChild} from "@angular/core";
 import {NavController, Content, ViewController, App, NavParams} from "ionic-angular";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import {ChatMessagePage} from "../chat-message/chat-message";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-chat-share-photo',
@@ -25,8 +26,11 @@ export class ChatSharePhotoPage {
                 private provider: ChatChannelProvider,
                 private viewCtrl: ViewController,
                 private app: App,
-                private params: NavParams
+                private params: NavParams,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('ChatSharePhotoPage');
     }
 
     ionViewDidLoad() {

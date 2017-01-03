@@ -3,6 +3,7 @@ import {NavController} from 'ionic-angular';
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
 import {TabsPage} from "../tabs/tabs";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'user-avatar',
@@ -18,7 +19,11 @@ export class UserAvatarPage {
     constructor(private navCtrl: NavController,
                 private ionic: IonicUtilProvider,
                 private User: UserProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('UserAvatarPage');
+
         this._user = User.current().attributes;
 
         if (this._user.photo) {

@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
-import {NavController, App} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {App} from "ionic-angular";
 import {GalleryActivityProvider} from "../../providers/gallery-activity";
 import {ProfilePage} from "../profile/profile";
-import _ from 'underscore';
+import _ from "underscore";
 import {PhotoPage} from "../photo/photo";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-tab-activity',
@@ -25,11 +26,12 @@ export class TabActivityPage {
         page : 1
     }
 
-    constructor(private navCtrl: NavController,
-                private provider: GalleryActivityProvider,
-                private app: App
+    constructor(private provider: GalleryActivityProvider,
+                private app: App,
+                private analytics: AnalyticsProvider,
     ) {
-
+        // Google Analytics
+        this.analytics.view('TabActivityPage');
     }
 
     ngOnInit() {
@@ -37,11 +39,10 @@ export class TabActivityPage {
     }
 
     profile(username: string) {
-        //this.navCtrl.push(ProfilePage, {username: username});
         this.app.getRootNav().push(ProfilePage, {username: username});
     }
 
-    openPhoto(id:string) {
+    openPhoto(id: string) {
         console.log('openphoto', id);
         this.app.getRootNav().push(PhotoPage, {id: id});
     }

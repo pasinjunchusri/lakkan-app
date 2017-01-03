@@ -1,11 +1,8 @@
-import {Component} from '@angular/core';
-import {ViewController} from 'ionic-angular';
-import {UserProvider} from '../../providers/user';
-import {IonicUtilProvider} from '../../providers/ionic-util';
-
-interface IPassword {
-    password: string
-}
+import {Component} from "@angular/core";
+import {ViewController} from "ionic-angular";
+import {UserProvider} from "../../providers/user";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-user-password',
@@ -23,8 +20,10 @@ export class UserPasswordPage {
     constructor(private viewCtrl: ViewController,
                 private ionicUtil: IonicUtilProvider,
                 private provider: UserProvider,
+                private analytics: AnalyticsProvider,
     ) {
-
+        // Google Analytics
+        this.analytics.view('UserPasswordPage');
     }
 
     save(form) {

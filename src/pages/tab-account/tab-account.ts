@@ -7,6 +7,7 @@ import {ParseFileProvider} from "../../providers/parse-file";
 import {UserProvider} from "../../providers/user";
 import {ImageCaptureComponent} from "../../components/image-capture/image-capture";
 import {IonicUtilProvider} from "../../providers/ionic-util";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-tab-account',
@@ -37,8 +38,11 @@ export class TabAccountPage {
                 private ParseFile: ParseFileProvider,
                 private User: UserProvider,
                 private app: App,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('TabAccountPage');
 
         this.user            = this.userData.current();
         this.username        = this.user.username;

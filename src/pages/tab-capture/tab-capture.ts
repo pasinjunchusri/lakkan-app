@@ -4,6 +4,7 @@ import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {PhotoShareModal} from "../../components/photo-share-modal/photo-share-modal";
 import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-tab-capture',
@@ -20,8 +21,12 @@ export class TabCapturePage {
                 private util: IonicUtilProvider,
                 private modalCtrl: ModalController,
                 private events: Events,
-                private render: Renderer
+                private render: Renderer,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('TabCapturePage');
+
         this.cordova = this.util.cordova;
 
         // Open Share Modal

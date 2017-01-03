@@ -4,6 +4,7 @@ import {GalleryAlbumProvider} from "../../providers/gallery-album";
 import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from "underscore";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-album-list-modal',
@@ -32,8 +33,11 @@ export class AlbumListModalPage {
                 private provider: GalleryAlbumProvider,
                 private events: Events,
                 private viewCtrl: ViewController,
-                private modalCtrl: ModalController
+                private modalCtrl: ModalController,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('AlbumListModalPage');
 
         // Translate Search Bar Placeholder
         this.util.translate('Search album').then((res: string) => this._placeholder = res);

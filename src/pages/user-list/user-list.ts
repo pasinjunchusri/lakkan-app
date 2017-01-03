@@ -4,6 +4,7 @@ import {UserProvider} from "../../providers/user";
 import {ProfilePage} from "../profile/profile";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import _ from 'underscore';
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-user-list',
@@ -28,8 +29,12 @@ export class UserListPage {
 
     constructor(private navCtrl: NavController,
                 private provider: UserProvider,
-                private util: IonicUtilProvider
+                private util: IonicUtilProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('UserListPage');
+
         // Translate Search Bar Placeholder
         this.util.translate(this.placeholder).then((res: string) => this.placeholder = res);
     }

@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {NavParams} from "ionic-angular";
 import {GalleryProvider} from "../../providers/gallery";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 
 @Component({
@@ -15,7 +16,11 @@ export class PhotoPage {
 
     constructor(private navParams: NavParams,
                 private provider: GalleryProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('PhotoPage');
+
         this.id       = this.navParams.get('id');
         this.loading = true;
 

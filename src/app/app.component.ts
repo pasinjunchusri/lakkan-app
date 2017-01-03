@@ -1,10 +1,11 @@
 import {Component, OnInit} from "@angular/core";
 import {Platform} from "ionic-angular";
-import {Splashscreen} from "ionic-native";
+import {Splashscreen, Device} from "ionic-native";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
-import {PARSE_APP_ID, PARSE_SERVER_URL} from "../config";
+import {PARSE_APP_ID, PARSE_SERVER_URL, GOOGLE_ANALYTICS} from "../config";
 import {ParsePushProvider} from "../providers/parse-push";
+import {AnalyticsProvider} from "../providers/analytics";
 
 declare const Parse: any;
 
@@ -21,7 +22,8 @@ export class MyApp implements OnInit {
     }
 
     constructor(private platform: Platform,
-                private Push: ParsePushProvider
+                private Push: ParsePushProvider,
+                private Analytics: AnalyticsProvider,
     ) {
 
         platform.ready().then(() => {
@@ -30,6 +32,11 @@ export class MyApp implements OnInit {
             // StatusBar.styleDefault();
             Splashscreen.hide();
 
+            // Google Analytics
+            Analytics.init(GOOGLE_ANALYTICS);
+            Analytics.appVersion(Device.version);
+
+            // Start Parse User
             let user = Parse.User.current();
             console.log(user);
             if (!user) {

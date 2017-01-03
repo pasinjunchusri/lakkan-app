@@ -4,6 +4,7 @@ import {ChatMessageProvider} from "../../providers/chat-message";
 import {IonicUtilProvider} from "../../providers/ionic-util";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import _ from "underscore";
+import {AnalyticsProvider} from "../../providers/analytics";
 declare const Parse: any;
 
 @Component({
@@ -39,9 +40,11 @@ export class ChatMessagePage {
                 private Message: ChatMessageProvider,
                 private util: IonicUtilProvider,
                 private events: Events,
-                private params: NavParams
+                private params: NavParams,
+                private analytics: AnalyticsProvider
     ) {
-
+        // Google Analytics
+        this.analytics.view('ChatMessagePage');
     }
 
     ionViewDidLoad() {

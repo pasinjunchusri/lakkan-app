@@ -16,6 +16,7 @@ import {GalleryAlbumProvider} from "./gallery-album";
 import {ExternalLibProvider} from "./external-lib";
 import {ChatChannelProvider} from "./chat-channel";
 import {ChatMessageProvider} from "./chat-message";
+import {AnalyticsProvider} from "./analytics";
 
 export const sharedProviders = [
     IonicUtilProvider,
@@ -33,6 +34,7 @@ export const sharedProviders = [
     ParsePushProvider,
     ChatChannelProvider,
     ChatMessageProvider,
+    AnalyticsProvider,
 ];
 
 @NgModule({

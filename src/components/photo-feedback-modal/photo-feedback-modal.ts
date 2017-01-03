@@ -4,6 +4,7 @@ import {ViewController, NavParams} from "ionic-angular";
 import {GallerFeedbackProvider} from "../../providers/gallery-feedback";
 import {UserProvider} from "../../providers/user";
 import {TranslateService} from "ng2-translate";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 
 @Component({
@@ -26,8 +27,11 @@ export class PhotoFeedbackModalComponent {
                 private navParams: NavParams,
                 private provider: GallerFeedbackProvider,
                 private User: UserProvider,
-                private translate: TranslateService
+                private translate: TranslateService,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('PhotoFeedbackModalPage');
 
         this.form.gallery = navParams.get('item').obj;
         this.form.user    = this.User.current();

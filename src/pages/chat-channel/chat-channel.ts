@@ -4,6 +4,7 @@ import {ChatFormPage} from "../chat-form/chat-form";
 import {ChatChannelProvider} from "../../providers/chat-channel";
 import {ChatMessagePage} from "../chat-message/chat-message";
 import _ from "underscore";
+import {AnalyticsProvider} from "../../providers/analytics";
 declare const Parse: any;
 
 @Component({
@@ -30,8 +31,12 @@ export class ChatChannelPage {
     constructor(public navCtrl: NavController,
                 private provider: ChatChannelProvider,
                 private modalCtrl: ModalController,
-                private events: Events
+                private events: Events,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('ChatChannel page');
+
         this.events.subscribe('channel:update', () => this.find());
     }
 

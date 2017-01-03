@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {NavParams, ViewController, Events, ModalController} from "ionic-angular";
 import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-autocomplete-modal";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'photo-share-modal',
@@ -25,7 +26,11 @@ export class PhotoShareModal {
                 private viewCtrl: ViewController,
                 private events: Events,
                 private modalCtrl: ModalController,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('PhotoShareModalPage');
+
         this.image     = this.navparams.get('base64');
         this.eventName = this.navparams.get('eventName');
 

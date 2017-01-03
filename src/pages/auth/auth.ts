@@ -9,6 +9,7 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
 import {UserProvider} from "../../providers/user";
 import {ExternalLibProvider} from "../../providers/external-lib";
 import {APP_NAME} from "../../config";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 declare const Parse: any;
 
@@ -41,8 +42,11 @@ export class AuthPage {
                 private fb: FacebookService,
                 private app: App,
                 private formBuilder: FormBuilder,
-                private lib: ExternalLibProvider
+                private lib: ExternalLibProvider,
+                private analytics: AnalyticsProvider,
     ) {
+        // Google Analytics
+        this.analytics.view('AuthPage');
 
         // Define Facebook Browser and Native
         this.facebookNative = Facebook;
@@ -98,6 +102,7 @@ export class AuthPage {
     }
 
     login(form): void {
+        this.analytics.event('Auth','login');
         if (form.valid) {
             this.util.onLoading();
 
@@ -115,26 +120,22 @@ export class AuthPage {
     }
 
     validPassword(password: string, confirm: string): boolean {
-        console.log(password, confirm);
         return (password == confirm) ? true : false;
     }
 
     createUser(form): void {
         let newForm = this.formSignup.value;
-        console.log(form);
+        this.analytics.event('Auth','create user');
 
         if (this.validPassword(newForm.password, newForm.passwordConfirmation)) {
             this.util.onLoading();
 
             delete newForm['passwordConfirmation'];
-            console.log(newForm);
             this.provider.signUp(newForm).then(user => {
-                console.log(user);
                 this.provider.current = user;
                 this.util.endLoading();
                 this.onPageTabs();
             }).catch(error => {
-                console.log(error);
                 this.util.endLoading();
                 this.util.toast(error.message);
             });
@@ -149,6 +150,7 @@ export class AuthPage {
     }
 
     loginFacebook(): void {
+        this.analytics.event('Auth','Login with Facebook');
 
         this.util.onLoading();
         this.facebook.getLoginStatus().then(response => {
@@ -235,7 +237,7 @@ export class AuthPage {
 
 
     resetPassword(): void {
-
+        this.analytics.event('Auth','reset password');
         this.alertCtrl.create({
             title  : this.alertTranslate.title,
             message: this.alertTranslate.message,

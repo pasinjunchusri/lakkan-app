@@ -7,6 +7,7 @@ import {ExternalLibProvider} from "../../providers/external-lib";
 import {PhotoPage} from "../photo/photo";
 import {IParamsLocation} from "../../models/parse.params.location.model";
 import _ from "underscore";
+import {AnalyticsProvider} from "../../providers/analytics";
 
 declare const Parse: any;
 declare const google: any;
@@ -33,9 +34,11 @@ export class TabSearchMapPage {
     constructor(private util: IonicUtilProvider,
                 private provider: GalleryProvider,
                 private navCtrl: NavController,
-                private lib: ExternalLibProvider
+                private lib: ExternalLibProvider,
+                private analytics: AnalyticsProvider,
     ) {
-
+        // Google Analytics
+        this.analytics.view('TabSearchMapPage');
     }
 
     ionViewDidLoad() {

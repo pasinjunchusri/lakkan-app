@@ -5,6 +5,7 @@ import {IonicUtilProvider} from '../../providers/ionic-util';
 import {FormBuilder, Validators} from "@angular/forms";
 
 import * as _ from 'underscore';
+import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'album-form-modal',
@@ -18,8 +19,12 @@ export class AlbumFormModalComponent {
                 private provider: GalleryAlbumProvider,
                 private ionicUtil: IonicUtilProvider,
                 private navParams: NavParams,
-                private formBuilder: FormBuilder
+                private formBuilder: FormBuilder,
+                private analytics: AnalyticsProvider
     ) {
+        // Google Analytics
+        this.analytics.view('AlbumFormModalPage');
+
         this.id = this.navParams.get('id');
         if (this.id) {
             this.get();

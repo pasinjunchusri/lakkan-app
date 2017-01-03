@@ -2,12 +2,22 @@ import {Component, ElementRef, AfterContentInit, OnChanges, SimpleChanges, Input
 import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
-    selector   : 'img-progressive',
-    templateUrl: 'img-progressive.html',
-    styles     : [
+    selector: 'img-progressive',
+    template: `
+        <div [ngStyle]="getOverlayStyle()">
+            <div [ngStyle]="getOverlayStyle()">
+                <ng-content select="[data-overlay]"></ng-content>
+            </div>
+        
+            <img [src]="srcLow">
+        </div>
+        <img [src]="src" [ngStyle]="getImageStyle()" (load)="onLoad()"/>
+        `,
+    styles  : [
         `
         :host {
             display: block;
+            position: relative;
             overflow: hidden;
         }
 
@@ -24,7 +34,12 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
         }
 
         :host > img {
-            display: none;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: ease all 0.5s;
         }
 
         :host > div > div {
@@ -77,7 +92,6 @@ export class ImgProgressiveComponent implements AfterContentInit, OnChanges {
     }
 
     onLoad() {
-        this.progressWrapper.style.display = 'none';
-        this.image.style.display           = 'block';
+        this.image.style.opacity           = '1';
     }
 }
