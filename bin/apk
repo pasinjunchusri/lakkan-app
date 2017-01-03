@@ -40,10 +40,10 @@ echo "       $2      Version: $3 "
 echo ""
 echo ""
 # echo "---> Ionic Build"
-ionic build
+# ionic build
 
 echo "---> Starting build  $appname v$version"
-cordova build android --release
+ionic build android --release
 
 echo ""
 echo ""
