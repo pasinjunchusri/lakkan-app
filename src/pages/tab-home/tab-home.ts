@@ -3,7 +3,6 @@ import {Events, Content, App} from "ionic-angular";
 import {IParams} from "../../models/parse.params.model";
 import {ChatChannelPage} from "../chat-channel/chat-channel";
 import {UserListPage} from "../user-list/user-list";
-import {IonicUtilProvider} from "../../providers/ionic-util";
 import {APP_NAME} from "../../config";
 import {AnalyticsProvider} from "../../providers/analytics";
 
@@ -12,9 +11,9 @@ import {AnalyticsProvider} from "../../providers/analytics";
     templateUrl: 'tab-home.html',
 })
 export class TabHomePage {
-    @ViewChild('Content') content: Content;
+    @ViewChild(Content) content: Content;
 
-    appName:string = APP_NAME;
+    appName: string = APP_NAME;
 
     params: IParams = {
         limit    : 18,
@@ -28,7 +27,6 @@ export class TabHomePage {
 
     constructor(private events: Events,
                 private app: App,
-                private util: IonicUtilProvider,
                 private analytics: AnalyticsProvider,
     ) {
         // Google Analytics
@@ -73,9 +71,8 @@ export class TabHomePage {
         this.app.getRootNav().push(UserListPage);
     }
 
-    public scrollTop() {
-        //console.log('Scroll Top');
-        //this.content.scrollToTop(1000);
+    scrollTop() {
+        this.content.scrollToTop(1000);
     }
 
     public doInfinite(event) {
