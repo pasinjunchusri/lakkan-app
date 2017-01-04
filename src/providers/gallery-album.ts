@@ -57,7 +57,7 @@ export class GalleryAlbumProvider {
     }
 
 
-    findCache(params?: any): Promise<any> {
+    findCache(params?:any): Promise<any> {
         return new Promise(resolve => {
             if (this.data.length > 0) {
                 resolve(this.data)

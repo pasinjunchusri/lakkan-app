@@ -41,27 +41,20 @@ export class AlbumListModalPage {
 
         // Translate Search Bar Placeholder
         this.util.translate('Search album').then((res: string) => this._placeholder = res);
-        events.subscribe('album:reload', () => this.doRefresh(null));
+        this.events.subscribe('album:reload', () => this.doRefresh(null));
     }
 
     ionViewWillEnter() {
-        this.cache();
+        this.feed();
     }
 
     selectAlbum(album: any) {
-        console.log(album);
         this.events.publish('album:selected', album);
         this.dismiss();
     }
 
     albumForm() {
-        let modal = this.modalCtrl.create(AlbumFormModalComponent);
-        modal.onDidDismiss((value) => {
-            if (value) {
-                this.feed();
-            }
-        });
-        modal.present();
+        this.modalCtrl.create(AlbumFormModalComponent).present();
     }
 
     feed() {
@@ -96,18 +89,6 @@ export class AlbumListModalPage {
         });
     }
 
-    private cache(): void {
-        console.log('Load cache', this.params);
-        this.provider.findCache(this.params).then(_data => {
-            console.log('cache', _data);
-            if (_data.length) {
-                _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
-                this.loading = false;
-            } else {
-                this.feed();
-            }
-        });
-    }
 
     dismiss() {
         this.viewCtrl.dismiss();
@@ -132,14 +113,10 @@ export class AlbumListModalPage {
     }
 
     doRefresh(event) {
-        this.data        = [];
         this.params.page = 1;
-        // Clean Cache and Reload
-        this.provider.cleanCache()
-            .then(() => this.feed())
-            .then(this.provider.findCache)
-            .then(() => event.complete())
-            .catch(() => event.complete());
+        this.feed()
+            .then(() => {if(event) {event.complete()}})
+            .catch(() => {if(event) {event.complete()}});
         ;
     }
 

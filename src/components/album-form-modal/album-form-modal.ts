@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ViewController, NavParams} from 'ionic-angular';
+import {ViewController, Events, NavParams} from 'ionic-angular';
 import {GalleryAlbumProvider} from '../../providers/gallery-album';
 import {IonicUtilProvider} from '../../providers/ionic-util';
 import {FormBuilder, Validators} from "@angular/forms";
@@ -20,6 +20,7 @@ export class AlbumFormModalComponent {
                 private ionicUtil: IonicUtilProvider,
                 private navParams: NavParams,
                 private formBuilder: FormBuilder,
+                private events: Events,
                 private analytics: AnalyticsProvider
     ) {
         // Google Analytics
@@ -60,7 +61,8 @@ export class AlbumFormModalComponent {
             this.ionicUtil.onLoading();
             this.provider.put(this.form.value).then(parseItem => {
                 this.ionicUtil.endLoading();
-                this.viewCtrl.dismiss(parseItem);
+                this.viewCtrl.dismiss();
+                this.events.publish('album:reload');
             });
         }
     }

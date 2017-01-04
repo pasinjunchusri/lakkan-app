@@ -18,8 +18,10 @@ export class PhotoShareModal {
     location: any;
     address: any = {};
 
+    album: any;
     image: any;
     eventName: string;
+
     _eventName: string = 'photoshare:crop';
 
     constructor(private navparams: NavParams,
@@ -33,6 +35,11 @@ export class PhotoShareModal {
 
         this.image     = this.navparams.get('base64');
         this.eventName = this.navparams.get('eventName');
+        this.album   = this.navparams.get('album');
+
+        if(this.album) {
+            this.form.albumId = this.album.id;
+        }
 
         events.subscribe('album:selected', album => this.form.albumId = album.id);
         events.subscribe(this._eventName, _imageCroped => this.image = _imageCroped);

@@ -48,4 +48,13 @@
     <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+
 </ion-content>
+
+<input *ngIf="!cordova"
+       #inputFile
+       type="file"
+       (change)="onChange($event)"
+       accept="image/x-png, image/gif, image/jpeg"
+       max-size="2048"
+       style="display: none;">

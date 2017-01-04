@@ -1,9 +1,15 @@
-import {Component} from "@angular/core";
-import {Events, NavController, ViewController, NavParams, PopoverController} from "ionic-angular";
+import {Component, ViewChild, ElementRef, Renderer} from "@angular/core";
+import {Events, NavController, ViewController, NavParams, PopoverController, ModalController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
 import {AlbumPhotoGridPopoverComponent} from "../album-photo-grid-popover/album-photo-grid-popover";
 import {GalleryAlbumProvider} from "../../providers/gallery-album";
 import _ from "underscore";
+import {PhotoShareModal} from "../photo-share-modal/photo-share-modal";
+import {IonPhotoService} from "../ion-photo/ion-photo-service";
+import {IonPhotoCropModal} from "../ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
+import {IonicUtilProvider} from "../../providers/ionic-util";
+
+
 declare const Parse: any;
 
 @Component({
@@ -11,6 +17,9 @@ declare const Parse: any;
     templateUrl: 'album-photo-grid.html'
 })
 export class AlbumPhotoGridComponent {
+
+    @ViewChild('inputFile') input: ElementRef;
+
     params = {
         limit: 15,
         page : 1,
@@ -26,6 +35,10 @@ export class AlbumPhotoGridComponent {
     moreItem: boolean      = false;
     canEdit: boolean       = false;
     username: any;
+    album: any;
+
+    _eventName: string = 'albumUpload';
+    cordova: boolean   = false;
 
     constructor(private provider: GalleryAlbumProvider,
                 private events: Events,
@@ -33,8 +46,29 @@ export class AlbumPhotoGridComponent {
                 private viewCtrl: ViewController,
                 private navParams: NavParams,
                 private popoverCtrl: PopoverController,
+                private modalCtrl: ModalController,
+                private photoService: IonPhotoService,
+                private render: Renderer,
+                private util: IonicUtilProvider
     ) {
         this.username = Parse.User.current().get('username');
+        this.cordova  = this.util.cordova;
+
+        // Open Share Modal
+        this.events.subscribe(this._eventName, _imageCroped => {
+            let modal = this.modalCtrl.create(PhotoShareModal, {base64: _imageCroped, album: this.album});
+            modal.onDidDismiss(response => {
+                console.log(response);
+                if (response) {
+                    this.loading = true;
+                    this.events.publish('upload:gallery', response);
+                }
+            });
+            modal.present();
+        });
+
+        this.events.subscribe('home:reload', () => this.doRefresh());
+        this.events.subscribe('photoGrid:upload', () => this.upload());
     }
 
     ionViewWillEnter() {
@@ -45,9 +79,40 @@ export class AlbumPhotoGridComponent {
         this.events.subscribe('albumgrid:destroy', () => this.dismiss());
         this.provider.get(this.params.id).then(album => {
             console.log('album', album);
+            this.album   = album;
             this.canEdit = this.validCanEdit(album.user.get('username'));
             this.feed();
         })
+    }
+
+    upload() {
+        if (this.cordova) {
+            this.photoService.open()
+                .then(image => this.cropImage(image))
+                .catch(error => this.util.toast(error));
+        } else {
+            this.render.invokeElementMethod(this.input.nativeElement, 'click');
+        }
+
+    }
+
+    cropImage(image: any) {
+        this.modalCtrl.create(IonPhotoCropModal, {base64: image, eventName: this._eventName}).present();
+    }
+
+    onChange(event) {
+        let files  = event.srcElement.files;
+        let image  = files[0];
+        let reader = new FileReader();
+        if (image) {
+            reader.onload = (evt) => {
+                if (evt) {
+                    let image = evt.srcElement['result'];
+                    this.cropImage(image)
+                }
+            };
+            reader.readAsDataURL(image);
+        }
     }
 
     dismiss(): void {
@@ -69,11 +134,8 @@ export class AlbumPhotoGridComponent {
                 this.loading = true;
             }
 
-            console.log('-----feed', this.params);
             this.provider.getAlbum(this.params).then(data => {
 
-
-                console.log('-----result', data);
                 if (data) {
                     this.showErrorView = false;
                     this.showEmptyView = false;
