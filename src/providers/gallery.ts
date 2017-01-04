@@ -156,6 +156,10 @@ export class GalleryProvider {
         return this.db.get(objectId);
     }
 
+    createGallery(form:any){
+        return Parse.Cloud.run('createGallery', form);
+    }
+
     put(item: IGallery) {
 
         if (item.address && item.address.geo) {

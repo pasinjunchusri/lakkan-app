@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {App} from "ionic-angular";
+import {App, Events} from "ionic-angular";
 import {GalleryActivityProvider} from "../../providers/gallery-activity";
 import {ProfilePage} from "../profile/profile";
 import _ from "underscore";
@@ -29,6 +29,7 @@ export class TabActivityPage {
     constructor(private provider: GalleryActivityProvider,
                 private app: App,
                 private analytics: AnalyticsProvider,
+                private events: Events
     ) {
         // Google Analytics
         this.analytics.view('TabActivityPage');
@@ -69,6 +70,7 @@ export class TabActivityPage {
                 }
 
                 this.loading = false;
+                this.events.publish('clearActivity');
                 resolve(data);
             }, error => {
                 this.errorText     = error.message;

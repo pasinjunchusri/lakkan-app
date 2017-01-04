@@ -7,7 +7,7 @@ import {AlbumListModalPage} from "../album-list-modal/album-list-modal";
     templateUrl: 'album-input.html'
 })
 export class AlbumInputComponent implements OnInit {
-    @Input() album?: any = {title: null};
+    @Input() album?: any;
 
     constructor(private modalCtrl: ModalController,
                 private events: Events,

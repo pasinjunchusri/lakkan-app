@@ -27,7 +27,7 @@ export class UserAvatarPage {
         this._user = User.current().attributes;
 
         if (this._user.photo) {
-            this.photo = this._user.photo._url;
+            this.photo = this._user.photo.url();
         }
 
         this.form = {

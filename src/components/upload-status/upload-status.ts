@@ -9,7 +9,7 @@ import {IUpload} from "../../models/upload.model";
     selector: 'upload-status',
     //templateUrl: 'upload-status.html',
     template: `<ion-item  *ngFor="let item of uploads; let i=index; " >
-                <ion-avatar item-left><img [src]="item.image"></ion-avatar>
+                <ion-avatar item-left><img [src]="item.form.image"></ion-avatar>
                 <h2>{{item.form.title}}</h2>
                 <ion-spinner *ngIf="item.loading" item-right></ion-spinner>
                 <button (click)="retry(i)" ion-button *ngIf="!item.loading" color="primary" outline item-right>Retry</button>
@@ -31,7 +31,7 @@ export class UploadStatusComponent {
 
     add(item: IUpload) {
         console.log('uploadProccess', item);
-        let newItem = {loading: true, form: item.form, image: item.image, status: 'sending', code: new Date().getTime()};
+        let newItem = {loading: true, form: item.form, status: 'sending', code: new Date().getTime()};
         this.uploads.push(newItem);
         let index = _.findIndex(this.uploads, {code: newItem.code});
         this.process(index);
@@ -41,21 +41,15 @@ export class UploadStatusComponent {
         let newItem                 = this.uploads[index];
         this.uploads[index].loading = true;
 
-        this.ParseFile.upload({base64: newItem.image}).then(image => {
-            let form   = newItem.form;
-            form.image = image;
-            console.log('form', form);
-
-            this.provider.put(form).then(item => {
-                console.log(item);
-                item.loading = false;
-                this.uploads.splice(index, 1);
-                this.events.publish('home:reload',null);
-            }).catch(error => {
-                console.log(error);
-                this.uploads[index].loading = false;
-            });
-        })
+        this.provider.createGallery(newItem.form).then(item => {
+            console.log(item);
+            newItem.loading = false;
+            this.uploads.splice(index, 1);
+            this.events.publish('home:reload',null);
+        }).catch(error => {
+            console.log(error);
+            this.uploads[index].loading = false;
+        });
     }
 
     retry(index): void {

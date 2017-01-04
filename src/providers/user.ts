@@ -135,42 +135,34 @@ export class UserProvider {
         Parse.User.logOut();
     }
 
-    updateWithFacebookData() {
+    updateWithFacebookData():Promise<any> {
         return Parse.Cloud.run('saveFacebookPicture');
     }
 
     facebookSyncProfile(fbData: any) {
-        return new Promise((resolve, reject) => {
-            let currentUser = Parse.User.current();
+        let currentUser = Parse.User.current();
 
-            if (!currentUser.get('facebook') && fbData.id) {
-                currentUser.set('facebook', fbData.id);
-            }
+        if (!currentUser.get('facebook') && fbData.id) {
+            currentUser.set('facebook', fbData.id);
+        }
 
-            if (!currentUser.get('email') && fbData.email) {
-                currentUser.set('email', fbData.email);
-            }
+        if (!currentUser.get('email') && fbData.email) {
+            currentUser.set('email', fbData.email);
+        }
 
-            if (!currentUser.get('name') && fbData.name) {
-                currentUser.set('name', fbData.name);
-            }
+        if (!currentUser.get('name') && fbData.name) {
+            currentUser.set('name', fbData.name);
+        }
 
-            if (!currentUser.get('gender') && fbData.gender) {
-                currentUser.set('gender', fbData.gender);
-            }
+        if (!currentUser.get('gender') && fbData.gender) {
+            currentUser.set('gender', fbData.gender);
+        }
 
-            if (!currentUser.get('birthdate') && fbData.birthday) {
-                currentUser.set('birthdate', new Date(fbData.birthday));
-            }
+        if (!currentUser.get('birthdate') && fbData.birthday) {
+            currentUser.set('birthdate', new Date(fbData.birthday));
+        }
 
-            currentUser.save(null).then(() => {
-                if (!currentUser.get('photo')) {
-                    this.updateWithFacebookData().then(resolve);
-                } else {
-                    resolve();
-                }
-            });
-        });
+        return currentUser.save();
     }
 
     signUp(data) {

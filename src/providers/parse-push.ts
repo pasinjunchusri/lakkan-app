@@ -53,14 +53,14 @@ export class ParsePushProvider {
     }
 
     on(event: string, callback: any): void {
-        if (ParsePushPlugin) {
-            ParsePushPlugin.on(event, callback);
+        if (this.cordova && ParsePushPlugin) {
+            return ParsePushPlugin.on(event, callback);
         }
     }
 
     subscribe(channel): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (ParsePushPlugin) {
+            if (this.cordova && ParsePushPlugin) {
                 ParsePushPlugin.subscribe(channel, (resp) => {
                     console.log('Subcribe in channel', channel);
                     resolve(resp);
@@ -74,7 +74,7 @@ export class ParsePushProvider {
 
     unsubscribe(channel): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (ParsePushPlugin) {
+            if (this.cordova && ParsePushPlugin) {
                 ParsePushPlugin.unsubscribe(channel, (resp) => {
                     console.log('Unsubcribe in channel', channel);
                     resolve(resp);

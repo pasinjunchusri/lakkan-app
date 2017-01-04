@@ -174,19 +174,6 @@ export class AuthPage {
             this.util.endLoading();
             this.util.toast(error.message);
         });
-
-        //Parse.FacebookUtils.logIn("user_likes,email", {
-        //    success: function (user) {
-        //        if (!user.existed()) {
-        //            alert("User signed up and logged in through Facebook!");
-        //        } else {
-        //            alert("User logged in through Facebook!");
-        //        }
-        //    },
-        //    error  : function (user, error) {
-        //        alert("User cancelled the Facebook login or did not fully authorize.");
-        //    }
-        //});
     }
 
     processFacebookLogin(authData) {
@@ -200,6 +187,8 @@ export class AuthPage {
                     expiration_date: (new Date().getTime() + 1000).toString()
                 };
 
+                this.util.onLoading('Updating Facebook Profile');
+
                 Parse.FacebookUtils.logIn(facebookAuthData, {
                     success: (user) => {
                         if (!user.existed()) {
@@ -207,6 +196,7 @@ export class AuthPage {
                             console.warn("UserProvider signed up and logged in through Facebook!", user);
 
                             this.provider.facebookSyncProfile(fbData)
+                                .then(this.provider.updateWithFacebookData())
                                 .then(result => {
                                     this.util.endLoading();
                                     this.navCtrl.push(UserAvatarPage);
@@ -216,6 +206,7 @@ export class AuthPage {
                             // Old UserProvider
                             console.info("UserProvider logged in through Facebook!", user);
                             this.provider.facebookSyncProfile(fbData)
+                                .then(this.provider.updateWithFacebookData())
                                 .then(result => {
                                     this.util.endLoading();
                                     this.navCtrl.push(TabsPage);

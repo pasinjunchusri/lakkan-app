@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {NavController, NavParams, ViewController, Events} from "ionic-angular";
 import {GalleryProvider} from "../../providers/gallery";
 import {AnalyticsProvider} from "../../providers/analytics";
+import {IonicUtilProvider} from "../../providers/ionic-util";
 
 @Component({
     selector   : 'page-photo-edit',
@@ -24,6 +25,7 @@ export class PhotoEditPage {
                 private viewCtrl: ViewController,
                 private events: Events,
                 private analytics: AnalyticsProvider,
+                private util : IonicUtilProvider
     ) {
         // Google Analytics
         this.analytics.view('PhotoEditPage');
@@ -35,6 +37,7 @@ export class PhotoEditPage {
         this.form.id        = item.id;
         this.form.title     = item.title;
         this.form.privacity = item.privacity;
+        console.log(item);
         this.events.subscribe('album:selected', album => this.form.albumId = album[0].id)
     }
 
@@ -44,8 +47,10 @@ export class PhotoEditPage {
 
     submit(form) {
         if (form.valid) {
+            this.util.onLoading('Updating....');
             this.provider.updatedGallery(this.form).then(() => {
                 this.events.publish('home:reload', null);
+                this.util.endLoading();
                 this.viewCtrl.dismiss();
             });
 

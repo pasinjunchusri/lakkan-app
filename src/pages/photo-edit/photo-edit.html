@@ -29,7 +29,7 @@
             <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
 
         </ion-item>
-        <img [src]="item.image._url" >
+        <img [src]="item.image" >
         <form #rForm="ngForm" (ngSubmit)="submit(rForm)">
             <ion-item>
                 <ion-label floating>{{'Title' | translate }}</ion-label>

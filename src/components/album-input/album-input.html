@@ -1,11 +1,11 @@
 <ion-list>
-    <ion-item *ngIf="!album['title']" (click)="openAlbumList()">
+    <ion-item *ngIf="!album" (click)="openAlbumList()">
         <ion-thumbnail item-left>
             <img src="assets/img/albumnone.png">
         </ion-thumbnail>
         <h2>{{'Select album' | translate}}</h2>
     </ion-item>
-    <ion-item *ngIf="album['title']" (click)="openAlbumList()">
+    <ion-item *ngIf="album" (click)="openAlbumList()">
         <ion-thumbnail item-left>
             <img *ngIf="!album.imageThumb" src="assets/img/albumnone.png">
             <img *ngIf="album.imageThumb" [src]="album.imageThumb._url">

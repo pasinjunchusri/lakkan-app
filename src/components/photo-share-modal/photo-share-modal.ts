@@ -11,6 +11,7 @@ export class PhotoShareModal {
     form         = {
         title    : '',
         privacity: 'public',
+        image    : null,
         address  : {},
         albumId  : null,
         location : null,
@@ -19,7 +20,6 @@ export class PhotoShareModal {
     address: any = {};
 
     album: any;
-    image: any;
     eventName: string;
 
     _eventName: string = 'photoshare:crop';
@@ -33,16 +33,16 @@ export class PhotoShareModal {
         // Google Analytics
         this.analytics.view('PhotoShareModalPage');
 
-        this.image     = this.navparams.get('base64');
-        this.eventName = this.navparams.get('eventName');
-        this.album   = this.navparams.get('album');
+        this.form.image = this.navparams.get('base64');
+        this.eventName  = this.navparams.get('eventName');
+        this.album      = this.navparams.get('album');
 
-        if(this.album) {
+        if (this.album) {
             this.form.albumId = this.album.id;
         }
 
         events.subscribe('album:selected', album => this.form.albumId = album.id);
-        events.subscribe(this._eventName, _imageCroped => this.image = _imageCroped);
+        events.subscribe(this._eventName, _imageCroped => this.form.image = _imageCroped);
     }
 
     showAddressModal() {
@@ -66,7 +66,7 @@ export class PhotoShareModal {
     submit(form) {
         if (form.valid) {
             this.events.unsubscribe(this.eventName);
-            this.viewCtrl.dismiss({form: this.form, image: this.image});
+            this.viewCtrl.dismiss({form: this.form});
         }
     }
 
