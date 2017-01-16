@@ -154,5 +154,13 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-webp": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-webp"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

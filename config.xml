@@ -120,4 +120,5 @@
         <variable name="DEEPLINK_HOST" value="photogram.codevibe.io" />
     </plugin>
     <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera.git" />
+    <plugin name="cordova-plugin-webp" spec="~2.2.0" />
 </widget>
