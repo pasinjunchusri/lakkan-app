@@ -6,6 +6,7 @@ echo "#### Cordova Clean Cache ####"
 cordova clean
 echo "#### Compilation Application ####"
 ionic build
+npm run minify
 echo "#### Build Release " $* " ####"
 cordova build $*
 

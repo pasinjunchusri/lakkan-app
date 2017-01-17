@@ -12,8 +12,8 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-echo "Ionic Upload App"
-echo "Minify app"
-ionic build
-echo "Ionic Upload Start"
-ionic upload --note "$note"
+# echo "Ionic Upload App"
+# echo "Minify app"
+# ionic build
+echo "Ionic Upload Start $note"
+ionic upload --note $note
