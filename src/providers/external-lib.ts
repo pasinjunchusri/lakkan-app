@@ -12,37 +12,15 @@ export class ExternalLibProvider {
         console.log('Hello ExternalLibProvider Provider');
     }
 
-    public googleMaps() {
-        return new Promise((resolve, reject) => {
-            if (this.util.isOnline()) {
-                this.googleMapsLib().then(resolve);
-            } else {
-                reject('GoogleMaps not avaible');
-
-            }
-        });
-    }
-
-    public facebookLoad() {
-        return new Promise((resolve, reject) => {
-            if (this.util.isOnline()) {
-                this.facebookLib().then(resolve);
-            } else {
-                reject('Facebook not avaible');
-            }
-        });
-    }
-
-    private googleMapsLib(): Promise<any> {
+    public googleMapsLib(){
         // Create Google Maps in Browser
         let script = document.createElement('script');
         script.id  = 'gmaps';
-        script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=' + GOOGLE_MAPS_WEB;
+        script.src = 'https://maps.googleapis.com/maps/api/js?callback=mapInit&libraries=places,geometry&key=' + GOOGLE_MAPS_WEB;
         document.body.appendChild(script);
-        return Promise.resolve();
     }
 
-    private facebookLib(): Promise<any> {
+    public facebookLib() {
         let userLang = navigator.language.split('-')[0]; // use navigator lang if available
         userLang     = /(pt|en|de)/gi.test(userLang) ? userLang : language_default.split('_')[0];
         let lang     = languages.filter(item => item.code.toLowerCase().indexOf(userLang.toLowerCase()) > -1);
@@ -60,7 +38,6 @@ export class ExternalLibProvider {
         console.log('script', script);
         setTimeout(() => this.fb.init(fbParams), 1000);
         //setTimeout(() => Parse.FacebookUtils.init(fbParams), 1000);
-        return Promise.resolve();
     }
 
 }

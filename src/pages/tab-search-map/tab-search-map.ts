@@ -1,19 +1,19 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
-import {NavController} from "ionic-angular";
-import {Geolocation} from "ionic-native";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-import {GalleryProvider} from "../../providers/gallery";
-import {ExternalLibProvider} from "../../providers/external-lib";
-import {PhotoPage} from "../photo/photo";
-import {IParamsLocation} from "../../models/parse.params.location.model";
-import _ from "underscore";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {Component, ViewChild, ElementRef} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import {Geolocation} from 'ionic-native';
+import {IonicUtilProvider} from '../../providers/ionic-util';
+import {GalleryProvider} from '../../providers/gallery';
+import {ExternalLibProvider} from '../../providers/external-lib';
+import {PhotoPage} from '../photo/photo';
+import {IParamsLocation} from '../../models/parse.params.location.model';
+import _ from 'underscore';
+import {AnalyticsProvider} from '../../providers/analytics';
 
 declare const Parse: any;
 declare const google: any;
 
 @Component({
-    selector   : 'page-tab-search-map',
+    selector:    'page-tab-search-map',
     templateUrl: 'tab-search-map.html',
 })
 export class TabSearchMapPage {
@@ -21,6 +21,7 @@ export class TabSearchMapPage {
     @ViewChild('map') mapElement: ElementRef;
 
     map: any;
+    mapInitialised: boolean = false;
 
     params: IParamsLocation = {
         location: null,
@@ -39,53 +40,136 @@ export class TabSearchMapPage {
     ) {
         // Google Analytics
         this.analytics.view('TabSearchMapPage');
-    }
 
-    ionViewDidLoad() {
         this.loadGoogleMaps();
     }
 
     loadGoogleMaps() {
-        this.lib.googleMaps().then(() => {
-            this.loadMap();
-        }).catch(error => {
-            this.util.toast(error);
-            this.util.tryConnect()
-                .then(() => this.loadGoogleMaps())
-                .catch(this.util.toast);
-        });
+
+        this.addConnectivityListeners();
+
+        if (typeof google == 'undefined' || typeof google.maps == 'undefined') {
+
+            console.log('Google maps JavaScript needs to be loaded.');
+            this.disableMap();
+
+            if (this.util.isOnline()) {
+                console.log('online, loading map');
+
+                //Load the SDK
+                window['mapInit'] = () => {
+                    this.initMap();
+                    this.enableMap();
+                };
+
+                this.lib.googleMapsLib();
+
+            }
+        } else {
+
+            if (this.util.isOnline()) {
+                console.log('showing map');
+                this.initMap();
+                this.enableMap();
+            }
+            else {
+                console.log('disabling map');
+                this.disableMap();
+            }
+
+        }
+
     }
 
-    loadMap() {
+    disableMap() {
+        console.log('disable map');
+    }
 
-        let latLng = this.position(-34.9290, 138.6010);
+    enableMap() {
+        console.log('enable map');
+    }
 
-        let mapOptions = {
-            center   : latLng,
-            zoom     : 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        this.map       = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    addConnectivityListeners() {
 
-        //Wait until the map is loaded
-        google.maps.event.addListener(this.map, 'idle', () => this.onNear());
+        let onOnline = () => {
+
+            setTimeout(() => {
+                if (typeof google == 'undefined' || typeof google.maps == 'undefined') {
+                    this.lib.googleMapsLib();
+                } else {
+
+                    if (!this.mapInitialised) {
+                        this.initMap();
+                    }
+
+                    this.enableMap();
+                }
+            }, 2000);
+
+        };
+
+        let onOffline = () => {
+            this.disableMap();
+        };
+
+        document.addEventListener('online', onOnline, false);
+        document.addEventListener('offline', onOffline, false);
+
+    }
+
+    initMap() {
+
+        this.mapInitialised = true;
 
         // Get Current Location
         Geolocation.getCurrentPosition().then((position) => {
-            this.params.location = new Parse.GeoPoint(position.coords.latitude, position.coords.longitude);
-            let location         = this.position(position.coords.latitude, position.coords.longitude);
 
-            let myLocation = {
-                position: location,
-                title   : 'I am here',
-                id      : 0
+            let latLng = this.position(position.coords.latitude, position.coords.longitude);
+
+            let mapOptions = {
+                center:    latLng,
+                zoom:      15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
+            this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+            console.log(this.map);
+
+            //Wait until the map is loaded
+            google.maps.event.addListener(this.map, 'idle', () => {
+
+                this.mapElement.nativeElement.classList.add('show-map');
+
+                this.params.location = new Parse.GeoPoint(this.map.center.lat(), this.map.center.lng());
+
+                console.log(this.params);
+
+                this.provider.near(this.params).then(data => {
+                    if (data && data.length) {
+                        //data.map(item => this.data.push(item));
+                        this.setGallerys(data);
+                    }
+                    this.loading = false;
+                }).catch(error => {
+                    console.log(error);
+                    this.util.toast(error);
+                });
+            });
+
+            this.params.location = new Parse.GeoPoint(position.coords.latitude, position.coords.longitude);
+
+
+            let myLocation = {
+                position: latLng,
+                title:    'I am here',
+                id:       0
+            };
+
+            console.log(myLocation);
+
             this.addMarker(myLocation);
-
             this.map.setCenter(myLocation.position);
-
-            console.log(position);
 
         }, (err) => {
             console.log(err);
@@ -94,7 +178,7 @@ export class TabSearchMapPage {
     }
 
     openPhoto(item: any): void {
-        this.navCtrl.push(PhotoPage, {item: item.id});
+        this.navCtrl.push(PhotoPage, {id: item.id});
     }
 
 
@@ -105,16 +189,17 @@ export class TabSearchMapPage {
     addMarker(item) {
 
         let marker = new google.maps.Marker({
-            id       : item.id,
-            position : item.position,
-            title    : item.title,
-            map      : this.map,
+            id:        item.id,
+            position:  item.position,
+            title:     item.title,
+            map:       this.map,
             animation: google.maps.Animation.DROP,
         });
+        console.log('addMaker', marker);
 
         google.maps.event.addListener(marker, 'click', () => {
             if (item.id !== 0) {
-                this.openPhoto(item)
+                this.openPhoto(item);
             }
         });
 
@@ -135,17 +220,17 @@ export class TabSearchMapPage {
         data.map((item) => {
             let size   = 40;
             let marker = new google.maps.Marker({
-                map     : this.map,
-                id      : item.id,
+                map:      this.map,
+                id:       item.id,
                 position: this.position(item.location.latitude, item.location.longitude),
-                title   : item.title,
-                image   : item.image.url(),
-                icon    : {
-                    url       : item.imageThumb.url(),
-                    size      : new google.maps.Size(size, size),
+                title:    item.title,
+                image:    item.image.url(),
+                icon:     {
+                    url:        item.imageThumb.url(),
+                    size:       new google.maps.Size(size, size),
                     scaledSize: new google.maps.Size(size, size),
-                    origin    : new google.maps.Point(0, 0),
-                    anchor    : new google.maps.Point(size / 4, size / 4),
+                    origin:     new google.maps.Point(0, 0),
+                    anchor:     new google.maps.Point(size / 4, size / 4),
                 },
                 username: item.attributes.user.attributes.username
             });
@@ -158,18 +243,24 @@ export class TabSearchMapPage {
         });
     }
 
-    onNear() {
+    onNear(a) {
+        console.log(this.map);
+        console.log(this.mapElement);
+        //
+        //if (this.map) {
+        //    this.map.classList.add('show-map');
+        //}
 
-        this.provider.near(this.params).then(data => {
-            if (data && data.length) {
-                //data.map(item => this.data.push(item));
-                this.setGallerys(data);
-            }
-            this.loading = false;
-        }).catch(error => {
-
-            console.log(error);
-            this.util.toast(error);
-        });
+        //this.provider.near(this.params).then(data => {
+        //    if (data && data.length) {
+        //        //data.map(item => this.data.push(item));
+        //        this.setGallerys(data);
+        //    }
+        //    this.loading = false;
+        //}).catch(error => {
+        //
+        //    console.log(error);
+        //    this.util.toast(error);
+        //});
     }
 }

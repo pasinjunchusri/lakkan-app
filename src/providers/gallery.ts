@@ -64,8 +64,8 @@ export class GalleryProvider {
         let query = new Parse.Query(this._ParseObject);
         // Limit by page
         query.exists('location');
-        query.withinKilometers('location', params.location, 100);
-        //query.near('location',params.location);
+        //query.withinKilometers('location', params.location, 100);
+        query.near('location',params.location);
         //query.limit(params.limit);
 
         return query.find();

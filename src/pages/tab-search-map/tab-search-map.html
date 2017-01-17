@@ -3,6 +3,7 @@
         <ion-title>{{'Search' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content>
-    <div #map  id="map"></div>
+<ion-content class="map-page">
+    <loader *ngIf="!mapInitialised "></loader>
+    <div style="height: 100%; width: 100%" #map id="map"></div>
 </ion-content>

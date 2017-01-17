@@ -1,11 +1,10 @@
-import {Component} from "@angular/core";
-import {ViewController} from "ionic-angular";
-import {ExternalLibProvider} from "../../providers/external-lib";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-
+import {Component} from '@angular/core';
+import {ViewController} from 'ionic-angular';
+import {ExternalLibProvider} from '../../providers/external-lib';
+import {IonicUtilProvider} from '../../providers/ionic-util';
 
 @Component({
-    selector   : 'gmaps-autocomplete-modal',
+    selector:    'gmaps-autocomplete-modal',
     templateUrl: 'gmaps-autocomplete-modal.html'
 })
 export class GmapsAutocompleteModalPage {
@@ -16,61 +15,129 @@ export class GmapsAutocompleteModalPage {
     loading: boolean = true;
 
     componentForm     = {
-        street_number              : 'long_name',
+        street_number:               'long_name',
         //number
-        route                      : 'long_name',
+        route:                       'long_name',
         //street
-        locality                   : 'long_name',
+        locality:                    'long_name',
         // district
-        sublocality                : 'long_name',
+        sublocality:                 'long_name',
         // district
-        neighborhood               : 'long_name',
+        neighborhood:                'long_name',
         //state
-        political                  : 'long_name',
+        political:                   'long_name',
         //state
         administrative_area_level_1: 'long_name',
         //state
-        country                    : 'long_name',
+        country:                     'long_name',
         //country
-        postal_code                : 'long_name' //zipcode
+        postal_code:                 'long_name' //zipcode
     };
     componentFormName = {
-        street_number              : 'number',
+        street_number:               'number',
         //number
-        route                      : 'street',
+        route:                       'street',
         //street
-        locality                   : 'city',
+        locality:                    'city',
         // district
         administrative_area_level_1: 'state',
         //state
-        country                    : 'country',
+        country:                     'country',
         //country
-        postal_code                : 'zipcode',
+        postal_code:                 'zipcode',
         //zipcode
-        neighborhood               : 'district' //zipcode
+        neighborhood:                'district' //zipcode
     };
     autocomplete      = {
         query: ''
     };
 
+    mapInitialised: boolean = false;
+
     constructor(private viewCtrl: ViewController,
                 private lib: ExternalLibProvider,
                 private util: IonicUtilProvider
     ) {
-        this.loadGmaps();
+        this.loadGoogleMaps();
     }
 
-    loadGmaps() {
-        this.lib.googleMaps().then(() => {
+    loadGoogleMaps() {
+
+        this.addConnectivityListeners();
+
+        if (typeof google == 'undefined' || typeof google.maps == 'undefined') {
+
+            console.log('Google maps JavaScript needs to be loaded.');
+            this.disableMap();
+
+            if (this.util.isOnline()) {
+                console.log('online, loading map');
+
+                //Load the SDK
+                window['mapInit'] = () => {
+                    this.initMap();
+                    this.enableMap();
+                };
+
+                this.lib.googleMapsLib();
+
+            }
+        } else {
+
+            if (this.util.isOnline()) {
+                console.log('showing map');
+                this.initMap();
+                this.enableMap();
+            }
+            else {
+                console.log('disabling map');
+                this.disableMap();
+            }
+
+        }
+
+    }
+
+    disableMap() {
+        console.log('disable map');
+    }
+
+    enableMap() {
+        console.log('enable map');
+    }
+
+    addConnectivityListeners() {
+
+        let onOnline = () => {
+
             setTimeout(() => {
-                this._service  = new google.maps.places.AutocompleteService();
-                this._geocoder = new google.maps.Geocoder();
-                this.loading   = false;
-            }, 1000);
-        }).catch(error => {
-            this.util.toast(error);
-            this.util.tryConnect().then(() => this.loadGmaps());
-        });
+                if (typeof google == 'undefined' || typeof google.maps == 'undefined') {
+                    this.lib.googleMapsLib();
+                } else {
+
+                    if (!this.mapInitialised) {
+                        this.initMap();
+                    }
+
+                    this.enableMap();
+                }
+            }, 2000);
+
+        };
+
+        let onOffline = () => {
+            this.disableMap();
+        };
+
+        document.addEventListener('online', onOnline, false);
+        document.addEventListener('offline', onOffline, false);
+
+    }
+
+    initMap() {
+        this._service  = new google.maps.places.AutocompleteService();
+        this._geocoder = new google.maps.Geocoder();
+        this.loading   = false;
     }
 
 
@@ -103,12 +170,12 @@ export class GmapsAutocompleteModalPage {
     parseAddress(place) {
         return new Promise((resolve, reject) => {
             if (!place) {
-                reject('not place')
+                reject('not place');
             }
             let address = {
                 resume: '',
-                geo   : {
-                    latitude : place.geometry.location.lat(),
+                geo:    {
+                    latitude:  place.geometry.location.lat(),
                     longitude: place.geometry.location.lng()
                 }
             };

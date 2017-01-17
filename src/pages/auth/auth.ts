@@ -12,6 +12,7 @@ import {APP_NAME} from "../../config";
 import {AnalyticsProvider} from "../../providers/analytics";
 
 declare const Parse: any;
+declare const FB: any;
 
 @Component({
     selector   : 'page-auth',
@@ -25,6 +26,7 @@ export class AuthPage {
     facebookNative: Facebook;
     facebookBrowser: FacebookService;
     appName:string = APP_NAME;
+    facebookInitialised:boolean =false;
 
     formLogin: any;
     formSignup: any;
@@ -53,7 +55,8 @@ export class AuthPage {
         this.cordova        = this.util.cordova;
 
         if (!this.cordova) {
-            this.loadFacebok();
+            this.loadFacebook();
+            this.facebook = this.fb;
         } else {
             this.facebook = this.facebookNative;
         }
@@ -69,13 +72,72 @@ export class AuthPage {
         this.util.translate('Submit').then((res: string) => { this.alertTranslate.submit = res; });
     }
 
-    loadFacebok() {
-        this.lib.facebookLoad().then(() => {
-            setTimeout(() => this.facebook = this.fb, 1000);
-        }).catch(error => {
-            this.util.toast(error);
-            this.util.tryConnect().then(() => this.loadFacebok());
-        });
+    initFacebook() {
+        console.log('Facebook Ok');
+    }
+
+    loadFacebook() {
+
+        this.addConnectivityListeners();
+
+        if (typeof FB == 'undefined' ) {
+
+            console.log('Facebook JavaScript needs to be loaded.');
+            this.disableFacebook();
+
+            if (this.util.isOnline()) {
+                console.log('online, loading facebook');
+                this.lib.facebookLib();
+
+            }
+        } else {
+
+            if (this.util.isOnline()) {
+                console.log('showing facebook');
+                this.initFacebook();
+                this.enableFacebook();
+            }
+            else {
+                console.log('disabling facebook');
+                this.disableFacebook();
+            }
+
+        }
+
+    }
+
+    disableFacebook() {
+        console.log('disable facebook');
+    }
+
+    enableFacebook() {
+        console.log('enable facebook');
+    }
+
+    addConnectivityListeners() {
+
+        let onOnline = () => {
+
+            setTimeout(() => {
+                if (typeof FB == 'undefined' ) {
+                    this.lib.facebookLib();
+                } else {
+                    if (!this.facebookInitialised) {
+                        this.initFacebook();
+                    }
+                    this.enableFacebook();
+                }
+            }, 2000);
+
+        };
+
+        let onOffline = () => {
+            this.disableFacebook();
+        };
+
+        document.addEventListener('online', onOnline, false);
+        document.addEventListener('offline', onOffline, false);
+
     }
 
     ionViewWillLoad() {
@@ -193,7 +255,7 @@ export class AuthPage {
                     success: (user) => {
                         if (!user.existed()) {
                             // New user
-                            console.warn("UserProvider signed up and logged in through Facebook!", user);
+                            console.warn('UserProvider signed up and logged in through Facebook!', user);
 
                             this.provider.facebookSyncProfile(fbData)
                                 .then(this.provider.updateWithFacebookData())
@@ -204,7 +266,7 @@ export class AuthPage {
 
                         } else {
                             // Old UserProvider
-                            console.info("UserProvider logged in through Facebook!", user);
+                            console.info('UserProvider logged in through Facebook!', user);
                             this.provider.facebookSyncProfile(fbData)
                                 .then(this.provider.updateWithFacebookData())
                                 .then(result => {
