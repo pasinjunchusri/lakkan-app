@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Storage} from "@ionic/storage";
-import {ParsePushProvider} from "./parse-push";
-import {IonicUtilProvider} from "./ionic-util";
-import {IUserFollow} from "../models/user.model";
-import * as PouchDB from "pouchdb";
-import {IParams} from "../models/parse.params.model";
-import _ from "underscore";
+import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage';
+import {ParsePushProvider} from './parse-push';
+import {IonicUtilProvider} from './ionic-util';
+import {IUserFollow} from '../models/user.model';
+import * as PouchDB from 'pouchdb';
+import {IParams} from '../models/parse.params.model';
+import _ from 'underscore';
 declare var Parse: any;
 
 @Injectable()
@@ -43,8 +43,8 @@ export class UserProvider {
 
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
-                get: function () { return this.get(field) },
-                set: function (value) { this.set(field, value) }
+                get: function () { return this.get(field); },
+                set: function (value) { this.set(field, value); }
             });
         });
 
@@ -53,7 +53,7 @@ export class UserProvider {
             get: function () { return this.get('location'); },
             set: function (val) {
                 this.set('location', new Parse.GeoPoint({
-                    latitude : val.latitude,
+                    latitude:  val.latitude,
                     longitude: val.longitude
                 }));
             }
@@ -76,7 +76,9 @@ export class UserProvider {
 
 
     update(form) {
-        return Parse.User.current().save(form);
+        let user = Parse.User.current();
+        Object.keys(form).map(field => user.set(field, form[field]));
+        return user.save();
     }
 
     updatePhoto(parseFile) {
@@ -90,7 +92,7 @@ export class UserProvider {
     }
 
     getProfile(username: string): Promise<any> {
-        return Parse.Cloud.run('profile', {username: username})
+        return Parse.Cloud.run('profile', {username: username});
     }
 
     getProfileCache(username: string): Promise<any> {
@@ -126,7 +128,7 @@ export class UserProvider {
                 } else {
                     resolve(this.data);
                 }
-            })
+            });
         });
     }
 
@@ -135,7 +137,7 @@ export class UserProvider {
         Parse.User.logOut();
     }
 
-    updateWithFacebookData():Promise<any> {
+    updateWithFacebookData(): Promise<any> {
         return Parse.Cloud.run('saveFacebookPicture');
     }
 
@@ -169,8 +171,8 @@ export class UserProvider {
         let user = new Parse.User();
         user.set('name', data.name);
         user.set('username', data.username);
-        user.set('email', data.email)
-        user.set('password', data.password)
+        user.set('email', data.email);
+        user.set('password', data.password);
         return user.signUp(null);
 
     }
@@ -192,16 +194,16 @@ export class UserProvider {
 
     setStorage(user: any): void {
         let obj = {
-            id      : user.id,
-            name    : user.get('name'),
+            id:       user.id,
+            name:     user.get('name'),
             username: user.get('username'),
-            email   : user.get('email'),
-            gender  : user.get('gender'),
-            photo   : user.get('photo'),
-            status  : user.get('status'),
+            email:    user.get('email'),
+            gender:   user.get('gender'),
+            photo:    user.get('photo'),
+            status:   user.get('status'),
         };
         console.log(obj);
-        this.Storage.set('user', obj)
+        this.Storage.set('user', obj);
     }
 
     getStorage(): Promise<any> {
@@ -238,15 +240,15 @@ export class UserProvider {
     }
 
     list(params: any): Promise<any> {
-        return Parse.Cloud.run('listUsers', params)
+        return Parse.Cloud.run('listUsers', params);
     }
 
     getLikers(galleryId: string) {
-        return Parse.Cloud.run('getLikers', {galleryId: galleryId})
+        return Parse.Cloud.run('getLikers', {galleryId: galleryId});
     }
 
     getFollowers(username: string): Promise<any> {
-        return Parse.Cloud.run('getFollowers', {username: username})
+        return Parse.Cloud.run('getFollowers', {username: username});
     }
 
     // Following
@@ -276,7 +278,7 @@ export class UserProvider {
     followingCache(): Promise<any> {
         return new Promise(resolve => {
             if (this.data.length > 0) {
-                resolve(this.data)
+                resolve(this.data);
             } else {
                 this.dbFollowing.allDocs({include_docs: true}).then(data => {
                     if (data.total_rows) {

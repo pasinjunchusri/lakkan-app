@@ -19,8 +19,8 @@
                     <img *ngIf="photo" [src]="photo">
                     <img *ngIf="!photo" src="assets/img/user.png">
                 </ion-avatar>
+                <button ion-button color="primary"><ion-icon name="camera"></ion-icon></button>
             </image-capture>
-            <p>{{'Change Profile Photo' | translate}}</p>
         </div>
         <ion-list>
             <ion-item>
@@ -69,7 +69,7 @@
             </ion-item>
             <ion-item>
                 <ion-icon name="calendar" item-left></ion-icon>
-                <ion-datetime formcontrolname="birthday"
+                <ion-datetime formControlName="birthday"
                               displayFormat="MM/DD/YYYY"
                               placeholder="MM/DD/YYYY"></ion-datetime>
             </ion-item>
@@ -78,9 +78,9 @@
                 <ion-input formControlName="phone" type="text" placeholder="{{'Phone' | translate}}"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-icon name="phone-portrait" item-left></ion-icon>
+                <ion-icon name="man" item-left></ion-icon>
                 <ion-select formControlName="gender">
-                    <ion-option value="">{{'Not' | translate}}'</ion-option>
+                    <ion-option value="not">{{'Not' | translate}}'</ion-option>
                     <ion-option value="male">{{'Male' | translate}}</ion-option>
                     <ion-option value="female">{{'Female' | translate }}</ion-option>
                 </ion-select>

@@ -7,6 +7,8 @@ import {FormBuilder, Validators} from "@angular/forms";
 import * as _ from "underscore";
 import {ImageCaptureComponent} from "../../components/image-capture/image-capture";
 
+declare const Parse:any;
+
 @Component({
     selector   : 'page-account-edit-modal',
     templateUrl: 'account-edit-modal.html'
@@ -29,6 +31,8 @@ export class AccountEditModalPage {
                 private formBuilder: FormBuilder
     ) {
         this._user = User.current().attributes;
+
+        console.log(Parse.User.current());
 
         if (this._user.photo) {
             this.photo = this._user.photo._url;
@@ -58,17 +62,19 @@ export class AccountEditModalPage {
             username: ['', Validators.required],
             status  : ['', Validators.required],
             website : [''],
-            gender  : [''],
+            gender  : ['male'],
             birthday: [''],
             phone   : [''],
         });
 
         _.each(this._user, (value, key) => {
+            console.log(key, value);
             if (this.form.controls[key]) {
                 this.form.controls[key].setValue(value);
             }
         });
 
+        console.log(this.form.controls);
     }
 
     changePhoto(photo) {

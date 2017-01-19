@@ -1,3 +1,17 @@
 image-capture {
+  ion-avatar {
 
+  }
+
+  .button {
+    $button-size: 35px;
+    border-radius: 50% !important;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    top: -21px;
+    right: -30px;
+    width: $button-size;
+    height: $button-size;
+  }
 }
