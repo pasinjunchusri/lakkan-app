@@ -12,7 +12,7 @@ export class PhotoPage {
 
     item: any;
     id: any;
-    loading: boolean = false;
+    loading: boolean = true;
 
     constructor(private navParams: NavParams,
                 private provider: GalleryProvider,
@@ -21,12 +21,8 @@ export class PhotoPage {
         // Google Analytics
         this.analytics.view('PhotoPage');
         this.id = this.navParams.get('id');
-
-    }
-
-    ionViewDidLoad(){
-        console.log(this.id);
         this.load();
+
     }
 
     load() {

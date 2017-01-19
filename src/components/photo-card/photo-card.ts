@@ -25,6 +25,8 @@ export class PhotoCardComponent {
                 private modalCtrl: ModalController,
                 private popoverCtrl: PopoverController,
     ) {
+
+        console.log(this.item);
         this.username = Parse.User.current()['username'];
     }
 
