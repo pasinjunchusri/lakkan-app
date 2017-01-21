@@ -62,7 +62,7 @@ export class AccountEditModalPage {
             username: ['', Validators.required],
             status  : ['', Validators.required],
             website : [''],
-            gender  : ['male'],
+            gender  : [''],
             birthday: [''],
             phone   : [''],
         });

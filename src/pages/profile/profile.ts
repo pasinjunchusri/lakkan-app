@@ -1,14 +1,15 @@
-import {Component} from "@angular/core";
-import {Events, ModalController, NavParams} from "ionic-angular";
-import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
-import {UserProvider} from "../../providers/user";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-import {IParams} from "../../models/parse.params.model";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {Component} from '@angular/core';
+import {Events, ModalController, NavParams} from 'ionic-angular';
+import {AccountEditModalPage} from '../account-edit-modal/account-edit-modal';
+import {UserProvider} from '../../providers/user';
+import {IonicUtilProvider} from '../../providers/ionic-util';
+import {IParams} from '../../models/parse.params.model';
+import {AnalyticsProvider} from '../../providers/analytics';
 
+declare const Parse: any;
 
 @Component({
-    selector   : 'page-profile',
+    selector:    'page-profile',
     templateUrl: 'profile.html'
 })
 export class ProfilePage {
@@ -19,24 +20,25 @@ export class ProfilePage {
     type: string      = 'list';
     moreItem: boolean = true;
     eventName: string;
+    canEdit: boolean  = false;
 
     profile: any = {
-        id             : '',
-        name           : '',
-        username       : '',
-        photo          : null,
-        status         : '',
-        galleriesTotal : 0,
-        followersTotal : 0,
+        id:              '',
+        name:            '',
+        username:        '',
+        photo:           null,
+        status:          '',
+        galleriesTotal:  0,
+        followersTotal:  0,
         followingsTotal: 0,
     };
 
     params: IParams = {
-        limit    : 12,
-        page     : 1,
+        limit:     12,
+        page:      1,
         privacity: 'public',
-        username : null
-    }
+        username:  null
+    };
 
     constructor(private User: UserProvider,
                 private events: Events,
@@ -51,7 +53,13 @@ export class ProfilePage {
         this.username        = this.navParams.get('username');
         this.params.username = this.username;
         this.eventName       = this.username;
-        console.log('Open Profile', this.username);
+
+        let user = Parse.User.current();
+
+        if (this.username == user.get('username')) {
+            this.canEdit = true;
+        }
+
 
         this.loading = true;
         this.User.getProfileCache(this.username).then(profile => {
@@ -70,6 +78,8 @@ export class ProfilePage {
     }
 
     loadProfile() {
+        this.loading         = true;
+        this.profile.loading = true;
         this.User.getProfile(this.username).then(profile => {
             this.profile         = profile;
             this.profile.loading = false;
@@ -115,6 +125,7 @@ export class ProfilePage {
         }
         this.params.page = 1;
         this.events.publish(this.eventName + ':reload', this.params);
+        this.loadProfile();
     }
 
     private sendParams(): void {

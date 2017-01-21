@@ -43,9 +43,9 @@ echo ""
 # ionic build
 
 echo "---> Ionic Build build  $appname v$version"
-ionic build 
-echo "---> ionic-app-scripts minify  $appname v$version"
-npm run minify
+ionic build --prod
+#echo "---> ionic-app-scripts minify  $appname v$version"
+#npm run minify
 echo "---> Cordova build release  $appname v$version"
 cordova build android --release
 

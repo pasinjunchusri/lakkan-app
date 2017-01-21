@@ -84,6 +84,7 @@ export class PhotoListPopoverComponent {
                             // Event Emit
                             this.events.publish('albumgrid:destroy');
                             this.events.publish('home:reload', null);
+                            this.events.publish('photolist:reload', null);
                         }).catch(error=>{
                             console.log(error);
                             this.util.toast('Error')

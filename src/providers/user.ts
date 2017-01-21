@@ -15,8 +15,6 @@ export class UserProvider {
     dbFolllowers: any;
 
     data: any[]          = [];
-    dataFollowers: any[] = [];
-    dataFollowing: any[] = [];
 
     private _fields          = [
         'name',

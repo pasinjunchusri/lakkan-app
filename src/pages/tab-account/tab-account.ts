@@ -1,36 +1,36 @@
-import {Component, ViewChild} from "@angular/core";
-import {ModalController, Events, App} from "ionic-angular";
-import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
-import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
-import {UserDataProvider} from "../../providers/user-data";
-import {ParseFileProvider} from "../../providers/parse-file";
-import {UserProvider} from "../../providers/user";
-import {ImageCaptureComponent} from "../../components/image-capture/image-capture";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {Component, ViewChild} from '@angular/core';
+import {ModalController, Events, App} from 'ionic-angular';
+import {AccountEditModalPage} from '../account-edit-modal/account-edit-modal';
+import {TabAccountSettingsPage} from '../tab-account-settings/tab-account-settings';
+import {UserDataProvider} from '../../providers/user-data';
+import {ParseFileProvider} from '../../providers/parse-file';
+import {UserProvider} from '../../providers/user';
+import {ImageCaptureComponent} from '../../components/image-capture/image-capture';
+import {IonicUtilProvider} from '../../providers/ionic-util';
+import {AnalyticsProvider} from '../../providers/analytics';
 
 @Component({
-    selector   : 'page-tab-account',
+    selector:    'page-tab-account',
     templateUrl: 'tab-account.html'
 })
 export class TabAccountPage {
     photo: any;
     user: any;
     username: string;
-    loading: boolean   = true;
-    type: string       = 'list';
+    loading: boolean  = true;
+    type: string      = 'list';
     profile: any;
-    moreItem: boolean  = false;
-    eventName: string  = 'account';
+    moreItem: boolean = false;
+    eventName: string = 'account';
 
     @ViewChild('image') imageElement: ImageCaptureComponent;
 
     params = {
-        limit    : 12,
-        page     : 1,
+        limit:     12,
+        page:      1,
         privacity: 'public',
-        username : ''
-    }
+        username:  ''
+    };
 
     constructor(private userData: UserDataProvider,
                 private events: Events,
@@ -53,13 +53,17 @@ export class TabAccountPage {
 
 
         this.loading = true;
-        this.userData.profile(this.username).then(profile => {
+        this.loadProfile().then(profile => {
             this.profile = profile;
             this.loading = false;
             this.onSelectType();
         });
 
 
+    }
+
+    loadProfile(): Promise<any> {
+        return this.userData.profile(this.username);
     }
 
     ionViewDidLoad() {
@@ -80,12 +84,12 @@ export class TabAccountPage {
         this.util.onLoading('Uploading image...');
         this.ParseFile.upload({base64: photo}).then(image => {
             this.User.updatePhoto(image).then(user => {
-                this.user       = user;
-                this.photo      = photo;
+                this.user  = user;
+                this.photo = photo;
                 this.util.endLoading();
-                this.util.toast('Avatar updated')
+                this.util.toast('Avatar updated');
             }).catch(error => {
-                this.util.toast('Error: Not upload image')
+                this.util.toast('Error: Not upload image');
             });
 
         });
@@ -102,7 +106,7 @@ export class TabAccountPage {
     }
 
     onPageSettings() {
-        this.app.getRootNav().push(TabAccountSettingsPage)
+        this.app.getRootNav().push(TabAccountSettingsPage);
 
     }
 
@@ -117,6 +121,12 @@ export class TabAccountPage {
         event.complete();
         this.params.page = 1;
         this.sendParams();
+
+        this.loading = true;
+        this.loadProfile().then(profile => {
+            this.profile = profile;
+            this.loading = false;
+        });
     }
 
     private sendParams(): void {

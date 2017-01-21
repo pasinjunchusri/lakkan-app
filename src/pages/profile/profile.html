@@ -36,12 +36,17 @@
                         <div *ngIf="loading" class="text-center">
                             <ion-spinner></ion-spinner>
                         </div>
-                        <div *ngIf="!loading" (click)="follow(profile)">
+                        <div *ngIf="!loading && !canEdit" (click)="follow(profile)">
                             <button *ngIf="profile.isFollow" ion-button block color="primary" small>
                                 {{ 'Unfollow' | translate }}
                             </button>
                             <button *ngIf="!profile.isFollow" outline ion-button block color="primary" small>
                                 {{ 'Follow' | translate }}
+                            </button>
+                        </div>
+                        <div *ngIf="canEdit">
+                            <button  ion-button block color="primary" small (click)="onEditProfile()" >
+                                {{ 'Edit profile' | translate }}
                             </button>
                         </div>
                     </ion-col>

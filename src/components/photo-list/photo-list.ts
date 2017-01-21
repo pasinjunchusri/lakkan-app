@@ -68,6 +68,22 @@ export class PhotoListComponent implements OnInit {
                 .catch(console.error);
             ;
         });
+
+        // Reload
+        this.events.subscribe('photolist:reload', (params) => {
+            console.warn('photo-list', this.event + ':reload', params);
+            if (params) {
+                this.params = params;
+            } else {
+                this.params.page = 1;
+            }
+            this.data = []
+            // Clean Cache and Reload
+            this.feed()
+                .then(() => this.events.publish('scroll:up'))
+                .catch(console.error);
+            ;
+        });
     }
 
     ngOnDestroy() {
