@@ -38,13 +38,11 @@ export class PhotoShareModal {
         if (this.album) {
             this.form.albumId = this.album.id;
         }
-    }
 
-    ionViewWillLoad() {
-        this.events.subscribe(this._eventName, _imageCroped => this.form.image = _imageCroped);
         this.events.subscribe('album:selected', album => this.form.albumId = album['id']);
         this.events.subscribe('address:selected', address => this.form.address  = address);
     }
+
 
     ngOnDestroy() {
         this.events.unsubscribe(this._eventName);
@@ -59,7 +57,7 @@ export class PhotoShareModal {
         }
     }
 
-    dismiss(cancel?) {
+    dismiss() {
         this.viewCtrl.dismiss();
     }
 

@@ -1,10 +1,10 @@
 <ion-item>
     <ion-icon name="pin" item-left></ion-icon>
-    <div *ngIf="address&& address['resume']">
+    <div *ngIf="address && address['resume']">
         <h2>{{address['resume']}}</h2>
         <ion-icon name="close" (click)="clearAddress()" icon-right></ion-icon>
     </div>
-    <div (click)="showAddressModal()" *ngIf="!address">
+    <div (click)="showAddressModal()" *ngIf="!address.length">
         <h2>{{ 'Location' | translate}}</h2>
     </div>
 </ion-item>

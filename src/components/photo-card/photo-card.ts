@@ -25,8 +25,6 @@ export class PhotoCardComponent {
                 private modalCtrl: ModalController,
                 private popoverCtrl: PopoverController,
     ) {
-
-        console.log(this.item);
         this.username = Parse.User.current()['username'];
     }
 
@@ -39,12 +37,10 @@ export class PhotoCardComponent {
     }
 
     openComments(item):void {
-        console.log(item);
         this.modalCtrl.create(PhotoCommentModalComponent, {galleryId: item.id}).present();
     }
 
     openProfile(username: string):void {
-        console.log('username', username);
         this.app.getRootNav().push(ProfilePage, {username: username})
     }
 
@@ -53,7 +49,6 @@ export class PhotoCardComponent {
     }
 
     onLike(item):void {
-        console.log(item);
         this.loadingLike = true;
         this.provider.likeGallery(item.id).then(data => {
             if (item.isLiked) {
@@ -63,7 +58,6 @@ export class PhotoCardComponent {
                 item.isLiked = true;
                 item.likesTotal++;
             }
-            console.log(data);
             this.loadingLike = false;
         });
     }
