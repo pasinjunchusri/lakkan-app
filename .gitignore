@@ -35,3 +35,4 @@ yarn.lock
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+/.gtm/
