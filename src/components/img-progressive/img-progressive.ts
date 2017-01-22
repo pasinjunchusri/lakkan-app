@@ -40,6 +40,8 @@ import {IonicUtilProvider} from "../../providers/ionic-util";
             left: 0;
             opacity: 0;
             transition: ease all 0.5s;
+            width: 100%;
+            height: auto;
         }
 
         :host > div > div {

@@ -52,7 +52,7 @@
             </ion-item>
             <ion-row *ngIf="item.galleries">
                 <ion-col *ngFor="let gallery of item.galleries">
-                    <img [src]="gallery.imageThumb._url">
+                    <img [src]="gallery.imageThumb">
                 </ion-col>
             </ion-row>
         </div>

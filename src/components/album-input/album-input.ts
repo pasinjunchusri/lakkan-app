@@ -16,7 +16,7 @@ export class AlbumInputComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('album', this.album);
+
     }
 
     openAlbumList() {

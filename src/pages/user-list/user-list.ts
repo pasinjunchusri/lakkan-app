@@ -111,13 +111,13 @@ export class UserListPage {
 
     doInfinite(event) {
         this.params.page++;
-        this.feed().then(() => event.complete()).catch(() => event.complete());
+        this.feed().then(() => {if(event) event.complete()}).catch(() => {if(event) event.complete()});
     }
 
     doRefresh(event) {
         this.data        = [];
         this.params.page = 1;
-        this.feed().then(() => event.complete()).catch(() => event.complete());
+        this.feed().then(() => {if(event) event.complete()}).catch(() => {if(event) event.complete()});
     }
 
     doTry() {

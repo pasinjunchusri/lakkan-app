@@ -1,21 +1,21 @@
-import {Component} from "@angular/core";
-import {NavController, NavParams, ViewController, Events} from "ionic-angular";
-import {GalleryProvider} from "../../providers/gallery";
-import {AnalyticsProvider} from "../../providers/analytics";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {Component} from '@angular/core';
+import {NavController, NavParams, ViewController, Events} from 'ionic-angular';
+import {GalleryProvider} from '../../providers/gallery';
+import {AnalyticsProvider} from '../../providers/analytics';
+import {IonicUtilProvider} from '../../providers/ionic-util';
 
 @Component({
-    selector   : 'page-photo-edit',
+    selector:    'page-photo-edit',
     templateUrl: 'photo-edit.html'
 })
 export class PhotoEditPage {
     item: any;
     form: any = {
-        id       : null,
-        title    : '',
+        id:        null,
+        title:     '',
         privacity: '',
-        albumId  : null,
-        address  : null,
+        albumId:   null,
+        address:   null,
     };
     image: any;
 
@@ -25,7 +25,7 @@ export class PhotoEditPage {
                 private viewCtrl: ViewController,
                 private events: Events,
                 private analytics: AnalyticsProvider,
-                private util : IonicUtilProvider
+                private util: IonicUtilProvider
     ) {
         // Google Analytics
         this.analytics.view('PhotoEditPage');
@@ -37,12 +37,13 @@ export class PhotoEditPage {
         this.form.id        = item.id;
         this.form.title     = item.title;
         this.form.privacity = item.privacity;
-        console.log(item);
-        this.events.subscribe('album:selected', album => this.form.albumId = album[0].id)
+        this.events.subscribe('album:selected', album => this.form.albumId = album['id']);
+        this.events.subscribe('address:selected', address => this.form.address  = address);
     }
 
     ngOnDestroy() {
         this.events.unsubscribe('album:selected');
+        this.events.unsubscribe('address:selected');
     }
 
     submit(form) {

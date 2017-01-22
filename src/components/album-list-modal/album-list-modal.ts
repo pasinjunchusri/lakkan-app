@@ -49,6 +49,7 @@ export class AlbumListModalPage {
     }
 
     selectAlbum(album: any) {
+        console.log('select album', album);
         this.events.publish('album:selected', album);
         this.dismiss();
     }

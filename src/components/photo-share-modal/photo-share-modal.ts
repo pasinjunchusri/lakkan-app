@@ -1,20 +1,19 @@
-import {Component} from "@angular/core";
-import {NavParams, ViewController, Events, ModalController} from "ionic-angular";
-import {GmapsAutocompleteModalPage} from "../gmaps-autocomplete-modal/gmaps-autocomplete-modal";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {Component} from '@angular/core';
+import {NavParams, ViewController, Events} from 'ionic-angular';
+import {AnalyticsProvider} from '../../providers/analytics';
 
 @Component({
-    selector   : 'photo-share-modal',
+    selector:    'photo-share-modal',
     templateUrl: 'photo-share-modal.html'
 })
 export class PhotoShareModal {
     form         = {
-        title    : '',
+        title:     '',
         privacity: 'public',
-        image    : null,
-        address  : {},
-        albumId  : null,
-        location : null,
+        image:     null,
+        address:   {},
+        albumId:   null,
+        location:  null,
     };
     location: any;
     address: any = {};
@@ -27,7 +26,6 @@ export class PhotoShareModal {
     constructor(private navparams: NavParams,
                 private viewCtrl: ViewController,
                 private events: Events,
-                private modalCtrl: ModalController,
                 private analytics: AnalyticsProvider,
     ) {
         // Google Analytics
@@ -40,27 +38,18 @@ export class PhotoShareModal {
         if (this.album) {
             this.form.albumId = this.album.id;
         }
-
-        events.subscribe('album:selected', album => this.form.albumId = album.id);
-        events.subscribe(this._eventName, _imageCroped => this.form.image = _imageCroped);
     }
 
-    showAddressModal() {
-        let modal = this.modalCtrl.create(GmapsAutocompleteModalPage);
-        modal.onDidDismiss(address => {
-            if (address) {
-                this.address       = address
-                this.form.address  = address;
-                this.form.location = address.location;
-            }
-        });
-        modal.present();
+    ionViewWillLoad() {
+        this.events.subscribe(this._eventName, _imageCroped => this.form.image = _imageCroped);
+        this.events.subscribe('album:selected', album => this.form.albumId = album['id']);
+        this.events.subscribe('address:selected', address => this.form.address  = address);
     }
 
-    clearAddress() {
-        this.form.address  = {};
-        this.form.location = null;
-        this.address       = {};
+    ngOnDestroy() {
+        this.events.unsubscribe(this._eventName);
+        this.events.unsubscribe('album:selected');
+        this.events.unsubscribe('address:selected');
     }
 
     submit(form) {

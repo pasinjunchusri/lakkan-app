@@ -41,13 +41,7 @@ export class ChatChannelPage {
     }
 
     ionViewDidLoad() {
-        this.provider.findCache().then(data => {
-            if (data.length) {
-                this.parseResult(data);
-            } else {
-                this.find();
-            }
-        });
+        this.find();
     }
 
     onPageMessage(item) {
