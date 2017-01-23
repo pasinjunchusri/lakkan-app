@@ -162,5 +162,13 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-ios-camera-permissions": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-ios-camera-permissions"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }
