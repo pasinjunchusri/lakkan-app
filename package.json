@@ -19,12 +19,6 @@
     "@angular/platform-browser-dynamic": "2.2.1",
     "@angular/platform-server": "2.2.1",
     "@ionic/storage": "1.1.7",
-    "ionic-angular": "2.0.0-rc.5",
-    "ionic-native": "2.2.11",
-    "ionicons": "3.0.0",
-    "rxjs": "5.0.0-beta.12",
-    "zone.js": "0.6.26",
-    "sw-toolbox": "3.4.0",
     "@types/googlemaps": "^3.26.1",
     "@types/moment": "^2.13.0",
     "@types/parse": "^1.2.32",
@@ -33,16 +27,22 @@
     "@types/underscore": "^1.7.36",
     "angular2-moment": "^1.1.0",
     "cropperjs": "^1.0.0-beta.1",
+    "ionic-angular": "2.0.0-rc.6",
+    "ionic-native": "2.2.11",
+    "ionicons": "3.0.0",
     "ng2-facebook-sdk": "^1.2.0",
     "ng2-translate": "^5.0.0",
     "parse": "~1.9.2",
     "pouchdb": " ~6.1.1",
+    "rxjs": "5.0.0-beta.12",
+    "sw-toolbox": "3.4.0",
     "typescript-collections": "^1.2.3",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "zone.js": "0.6.26"
   },
   "devDependencies": {
-     "@ionic/app-scripts": "1.0.0",
-     "typescript": "2.0.9"
+    "@ionic/app-scripts": "1.0.0",
+    "typescript": "2.0.9"
   },
   "config": {
     "ionic_copy": "./config/copy.config.js"
