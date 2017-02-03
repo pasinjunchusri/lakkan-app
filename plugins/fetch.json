@@ -131,19 +131,34 @@
         },
         "is_top_level": true,
         "variables": {
-            "PHOTO_LIBRARY_USAGE_DESCRIPTION": "Imagens para selecionar"
+            "CAMERA_USAGE_DESCRIPTION": "App would like to access the camera.",
+            "MICROPHONE_USAGE_DESCRIPTION": "App would like to access the microphone.",
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": "App would like to access the library."
         }
     },
     "ionic-plugin-deeplinks": {
         "source": {
             "type": "registry",
-            "id": "ionic-plugin-deeplinks"
+            "id": "ionic-plugin-deeplinks@~1.0.8"
         },
         "is_top_level": true,
         "variables": {
             "URL_SCHEME": "photogram",
             "DEEPLINK_SCHEME": "https",
-            "DEEPLINK_HOST": "photogram.codevibe.io"
+            "DEEPLINK_HOST": "photogram.codevibe.io",
+            "ANDROID_PATH_PREFIX": "/",
+            "ANDROID_2_PATH_PREFIX": "/",
+            "ANDROID_3_PATH_PREFIX": "/",
+            "ANDROID_4_PATH_PREFIX": "/",
+            "ANDROID_5_PATH_PREFIX": "/",
+            "DEEPLINK_2_SCHEME": " ",
+            "DEEPLINK_2_HOST": " ",
+            "DEEPLINK_3_SCHEME": " ",
+            "DEEPLINK_3_HOST": " ",
+            "DEEPLINK_4_SCHEME": " ",
+            "DEEPLINK_4_HOST": " ",
+            "DEEPLINK_5_SCHEME": " ",
+            "DEEPLINK_5_HOST": " "
         }
     },
     "cordova-plugin-camera": {
@@ -153,12 +168,15 @@
             "subdir": "."
         },
         "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "CAMERA_USAGE_DESCRIPTION": "App would like to access the camera.",
+            "MICROPHONE_USAGE_DESCRIPTION": "App would like to access the microphone."
+        }
     },
     "cordova-plugin-webp": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-webp"
+            "id": "cordova-plugin-webp@~2.2.0"
         },
         "is_top_level": true,
         "variables": {}
@@ -166,7 +184,7 @@
     "cordova-plugin-ios-camera-permissions": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-ios-camera-permissions"
+            "id": "cordova-plugin-ios-camera-permissions@~1.0.4"
         },
         "is_top_level": true,
         "variables": {}
