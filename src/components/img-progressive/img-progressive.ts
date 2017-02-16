@@ -8,7 +8,6 @@ import {IonicUtilProvider} from "../../providers/ionic-util.provider";
             <div [ngStyle]="getOverlayStyle()">
                 <ng-content select="[data-overlay]"></ng-content>
             </div>
-        
             <img [src]="srcLow">
         </div>
         <img [src]="src" [ngStyle]="getImageStyle()" (load)="onLoad()"/>

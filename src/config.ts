@@ -3,7 +3,7 @@ export const APP_NAME: string = 'Photogram2';
 
 // Parse
 export const PARSE_APP_ID: string     = 'myAppId';
-//export const PARSE_SERVER_URL: string = 'http://localhost:1337/parse/';
+// export const PARSE_SERVER_URL: string = 'http://localhost:1337/parse/';
 export const PARSE_SERVER_URL: string = 'https://photogram.codevibe.io/parse/';
 
 // Google Maps
