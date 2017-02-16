@@ -1,13 +1,11 @@
+import { TermsPage } from './../terms/terms';
+import { AuthRegisterPage } from './../auth-register/auth-register';
+import { AuthLoginPage } from './../auth-login/auth-login';
 import {Component} from '@angular/core';
 import {MenuController, NavController, ModalController} from 'ionic-angular';
-import {AuthPage} from "../auth/auth";
 import {LanguageModalComponent} from "../../components/language-modal/language-modal";
-import {AnalyticsProvider} from "../../providers/analytics";
-
-export interface Slide {
-    title: string;
-    image: string;
-}
+import {AnalyticsProvider} from "../../providers/analytics.provider";
+const SLIDES = require('./intro.slides').SLIDES;
 
 @Component({
     selector   : 'page-intro',
@@ -15,7 +13,7 @@ export interface Slide {
 })
 
 export class IntroPage {
-    slides: Slide[];
+    slides: any;
     showSkip = true;
     device   = 'android';
 
@@ -26,45 +24,33 @@ export class IntroPage {
     ) {
         // Google Analytics
         this.analytics.view('IntroPage');
-
-        this.slides = [
-            {
-                title: 'Share more incredible moments',
-                image: 'assets/img/intro1.png',
-            },
-            {
-                title: 'Follow your friends and relive your moments',
-                image: 'assets/img/intro2.png',
-            },
-            {
-                title: 'Find people around you and enjoy your photos',
-                image: 'assets/img/intro3.png',
-            },
-            {
-                title: 'Share Photo with Albums',
-                image: 'assets/img/intro4.png',
-            },
-            {
-                title: 'Add location in your photos and mention your friends',
-                image: 'assets/img/intro5.png',
-            },
-            {
-                title: 'Review and like photos of your friends',
-                image: 'assets/img/intro6.png',
-            },
-        ];
+        console.log(SLIDES);
+        this.slides = SLIDES;
     }
 
     modalLanguage(): void {
         this.modalCtrl.create(LanguageModalComponent).present();
     }
 
-    startApp(): void {
-        this.navCtrl.push(AuthPage);
+    onSkip(slide){
+        console.log(slide);
+        slide.slideTo(this.slides.length+1, 1000)
+    }
+    
+    onLogin(){
+        this.navCtrl.push(AuthLoginPage);
     }
 
-    onSlideChangeStart(slider) {
-        this.showSkip = !slider.isEnd;
+    onRegister(){
+        this.navCtrl.push(AuthRegisterPage);
+    }
+
+    onTerms(){
+        this.navCtrl.push(TermsPage);
+    }
+
+    onSlideChangeStart(event) {
+        console.log(event);
     }
 
 }

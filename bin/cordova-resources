@@ -1,0 +1,6 @@
+#!/bin/bash
+# Usage: ./bin/cordova-resources
+
+npm i -g cordova-splash cordova-icon
+cordova-splash --config=config.xml --splash=resources/splash.png
+cordova-icon --config=config.xml --icon=resources/icon.png

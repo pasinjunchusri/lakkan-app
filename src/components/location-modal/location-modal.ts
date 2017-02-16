@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ViewController} from "ionic-angular";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {TranslateService} from "ng2-translate";
 import {languages} from "../../config";
 

@@ -1,7 +1,7 @@
 import {Component, Output, EventEmitter, ViewChild, ElementRef, Renderer} from "@angular/core";
 import {Events, ModalController} from "ionic-angular";
 import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
 
 @Component({

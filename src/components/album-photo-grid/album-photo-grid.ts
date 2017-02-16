@@ -2,12 +2,12 @@ import {Component, ViewChild, ElementRef, Renderer} from "@angular/core";
 import {Events, NavController, ViewController, NavParams, PopoverController, ModalController} from "ionic-angular";
 import {PhotoPage} from "../../pages/photo/photo";
 import {AlbumPhotoGridPopoverComponent} from "../album-photo-grid-popover/album-photo-grid-popover";
-import {GalleryAlbumProvider} from "../../providers/gallery-album";
+import {GalleryAlbumProvider} from "../../providers/gallery-album.provider";
 import _ from "underscore";
 import {PhotoShareModal} from "../photo-share-modal/photo-share-modal";
 import {IonPhotoService} from "../ion-photo/ion-photo-service";
 import {IonPhotoCropModal} from "../ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 
 
 declare const Parse: any;

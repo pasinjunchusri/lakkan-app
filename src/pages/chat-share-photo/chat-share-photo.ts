@@ -1,8 +1,8 @@
 import {Component, ViewChild} from "@angular/core";
 import {NavController, Content, ViewController, App, NavParams} from "ionic-angular";
-import {ChatChannelProvider} from "../../providers/chat-channel";
+import {ChatChannelProvider} from "../../providers/chat-channel.provider";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 import {ChatMessagePage} from "../chat-message/chat-message";
-import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-chat-share-photo',

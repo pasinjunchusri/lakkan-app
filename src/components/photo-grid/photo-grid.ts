@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {NavController, Events} from "ionic-angular";
 import _ from "underscore";
-import {GalleryProvider} from "../../providers/gallery";
+import {GalleryProvider} from "../../providers/gallery.provider";
 import {IParams} from "../../models/parse.params.model";
 import {PhotoPage} from "../../pages/photo/photo";
 
@@ -64,6 +64,12 @@ export class PhotoGridComponent implements OnInit {
                 .catch(console.error);
             ;
         });
+    }
+
+    ngOnDestroy() {
+        console.warn('element destroy photo grid');
+        this.events.unsubscribe(this.event + ':reload');
+        this.events.unsubscribe(this.event + ':params');
     }
 
     openPhoto(item): void {

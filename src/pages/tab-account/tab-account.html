@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>{{'Profile'| translate}}</ion-title>
+        <ion-title>{{'Account'| translate}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="onPageSettings()">
                 <ion-icon name="more"></ion-icon>
@@ -8,17 +8,13 @@
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-
 <ion-content>
-
     <div class="profile-top">
         <ion-row>
             <ion-col width-25>
-                <image-capture #image (imageChange)="changePhoto($event)" >
-                    <div class="img-avatar" (click)="openCapture()">
-                        <img [src]="photo"/>
-                    </div>
-                </image-capture>
+                <div class="img-avatar">
+                    <img [src]="photo"/>
+                </div>
             </ion-col>
             <ion-col width-75>
                 <ion-row>
@@ -56,7 +52,6 @@
             </ion-col>
         </ion-row>
     </div>
-
     <ion-segment [(ngModel)]="type" color="primary">
         <ion-segment-button (ionSelect)="onSelectType('list')" value="list">
             <ion-icon name="ios-list-outline"></ion-icon>
@@ -67,18 +62,18 @@
         <ion-segment-button (ionSelect)="onSelectType('album')" value="album">
             <ion-icon name="ios-image-outline"></ion-icon>
         </ion-segment-button>
+        <ion-segment-button (ionSelect)="onSelectType('bookmark')" value="bookmark">
+            <ion-icon name="ios-bookmark-outline"></ion-icon>
+        </ion-segment-button>
     </ion-segment>
-
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-
     <photo-list [event]="eventName" *ngIf="type=='list'"></photo-list>
     <photo-grid [event]="eventName" *ngIf="type=='grid'"></photo-grid>
     <album-grid [event]="eventName" *ngIf="type=='album'"></album-grid>
-
+    <bookmark-photo-grid [event]="eventName" *ngIf="type=='bookmark'"></bookmark-photo-grid>
     <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-
 </ion-content>

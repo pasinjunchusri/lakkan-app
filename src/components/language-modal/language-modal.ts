@@ -1,6 +1,7 @@
+import { Storage } from '@ionic/storage';
 import {Component} from '@angular/core';
 import {ViewController} from "ionic-angular";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {TranslateService} from "ng2-translate";
 
 import {languages} from "../../config";
@@ -18,7 +19,8 @@ export class LanguageModalComponent {
 
     constructor(private viewCtrl: ViewController,
                 private util: IonicUtilProvider,
-                private translate: TranslateService
+                private translate: TranslateService,
+                private storage: Storage
     ) {
         this._languages = _.sortBy(languages, 'name');
         this.startTranslate();
@@ -38,9 +40,11 @@ export class LanguageModalComponent {
 
     selectLanguage(lang: any) {
         this.util.onLoading();
-        this.translate.use(lang.code.split('_')[0]);
+        let langSelected = lang.code.split('_')[0];
+        this.translate.use(langSelected);
         setTimeout(() => {
             this.startTranslate();
+            this.storage.set('lang', langSelected);
             this.util.endLoading();
             this.dismiss();
         }, 1000);

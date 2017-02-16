@@ -2,9 +2,8 @@ import {Component, ViewChild} from "@angular/core";
 import {Events, Content, App} from "ionic-angular";
 import {IParams} from "../../models/parse.params.model";
 import {ChatChannelPage} from "../chat-channel/chat-channel";
-import {UserListPage} from "../user-list/user-list";
 import {APP_NAME} from "../../config";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 
 @Component({
     selector   : 'page-tab-home',
@@ -18,11 +17,11 @@ export class TabHomePage {
     params: IParams = {
         limit    : 18,
         page     : 1,
-        privacity: 'public',
+        privacity: 'followers',
     };
 
     eventName: string = 'home';
-    privacity: string = 'public';
+    privacity: string = 'followers';
     moreItem: boolean = false;
 
     constructor(private events: Events,
@@ -57,18 +56,8 @@ export class TabHomePage {
         this.events.unsubscribe('scroll:up');
     }
 
-
-    public onSelectPrivacity(privacity: string = 'public') {
-        this.params.privacity = privacity;
-        this.sendParams();
-    }
-
     public onPageChat() {
         this.app.getRootNav().push(ChatChannelPage);
-    }
-
-    public onPageUsers() {
-        this.app.getRootNav().push(UserListPage);
     }
 
     scrollTop() {

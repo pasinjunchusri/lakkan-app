@@ -4,30 +4,16 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background">
 
     <ion-list>
-        <ion-item-divider>{{'Invite Friends' | translate}}</ion-item-divider>
-        <ion-item>
-            <ion-icon name="logo-facebook" icon-left></ion-icon>
-            {{'Find Facebook Friends' | translate }}
-        </ion-item>
-        <ion-item>
-            <ion-icon name="person" icon-left></ion-icon>
-            {{'Find Contact' | translate }}
-        </ion-item>
-        <ion-item-divider>{{'Account' | translate}}</ion-item-divider>
+        <ion-item (click)="onInviteFriends()">{{'Invite Friends' | translate}}</ion-item>
+        <ion-item (click)="onFacebookFriends()">{{'Find Facebook Friends' | translate }}</ion-item>
         <ion-item (click)="editModal()">{{'Edit Profile' | translate}}</ion-item>
         <ion-item (click)="changePassword()">{{'Change Password' | translate}}</ion-item>
-        <ion-item-divider>{{'Settings' | translate}}</ion-item-divider>
         <ion-item (click)="modalLanguage()">{{'Language'|translate}}</ion-item>
-        <ion-item>{{'Push Notifications' | translate}}</ion-item>
-        <ion-item>{{'Comments' | translate}}</ion-item>
-        <ion-item>{{'Upload Quality' | translate}}</ion-item>
-        <ion-item>{{'Save Original Photos' | translate }}</ion-item>
-        <ion-item-divider>{{'About' | translate}}</ion-item-divider>
         <ion-item (click)="href('https://photogram.codevibe.io/')">{{'Terms of Service' | translate}}</ion-item>
-        <ion-item (click)="aboutPage()">{{'Open Source Libraries' | translate}}</ion-item>
+        <ion-item (click)="aboutPage()">{{'About' | translate}}</ion-item>
         <ion-item (click)="logout()">{{'Logout'|translate}}</ion-item>
     </ion-list>
 </ion-content>

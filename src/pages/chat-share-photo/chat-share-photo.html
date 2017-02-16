@@ -35,17 +35,17 @@
         <ion-item *ngFor="let item of data" (click)="onPageMessage(item)">
             <ion-avatar item-left>
                 <!-- One Profile-->
-                <img *ngIf="item.profiles.length==1 && item.profiles[0].photo" [src]="item.profiles[0].photo._url">
+                <img *ngIf="item.profiles.length==1 && item.profiles[0].photo" [src]="item.profiles[0].photo">
                 <img *ngIf="item.profiles.length==1 && !item.profiles[0].photo" src="assets/img/user.png">
 
 
                 <!-- Profile 1-->
-                <img class="img" *ngIf="item.profiles.length>1 && item.profiles[0].photo" [src]="item.profiles[0].photo._url">
+                <img class="img" *ngIf="item.profiles.length>1 && item.profiles[0].photo" [src]="item.profiles[0].photo">
                 <img class="img" *ngIf="item.profiles.length>1 && !item.profiles[0].photo" src="assets/img/user.png">
 
 
                 <!-- Profile 2-->
-                <img class="img2" *ngIf="item.profiles.length>1 && item.profiles[1].photo" [src]="item.profiles[1].photo._url">
+                <img class="img2" *ngIf="item.profiles.length>1 && item.profiles[1].photo" [src]="item.profiles[1].photo">
                 <img class="img2" *ngIf="item.profiles.length>1 && !item.profiles[1].photo" src="assets/img/user.png">
 
             </ion-avatar>

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavParams} from 'ionic-angular';
-import {GalleryProvider} from '../../providers/gallery';
-import {AnalyticsProvider} from '../../providers/analytics';
+import {GalleryProvider} from '../../providers/gallery.provider';
+import {AnalyticsProvider} from '../../providers/analytics.provider';
 
 
 @Component({

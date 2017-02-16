@@ -1,120 +1,113 @@
 page-intro {
-  .scroll-content {
-    background-color: #009689;
-  }
 
+  ion-slide {
+    display: flex;
+    justify-content: center;
+
+    button {
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .slide-zoom {
+      display: flex;
+      width: 100%;
+      text-align: center;
+      height: 100%;
+      flex-direction: column;
+    }
+    .view-welcome {
+      display: flex;
+      flex: 4;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .logo {
+        max-width: 60%;
+        background: transparent;
+        margin-bottom: 40px;
+      }
+    }
+    .phone,
+    .text-content {
+      // border: 1px solid red;
+      display: flex;
+      justify-content: center;
+    }
+    .phone {
+      flex: 4;
+      align-items: flex-end;
+      overflow: hidden
+    }
+    .text-content {
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      padding: 10px;
+      text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fbda61+0,f7781c+100 */
+      background: rgb(251, 218, 97); /* Old browsers */
+      background: -moz-linear-gradient(top, rgba(251, 218, 97, 1) 0%, rgba(247, 120, 28, 1) 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(top, rgba(251, 218, 97, 1) 0%, rgba(247, 120, 28, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to bottom, rgba(251, 218, 97, 1) 0%, rgba(247, 120, 28, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbda61', endColorstr='#f7781c', GradientType=0); /* IE6-9 */
+
+      h1, p {
+        padding: 0;
+        margin: 0
+      }
+
+    }
+  }
   .toolbar-background {
     background: #fff;
     border-color: transparent;
   }
+  .phone {
+    position: relative;
+    width: 80%;
+    height: 736px;
+    max-width: 414px;
+    margin: 0 auto;
+    margin-top: 10%;
 
-  .intro-slider {
-    display: block;
-    height: 100%;
-    .content {
-      position: relative;
-      height: 100%;
-      padding-top: 40px;
-      span.top {
-        position: relative;
-        text-align: center;
-        height: 240px;
-        padding: 0;
+    &.iphone {
+      background-image: url(../assets/img/devices/iphone.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 80%;
+      max-width: 407px;
+      min-width: 270px;
+      img {
         display: block;
-        top: 65px;
-        width: 100%;
-
-        h2 {
-          display: block;
-          position: absolute;
-          text-align: center;
-          color: #fff;
-          bottom: 25%;
-          width: 100%;
-          margin: 0;
-          padding: 0 10px;
-          font-size: 14pt;
-          line-height: 14pt;
-        }
-
-        //  animation
-        @include animate(fadeInDown, 1s, .5s);
-      }
-      .phone {
-        position: relative;
-        width: 80%;
-        height: 736px;
-        max-width: 414px;
         margin: 0 auto;
-        margin-top: 10%;
-
-        @include animate(fadeInUp, 1s, 0.1s);
-        &.iphone {
-          background-image: url(../assets/img/devices/iphone.png);
-          background-repeat: no-repeat;
-          background-size: contain;
-          width: 80%;
-          max-width: 407px;
-          min-width: 270px;
-          img {
-            display: block;
-            margin: 0 auto;
-            position: relative;
-            width: 79%;
-            top: 9.1%;
-          }
-        }
-        &.android {
-          background-image: url(../assets/img/devices/android.png);
-          background-repeat: no-repeat;
-          background-size: contain;
-          width: 90%;
-          max-width: 340px;
-          min-width: 290px;
-          img {
-            display: block;
-            margin: 0 auto;
-            position: relative;
-            width: 90%;
-            top: 7.1%;
-          }
-        }
+        position: relative;
+        width: 79%;
+        top: 30px;
       }
     }
-    .slider {
-      display: block;
-      height: 100%;
-      padding-top: 50px;
+    &.android {
+      background-image: url(../assets/img/devices/android.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 90%;
+      max-width: 340px;
+      min-width: 290px;
+      img {
+        display: flex;
+        margin: 0 auto;
+        position: absolute;
+        width: 83%;
+        top: 74px;
+        max-height: none;
+      }
     }
   }
-
-  .swiper-pagination {
-    bottom: 110px;
-
-    //  animation
-    .swiper-pagination-bullet {
-      top: 15px;
-      background: #fff;
-    }
-  }
-
-  .slider {
-    display: block;
-    height: 100%;
-    padding-top: 50px;
-  }
-  .slider-pager,
-  button.button {
-    @include animate(fadeInDown, 1s, 0.1s);
-  }
-  .slider-pager {
-    bottom: 110px;
-
-    //  animation
-    span.slider-pager-page {
-      top: 15px;
-      color: #fff !important;
-    }
+  // 
+  .swiper-pagination-progress .swiper-pagination-progressbar {
+    background: rgba(0, 0, 0, 0.1);
   }
 
 }

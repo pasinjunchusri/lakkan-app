@@ -5,11 +5,11 @@ import {TabCapturePage} from "../tab-capture/tab-capture";
 import {TabActivityPage} from "../tab-activity/tab-activity";
 import {TabAccountPage} from "../tab-account/tab-account";
 import {Tabs, Events} from "ionic-angular";
-import {ParsePushProvider} from "../../providers/parse-push";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {ParsePushProvider} from "../../providers/parse-push.provider";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 
 @Component({
-    selector   : 'tabs',
+    selector   : 'page-tabs',
     templateUrl: 'tabs.html'
 })
 

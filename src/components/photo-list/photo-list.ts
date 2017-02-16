@@ -2,10 +2,10 @@ import {Component, Input, OnInit} from "@angular/core";
 import {App, Events} from "ionic-angular";
 import _ from "underscore";
 import {IParams} from "../../models/parse.params.model";
-import {GalleryProvider} from "../../providers/gallery";
-import {UserProvider} from "../../providers/user";
-import {AuthPage} from "../../pages/auth/auth";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {GalleryProvider} from "../../providers/gallery.provider";
+import {UserProvider} from "../../providers/user.provider";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
+import {IntroPage} from '../../pages/intro/intro';
 
 @Component({
     selector   : 'photo-list',
@@ -125,7 +125,7 @@ export class PhotoListComponent implements OnInit {
 
                 if (error.code == Parse.Error['INVALID_SESSION_TOKEN']) {
                     this.User.logout();
-                    this.app.getRootNav().setRoot(AuthPage);
+                    this.app.getRootNav().setRoot(IntroPage);
                     this.util.toast('Invalid session, please login');
                 }
 

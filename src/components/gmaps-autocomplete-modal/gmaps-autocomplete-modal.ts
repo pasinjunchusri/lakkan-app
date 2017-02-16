@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ViewController} from 'ionic-angular';
-import {ExternalLibProvider} from '../../providers/external-lib';
-import {IonicUtilProvider} from '../../providers/ionic-util';
+import {ExternalLibProvider} from '../../providers/external-lib.provider';
+import {IonicUtilProvider} from '../../providers/ionic-util.provider';
 
 @Component({
     selector:    'gmaps-autocomplete-modal',

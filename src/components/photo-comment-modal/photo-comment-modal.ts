@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
 import {NavParams, ViewController} from "ionic-angular";
-import {GalleryCommentProvider} from "../../providers/gallery-comment";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-import {GalleryProvider} from "../../providers/gallery";
+import {GalleryCommentProvider} from "../../providers/gallery-comment.provider";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
+import {GalleryProvider} from "../../providers/gallery.provider";
 import _ from "underscore";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 declare const Parse: any;
 
 @Component({

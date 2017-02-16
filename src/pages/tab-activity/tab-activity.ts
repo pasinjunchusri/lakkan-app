@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
 import {App, Events} from "ionic-angular";
-import {GalleryActivityProvider} from "../../providers/gallery-activity";
+import {GalleryActivityProvider} from "../../providers/gallery-activity.provider";
 import {ProfilePage} from "../profile/profile";
 import _ from "underscore";
 import {PhotoPage} from "../photo/photo";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 
 @Component({
     selector   : 'page-tab-activity',
@@ -22,7 +22,7 @@ export class TabActivityPage {
     moreItem: boolean      = false;
 
     params = {
-        limit: 20,
+        limit: 50,
         page : 1
     }
 

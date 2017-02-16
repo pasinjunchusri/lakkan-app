@@ -1,10 +1,10 @@
 import {Component, ViewChild} from "@angular/core";
 import {NavController, ModalController, Events, Content} from "ionic-angular";
-import {ChatFormPage} from "../chat-form/chat-form";
-import {ChatChannelProvider} from "../../providers/chat-channel";
-import {ChatMessagePage} from "../chat-message/chat-message";
 import _ from "underscore";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {ChatChannelProvider} from "../../providers/chat-channel.provider";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
+import {ChatFormPage} from "../chat-form/chat-form";
+import {ChatMessagePage} from "../chat-message/chat-message";
 declare const Parse: any;
 
 @Component({
@@ -54,7 +54,10 @@ export class ChatChannelPage {
         if (data) {
             let user = Parse.User.current();
             data.map(channel => {
-                channel.users = _.filter(channel.users, _user => user.id != _user['id']);
+                let users = _.filter(channel.users, _user => user.id != _user['id']);
+                channel.users = users;
+                channel.title = users.map(user=> user['name']).join(', ');
+
                 this.data.push(channel);
             });
             this.showEmptyView = false;

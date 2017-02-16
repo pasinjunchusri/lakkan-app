@@ -1,10 +1,10 @@
 import {Component, ViewChild, ElementRef, Renderer} from "@angular/core";
 import {Events, ModalController} from "ionic-angular";
 import {IonPhotoService} from "../../components/ion-photo/ion-photo-service";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {PhotoShareModal} from "../../components/photo-share-modal/photo-share-modal";
 import {IonPhotoCropModal} from "../../components/ion-photo/ion-photo-crop-modal/ion-photo-crop-modal";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 
 @Component({
     selector   : 'page-tab-capture',

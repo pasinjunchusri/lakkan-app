@@ -8,7 +8,7 @@
     <ion-item *ngIf="album" (click)="openAlbumList()">
         <ion-thumbnail item-left>
             <img *ngIf="!album.imageThumb" src="assets/img/albumnone.png">
-            <img *ngIf="album.imageThumb" [src]="album.imageThumb._url">
+            <img *ngIf="album.imageThumb" [src]="album.imageThumb">
         </ion-thumbnail>
         <h2>{{album.title}}</h2>
         <p>{{album.description}}</p>

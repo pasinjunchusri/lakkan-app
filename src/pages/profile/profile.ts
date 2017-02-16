@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {Events, ModalController, NavParams} from 'ionic-angular';
 import {AccountEditModalPage} from '../account-edit-modal/account-edit-modal';
-import {UserProvider} from '../../providers/user';
-import {IonicUtilProvider} from '../../providers/ionic-util';
+import {UserProvider} from '../../providers/user.provider';
+import {IonicUtilProvider} from '../../providers/ionic-util.provider';
 import {IParams} from '../../models/parse.params.model';
-import {AnalyticsProvider} from '../../providers/analytics';
+import {AnalyticsProvider} from '../../providers/analytics.provider';
 
 declare const Parse: any;
 
@@ -96,19 +96,19 @@ export class ProfilePage {
         setTimeout(() => this.events.publish(this.eventName + ':reload', this.params), 500);
     }
 
-    follow(user): void {
-        console.log('user', user);
-        user.loading = true;
-        this.User.follow({userId: user.id}).then(resp => {
+    follow(item): void {
+        console.log('user', item);
+        item.loading = true;
+        this.User.follow({userId: item.id}).then(resp => {
             console.log('Follow result', resp);
-            user.isFollow = (resp === 'follow') ? true : false;
+            item.isFollow = (resp === 'follow') ? true : false;
             if (resp == 'follow') {
-                user.followersTotal += 1;
+                item.followersTotal += 1;
             }
             if (resp == 'unfollow') {
-                user.followersTotal -= 1;
+                item.followersTotal -= 1;
             }
-            user.loading = false;
+            item.loading = false;
         });
     }
 

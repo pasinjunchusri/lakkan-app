@@ -2,6 +2,6 @@
 # Usage: prod 'platform'
 # 
 echo "Compilation Application"
-ionic build
+ionic build --prod
 echo "Build platform"
 cordova run $*

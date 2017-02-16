@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavParams, ViewController, Events} from 'ionic-angular';
-import {AnalyticsProvider} from '../../providers/analytics';
+import {AnalyticsProvider} from '../../providers/analytics.provider';
 
 @Component({
     selector:    'photo-share-modal',

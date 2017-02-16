@@ -1,5 +1,5 @@
 import {Directive, Renderer, ElementRef} from '@angular/core';
-import {Keyboard} from 'ionic-native';
+import {Keyboard} from '@ionic-native/keyboard';
 import {Platform} from "ionic-angular";
 
 @Directive({

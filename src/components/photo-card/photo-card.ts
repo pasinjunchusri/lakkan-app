@@ -1,6 +1,6 @@
 import {Component, Input} from "@angular/core";
 import {ModalController, PopoverController, App} from "ionic-angular";
-import {GalleryProvider} from "../../providers/gallery";
+import {GalleryProvider} from "../../providers/gallery.provider";
 import {ProfilePage} from "../../pages/profile/profile";
 import {PhotoCommentModalComponent} from "../photo-comment-modal/photo-comment-modal";
 import {PhotoListPopoverComponent} from "../photo-list-popover/photo-list-popover";
@@ -25,7 +25,7 @@ export class PhotoCardComponent {
                 private modalCtrl: ModalController,
                 private popoverCtrl: PopoverController,
     ) {
-        this.username = Parse.User.current()['username'];
+        this.username = Parse.User.current().get('username');
     }
 
     openPopover(ev):void {
@@ -49,7 +49,7 @@ export class PhotoCardComponent {
     }
 
     onLike(item):void {
-        this.loadingLike = true;
+        item.loadingLike = true;
         this.provider.likeGallery(item.id).then(data => {
             if (item.isLiked) {
                 item.isLiked = false;
@@ -58,7 +58,15 @@ export class PhotoCardComponent {
                 item.isLiked = true;
                 item.likesTotal++;
             }
-            this.loadingLike = false;
+            item.loadingLike = false;
+        });
+    }
+
+    onBookmark(item):void {
+        item.loadingBookmark = true;
+        this.provider.bookmarkGallery(item.id).then(data=>{
+            item.isBookmark = !item.isBookmark;
+            item.loadingBookmark = false;
         });
     }
 

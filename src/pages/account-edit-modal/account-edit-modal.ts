@@ -1,11 +1,11 @@
-import {ViewChild, Component} from "@angular/core";
+import {Component} from "@angular/core";
 import {ViewController, Events} from "ionic-angular";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-import {UserProvider} from "../../providers/user";
-import {ParseFileProvider} from "../../providers/parse-file";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
+import {UserProvider} from "../../providers/user.provider";
+import {ParseFileProvider} from "../../providers/parse-file.provider";
 import {FormBuilder, Validators} from "@angular/forms";
 import * as _ from "underscore";
-import {ImageCaptureComponent} from "../../components/image-capture/image-capture";
+
 
 declare const Parse:any;
 
@@ -19,8 +19,6 @@ export class AccountEditModalPage {
     photo: any;
     _user: any;
     _eventName: string = 'photoprofile';
-
-    @ViewChild('image') imageElement: ImageCaptureComponent;
 
     constructor(private viewCtrl: ViewController,
                 private ionic: IonicUtilProvider,
@@ -90,10 +88,6 @@ export class AccountEditModalPage {
             });
 
         });
-    }
-
-    openCapture() {
-        this.imageElement.openCapture();
     }
 
     submitProfile(rForm: any) {

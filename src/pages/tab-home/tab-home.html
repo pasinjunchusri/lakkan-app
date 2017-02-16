@@ -1,28 +1,12 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-buttons start>
-            <button ion-button icon-only (click)="onPageUsers()">
-                <ion-icon name="person"></ion-icon>
-            </button>
-        </ion-buttons>
         <ion-title>{{appName}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="onPageChat()">
-                <ion-icon name="ios-chatboxes-outline"></ion-icon>
+                <ion-icon name="ios-chatbubbles"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
-    <ion-toolbar no-border-top no-border-bottom color="primary">
-        <ion-segment [(ngModel)]="privacity">
-            <ion-segment-button (ionSelect)="onSelectPrivacity('public')" value="public">{{'Public' | translate }}
-            </ion-segment-button>
-            <ion-segment-button (ionSelect)="onSelectPrivacity('followers')" value="followers">{{'Followers' | translate
-                }}
-            </ion-segment-button>
-            <ion-segment-button (ionSelect)="onSelectPrivacity('me')" value="me"> {{'Me' | translate}}
-            </ion-segment-button>
-        </ion-segment>
-    </ion-toolbar>
 </ion-header>
 <ion-content>
     <upload-status></upload-status>

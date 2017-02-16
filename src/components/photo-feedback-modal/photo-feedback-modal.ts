@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {ViewController, NavParams} from "ionic-angular";
-import {GallerFeedbackProvider} from "../../providers/gallery-feedback";
-import {UserProvider} from "../../providers/user";
+import {GallerFeedbackProvider} from "../../providers/gallery-feedback.provider";
+import {UserProvider} from "../../providers/user.provider";
 import {TranslateService} from "ng2-translate";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 
 
 @Component({

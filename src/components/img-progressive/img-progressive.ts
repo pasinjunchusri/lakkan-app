@@ -1,5 +1,5 @@
 import {Component, ElementRef, AfterContentInit, OnChanges, SimpleChanges, Input} from "@angular/core";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 
 @Component({
     selector: 'img-progressive',

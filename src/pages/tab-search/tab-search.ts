@@ -1,12 +1,6 @@
 import {Component} from "@angular/core";
-import {NavController, App} from "ionic-angular";
-import {PhotoPage} from "../../pages/photo/photo";
-import {GalleryProvider} from "../../providers/gallery";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-import {TabSearchMapPage} from "../tab-search-map/tab-search-map";
-import _ from "underscore";
-import {IParams} from "../../models/parse.params.model";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {Events} from "ionic-angular";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 
 @Component({
     selector   : 'page-tab-search',
@@ -14,136 +8,71 @@ import {AnalyticsProvider} from "../../providers/analytics";
 })
 export class TabSearchPage {
 
-    words: string       = '';
+    search: string      = '';
     placeholder: string = 'Search';
+    username: string;
+    type: string        = 'photo';
+    profile: any;
+    moreItem: boolean   = false;
+    eventName: string   = 'search';
 
-    params: IParams = {
-        limit: 48,
-        page : 1,
-        words: '',
+    params = {
+        limit    : 12,
+        page     : 1,
+        privacity: 'public',
+        search   : '',
     };
 
-    errorIcon: string      = 'ios-images-outline';
-    errorText: string      = '';
-    data                   = [];
-    loading: boolean       = true;
-    showEmptyView: boolean = false;
-    showErrorView: boolean = false;
-    moreItem: boolean      = false;
-
-    constructor(private navCtrl: NavController,
-                private provider: GalleryProvider,
-                private util: IonicUtilProvider,
-                private app: App,
-                private analytics: AnalyticsProvider,
+    constructor(private analytics: AnalyticsProvider,
+                private events: Events
     ) {
         // Google Analytics
         this.analytics.view('TabSearchPage');
+
+        // More Item
+        this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);
+
     }
 
     ionViewDidLoad() {
-        // Translate Search Bar Placeholder
-        this.util.translate('Search').then((res: string) => this.placeholder = res);
-        //this.cache();
-        this.feed();
+        this.onSelectType();
     }
 
-    openSearchMap() {
-        this.app.getRootNav().push(TabSearchMapPage);
-    }
-
-    openPhoto(item) {
-        this.app.getRootNav().push(PhotoPage, {id: item.id});
-    }
-
-    private feed(): Promise<any> {
-        console.log('Load Feed', this.params, this.loading);
-
-        return new Promise((resolve, reject) => {
-            if (this.params.page == 1) {
-                this.data    = [];
-                this.loading = true;
-            }
-
-            this.provider.feed(this.params).then(data => {
-                console.log('feed', data);
-                if (data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
-                    this.showErrorView = false;
-                    this.showEmptyView = false;
-                    this.moreItem      = true;
-                } else {
-                    if (!this.data.length) {
-                        this.showEmptyView = false;
-                    }
-                    this.moreItem = false;
-                }
-                this.loading = false;
-                resolve(data);
-            }).catch(error => {
-                this.errorText     = error.message;
-                this.showErrorView = true;
-                this.loading       = false;
-                reject(error);
-            });
-        });
-    }
-
-    //private cache(): void {
-    //    console.log('Load cache', this.params);
-    //    this.provider.findCache(this.params).then(_data => {
-    //        console.log('cache', _data);
-    //        if (_data.length) {
-    //            _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
-    //            this.loading  = false;
-    //            this.moreItem = true;
-    //        } else {
-    //            this.feed();
-    //        }
-    //    });
-    //}
-
-    doSearch() {
-        this.params.words = this.words;
-        this.params.page  = 1;
-        this.feed();
-    }
-
-    doCancel() {
-        this.words       = '';
-        this.params.page = 1;
-        this.feed();
-    }
-
-    doInfinite(event) {
+    public doInfinite(event) {
         this.params.page++;
-        this.feed().then(() => {
-            if (event) {
-                event.complete()
-            }
-        }).catch(() => {
-            if (event) {
-                event.complete()
-            }
-        });
+        this.events.unsubscribe(this.eventName + ':complete');
+        this.events.subscribe(this.eventName + ':complete', () => event.complete());
+        this.sendParams();
     }
 
-    doRefresh(event) {
-        this.data        = [];
+    public doRefresh(event?): void {
+        if (event) {
+            event.complete();
+        }
         this.params.page = 1;
-        this.feed().then(() => {
-            if (event) {
-                event.complete()
-            }
-        }).catch(() => {
-            if (event) {
-                event.complete()
-            }
-        });
+        this.sendParams();
+
     }
 
-    doTry() {
-        this.loading = true;
-        this.doRefresh(null);
+    private sendParams(): void {
+        this.events.publish(this.eventName + ':params', this.params);
+    }
+
+    public onSelectType(type: string = this.type): void {
+        this.type = type;
+        setTimeout(() => this.onReload(), 500);
+    }
+
+    public onReload(): void {
+        this.params.page   = 1;
+        this.params.search = "";
+        this.sendParams();
+    }
+
+    // Search
+    public doSearch(): void {
+        this.params.search = this.search;
+        this.params.page   = 1;
+        this.sendParams();
     }
 }

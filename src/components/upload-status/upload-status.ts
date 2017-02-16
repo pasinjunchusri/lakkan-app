@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {Events} from "ionic-angular";
-import {ParseFileProvider} from "../../providers/parse-file";
-import {GalleryProvider} from "../../providers/gallery";
+import {ParseFileProvider} from "../../providers/parse-file.provider";
+import {GalleryProvider} from "../../providers/gallery.provider";
 import _ from "underscore";
 import {IUpload} from "../../models/upload.model";
 

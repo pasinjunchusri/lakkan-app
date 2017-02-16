@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
 import {ViewController} from "ionic-angular";
-import {UserProvider} from "../../providers/user";
-import {IonicUtilProvider} from "../../providers/ionic-util";
-import {AnalyticsProvider} from "../../providers/analytics";
+import {UserProvider} from "../../providers/user.provider";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 
 @Component({
     selector   : 'page-user-password',

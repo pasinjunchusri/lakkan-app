@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
 import {NavController, ViewController, Events} from "ionic-angular";
-import {UserProvider} from "../../providers/user";
-import {ChatChannelProvider} from "../../providers/chat-channel";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {UserProvider} from "../../providers/user.provider";
 import _ from 'underscore';
-import {AnalyticsProvider} from "../../providers/analytics";
+import {ChatChannelProvider} from "../../providers/chat-channel.provider";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 
 @Component({
     selector   : 'page-chat-form',

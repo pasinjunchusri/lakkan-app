@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>{{'Sign in' | translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="background">
+    <form [formGroup]="formLogin" #rFormLogin="ngForm" (ngSubmit)="login(rFormLogin)">
+        <ion-list>
+            <ion-item>
+                <ion-label floating>{{'Username' | translate}}</ion-label>
+                <ion-input type="text" formControlName="username"></ion-input>
+            </ion-item>
+            <ion-item class="form-error-list"
+                      *ngIf="!formLogin.controls.username.pristine && !formLogin.controls.username.valid">
+                <p class="form-error" item-right
+                   *ngIf="!formLogin.controls.username.pristine && formLogin.controls.username.hasError('required')">
+                    {{'This is a required field.' | translate}}
+                </p>
+                <p class="form-error" item-right
+                   *ngIf="!formLogin.controls.username.pristine && formLogin.controls.username?.errors?.minlength">
+                    {{'Password must have more than 4 characters' | translate}}
+                </p>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>{{'Password'|translate}}</ion-label>
+                <ion-input [type]="inputPasswordType" formControlName="password"></ion-input>
+                <a ion-button color="light" clear (click)="toggleInputPassword()" item-right>
+                    <ion-icon [name]="inputPasswordIcon"></ion-icon>
+                </a>
+            </ion-item>
+            <ion-item class="form-error-list"
+                      *ngIf="!formLogin.controls.password.pristine && !formLogin.controls.password.valid">
+                <p class="form-error" item-right
+                   *ngIf="!formLogin.controls.password.pristine && formLogin.controls.password.hasError('required')">
+                    {{'This is a required field.' | translate}}
+                </p>
+                <p class="form-error" item-right
+                   *ngIf="!formLogin.controls.password.pristine && formLogin.controls.password?.errors?.minlength">
+                    {{'Password must have more than 6 characters' | translate}}
+                </p>
+            </ion-item>
+        </ion-list>
+        <ion-row>
+            <ion-col>
+                <a ion-button color="green" block clear (click)="resetPassword()">{{'Forgot Password'|translate}}</a>
+            </ion-col>
+            <ion-col>
+                <button ion-button color="blue" block round type="submit">{{'Log in' | translate}}
+                </button>
+            </ion-col>
+        </ion-row>
+    </form>
+</ion-content>

@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
 import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
 import {AlbumFormModalComponent} from '../album-form-modal/album-form-modal';
-import {IonicUtilProvider} from '../../providers/ionic-util';
-import {GalleryAlbumProvider} from '../../providers/gallery-album';
+import {IonicUtilProvider} from '../../providers/ionic-util.provider';
+import {GalleryAlbumProvider} from '../../providers/gallery-album.provider';
 
 @Component({
     selector: 'album-photo-grid-popover',

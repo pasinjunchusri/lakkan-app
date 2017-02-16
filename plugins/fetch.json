@@ -77,7 +77,7 @@
     "parse-push-plugin": {
         "source": {
             "type": "git",
-            "url": "https://github.com/photogram/parse-push-plugin.git",
+            "url": "https://github.com/taivo/parse-push-plugin.git",
             "subdir": "."
         },
         "is_top_level": true,

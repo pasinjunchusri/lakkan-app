@@ -1,22 +1,23 @@
+import { Storage } from '@ionic/storage';
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 // Providers
-import {IonicUtilProvider} from "./ionic-util";
-import {LoggingProvider} from "./logging";
-import {AuthProvider} from "./auth";
-import {UserProvider} from "./user";
-import {GalleryProvider} from "./gallery";
-import {GalleryActivityProvider} from "./gallery-activity";
-import {GalleryCommentProvider} from "./gallery-comment";
-import {ParseFileProvider} from "./parse-file";
-import {ParsePushProvider} from "./parse-push";
-import {GallerFeedbackProvider} from "./gallery-feedback";
-import {UserDataProvider} from "./user-data";
-import {GalleryAlbumProvider} from "./gallery-album";
-import {ExternalLibProvider} from "./external-lib";
-import {ChatChannelProvider} from "./chat-channel";
-import {ChatMessageProvider} from "./chat-message";
-import {AnalyticsProvider} from "./analytics";
+import {IonicUtilProvider} from "./ionic-util.provider";
+import {LoggingProvider} from "./logging.provider";
+import {AuthProvider} from "./auth.provider";
+import {UserProvider} from "./user.provider";
+import {GalleryProvider} from "./gallery.provider";
+import {GalleryActivityProvider} from "./gallery-activity.provider";
+import {GalleryCommentProvider} from "./gallery-comment.provider";
+import {ParseFileProvider} from "./parse-file.provider";
+import {ParsePushProvider} from "./parse-push.provider";
+import {GallerFeedbackProvider} from "./gallery-feedback.provider";
+import {UserDataProvider} from "./user-data.provider";
+import {GalleryAlbumProvider} from "./gallery-album.provider";
+import {ExternalLibProvider} from "./external-lib.provider";
+import {ChatChannelProvider} from "./chat-channel.provider";
+import {ChatMessageProvider} from "./chat-message.provider";
+import {AnalyticsProvider} from "./analytics.provider";
 
 export const sharedProviders = [
     IonicUtilProvider,
@@ -35,6 +36,7 @@ export const sharedProviders = [
     ChatChannelProvider,
     ChatMessageProvider,
     AnalyticsProvider,
+    Storage,
 ];
 
 @NgModule({

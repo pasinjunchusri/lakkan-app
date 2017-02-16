@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
 import {Events, ViewController, ModalController} from "ionic-angular";
-import {GalleryAlbumProvider} from "../../providers/gallery-album";
+import {GalleryAlbumProvider} from "../../providers/gallery-album.provider";
 import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
-import {IonicUtilProvider} from "../../providers/ionic-util";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 import _ from "underscore";
-import {AnalyticsProvider} from "../../providers/analytics";
 
 @Component({
     selector   : 'page-album-list-modal',
@@ -41,10 +41,10 @@ export class AlbumListModalPage {
 
         // Translate Search Bar Placeholder
         this.util.translate('Search album').then((res: string) => this._placeholder = res);
-        this.events.subscribe('album:reload', () => this.doRefresh(null));
+        //this.events.subscribe('album:reload', () => this.doRefresh(null));
     }
 
-    ionViewWillEnter() {
+    ionViewDidLoad() {
         this.feed();
     }
 
@@ -55,10 +55,12 @@ export class AlbumListModalPage {
     }
 
     albumForm() {
-        this.modalCtrl.create(AlbumFormModalComponent).present();
+        let modal = this.modalCtrl.create(AlbumFormModalComponent);
+        modal.onDidDismiss(() => this.doRefresh())
+        modal.present();
     }
 
-    feed() {
+    feed(): Promise<any> {
         return new Promise((resolve, reject) => {
             console.log('Load Feed', this.params, this.loading);
 
@@ -113,11 +115,20 @@ export class AlbumListModalPage {
         this.feed().then(() => event.complete()).catch(() => event.complete());
     }
 
-    doRefresh(event) {
+    doRefresh(event?) {
+        console.log('do refresh');
         this.params.page = 1;
         this.feed()
-            .then(() => {if(event) {event.complete()}})
-            .catch(() => {if(event) {event.complete()}});
+            .then(() => {
+                if (event) {
+                    event.complete()
+                }
+            })
+            .catch(() => {
+                if (event) {
+                    event.complete()
+                }
+            });
         ;
     }
 

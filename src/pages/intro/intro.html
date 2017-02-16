@@ -1,24 +1,52 @@
 <ion-header no-shadow>
     <ion-navbar color="primary">
-        <ion-title (click)="modalLanguage()">{{'Language' | translate}}</ion-title>
+        <ion-title>
+            <button ion-button
+                    color="blue"
+                    round
+                    small
+                    (click)="modalLanguage()"> {{'Language' | translate}}</button>
+        </ion-title>
         <ion-buttons end *ngIf="showSkip">
-            <button ion-button (click)="startApp()">{{'Skip'| translate}}</button>
+            <button ion-button (click)="onSkip(slide)">{{'Skip'| translate}}</button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
 
-<ion-content no-bounce>
-    <div class="intro-slider">
-        <ion-slides [options]="{pager: true}" (ionWillChange)="onSlideChangeStart($event)">
-            <ion-slide *ngFor="let slide of slides">
-                <div class="content">
+<ion-content class="background" no-bounce>
+    <ion-slides
+            #slide
+            pager='true'
+            effect='slide'
+            paginationType='progress'
+            (ionWillChange)="onSlideChangeStart($event)">
 
-                    <span class="top"><h2 class="slide-title">{{slide.title | translate}}</h2></span>
-                    <div class="phone android">
-                        <img [src]="slide.image" class="slide-image"/>
-                    </div>
-                </div>
-            </ion-slide>
-        </ion-slides>
-    </div>
+        <ion-slide *ngFor="let slide of slides">
+            <div class="phone android ">
+                <img [src]="slide.image" class="slide-image"/>
+            </div>
+            <div class="text-content">
+                <p>{{slide.title | translate}}</p>
+            </div>
+        </ion-slide>
+
+        <ion-slide>
+            <div class="view-welcome" padding>
+                <img class="logo" src="assets/img/logo.svg" alt="Photogram">
+                <button ion-button block color="blue" round icon-left (click)="onLogin()">
+                    <ion-icon name="person"></ion-icon>
+                    {{'Login' | translate}}
+                </button>
+                <button ion-button block color="orange" round icon-left (click)="onRegister()">
+                    <ion-icon name="contact"></ion-icon>
+                    {{'Signup' | translate}}
+                </button>
+                <button-facebook-login></button-facebook-login>
+            </div>
+             <div class="text-content">
+                <p  (click)="onTerms()" >{{'By logging in or registering, you are agreeing to our Terms and Conditions' | translate}}</p>
+            </div>
+        </ion-slide>
+
+    </ion-slides>
 </ion-content>

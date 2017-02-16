@@ -38,7 +38,7 @@
         <ion-item *ngFor="let item of data">
             <ion-avatar item-left>
                 <img *ngIf="!item.photo" src="assets/img/user.png">
-                <img *ngIf="item.photo" [src]="item.photo._url">
+                <img *ngIf="item.photo" [src]="item.photo">
             </ion-avatar>
             <ion-label>
                 <h2>{{item.username}}</h2>

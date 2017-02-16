@@ -1,11 +1,12 @@
 import {Component, OnInit} from "@angular/core";
 import {Platform} from "ionic-angular";
-import {Splashscreen, Device} from "ionic-native";
+import {Splashscreen} from "@ionic-native/splashscreen";
+import {Device} from "@ionic-native/device";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
 import {PARSE_APP_ID, PARSE_SERVER_URL, GOOGLE_ANALYTICS} from "../config";
-import {ParsePushProvider} from "../providers/parse-push";
-import {AnalyticsProvider} from "../providers/analytics";
+import {ParsePushProvider} from "../providers/parse-push.provider";
+import {AnalyticsProvider} from "../providers/analytics.provider";
 
 declare const Parse: any;
 

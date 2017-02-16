@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-searchbar [(ngModel)]="search" (ionInput)="doSearch()" (ionCancel)="doCancel()" [debounce]="1000" [placeholder]="placeholder"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <loader *ngIf="loading "></loader>
+  <!-- error -->
+  <div class="center" *ngIf="showPermission" padding>
+    <div class="error ">
+      <ion-icon name="contacts"></ion-icon>
+      <h1>{{'Import your contacts to make adding new friends easier.' | translate}}</h1>
+      <p>{{ 'We will never store an of your address book data, but it will make inviting additional friends effortless' | translate
+        }}</p>
+      <button ion-button color="primary" (click)="loadContacts()">
+                {{ 'Try again' | translate }}
+            </button>
+    </div>
+  </div>
+  <!--List-->
+  <ion-item-group *ngFor="let item of data">
+    <ion-item-divider color="light">{{item.group}}</ion-item-divider>
+    <div *ngFor="let contact of item.list">
+      <ion-item>
+        <h3>{{contact.displayName}}</h3>
+      </ion-item>
+      <ion-item *ngFor="let phone of contact.phoneNumbers">
+        <p>{{phone.normalizedNumber}} - {{phone.type}}</p>
+        <button (click)="onShare(contact, phone)" ion-button icon-only clear item-right>
+            <ion-icon name="send"></ion-icon>
+          </button>
+      </ion-item>
+    </div>
+  </ion-item-group>
+</ion-content>

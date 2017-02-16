@@ -23,9 +23,6 @@ page-chat-channel {
     h2 {
       display: inline-block;
       padding-right: 10px;
-      &:after {
-        content: ','
-      }
     }
   }
 

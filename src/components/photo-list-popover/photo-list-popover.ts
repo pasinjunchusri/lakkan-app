@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams, ModalController, AlertController, Events} from 'ionic-angular';
-import {IonicUtilProvider} from '../../providers/ionic-util';
-import {GalleryProvider} from "../../providers/gallery";
+import {IonicUtilProvider} from '../../providers/ionic-util.provider';
+import {GalleryProvider} from "../../providers/gallery.provider";
 import {PhotoFeedbackModalComponent} from "../photo-feedback-modal/photo-feedback-modal";
 import {PhotoEditPage} from "../../pages/photo-edit/photo-edit";
 declare const Parse:any;

@@ -1,7 +1,7 @@
 <ion-card>
     <ion-item>
         <ion-avatar (click)="openProfile(item.user.username)" item-left>
-            <img *ngIf="item.user.photo" [src]="item.user.photo._url" width="40px" height="40px">
+            <img *ngIf="item.user.photo" [src]="item.user.photo" width="40px" height="40px">
             <img *ngIf="!item.user.photo" src="assets/img/user.png">
         </ion-avatar>
         <h2>{{item.user.name || item.user.username }}</h2>
@@ -25,11 +25,10 @@
     </ion-card-content>
 
     <ion-item class="item-buttons">
-        <button *ngIf="!loadingLike" ion-button large clear (click)="onLike(item)">
+        <button [disabled]="item.loading" ion-button large clear (click)="onLike(item)">
             <ion-icon *ngIf="!item.isLiked" large name="ios-heart-outline"></ion-icon>
             <ion-icon *ngIf="item.isLiked" large name="ios-heart"></ion-icon>
         </button>
-        <ion-spinner *ngIf="loadingLike"></ion-spinner>
         <button ion-button large clear (click)="openComments(item)">
             <ion-icon name="ios-text-outline"></ion-icon>
         </button>
@@ -39,6 +38,10 @@
 
         <button (click)="openAlbum(item.album)" ion-button large clear>
             {{item.album.title}}
+        </button>
+        <button [disabled]="item.loadingBookmark" (click)="onBookmark(item)" ion-button item-right large clear>
+            <ion-icon *ngIf="!item.isBookmark" name="ios-bookmark-outline"></ion-icon>
+            <ion-icon *ngIf="item.isBookmark" name="ios-bookmark"></ion-icon>
         </button>
 
 

@@ -28,20 +28,20 @@
             <div *ngIf="!data[index].create">
                 <img (click)="openAlbum(data[index])"
                             *ngIf="data[index].imageThumb"
-                            [src]="data[index].imageThumb._url">
+                            [src]="data[index].imageThumb">
                 <img *ngIf="!data[index].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
             </div>
         </ion-col>
         <ion-col width-50 *ngIf="index +1 < data.length">
             <img (click)="openAlbum(data[index+1])"
                         *ngIf="data[index+1].imageThumb"
-                        [src]="data[index+1].imageThumb._url">
+                        [src]="data[index+1].imageThumb">
             <img *ngIf="!data[index+1].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
         </ion-col>
         <ion-col width-50 *ngIf="index +2 < data.length">
             <img (click)="openAlbum(data[index+2])"
                         *ngIf="data[index+2].imageThumb"
-                        [src]="data[index+2].imageThumb._url">
+                        [src]="data[index+2].imageThumb">
             <img *ngIf="!data[index+2].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
         </ion-col>
     </ion-row>

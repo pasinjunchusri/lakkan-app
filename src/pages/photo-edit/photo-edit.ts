@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, ViewController, Events} from 'ionic-angular';
-import {GalleryProvider} from '../../providers/gallery';
-import {AnalyticsProvider} from '../../providers/analytics';
-import {IonicUtilProvider} from '../../providers/ionic-util';
+import {GalleryProvider} from '../../providers/gallery.provider';
+import {AnalyticsProvider} from '../../providers/analytics.provider';
+import {IonicUtilProvider} from '../../providers/ionic-util.provider';
 
 @Component({
     selector:    'page-photo-edit',

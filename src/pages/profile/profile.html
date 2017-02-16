@@ -9,7 +9,7 @@
         <ion-row>
             <ion-col width-25>
                 <div class="img-avatar">
-                    <img *ngIf="profile.photo" [src]="profile.photo._url"/>
+                    <img *ngIf="profile.photo" [src]="profile.photo"/>
                     <img *ngIf="!profile.photo" src="assets/img/user.png"/>
                 </div>
             </ion-col>
@@ -37,10 +37,10 @@
                             <ion-spinner></ion-spinner>
                         </div>
                         <div *ngIf="!loading && !canEdit" (click)="follow(profile)">
-                            <button *ngIf="profile.isFollow" ion-button block color="primary" small>
+                            <button *ngIf="profile.isFollow" [disabled]="profile.loading" ion-button block color="primary" small>
                                 {{ 'Unfollow' | translate }}
                             </button>
-                            <button *ngIf="!profile.isFollow" outline ion-button block color="primary" small>
+                            <button *ngIf="!profile.isFollow" [disabled]="profile.loading" outline ion-button block color="primary" small>
                                 {{ 'Follow' | translate }}
                             </button>
                         </div>

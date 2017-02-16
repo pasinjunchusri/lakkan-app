@@ -1,3 +1,5 @@
+import { PhoneContactPage } from './phone-contact/phone-contact';
+import { Storage } from '@ionic/storage';
 import {IonicModule, Config, Platform} from 'ionic-angular';
 import {NgModule} from '@angular/core';
 import {Http} from '@angular/http';
@@ -18,7 +20,6 @@ import {TabHomePage} from '../pages/tab-home/tab-home';
 import {TabSearchPage} from '../pages/tab-search/tab-search';
 import {TabActivityPage} from '../pages/tab-activity/tab-activity';
 import {IntroPage} from '../pages/intro/intro';
-import {AuthPage} from './auth/auth';
 import {TabAccountPage} from './tab-account/tab-account';
 import {TabAccountPopoverPage} from './tab-account-popover/tab-account-popover';
 import {AccountEditModalPage} from './account-edit-modal/account-edit-modal';
@@ -38,17 +39,13 @@ import {AlbumPhotoGridComponent} from '../components/album-photo-grid/album-phot
 import {AlbumPhotoGridPopoverComponent} from '../components/album-photo-grid-popover/album-photo-grid-popover';
 import {LanguageModalComponent} from '../components/language-modal/language-modal';
 import {FocusDirective} from '../directives/focus/focus';
-import {UserListPage} from './user-list/user-list';
 import {PhotoListPopoverComponent} from '../components/photo-list-popover/photo-list-popover';
 import {AboutPage} from './about/about';
 import {PhotoMapComponent} from '../components/photo-map/photo-map';
 import {LocationModalComponent} from '../components/location-modal/location-modal';
-import {TabSearchMapPage} from './tab-search-map/tab-search-map';
 import {UploadStatusComponent} from '../components/upload-status/upload-status';
-import {TabSearchMapSettingsPage} from './tab-search-map-settings/tab-search-map-settings';
 import {AlbumInputComponent} from '../components/album-input/album-input';
 import {AlbumListModalPage} from '../components/album-list-modal/album-list-modal';
-import {UserAvatarPage} from './user-avatar/user-avatar';
 import {GmapsAutocompleteModalPage} from '../components/gmaps-autocomplete-modal/gmaps-autocomplete-modal';
 import {PhotoShareModal} from '../components/photo-share-modal/photo-share-modal';
 import {IonPhotoModule} from '../components/ion-photo/ion-photo.module';
@@ -61,6 +58,14 @@ import {PhotoEditPage} from './photo-edit/photo-edit';
 import {ImageCaptureComponent} from '../components/image-capture/image-capture';
 import {ImgProgressiveComponent} from '../components/img-progressive/img-progressive';
 import {AddressInputComponent} from '../components/address-input/address-input';
+import {AuthLoginPage} from './auth-login/auth-login';
+import {AuthRegisterPage} from './auth-register/auth-register';
+import { TermsPage } from './terms/terms';
+import {ButtonFacebookLoginComponent} from '../components/button-facebook-login/button-facebook-login';
+import {BookmarkPhotoGridComponent} from '../components/bookmark-photo-grid/bookmark-photo-grid';
+import {UserListComponent} from '../components/user-list/user-list';
+import {MapGalleryComponent} from '../components/map-gallery/map-gallery';
+import {AuthAvatarPage} from "./auth-avatar/auth-avatar";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './i18n', '.json');
@@ -70,12 +75,12 @@ declare var window: any;
 
 export const APP_PAGES = [
     IntroPage,
-    AuthPage,
+    AuthLoginPage,
+    AuthRegisterPage,
+
     TabsPage,
     TabHomePage,
     TabSearchPage,
-    TabSearchMapPage,
-    TabSearchMapSettingsPage,
     TabActivityPage,
     TabCapturePage,
     TabAccountPage,
@@ -85,10 +90,12 @@ export const APP_PAGES = [
     PhotoPage,
     ProfilePage,
     UserPasswordPage,
-    UserListPage,
     AboutPage,
-    UserAvatarPage,
+    TermsPage,
+    AuthAvatarPage,
     GmapsAutocompleteModalPage,
+    PhoneContactPage,
+
 
     // Chat
     ChatChannelPage,
@@ -100,6 +107,7 @@ export const APP_PAGES = [
     AlbumListModalPage,
 
     // Components
+    ButtonFacebookLoginComponent,
     LoaderComponent,
     AddressInputComponent,
     PhotoCommentModalComponent,
@@ -121,6 +129,9 @@ export const APP_PAGES = [
     UploadStatusComponent,
     ImageCaptureComponent,
     ImgProgressiveComponent,
+    BookmarkPhotoGridComponent,
+    UserListComponent,
+    MapGalleryComponent,
 ];
 
 @NgModule({
@@ -153,6 +164,7 @@ export class PagesModule {
     constructor(private translate: TranslateService,
                 private config: Config,
                 private platform: Platform,
+                private storage: Storage
     ) {
         this.translateConfig();
         setTimeout(() => {
@@ -166,15 +178,20 @@ export class PagesModule {
         let userLang = navigator.language.indexOf('-') ? navigator.language.split('-')[0] : navigator.language;
         let language = _.find(languages, {code: userLang}) ? _.find(languages, {code: userLang}).code : language_default;
 
-        console.log('language', userLang, language);
-
         this.translate.addLangs(languages.map(lang => lang.code));
 
         // this language will be used as a fallback when a translation isn't found in the current language
         this.translate.setDefaultLang(language_default);
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
-        this.translate.use(language);
+        this.storage.get('lang').then(lang=>{
+            if(lang) {
+                this.translate.use(lang);
+            } else {
+            this.translate.use(language);
+            }
+        });
+        
 
         // set lang back button
         //this.translate.get('backButtonText').subscribe((res: string) => this.config.set('Back', res));

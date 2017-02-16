@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {App, Events, NavController} from "ionic-angular";
 import {AlbumFormModalComponent} from "../album-form-modal/album-form-modal";
-import {GalleryAlbumProvider} from "../../providers/gallery-album";
+import {GalleryAlbumProvider} from "../../providers/gallery-album.provider";
 import {AlbumPhotoGridComponent} from "../album-photo-grid/album-photo-grid";
 import _ from "underscore";
 import {IParams} from "../../models/parse.params.model";
