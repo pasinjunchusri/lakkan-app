@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {ViewController, Events} from "ionic-angular";
-import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {UserProvider} from "../../providers/user.provider";
+import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {ParseFileProvider} from "../../providers/parse-file.provider";
 import {FormBuilder, Validators} from "@angular/forms";
 import * as _ from "underscore";
@@ -28,7 +28,7 @@ export class AccountEditModalPage {
                 private ParseFile: ParseFileProvider,
                 private formBuilder: FormBuilder
     ) {
-        this._user = User.current().attributes;
+        this._user = new Parse.User.current().attributes;
 
         console.log(Parse.User.current());
 

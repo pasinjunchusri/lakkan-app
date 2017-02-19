@@ -171,14 +171,7 @@ export class UserProvider {
 
     signUp(data) {
         let user = new Parse.User();
-        user.set('name', data.name);
-        user.set('username', data.username);
-        user.set('email', data.email);
-        user.set('status', data.status);
-        user.set('gender', data.gender);
-        user.set('birthday', data.birthday);
-        user.set('phone', data.phone);
-        user.set('password', data.password);
+        _.each(data,(value, key)=>user.set(key, value));
         return user.signUp(null);
 
     }

@@ -48,7 +48,7 @@ export class TabActivityPage {
         this.app.getRootNav().push(PhotoPage, {id: id});
     }
 
-    feed() {
+    public feed():Promise<any> {
         return new Promise((resolve, reject) => {
             console.log('Load Feed', this.params, this.loading);
 
@@ -57,22 +57,20 @@ export class TabActivityPage {
             }
 
             this.provider.feed(this.params).then(data => {
-                if (data && data.length) {
-                    _.sortBy(data, 'createdAt').reverse().map(item => {
-                        this.data.push(item);
-                    });
-                    this.moreItem = true;
-                } else {
-                    if (!this.data.length) {
-                        this.showEmptyView = false;
-                    }
-                    this.moreItem = false;
+                //console.log(data);
+                if (data) {
+                    this.showErrorView = false;
+                    this.showEmptyView = false;
+                    _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+                }
+
+                if (!this.data.length) {
+                    this.showEmptyView = true;
                 }
 
                 this.loading = false;
-                this.events.publish('clearActivity');
                 resolve(data);
-            }, error => {
+            }).catch(error => {
                 this.errorText     = error.message;
                 this.showErrorView = true;
                 this.loading       = false;

@@ -74,6 +74,26 @@ export class AuthRegisterPage {
         let newForm = this.formSignup.value;
         this.analytics.event('Auth', 'create user');
 
+        if (!newForm['name']) {
+            return this.util.toast('Name is required');
+        }
+
+        if (!newForm['email']) {
+            return this.util.toast('Email is required');
+        }
+
+        if (!newForm['username']) {
+            return this.util.toast('Username is required');
+        }
+
+        if (newForm['password'].length < 6) {
+            return this.util.toast('Password should be at least 6 characters');
+        }
+
+        if (newForm['password'] !== newForm['passwordConfirmation']) {
+            return this.util.toast("Password doesn't match");
+        }
+
         if (this.validPassword(newForm.password, newForm.passwordConfirmation)) {
             this.util.onLoading();
 
