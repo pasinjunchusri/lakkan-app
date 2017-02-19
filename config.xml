@@ -146,5 +146,4 @@
     </plugin>
     <plugin name="cordova-plugin-webp" spec="~2.2.0" />
     <plugin name="cordova-plugin-ios-camera-permissions" spec="~1.0.4" />
-    <plugin name="cordova.plugins.diagnostic" />
 </widget>
