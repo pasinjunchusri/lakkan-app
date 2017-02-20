@@ -64,7 +64,9 @@
             "id": "cordova-plugin-geolocation@~2.4.0"
         },
         "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "GEOLOCATION_USAGE_DESCRIPTION": " "
+        }
     },
     "cordova-plugin-whitelist": {
         "source": {
@@ -133,7 +135,8 @@
         "variables": {
             "CAMERA_USAGE_DESCRIPTION": "App would like to access the camera.",
             "MICROPHONE_USAGE_DESCRIPTION": "App would like to access the microphone.",
-            "PHOTOLIBRARY_USAGE_DESCRIPTION": "App would like to access the library."
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": "App would like to access the library.",
+            "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
         }
     },
     "ionic-plugin-deeplinks": {
@@ -170,7 +173,8 @@
         "is_top_level": true,
         "variables": {
             "CAMERA_USAGE_DESCRIPTION": "App would like to access the camera.",
-            "MICROPHONE_USAGE_DESCRIPTION": "App would like to access the microphone."
+            "MICROPHONE_USAGE_DESCRIPTION": "App would like to access the microphone.",
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
         }
     },
     "cordova-plugin-webp": {

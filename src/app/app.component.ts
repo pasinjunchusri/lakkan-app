@@ -4,7 +4,7 @@ import {Splashscreen} from "@ionic-native/splashscreen";
 import {Device} from "@ionic-native/device";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
-import {PARSE_APP_ID, PARSE_SERVER_URL, GOOGLE_ANALYTICS} from "../config";
+import {PARSE_APP_ID, PARSE_SERVER_URL, GOOGLE_ANALYTICS, PARSE_JAVASCRIPT_KEY} from "../config";
 import {ParsePushProvider} from "../providers/parse-push.provider";
 import {AnalyticsProvider} from "../providers/analytics.provider";
 
@@ -18,8 +18,8 @@ export class MyApp implements OnInit {
     rootPage: any;
 
     ngOnInit() {
-        Parse.initialize(PARSE_APP_ID);
         Parse.serverURL = PARSE_SERVER_URL;
+        Parse.initialize(PARSE_APP_ID, PARSE_JAVASCRIPT_KEY);
     }
 
     constructor(private platform: Platform,
