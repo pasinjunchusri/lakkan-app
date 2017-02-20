@@ -67,6 +67,7 @@ export class TabAccountPage {
             this.loading = false;
         });
     }
+
     changePhoto(photo) {
         this.util.onLoading('Uploading image...');
         this.ParseFile.upload({base64: photo}).then(image => {

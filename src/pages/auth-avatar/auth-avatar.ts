@@ -8,8 +8,9 @@ import {ParseFileProvider} from "../../providers/parse-file.provider";
 import {FormBuilder, Validators} from "@angular/forms";
 import * as _ from "underscore";
 import {TermsPage} from "../terms/terms";
+import {UserDataProvider} from "../../providers/user-data.provider";
 
-declare const Parse:any;
+declare const Parse: any;
 
 @Component({
     selector   : 'auth-avatar',
@@ -28,16 +29,13 @@ export class AuthAvatarPage {
                 private analytics: AnalyticsProvider,
                 private util: IonicUtilProvider,
                 private ParseFile: ParseFileProvider,
+                private UserData: UserDataProvider,
                 private formBuilder: FormBuilder
     ) {
         // Google Analytics
         this.analytics.view('AuthAvatarPage');
 
         this._user = new Parse.User.current()['attributes'];
-
-        if (this._user && this._user['photo']) {
-            this.photo = this._user.photo._url;
-        }
 
     }
 
@@ -47,9 +45,9 @@ export class AuthAvatarPage {
             name    : ['', Validators.required],
             email   : ['', Validators.required],
             username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-            status  : ['', Validators.required],
+            status  : [''],
             website : [''],
-            gender  : ['male', Validators.required],
+            gender  : [''],
             birthday: [''],
             phone   : [''],
         });
@@ -62,38 +60,49 @@ export class AuthAvatarPage {
         });
 
         console.log(this.form.controls);
+        this.util.onLoading();
+        setTimeout(() => this.loadPhoto(), 1000);
+    }
+
+    private loadPhoto() {
+        this.UserData.profile(this._user['username']).then(profile => {
+            if (profile.photo) {
+                this.photo = profile.photo;
+            } else {
+                this.photo = 'assets/img/user.png';
+            }
+            this.util.endLoading();
+        });
     }
 
     changePhoto(photo) {
         this.util.onLoading('Uploading image...');
-        this.ParseFile.upload({base64: photo}).then(image => {
-            this.User.updatePhoto(image).then(user => {
-                this._user       = user;
-                this.photo      = photo;
-                this.util.endLoading();
-                this.util.toast('Avatar updated')
-            }).catch(this.onError);
-
-        });
+        this.photo = photo;
+        this.ParseFile.upload({base64: photo})
+            .then(image => this.User.updatePhoto(image))
+            .then(user => this._user = user)
+            .then(() => this.util.endLoading())
+            .then(() => this.util.toast('Avatar updated'))
+            .catch(this.onError);
     }
 
-    public submitForm(rForm: any):void {
+    public submitForm(rForm: any): void {
         this.submitted = true;
         if (rForm.valid) {
             this.util.onLoading();
-            this.User.update(this.form).then(result => {
-                this.util.endLoading();
-                this.app.getRootNav().setRoot(TabsPage);
-            }).catch(this.onError);
+            this.User.update(this.form)
+                .then(result => this.util.endLoading())
+                .then(this.app.getRootNav().setRoot(TabsPage))
+                .catch(this.onError);
         }
     }
 
-    private onError(error){
+    private onError(error) {
         this.util.endLoading();
         this.util.toast(error);
     }
 
-    public onTerms():void {
+    public onTerms(): void {
         this.navCtrl.push(TermsPage);
     }
 

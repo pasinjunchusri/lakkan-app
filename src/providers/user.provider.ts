@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {ParsePushProvider} from './parse-push.provider';
-import {IonicUtilProvider} from './ionic-util.provider';
-import {IUserFollow} from '../models/user.model';
-import * as PouchDB from 'pouchdb';
-import {IParams} from '../models/parse.params.model';
-import _ from 'underscore';
+import {Injectable} from "@angular/core";
+import {Storage} from "@ionic/storage";
+import {ParsePushProvider} from "./parse-push.provider";
+import {IonicUtilProvider} from "./ionic-util.provider";
+import {IUserFollow} from "../models/user.model";
+import * as PouchDB from "pouchdb";
+import {IParams} from "../models/parse.params.model";
+import _ from "underscore";
 declare var Parse: any;
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UserProvider {
     dbFollowing: any;
     dbFolllowers: any;
 
-    data: any[]          = [];
+    data: any[] = [];
 
     private _fields          = [
         'name',
@@ -51,7 +51,7 @@ export class UserProvider {
             get: function () { return this.get('location'); },
             set: function (val) {
                 this.set('location', new Parse.GeoPoint({
-                    latitude:  val.latitude,
+                    latitude : val.latitude,
                     longitude: val.longitude
                 }));
             }
@@ -73,9 +73,10 @@ export class UserProvider {
     }
 
 
-    update(form) {
+    update(form: any) {
         let user = Parse.User.current();
-        Object.keys(form).map(field => user.set(field, form[field]));
+        _.each(form, (value, key) => user.set(key, value));
+        console.log(form);
         return user.save();
     }
 
@@ -93,8 +94,8 @@ export class UserProvider {
         return Parse.Cloud.run('profile', {username: username});
     }
 
-    updateAvatar(photo:string):Promise<any> {
-        return Parse.Cloud.run('updateAvatar',{photo: photo});
+    updateAvatar(photo: string): Promise<any> {
+        return Parse.Cloud.run('updateAvatar', {photo: photo});
     }
 
     getProfileCache(username: string): Promise<any> {
@@ -171,7 +172,7 @@ export class UserProvider {
 
     signUp(data) {
         let user = new Parse.User();
-        _.each(data,(value, key)=>user.set(key, value));
+        _.each(data, (value, key) => user.set(key, value));
         return user.signUp(null);
 
     }
@@ -193,13 +194,13 @@ export class UserProvider {
 
     setStorage(user: any): void {
         let obj = {
-            id:       user.id,
-            name:     user.get('name'),
+            id      : user.id,
+            name    : user.get('name'),
             username: user.get('username'),
-            email:    user.get('email'),
-            gender:   user.get('gender'),
-            photo:    user.get('photo'),
-            status:   user.get('status'),
+            email   : user.get('email'),
+            gender  : user.get('gender'),
+            photo   : user.get('photo'),
+            status  : user.get('status'),
         };
         console.log(obj);
         this.Storage.set('user', obj);
