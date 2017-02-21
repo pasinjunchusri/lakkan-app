@@ -4,7 +4,7 @@ export const APP_NAME: string = 'Photogram2';
 // Parse
 export const PARSE_APP_ID: string         = 'Q2SzjjC9C1Ta68f67JYPq9925hhz10nA';
 export const PARSE_JAVASCRIPT_KEY: string = 'dOsjDb9wLq5PIQ10cH8D9u5C97isVL1D';
-//export const PARSE_SERVER_URL: string = 'http://localhost:1337/parse/';
+//export const PARSE_SERVER_URL: string     = 'http://localhost:1337/parse/';
 export const PARSE_SERVER_URL: string     = 'https://photogram.codevibe.io/parse/';
 
 // Google Maps

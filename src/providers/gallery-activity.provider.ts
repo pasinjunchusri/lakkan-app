@@ -37,8 +37,12 @@ export class GalleryActivityProvider {
         });
     }
 
-    feed(params) {
+    public feed(params):Promise<any> {
         return Parse.Cloud.run('feedActivity', params);
+    }
+
+    public checkAll():Promise<any>{
+        return Parse.Cloud.run('checkActivity');
     }
 
 }

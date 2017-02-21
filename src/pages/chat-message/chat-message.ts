@@ -1,10 +1,10 @@
 import {Component, ViewChild} from "@angular/core";
 import {NavController, NavParams, Content, Events} from "ionic-angular";
-import _ from "underscore";
 import {ChatMessageProvider} from "../../providers/chat-message.provider";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {ChatChannelProvider} from "../../providers/chat-channel.provider";
 import {AnalyticsProvider} from "../../providers/analytics.provider";
+import _ from "underscore";
 declare const Parse: any;
 
 @Component({

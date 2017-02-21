@@ -36,7 +36,12 @@ export class TabActivityPage {
     }
 
     ngOnInit() {
-        this.feed()
+        this.feed();
+    }
+
+    ionViewDidLoad (){
+        this.provider.checkAll();
+        this.events.publish('clearActivity');
     }
 
     profile(username: string) {
@@ -44,13 +49,11 @@ export class TabActivityPage {
     }
 
     openPhoto(id: string) {
-        console.log('openphoto', id);
         this.app.getRootNav().push(PhotoPage, {id: id});
     }
 
     public feed():Promise<any> {
         return new Promise((resolve, reject) => {
-            console.log('Load Feed', this.params, this.loading);
 
             if (this.params.page == 1) {
                 this.data = [];

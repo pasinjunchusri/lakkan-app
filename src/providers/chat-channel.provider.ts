@@ -45,6 +45,7 @@ export class ChatChannelProvider {
         return new Promise((resolve, reject) => {
             this.cleanDB()
                 .then(() => Parse.Cloud.run('getChatChannels'))
+                .then(()=>this.cleanDB())
                 .then(data => data.map(item => this.db.put(item)))
                 .then(() => this.findCache())
                 .then(resolve)
