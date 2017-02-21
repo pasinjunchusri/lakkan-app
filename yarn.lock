@@ -108,6 +108,12 @@
   dependencies:
     "@ionic-native/core" "3.0.0"
 
+"@ionic-native/sms@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/sms/-/sms-3.0.0.tgz#9baf735bfe993fa02421fd457b47dd8947d7b01a"
+  dependencies:
+    "@ionic-native/core" "3.0.0"
+
 "@ionic-native/socialsharing@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/socialsharing/-/socialsharing-3.0.0.tgz#6cb9ad561b93c11f7161a3cade28b77b68b897a2"
@@ -159,9 +165,9 @@
     ws "1.1.1"
     xml2js "^0.4.17"
 
-"@ionic/storage@^1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@ionic/storage/-/storage-1.1.8.tgz#ce7491119c754af3a1c2198cfd61594407d22d60"
+"@ionic/storage@^1.1.9":
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@ionic/storage/-/storage-1.1.9.tgz#edf9d695fa995b24be3db48212323c6a8bddefa6"
   dependencies:
     "@types/localforage" "0.0.30"
     localforage "~1.4.2"

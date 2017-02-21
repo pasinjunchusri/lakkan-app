@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.agenciafoccus.photogram2" version="2.7.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.agenciafoccus.photogram2" version="2.7.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Photogram2</name>
     <description>Share photos of your moments</description>
     <author email="agfoccus@gmail.com" href="http://agenciafoccus.com.br/">Agencia Foccus</author>
@@ -34,7 +34,7 @@
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />
     <preference name="ParseAppId" value="myAppId" />
-    <preference name="ParseServerUrl" value="https://photogram.codevibe.io/parse/" />
+    <preference name="ParseServerUrl" value="http://photogram.codevibe.io/parse/" />
     <preference name="ParseGcmSenderId" value="285805785383" />
     <preference name="ParseMultiNotifications" value="true" />
     <platform name="android">
@@ -109,7 +109,9 @@
     <plugin name="cordova-plugin-file-transfer" spec="~1.6.0" />
     <plugin name="cordova-sqlite-storage" spec="~0.7.14" />
     <plugin name="cordova-plugin-statusbar" spec="~2.2.0" />
-    <plugin name="cordova-plugin-geolocation" spec="~2.4.0" />
+    <plugin name="cordova-plugin-geolocation" spec="~2.4.0">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
+    </plugin>
     <plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
     <plugin name="parse-push-plugin" spec="https://github.com/taivo/parse-push-plugin.git" />
     <plugin name="cordova-plugin-android-permissions" spec="~0.10.0" />
@@ -121,6 +123,7 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="App would like to access the camera." />
         <variable name="MICROPHONE_USAGE_DESCRIPTION" value="App would like to access the microphone." />
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="App would like to access the library." />
+        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="ionic-plugin-deeplinks" spec="~1.0.8">
         <variable name="URL_SCHEME" value="photogram" />
@@ -143,7 +146,7 @@
     <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera.git">
         <variable name="CAMERA_USAGE_DESCRIPTION" value="App would like to access the camera." />
         <variable name="MICROPHONE_USAGE_DESCRIPTION" value="App would like to access the microphone." />
+        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
-    <plugin name="cordova-plugin-webp" spec="~2.2.0" />
     <plugin name="cordova-plugin-ios-camera-permissions" spec="~1.0.4" />
 </widget>

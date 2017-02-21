@@ -1,8 +1,8 @@
-import { TermsPage } from './../terms/terms';
-import { AuthRegisterPage } from './../auth-register/auth-register';
-import { AuthLoginPage } from './../auth-login/auth-login';
-import {Component} from '@angular/core';
-import {MenuController, NavController, ModalController} from 'ionic-angular';
+import {TermsPage} from "./../terms/terms";
+import {AuthRegisterPage} from "./../auth-register/auth-register";
+import {AuthLoginPage} from "./../auth-login/auth-login";
+import {Component} from "@angular/core";
+import {MenuController, NavController, ModalController} from "ionic-angular";
 import {LanguageModalComponent} from "../../components/language-modal/language-modal";
 import {AnalyticsProvider} from "../../providers/analytics.provider";
 const SLIDES = require('./intro.slides').SLIDES;
@@ -24,7 +24,6 @@ export class IntroPage {
     ) {
         // Google Analytics
         this.analytics.view('IntroPage');
-        console.log(SLIDES);
         this.slides = SLIDES;
     }
 
@@ -32,20 +31,19 @@ export class IntroPage {
         this.modalCtrl.create(LanguageModalComponent).present();
     }
 
-    onSkip(slide){
-        console.log(slide);
-        slide.slideTo(this.slides.length+1, 1000)
+    onSkip(slide) {
+        slide.slideTo(this.slides.length + 1, 1000)
     }
-    
-    onLogin(){
+
+    onLogin() {
         this.navCtrl.push(AuthLoginPage);
     }
 
-    onRegister(){
+    onRegister() {
         this.navCtrl.push(AuthRegisterPage);
     }
 
-    onTerms(){
+    onTerms() {
         this.navCtrl.push(TermsPage);
     }
 

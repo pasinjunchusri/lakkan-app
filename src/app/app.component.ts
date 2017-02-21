@@ -18,8 +18,8 @@ export class MyApp implements OnInit {
     rootPage: any;
 
     ngOnInit() {
-        Parse.serverURL = PARSE_SERVER_URL;
         Parse.initialize(PARSE_APP_ID, PARSE_JAVASCRIPT_KEY);
+        Parse.serverURL = PARSE_SERVER_URL;
     }
 
     constructor(private platform: Platform,
