@@ -53,7 +53,6 @@ export class AuthRegisterPage {
         this.formSignup = this.formBuilder.group({
             name                : ['', Validators.required],
             email               : ['', Validators.required],
-            status              : [''],
             username            : ['', Validators.compose([Validators.required, Validators.minLength(4)])],
             gender              : ['', Validators.required],
             phone               : [''],

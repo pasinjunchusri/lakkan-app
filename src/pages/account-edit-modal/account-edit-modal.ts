@@ -58,7 +58,6 @@ export class AccountEditModalPage {
             name    : ['', Validators.required],
             email   : ['', Validators.required],
             username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-            status  : ['', Validators.required],
             website : [''],
             gender  : ['male', Validators.required],
             birthday: [''],

@@ -254,15 +254,16 @@ export class UserProvider {
     // Following
 
     getFollowing(username: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.cleanDBFollowing()
-                .then(() => Parse.Cloud.run('getFollowing', {username: username}))
-                .then(data => data.map(item => this.dbFollowing.put(item)))
-                .then(() => this.followingCache())
-                .then((data: any) => {
-                    resolve(data);
-                }, reject);
-        });
+        return Parse.Cloud.run('getFollowing', {username: username});
+        // return new Promise((resolve, reject) => {
+        //     this.cleanDBFollowing()
+        //         .then(() => Parse.Cloud.run('getFollowing', {username: username}))
+        //         .then(data => data.map(item => this.dbFollowing.put(item)))
+        //         .then(() => this.followingCache())
+        //         .then((data: any) => {
+        //             resolve(data);
+        //         }, reject);
+        // });
     }
 
     cleanDBFollowing(): Promise<any> {

@@ -28,19 +28,6 @@
                 </p>
             </ion-item>
 
-            <!--Status-->
-            <ion-item>
-                <ion-label floating>{{'Status'| translate}} *</ion-label>
-                <ion-input type="text" formControlName="status"></ion-input>
-            </ion-item>
-            <ion-item class="form-error-list"
-                      *ngIf="!formSignup.controls.status.pristine && !formSignup.controls.status.valid">
-                <p class="form-error" item-right
-                   *ngIf="!formSignup.controls.status.pristine && formSignup.controls.status.hasError('required')">
-                    {{'This is a required field.' | translate}}
-                </p>
-            </ion-item>
-
             <!-- Email-->
             <ion-item>
                 <ion-label floating>{{'Email' | translate}} *</ion-label>
@@ -86,7 +73,6 @@
             <ion-item>
                 <ion-label floating>{{'Gender' | translate}} *</ion-label>
                 <ion-select formControlName="gender" name="gender" #gender>
-                    <ion-option value="">{{'not' | translate}}</ion-option>
                     <ion-option value="male">{{'Male' | translate}}</ion-option>
                     <ion-option value="female">{{'Female' | translate }}</ion-option>
                 </ion-select>

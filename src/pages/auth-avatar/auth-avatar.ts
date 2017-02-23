@@ -45,7 +45,6 @@ export class AuthAvatarPage {
             name    : ['', Validators.required],
             email   : ['', Validators.required],
             username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-            status  : [''],
             website : [''],
             gender  : [''],
             birthday: [''],
