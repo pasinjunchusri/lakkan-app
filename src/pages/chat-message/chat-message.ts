@@ -8,7 +8,7 @@ import _ from "underscore";
 declare const Parse: any;
 
 @Component({
-    selector   : 'page-chat-message',
+    selector:    'page-chat-message',
     templateUrl: 'chat-message.html'
 })
 export class ChatMessagePage {
@@ -22,12 +22,12 @@ export class ChatMessagePage {
     image: any;
     users: any;
 
-    errorIcon: string      = 'ios-images-outline';
-    errorText: string      = '';
-    loading: boolean       = true;
+    errorIcon: string = 'ios-images-outline';
+    errorText: string = '';
+    loading: boolean = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
-    data                   = [];
+    data = [];
 
     form: any = {
         text: ''
@@ -41,8 +41,7 @@ export class ChatMessagePage {
                 private util: IonicUtilProvider,
                 private events: Events,
                 private params: NavParams,
-                private analytics: AnalyticsProvider
-    ) {
+                private analytics: AnalyticsProvider) {
         // Google Analytics
         this.analytics.view('ChatMessagePage');
     }
@@ -50,65 +49,57 @@ export class ChatMessagePage {
     ionViewDidLoad() {
 
         this.channelId = this.navParams.get('channel');
-        this.user      = Parse.User.current();
-        this.image     = this.params.get('image');
+        this.user = Parse.User.current();
+        this.image = this.params.get('image');
 
         this.events.subscribe('addMessage', message => {
             console.log('addMessage', message);
             if (message) {
 
-                let item  = message;
-                let obj   = {
-                    _id      : item.id,
-                    message  : item.get('message'),
-                    channel  : this.channelId,
+                let item = message;
+                let obj = {
+                    _id:       item.id,
+                    message:   item.get('message'),
+                    channel:   this.channelId,
                     createdAt: item.createdAt,
-                    class    : 'right',
-                    user     : {},
+                    class:     'right',
+                    user:      {},
                 };
-                obj.user  = _.findWhere(this.users, {id: message.get('user').id});
+                obj.user = _.findWhere(this.users, {id: message.get('user').id});
                 obj.class = this.userClass(obj.user);
 
                 console.log('obj', obj);
-                this.Message.cache(obj);
+                // this.Message.cache(obj);
                 this.data.push(obj);
                 this.scrollTop();
 
             }
         });
 
+    }
 
-        Promise.all([
+    ionViewDidEnter() {
+        this.loadChannel();
+    }
+
+    loadChannel() {
+
+        new Parse.Promise([
+            this.Channel.getMessages(this.channelId),
             this.Channel.get(this.channelId),
-            this.Channel.getCache(this.channelId)
-        ]).then(data => {
+        ]).when(data => {
             console.log('channel', data);
 
-            this.channel = data[0];
-            this.users   = data[1].users;
+            this.users = data[0].users;
+            this.channel = data[1];
             this.initForm();
 
             let chatMessage = Parse.Object.extend('ChatMessage');
-            this.query      = new Parse.Query(chatMessage).equalTo('channel', this.channel);
+            this.query = new Parse.Query(chatMessage).equalTo('channel', this.channel.obj);
 
             this.query.subscribe().on('create', message => this.events.publish('addMessage', message));
 
-            this.Message.findCache(this.channelId).then(data => {
-                if (data.length > 0) {
-                    this.data    = this.parseData(data);
-                    this.loading = false;
-                    this.scrollTop();
-                } else {
-                    this.doRefresh(null);
-                }
-
-                if (this.image) {
-                    this.form.image = this.image;
-                    this.onSendMessage();
-                }
-            }).catch(error => {
-                console.log('Error');
-            });
+            this.doRefresh();
         }).catch(error => {
             console.log('Error');
         });
@@ -117,7 +108,7 @@ export class ChatMessagePage {
     initForm(): void {
         this.form = {
             channel: this.channel,
-            user   : this.user,
+            user:    this.user,
             message: ''
         };
     }
@@ -130,7 +121,7 @@ export class ChatMessagePage {
         }, 100);
     }
 
-    kekypress(event) {
+    public kekypress(event) {
         if (event.keyCode == 13) {
             this.onSendMessage();
         }
@@ -158,13 +149,14 @@ export class ChatMessagePage {
     parseData(data: any[]): any[] {
         return _.sortBy(data, 'createdAt').map(item => {
             item.class = item.user.id === this.user.id ? 'right' : 'left';
-            item.user  = _.findWhere(this.users, {id: item.user.id});
+            console.log(item);
             return item;
         });
 
     }
 
     userClass(user) {
+        console.log(user, this.user)
         return user.id === this.user.id ? 'right' : 'left';
     }
 

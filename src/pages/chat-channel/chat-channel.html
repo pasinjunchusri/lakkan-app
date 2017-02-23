@@ -38,11 +38,9 @@
                 <img *ngIf="item.users.length==1 && item.users[0].photo" [src]="item.users[0].photo">
                 <img *ngIf="item.users.length==1 && !item.users[0].photo" src="assets/img/user.png">
 
-
                 <!-- Profile 1-->
                 <img class="img" *ngIf="item.users.length>1 && item.users[0].photo" [src]="item.users[0].photo">
                 <img class="img" *ngIf="item.users.length>1 && !item.users[0].photo" src="assets/img/user.png">
-
 
                 <!-- Profile 2-->
                 <img class="img2" *ngIf="item.users.length>1 && item.users[1].photo" [src]="item.users[1].photo">

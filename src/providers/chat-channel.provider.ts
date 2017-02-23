@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {IChatChannel} from "../models/chat-channel.model";
 import * as PouchDB from "pouchdb";
 
-declare var Parse: any;
+declare const Parse: any;
 
 @Injectable()
 export class ChatChannelProvider {
@@ -10,48 +10,27 @@ export class ChatChannelProvider {
     db: any;
     data: any[] = [];
 
-    private _fields = [
-        //'users',
-        //'profiles',
-        //'messages',
-    ];
-
     private _ParseObject: any = Parse.Object.extend('ChatChannel', {});
 
     constructor() {
 
         this.db = new PouchDB('ChatChannel', {auto_compaction: true});
-
-        this._fields.map(field => {
-            Object.defineProperty(this._ParseObject.prototype, field, {
-                get: function () {return this.get(field)},
-                set: function (value) { this.set(field, value)}
-            });
-        });
-
-        // This is a GeoPoint Object
-        Object.defineProperty(this._ParseObject.prototype, 'location', {
-            get: function () {return this.get('location');},
-            set: function (val) {
-                this.set('location', new Parse.GeoPoint({
-                    latitude : val.latitude,
-                    longitude: val.longitude
-                }));
-            }
-        });
     }
 
     find(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.cleanDB()
-                .then(() => Parse.Cloud.run('getChatChannels'))
-                .then(()=>this.cleanDB())
-                .then(data => data.map(item => this.db.put(item)))
-                .then(() => this.findCache())
-                .then(resolve)
-                .catch(reject);
-        });
+        return new Parse.Cloud.run('getChatChannels');
+        // return new Promise((resolve, reject) => {
+        //     this.cleanDB()
+        //         .then(() => Parse.Cloud.run('getChatChannels'))
+        //         .then(()=>this.cleanDB())
+        //         .then(data => data.map(item => this.db.put(item)))
+        //         .then(() => this.findCache())
+        //         .then(resolve)
+        //         .catch(reject);
+        // });
     }
+
+
 
     cleanDB(): Promise<any> {
         this.data = [];
@@ -86,7 +65,11 @@ export class ChatChannelProvider {
 
     // Parse Crud
     get(objectId: string) {
-        return new Parse.Query(this._ParseObject).get(objectId);
+        return Parse.Query(this._ParseObject).get(objectId);
+    }
+
+    getMessages(objectId: string) {
+        return Parse.Cloud.run('getChatChannel',{channelId: objectId});
     }
 
     create(params: {users: any[], message?: string}): Promise<any> {

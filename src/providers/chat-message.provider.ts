@@ -44,22 +44,23 @@ export class ChatMessageProvider {
     }
 
     find(channelId: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.data = [];
-            this.cleanChannel(channelId)
-                .then(() => new Parse.Cloud.run('getChatMessages', {channel: channelId}))
-                .then(data => {
-                    return Promise.all(data.map(message => {
-                        if (message['image']) {
-                            message['image'] = message['image'].attributes;
-                        }
-                        return this.db.put(message);
-                    }))
-                })
-                .then(() => this.findCache(channelId))
-                .then(resolve)
-                .catch(reject);
-        });
+        return Parse.Cloud.run('getChatMessages', {channel: channelId});
+        // return new Promise((resolve, reject) => {
+        //     this.data = [];
+        //     this.cleanChannel(channelId)
+        //         .then(() => new Parse.Cloud.run('getChatMessages', {channel: channelId}))
+        //         .then(data => {
+        //             return Promise.all(data.map(message => {
+        //                 if (message['image']) {
+        //                     message['image'] = message['image'].attributes;
+        //                 }
+        //                 return this.db.put(message);
+        //             }))
+        //         })
+        //         .then(() => this.findCache(channelId))
+        //         .then(resolve)
+        //         .catch(reject);
+        // });
     }
 
     cacheFind(data): Promise<any> {

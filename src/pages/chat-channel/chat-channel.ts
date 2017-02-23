@@ -79,6 +79,7 @@ export class ChatChannelPage {
             this.loading = true;
             this.data    = [];
             this.provider.find().then(data => {
+                console.log(data);
                 this.parseResult(data);
                 resolve(data);
             }, error => {
