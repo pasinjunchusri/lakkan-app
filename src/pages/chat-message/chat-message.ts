@@ -44,9 +44,6 @@ export class ChatMessagePage {
                 private analytics: AnalyticsProvider) {
         // Google Analytics
         this.analytics.view('ChatMessagePage');
-    }
-
-    ionViewDidLoad() {
 
         this.channelId = this.navParams.get('channel');
         this.user = Parse.User.current();
@@ -55,54 +52,55 @@ export class ChatMessagePage {
         this.events.subscribe('addMessage', message => {
             console.log('addMessage', message);
             if (message) {
-
-                let item = message;
+                let user = _.findWhere(this.users, {id: message.get('user').id});
                 let obj = {
-                    _id:       item.id,
-                    message:   item.get('message'),
+                    _id:       message.id,
+                    message:   message.get('message'),
                     channel:   this.channelId,
-                    createdAt: item.createdAt,
-                    class:     'right',
-                    user:      {},
+                    createdAt: message.createdAt,
+                    class:     this.userClass(user),
+                    user:      user,
                 };
-                obj.user = _.findWhere(this.users, {id: message.get('user').id});
-                obj.class = this.userClass(obj.user);
 
                 console.log('obj', obj);
-                // this.Message.cache(obj);
                 this.data.push(obj);
-                this.scrollTop();
+                this.scrollToBottom();
 
             }
         });
 
+        // this.loadChannel();
     }
 
-    ionViewDidEnter() {
-        this.loadChannel();
+    ionViewDidLoad() {
+        console.log(this.channelId);
+        this.loadChannel(this.channelId);
     }
 
-    loadChannel() {
+    onError(error) {
+        console.log(error);
+        this.util.toast(error);
+    }
 
-        new Parse.Promise([
-            this.Channel.getMessages(this.channelId),
-            this.Channel.get(this.channelId),
-        ]).when(data => {
+
+    loadChannel(channelId: string) {
+        this.Channel.getChatChannel(channelId).then(data => {
             console.log('channel', data);
 
-            this.users = data[0].users;
-            this.channel = data[1];
+            this.users = data.users;
+
+            this.channel = data.obj;
+            console.log(this.channel)
+
             this.initForm();
 
             let chatMessage = Parse.Object.extend('ChatMessage');
-            this.query = new Parse.Query(chatMessage).equalTo('channel', this.channel.obj);
+            this.query = new Parse.Query(chatMessage).equalTo('channel', this.channel);
 
             this.query.subscribe().on('create', message => this.events.publish('addMessage', message));
 
             this.doRefresh();
-        }).catch(error => {
-            console.log('Error');
-        });
+        }).catch(this.onError);
     }
 
     initForm(): void {
@@ -113,7 +111,7 @@ export class ChatMessagePage {
         };
     }
 
-    scrollTop(): void {
+    scrollToBottom(): void {
         setTimeout(() => {
             if (this.content.scrollToBottom) {
                 this.content.scrollToBottom(300)
@@ -131,25 +129,25 @@ export class ChatMessagePage {
         // Find
         this.Message.find(this.channelId).then(data => {
             this.data = [];
-            console.info('query', data);
             if (data) {
                 this.data = this.parseData(data);
             } else {
                 this.showEmptyView = true;
             }
-            this.loading = false;
+            console.info('data', this.data);
             if (event) {
                 event.complete();
             }
-            this.scrollTop();
+            this.loading = false;
+            this.scrollToBottom();
         });
 
     }
 
     parseData(data: any[]): any[] {
         return _.sortBy(data, 'createdAt').map(item => {
-            item.class = item.user.id === this.user.id ? 'right' : 'left';
-            console.log(item);
+            console.info(this.user.id, item.user.id)
+            item.class = this.userClass(item.user);
             return item;
         });
 
@@ -157,7 +155,7 @@ export class ChatMessagePage {
 
     userClass(user) {
         console.log(user, this.user)
-        return user.id === this.user.id ? 'right' : 'left';
+        return user.id === this.user.id ? 'left' : 'right';
     }
 
 

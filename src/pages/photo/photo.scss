@@ -1,3 +1,12 @@
 page-photo {
+  .content {
+    background-color: #f7f7f7;
+  }
 
+  .scroll-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+  }
 }

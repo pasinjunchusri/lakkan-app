@@ -1,5 +1,13 @@
 page-tab-account {
   $avatar-size: 80px;
+  .body-content{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-content: center;
+    background-color: #f7f7f7;
+    height: 100%;
+  }
 
   .profile-top {
     ion-row {

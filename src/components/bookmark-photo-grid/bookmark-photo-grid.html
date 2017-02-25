@@ -16,16 +16,21 @@
         <p>{{ 'Photos not found' | translate }}</p>
     </div>
 </div>
-<div *ngFor="let item of data; let index = index">
-    <ion-row *ngIf="index % 3 === 0 ">
-        <ion-col width-33 *ngIf="index < data.length">
-            <img (click)="openPhoto(data[index])" [src]="data[index]['imageThumb']">
-        </ion-col>
-        <ion-col width-33 *ngIf="index +1 < data.length">
-            <img (click)="openPhoto(data[index+1])" [src]="data[index+1]['imageThumb']">
-        </ion-col>
-        <ion-col width-33 *ngIf="index +2 < data.length">
-            <img (click)="openPhoto(data[index+2])" [src]="data[index+2]['imageThumb']">
-        </ion-col>
-    </ion-row>
+<div *ngIf="data.length">
+    <ion-list>
+        <ion-grid fixed>
+            <ion-row align-items-stretch>
+                <ion-col col-3 col-md-2 align-self-stretch align-self-center *ngFor="let item of data">
+                    <ion-card>
+                        <img (click)="openPhoto(item)" [src]="item['imageThumb']">
+                        <ion-card-content>
+                            <ion-card-title>
+                                {{ item.title}}
+                            </ion-card-title>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-list>
 </div>

@@ -42,7 +42,7 @@ export class GalleryActivityProvider {
     }
 
     public checkAll():Promise<any>{
-        return Parse.Cloud.run('checkActivity');
+        return Parse.Cloud.run('clearActivity');
     }
 
 }

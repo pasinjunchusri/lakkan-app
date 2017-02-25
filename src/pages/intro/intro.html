@@ -31,19 +31,21 @@
         </ion-slide>
 
         <ion-slide>
-            <div class="view-welcome" padding>
-                <img class="logo" src="assets/img/logo.svg" alt="Photogram">
-                <button ion-button block color="blue" round icon-left (click)="onLogin()">
-                    <ion-icon name="person"></ion-icon>
-                    {{'Login' | translate}}
-                </button>
-                <button ion-button block color="orange" round icon-left (click)="onRegister()">
-                    <ion-icon name="contact"></ion-icon>
-                    {{'Signup' | translate}}
-                </button>
-                <button-facebook-login></button-facebook-login>
-            </div>
+
              <div class="text-content">
+                <div class="container">
+                    <img class="logo" src="assets/img/logo.svg" alt="Photogram">
+                    <button ion-button block color="blue" round icon-left (click)="onLogin()">
+                        <ion-icon name="person"></ion-icon>
+                        {{'Login' | translate}}
+                    </button>
+                    <button ion-button block color="orange" round icon-left (click)="onRegister()">
+                        <ion-icon name="contact"></ion-icon>
+                        {{'Signup' | translate}}
+                    </button>
+                    <button-facebook-login></button-facebook-login>
+                </div>
+
                 <p  (click)="onTerms()" >{{'By logging in or registering, you are agreeing to our Terms and Conditions' | translate}}</p>
             </div>
         </ion-slide>

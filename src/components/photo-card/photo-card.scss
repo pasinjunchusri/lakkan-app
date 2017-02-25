@@ -1,14 +1,25 @@
 photo-card {
-  display: block;
-  margin:0 auto ;
-  min-height: 250px;
+  display: flex;
+  flex:1 ;
+  min-height: 150px;
+  max-width: 640px;
 
   ion-card {
+    flex: 1 auto;
     margin: 0 !important;
     width: 100% !important;
 
+    ion-avatar img{
+      height: 50px;
+      min-width: 50px !important;
+      min-height: 50px !important;
+      max-width: 640px;
+    }
     ion-card-content {
-      padding: 10px !important;
+      display: flex;
+      align-content: center;
+      justify-content: flex-start;
+      min-height: 50px;
     }
 
     .item-buttons {

@@ -32,7 +32,7 @@
             <!-- Username -->
             <ion-item>
                 <ion-label floating>{{'Username' | translate}} *</ion-label>
-                <ion-input #username type="text" formControlName="username"></ion-input>
+                <ion-input #username type="text" formControlName="username" [attr.maxlength]="12"></ion-input>
             </ion-item>
             <ion-item class="form-error-list"
                       *ngIf="!form.controls.username.pristine && !form.controls.username.valid">
@@ -63,10 +63,11 @@
             </ion-item>
             <!-- Birthday -->
             <ion-item>
-                <ion-label floating>{{'Birthday' | translate}}</ion-label>
+                <ion-label floating>{{'Birthday' | translate}} *</ion-label>
                 <ion-datetime formControlName="birthday"
                               displayFormat="MM/DD/YYYY"
-                              placeholder="MM/DD/YYYY"></ion-datetime>
+                              name="birthday"
+                              #birthday></ion-datetime>
             </ion-item>
             <!-- Phone -->
             <ion-item>

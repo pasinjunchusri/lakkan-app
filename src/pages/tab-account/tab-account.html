@@ -65,14 +65,16 @@
             <ion-icon name="ios-bookmark-outline"></ion-icon>
         </ion-segment-button>
     </ion-segment>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    <photo-list [event]="eventName" *ngIf="type=='list'"></photo-list>
-    <photo-grid [event]="eventName" *ngIf="type=='grid'"></photo-grid>
-    <album-grid [event]="eventName" *ngIf="type=='album'"></album-grid>
-    <bookmark-photo-grid [event]="eventName" *ngIf="type=='bookmark'"></bookmark-photo-grid>
-    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    <div class="body-content">
+        <ion-refresher (ionRefresh)="doRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <photo-list [event]="eventName" *ngIf="type=='list'"></photo-list>
+        <photo-grid [event]="eventName" *ngIf="type=='grid'"></photo-grid>
+        <album-grid [event]="eventName" *ngIf="type=='album'"></album-grid>
+        <bookmark-photo-grid [event]="eventName" *ngIf="type=='bookmark'"></bookmark-photo-grid>
+        <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
 </ion-content>

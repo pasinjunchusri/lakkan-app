@@ -35,13 +35,13 @@
             <h3 (click)="profile(item.user.name)">{{item.user.username}}</h3>
             <p>{{item.action | translate }}</p>
             <div *ngIf="!item.item.get('gallery')" item-right>
-                <div *ngIf="!item.user.isFollow">
-                    <button ion-button outline>
+                <div *ngIf="!item.user.isFollow" item-right>
+                    <button (click)="follow(item)" [disabled]="item.loading" ion-button outline>
                         + {{'Follow' | translate }}
                     </button>
                 </div>
-                <div *ngIf="item.user.isFollow">
-                    <button ion-button>
+                <div *ngIf="item.user.isFollow" item-right>
+                    <button (click)="follow(item)"  [disabled]="item.loading" ion-button>
                         - {{'Unfollow' | translate }}
                     </button>
                 </div>

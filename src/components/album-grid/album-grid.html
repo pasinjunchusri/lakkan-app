@@ -16,33 +16,41 @@
         <p>{{ 'Album not found' | translate }}</p>
     </div>
 </div>
-<div *ngFor="let item of data; let index = index">
 
-    <ion-row *ngIf="index % 2 === 0 ">
-        <ion-col width-50 *ngIf="index < data.length">
 
-            <div *ngIf="data[index].create">
-                <img (click)="albumForm()" src="assets/img/albumnew.png"/>
-            </div>
+<div *ngIf="data.length">
+    <ion-list>
+        <ion-grid fixed>
+            <ion-row align-items-stretch>
+                <ion-col col-3 col-md-2 align-self-stretch align-self-center *ngFor="let item of data">
 
-            <div *ngIf="!data[index].create">
-                <img (click)="openAlbum(data[index])"
-                            *ngIf="data[index].imageThumb"
-                            [src]="data[index].imageThumb">
-                <img *ngIf="!data[index].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
-            </div>
-        </ion-col>
-        <ion-col width-50 *ngIf="index +1 < data.length">
-            <img (click)="openAlbum(data[index+1])"
-                        *ngIf="data[index+1].imageThumb"
-                        [src]="data[index+1].imageThumb">
-            <img *ngIf="!data[index+1].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
-        </ion-col>
-        <ion-col width-50 *ngIf="index +2 < data.length">
-            <img (click)="openAlbum(data[index+2])"
-                        *ngIf="data[index+2].imageThumb"
-                        [src]="data[index+2].imageThumb">
-            <img *ngIf="!data[index+2].imageThumb" (click)="openAlbum(data[index])" src="assets/img/albumnone.png"/>
-        </ion-col>
-    </ion-row>
+                    <!-- Create -->
+                    <div *ngIf="item.create">
+                        <ion-card (click)="albumForm()">
+                            <img src="assets/img/albumnew.png"/>
+                            <ion-card-content>
+                                <ion-card-title>{{'Create Album'}}</ion-card-title>
+                            </ion-card-content>
+                        </ion-card>
+                    </div>
+
+                    <div *ngIf="!item.create">
+                        <ion-card>
+                            <img (click)="openAlbum(item)"
+                                 *ngIf="item.imageThumb"
+                                 [src]="item.imageThumb">
+                            <img *ngIf="!item.imageThumb" (click)="openAlbum(item)" src="assets/img/albumnone.png"/>
+                            <ion-card-content>
+                                <ion-card-title>
+                                    {{item.title}}
+                                </ion-card-title>
+                            </ion-card-content>
+                        </ion-card>
+                    </div>
+
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-list>
 </div>

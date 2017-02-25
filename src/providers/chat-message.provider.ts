@@ -44,7 +44,7 @@ export class ChatMessageProvider {
     }
 
     find(channelId: string): Promise<any> {
-        return Parse.Cloud.run('getChatMessages', {channel: channelId});
+        return Parse.Cloud.run('getChatMessages', {channelId: channelId});
         // return new Promise((resolve, reject) => {
         //     this.data = [];
         //     this.cleanChannel(channelId)

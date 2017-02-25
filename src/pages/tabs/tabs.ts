@@ -9,18 +9,18 @@ import {Tabs, Events} from "ionic-angular";
 declare const Parse: any;
 
 @Component({
-    selector   : 'page-tabs',
+    selector:    'page-tabs',
     templateUrl: 'tabs.html'
 })
 
 export class TabsPage {
     // this tells the tabs component which Pages
     // should be each tab's root Page
-    tabHome: any     = TabHomePage;
-    tabSearch: any   = TabSearchPage;
-    tabCapture: any  = TabCapturePage;
+    tabHome: any = TabHomePage;
+    tabSearch: any = TabSearchPage;
+    tabCapture: any = TabCapturePage;
     tabActivity: any = TabActivityPage;
-    tabProfile: any  = TabAccountPage;
+    tabProfile: any = TabAccountPage;
 
     query: any;
 
@@ -37,10 +37,10 @@ export class TabsPage {
         this.query = new Parse.Query(chatMessage)
             .equalTo('toUser', Parse.User.current())
             .equalTo('isRead', false);
-            // count activity
-            this.query.count().then(tabCount=>this.tabActivityBadge =tabCount);
-            // subscribe activity
-            this.query.subscribe().on('create', activity => this.tabActivityBadge++);
+        // count activity
+        this.query.count().then(tabCount => this.tabActivityBadge = tabCount);
+        // subscribe activity
+        this.query.subscribe().on('create', activity => this.tabActivityBadge++);
     }
 
 }

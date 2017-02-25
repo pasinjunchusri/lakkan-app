@@ -1,23 +1,30 @@
 <loader *ngIf="loading && !data.length"></loader>
 <!-- error -->
 <div class="center" *ngIf="showErrorView" padding>
-  <div class="error ">
-    <ion-icon [name]="errorIcon"></ion-icon>
-    <p>{{ 'Connection unavailable' | translate }}</p>
-    <button ion-button color="primary" (click)="doTry()">
-      {{ 'Try again' | translate }}
-    </button>
-  </div>
+    <div class="error ">
+        <ion-icon [name]="errorIcon"></ion-icon>
+        <p>{{ 'Connection unavailable' | translate }}</p>
+        <button ion-button color="primary" (click)="doTry()">
+            {{ 'Try again' | translate }}
+        </button>
+    </div>
 </div>
 <!-- empty-->
 <div class="center" *ngIf="showEmptyView" padding>
-  <div class="error">
-    <ion-icon [name]="errorIcon"></ion-icon>
-    <p>{{ 'Photos not found' | translate }}</p>
-  </div>
+    <div class="error">
+        <ion-icon [name]="errorIcon"></ion-icon>
+        <p>{{ 'Photos not found' | translate }}</p>
+    </div>
 </div>
 <div *ngIf="data.length">
-  <div *ngFor="let item of data  ">
-    <photo-card [item]="item"></photo-card>
-  </div>
+    <ion-list>
+        <ion-grid fixed>
+            <ion-row align-items-stretch>
+                <ion-col col-12 col-md-4 align-self-stretch align-self-center *ngFor="let item of data">
+
+                    <photo-card [item]="item"></photo-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-list>
 </div>

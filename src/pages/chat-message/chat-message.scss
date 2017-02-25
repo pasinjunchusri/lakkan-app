@@ -2,6 +2,10 @@ page-chat-message {
   $color1: #f1f1f1;
   $color2: #e6e5eb;
 
+  .scroll-content {
+    margin-bottom: 56px !important;
+  }
+
   img {
     background-color: #fdfdfd;
     &.profile-pic {

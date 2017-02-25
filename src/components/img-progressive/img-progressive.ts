@@ -80,15 +80,15 @@ export class ImgProgressiveComponent implements AfterContentInit, OnChanges {
 
     getImageStyle() {
         return {
-            width : `${this.width}px`,
-            height: `${this.height}px`
+            // width : `${this.width}px`,
+            // height: `${this.height}px`
         }
     }
 
     getOverlayStyle() {
         return {
-            width : `${this.width}px`,
-            height: `${this.height}px`
+            // width : `${this.width}px`,
+            // height: `${this.height}px`
         }
     }
 

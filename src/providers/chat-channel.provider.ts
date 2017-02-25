@@ -68,7 +68,7 @@ export class ChatChannelProvider {
         return Parse.Query(this._ParseObject).get(objectId);
     }
 
-    getMessages(objectId: string) {
+    getChatChannel(objectId: string) {
         return Parse.Cloud.run('getChatChannel',{channelId: objectId});
     }
 
