@@ -65,10 +65,15 @@ page-intro {
       text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 
       .container {
+        width: 90%;
         max-width: 800px;
+        button {
+          margin-bottom:10px;
+        }
         .logo {
           background-color: transparent;
           max-width: 400px;
+          width: 80%;
           margin-bottom: 40px;
         }
       }

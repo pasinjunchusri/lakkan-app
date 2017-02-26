@@ -20,7 +20,7 @@
     <ion-list>
         <ion-grid fixed>
             <ion-row align-items-stretch>
-                <ion-col col-3 col-md-2 align-self-stretch align-self-center *ngFor="let item of data">
+                <ion-col col-6 col-md-2 align-self-stretch align-self-center *ngFor="let item of data">
                     <ion-card>
                         <img (click)="openPhoto(item)" [src]="item['imageThumb']">
                     </ion-card>

@@ -32,16 +32,28 @@
   background: linear-gradient(to bottom, rgba(0, 120, 108, 1) 0%, rgba(200, 220, 61, 1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00786c', endColorstr='#c8dc3d', GradientType=0); /* IE6-9 */
 
-  [icon-left] ion-icon {
-    top: 10px;
-  }
-
   ion-item, .ion-item, .item-ios, .item-md, .label-md {
     background: transparent;
     color: #fff;
     border: none;
     ion-icon {
       color: #fff;
+    }
+  }
+
+  input, .text-input {
+    $placeholder-color: rgba(255,255,255,0.4) !default;
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: $placeholder-color;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+      color: $placeholder-color;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+      color: $placeholder-color;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+      color: $placeholder-color;
     }
   }
 

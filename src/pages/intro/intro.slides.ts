@@ -19,13 +19,5 @@ export const SLIDES : Slide[] = [
     {
         title: 'Share Photo with Albums',
         image: 'assets/img/intro4.png',
-    },
-    {
-        title: 'Add location in your photos and mention your friends',
-        image: 'assets/img/intro5.png',
-    },
-    {
-        title: 'Review and like photos of your friends',
-        image: 'assets/img/intro6.png',
-    },
+    }
 ];

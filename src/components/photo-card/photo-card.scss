@@ -1,6 +1,6 @@
 photo-card {
   display: flex;
-  flex:1 ;
+  flex: 1;
   min-height: 150px;
   max-width: 640px;
 
@@ -9,12 +9,17 @@ photo-card {
     margin: 0 !important;
     width: 100% !important;
 
-    ion-avatar img{
-      height: 50px;
-      min-width: 50px !important;
-      min-height: 50px !important;
-      max-width: 640px;
+    ion-avatar img {
+      $avatar-size: 40px;
+      height: $avatar-size;
+      min-width: $avatar-size !important;
+      min-height: $avatar-size !important;
     }
+
+    img-progressive {
+      min-height: 350px;
+    }
+
     ion-card-content {
       display: flex;
       align-content: center;

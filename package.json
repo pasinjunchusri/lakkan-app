@@ -38,7 +38,7 @@
     "@types/request": "0.0.39",
     "@types/underscore": "^1.7.36",
     "angular2-moment": "^1.2.0",
-    "cropperjs": "^1.0.0-beta.1",
+    "cropperjs": "^1.0.0-beta.2",
     "ionic-angular": "^2.1.0",
     "ionicons": "3.0.0",
     "ng2-facebook-sdk": "^1.2.0",

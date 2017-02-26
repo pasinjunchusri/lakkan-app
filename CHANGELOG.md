@@ -1,3 +1,23 @@
+## [2.7.6](https://github.com/photogram/photogram2) (2017-02-21)
+### Fixes
+
+- Chat conversation
+- Clear activities
+- Follow user in activities page
+
+### Interface
+
+- New intro images
+- ionic2 responsive grid http://blog.ionic.io/build-awesome-desktop-apps-with-ionics-new-responsive-grid/
+- Fix flex layouts
+- Placeholder CSS color in background graident color
+
+### Upgrade
+- ionic-angular (2.1.0)
+- ionic/app-scripts (1.1.4) (bug in --prod)
+- cropperjs (1.0.0-beta.2)
+
+
 ## [2.7.5](https://github.com/photogram/photogram2) (2017-02-21)
 ### New Feature
 
