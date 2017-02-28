@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {IGallery} from "../models/gallery.model";
 import {IChatMessage} from "../models/chat-message.model";
-import _ from "underscore";
 declare var Parse: any;
 
 @Injectable()

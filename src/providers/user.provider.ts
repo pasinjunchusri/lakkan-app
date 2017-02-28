@@ -4,7 +4,6 @@ import {ParsePushProvider} from "./parse-push.provider";
 import {IonicUtilProvider} from "./ionic-util.provider";
 import {IUserFollow} from "../models/user.model";
 
-import {IParams} from "../models/parse.params.model";
 import _ from "underscore";
 declare var Parse: any;
 
