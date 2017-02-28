@@ -5,7 +5,7 @@ import {AnalyticsProvider} from "../../providers/analytics.provider";
 import {ChatMessagePage} from "../chat-message/chat-message";
 
 @Component({
-    selector   : 'page-chat-share-photo',
+    selector:    'page-chat-share-photo',
     templateUrl: 'chat-share-photo.html'
 })
 export class ChatSharePhotoPage {
@@ -13,13 +13,13 @@ export class ChatSharePhotoPage {
     @ViewChild('Content') content: Content;
 
     image: any;
-    errorIcon: string      = 'chatbubbles';
-    errorText: string      = '';
-    data                   = [];
-    loading: boolean       = true;
+    errorIcon: string = 'chatbubbles';
+    errorText: string = '';
+    data = [];
+    loading: boolean = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
-    moreItem: boolean      = false;
+    moreItem: boolean = false;
 
 
     constructor(public navCtrl: NavController,
@@ -27,15 +27,13 @@ export class ChatSharePhotoPage {
                 private viewCtrl: ViewController,
                 private app: App,
                 private params: NavParams,
-                private analytics: AnalyticsProvider,
-    ) {
+                private analytics: AnalyticsProvider,) {
         // Google Analytics
         this.analytics.view('ChatSharePhotoPage');
-    }
-
-    ionViewDidLoad() {
         this.image = this.params.get('image');
-        this.findCache();
+        this.doRefresh();
+
+        console.log(this.image)
     }
 
     onPageMessage(item) {
@@ -43,56 +41,26 @@ export class ChatSharePhotoPage {
         this.app.getRootNav().push(ChatMessagePage, {channel: item.id, image: this.image});
     }
 
+    public doRefresh(event?) {
+        this.loading = true;
 
-    findCache() {
-        return new Promise((resolve, reject) => {
-            this.loading = true;
-            this.provider.findCache().then(data => {
-                console.log(data);
-                if (data) {
-                    this.data          = data;
-                    this.showEmptyView = false;
-                    this.showErrorView = false;
-                } else {
-                    this.moreItem = false;
-                }
+        this.provider.find().then(channels => {
+            if (channels) {
+                this.data = [];
+                Promise
+                    .all(channels.map(channel => this.provider.parseChannel(channel)))
+                    .then(result => result.map(item => this.data.push(item)));
+            } else {
+                this.showEmptyView = true;
+                this.showErrorView = false;
+            }
 
-                if (this.data.length < 1) {
-                    this.showEmptyView = true;
-                }
-
-                this.loading = false;
-                resolve(data);
-            }, error => {
-                this.showErrorView = true;
-                reject(error);
-            });
-        });
-    }
-
-    find() {
-        return new Promise((resolve, reject) => {
-            this.loading = true;
-            this.provider.find().then(data => {
-                console.log(data);
-                if (data) {
-                    this.data          = data;
-                    this.showEmptyView = false;
-                    this.showErrorView = false;
-                } else {
-                    this.moreItem = false;
-                }
-
-                if (this.data.length < 1) {
-                    this.showEmptyView = true;
-                }
-
-                this.loading = false;
-                resolve(data);
-            }, error => {
-                this.showErrorView = true;
-                reject(error);
-            });
+            this.loading = false;
+            if (event) event.complete();
+        }).catch(() => {
+            this.loading = false;
+            this.showEmptyView = false;
+            this.showErrorView = true;
         });
     }
 
@@ -101,10 +69,6 @@ export class ChatSharePhotoPage {
         this.content.scrollToTop();
     }
 
-
-    public doRefresh(event?) {
-        this.find().then(() => event.complete());
-    }
 
     dismiss() {
         this.viewCtrl.dismiss();

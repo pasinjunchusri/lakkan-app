@@ -1,5 +1,5 @@
-import { PhoneContactPage } from './phone-contact/phone-contact';
-import { Storage } from '@ionic/storage';
+import {PhoneContactPage} from './phone-contact/phone-contact';
+import {Storage} from '@ionic/storage';
 import {IonicModule, Config, Platform} from 'ionic-angular';
 import {NgModule} from '@angular/core';
 import {Http} from '@angular/http';
@@ -7,6 +7,7 @@ import {CommonModule} from '@angular/common';
 import _ from 'underscore';
 // External Libs
 import {MomentModule} from 'angular2-moment';
+import * as moment from 'moment';
 import {TranslateStaticLoader, TranslateModule, TranslateLoader, TranslateService} from 'ng2-translate';
 // Config
 import {language_default, languages} from '../config';
@@ -60,7 +61,7 @@ import {ImgProgressiveComponent} from '../components/img-progressive/img-progres
 import {AddressInputComponent} from '../components/address-input/address-input';
 import {AuthLoginPage} from './auth-login/auth-login';
 import {AuthRegisterPage} from './auth-register/auth-register';
-import { TermsPage } from './terms/terms';
+import {TermsPage} from './terms/terms';
 import {ButtonFacebookLoginComponent} from '../components/button-facebook-login/button-facebook-login';
 import {BookmarkPhotoGridComponent} from '../components/bookmark-photo-grid/bookmark-photo-grid';
 import {UserListComponent} from '../components/user-list/user-list';
@@ -135,21 +136,21 @@ export const APP_PAGES = [
 ];
 
 @NgModule({
-    imports     : [
+    imports:      [
         CommonModule,
         PipesModule,
         ProvidersModule,
         MomentModule,
         TranslateModule.forRoot({
-            provide   : TranslateLoader,
+            provide:    TranslateLoader,
             useFactory: (createTranslateLoader),
-            deps      : [Http]
+            deps:       [Http]
         }),
         IonPhotoModule,
         IonicModule.forRoot(TabsPage),
         IonicModule.forRoot(IntroPage),
     ],
-    exports     : [
+    exports:      [
         APP_PAGES,
         MomentModule,
     ],
@@ -157,15 +158,14 @@ export const APP_PAGES = [
         APP_PAGES,
         FocusDirective,
     ],
-    providers   : []
+    providers:    []
 })
 export class PagesModule {
 
     constructor(private translate: TranslateService,
                 private config: Config,
                 private platform: Platform,
-                private storage: Storage
-    ) {
+                private storage: Storage) {
         this.translateConfig();
         setTimeout(() => {
             this.androidPermission();
@@ -184,18 +184,37 @@ export class PagesModule {
         this.translate.setDefaultLang(language_default);
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
-        this.storage.get('lang').then(lang=>{
-            if(lang) {
+        this.storage.get('lang').then(lang => {
+            if (lang) {
                 this.translate.use(lang);
             } else {
-            this.translate.use(language);
+                this.translate.use(language);
             }
         });
-        
+
+        // format chat date diffs
+        moment.locale('en', {
+            relativeTime: {
+                future: 'now',
+                past:   '%s',
+                s:      'now',
+                m:      '1 m',
+                mm:     '%d m',
+                h:      '1 h',
+                hh:     '%d h',
+                d:      '1 d',
+                dd:     '%d d',
+                M:      '1 m',
+                MM:     '%d m',
+                y:      '1 y',
+                yy:     '%d y'
+            }
+        });
 
         // set lang back button
         //this.translate.get('backButtonText').subscribe((res: string) => this.config.set('Back', res));
         this.config.set('backButtonText', '');
+
 
     }
 

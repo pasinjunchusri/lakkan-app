@@ -1,107 +1,112 @@
 import {Component, ViewChild} from "@angular/core";
-import {NavController, ModalController, Events, Content} from "ionic-angular";
-import _ from "underscore";
+import {NavController, ModalController, Content} from "ionic-angular";
 import {ChatChannelProvider} from "../../providers/chat-channel.provider";
 import {AnalyticsProvider} from "../../providers/analytics.provider";
 import {ChatFormPage} from "../chat-form/chat-form";
 import {ChatMessagePage} from "../chat-message/chat-message";
+import _ from "underscore";
 declare const Parse: any;
 
 @Component({
-    selector   : 'page-chat-channel',
+    selector:    'page-chat-channel',
     templateUrl: 'chat-channel.html'
 })
 export class ChatChannelPage {
 
     @ViewChild('Content') content: Content;
 
-    errorIcon: string      = 'chatbubbles';
-    errorText: string      = '';
-    data                   = [];
-    loading: boolean       = true;
+    errorIcon: string = 'chatbubbles';
+    errorText: string = '';
+    data = [];
+    query: any;
+
+    loading: boolean = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
-    moreItem: boolean      = false;
+    moreItem: boolean = false;
 
     params = {
         limit: 20,
-        page : 1
+        page:  1
     }
 
     constructor(public navCtrl: NavController,
                 private provider: ChatChannelProvider,
                 private modalCtrl: ModalController,
-                private events: Events,
-                private analytics: AnalyticsProvider,
-    ) {
+                private analytics: AnalyticsProvider,) {
         // Google Analytics
         this.analytics.view('ChatChannel page');
+        this.data = [];
 
-        this.events.subscribe('channel:update', () => this.find());
+        let ParseObject = Parse.Object.extend('ChatChannel');
+        this.query = new Parse.Query(ParseObject).include('profiles');
+
+        this.query
+            .subscribe()
+            .on('open', () => console.info('subscription opened'))
+            .on('create', object => this.onCreateChannel(object))
+            .on('update', (object) => console.info('object update', object))
+            .on('leave', (object) => console.info('object leave', object))
+            .on('delete', object => this.onDeleteChannel(object))
+            .on('close', (object) => console.info('subscription close', object))
     }
 
     ionViewDidLoad() {
-        this.find();
+        this.doRefresh();
     }
+
+    onCreateChannel(object) {
+        console.log(object)
+        this.provider.parseChannel(object).then(channel => this.data.push(channel));
+        this.scrollToBottom();
+    }
+
+    onDeleteChannel(object) {
+        console.log(object, this.data)
+        this.data = _.filter(this.data, item => item.id != object.id)
+        this.scrollToBottom();
+    }
+
+    onUpdatedChannel(object) {
+        console.info('object update', object)
+    }
+
 
     onPageMessage(item) {
         this.navCtrl.push(ChatMessagePage, {channel: item.id});
     }
 
 
-    parseResult(data) {
-        console.log(data);
-        if (data) {
-            let user = Parse.User.current();
-            data.map(channel => {
-                let users = _.filter(channel.users, _user => user.id != _user['id']);
-                channel.users = users;
-                channel.title = users.map(user=> user['name']).join(', ');
-
-                this.data.push(channel);
-            });
-            this.showEmptyView = false;
-            this.showErrorView = false;
-        } else {
-            this.moreItem = false;
-        }
-
-        if (this.data.length < 1) {
-            this.showEmptyView = true;
-        }
-
-        this.loading = false;
-        return data;
-    }
-
-    find() {
-        return new Promise((resolve, reject) => {
-            this.loading = true;
-            this.data    = [];
-            this.provider.find().then(data => {
-                console.log(data);
-                this.parseResult(data);
-                resolve(data);
-            }, error => {
-                this.showErrorView = true;
-                reject(error);
-            });
-        });
-    }
-
-
-    public scrollTop() {
-        this.content.scrollToTop();
-    }
-
-    public doInfinite(event) {
-        this.params.page++;
-        this.find().then(() => event.complete());
+    scrollToBottom(): void {
+        setTimeout(() => {
+            if (this.content.scrollToBottom) {
+                this.content.scrollToBottom(300)
+            }
+        }, 100);
     }
 
     public doRefresh(event?) {
-        this.params.page = 1;
-        this.find().then(() => event.complete());
+        this.loading = true;
+
+        this.query.find().then(channels => {
+            if (channels) {
+                this.data = [];
+                Promise
+                    .all(channels.map(channel => this.provider.parseChannel(channel)))
+                    .then(result => result.map(item => this.data.push(item)));
+            } else {
+                this.showEmptyView = true;
+                this.showErrorView = false;
+            }
+
+            this.loading = false;
+            this.scrollToBottom();
+            if (event) event.complete();
+        }).catch(() => {
+            this.loading = false;
+            this.showEmptyView = false;
+            this.showErrorView = true;
+        });
     }
 
 

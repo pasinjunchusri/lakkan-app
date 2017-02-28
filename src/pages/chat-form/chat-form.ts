@@ -52,14 +52,7 @@ export class ChatFormPage {
 
     ionViewDidLoad() {
         console.log('Hello ChatFormPage Page');
-        this.User.followingCache().then(data => {
-            console.log(data);
-            if (data.length) {
-                this.parseResult(data);
-            } else {
-                this.feed();
-            }
-        })
+        this.feed();
     }
 
     feed():Promise<any> {

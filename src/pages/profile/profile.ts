@@ -62,7 +62,7 @@ export class ProfilePage {
 
 
         this.loading = true;
-        this.User.getProfileCache(this.username).then(profile => {
+        this.User.getProfile(this.username).then(profile => {
             if (profile) {
                 this.profile         = profile;
                 this.profile.loading = false;

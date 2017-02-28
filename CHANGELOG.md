@@ -1,3 +1,15 @@
+## [2.7.7](https://github.com/photogram/photogram2) (2017-02-21)
+### News
+
+- Fix apk build
+- Chat in realtime total!
+- Fix translate
+- Fix share photo in chat
+- Removed PouchDB
+- Fix infinite list in tab-search
+- ionic-app-scripts (1.1.4)
+
+
 ## [2.7.6](https://github.com/photogram/photogram2) (2017-02-21)
 ### Fixes
 

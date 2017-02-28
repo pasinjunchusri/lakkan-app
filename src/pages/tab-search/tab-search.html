@@ -35,7 +35,7 @@
     <map-gallery *ngIf="type=='map'"></map-gallery>
 
 
-    <ion-infinite-scroll *ngIf="moreItem" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll  *ngIf="type!=='map'" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 

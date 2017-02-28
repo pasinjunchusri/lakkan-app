@@ -126,7 +126,7 @@
   dependencies:
     "@ionic-native/core" "3.0.0"
 
-"@ionic/app-scripts@^1.1.4":
+"@ionic/app-scripts@1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@ionic/app-scripts/-/app-scripts-1.1.4.tgz#470ba1ff66d40c32681c04747c8147f3b0628e74"
   dependencies:
@@ -3816,7 +3816,7 @@ typescript-collections@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/typescript-collections/-/typescript-collections-1.2.3.tgz#ef7f1bf3392a662c2c00e8c2c03381a001e02955"
 
-typescript@^2.2.1:
+typescript@^2.0.9:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.1.tgz#4862b662b988a4c8ff691cc7969622d24db76ae9"
 

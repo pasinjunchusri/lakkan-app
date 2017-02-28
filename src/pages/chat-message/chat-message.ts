@@ -1,5 +1,5 @@
 import {Component, ViewChild} from "@angular/core";
-import {NavController, NavParams, Content, Events} from "ionic-angular";
+import {NavController, NavParams, Content} from "ionic-angular";
 import {ChatMessageProvider} from "../../providers/chat-message.provider";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {ChatChannelProvider} from "../../providers/chat-channel.provider";
@@ -39,7 +39,6 @@ export class ChatMessagePage {
                 private Channel: ChatChannelProvider,
                 private Message: ChatMessageProvider,
                 private util: IonicUtilProvider,
-                private events: Events,
                 private params: NavParams,
                 private analytics: AnalyticsProvider) {
         // Google Analytics
@@ -49,33 +48,52 @@ export class ChatMessagePage {
         this.user = Parse.User.current();
         this.image = this.params.get('image');
 
-        this.events.subscribe('addMessage', message => {
-            console.log('addMessage', message);
-            if (message) {
-                let user = _.findWhere(this.users, {id: message.get('user').id});
-                let obj = {
-                    _id:       message.id,
-                    message:   message.get('message'),
-                    channel:   this.channelId,
-                    createdAt: message.createdAt,
-                    class:     this.userClass(user),
-                    user:      user,
-                };
 
-                console.log('obj', obj);
-                this.data.push(obj);
-                this.scrollToBottom();
+        this.Channel.get(this.channelId).then(data => {
+            this.channel = data;
 
+            this.initForm();
+
+            if (this.image) {
+                this.form.image = this.image;
+                console.log('form', this.form);
+                this.onSendMessage();
             }
-        });
 
-        // this.loadChannel();
+            this.data = [];
+            let chatMessage = Parse.Object.extend('ChatMessage');
+            this.query = new Parse.Query(chatMessage).include(['profile','image']).equalTo('channel', this.channel);
+
+            this.query
+                .subscribe()
+                .on('open', () => console.info('subscription opened'))
+                .on('create', object => this.onCreateChannel(object))
+                .on('update', (object) => console.info('object update', object))
+                .on('leave', (object) => console.info('object leave', object))
+                .on('delete', object => this.onDeleteChannel(object))
+                .on('close', (object) => console.info('subscription close', object))
+
+            this.doRefresh();
+        }).catch(this.onError);
+
     }
 
-    ionViewDidLoad() {
-        console.log(this.channelId);
-        this.loadChannel(this.channelId);
+    onCreateChannel(object) {
+        console.log(object)
+        this.parseChat(object).then(channel => this.data.push(channel));
+        this.scrollToBottom();
     }
+
+    onDeleteChannel(object) {
+        console.log(object, this.data)
+        this.data = _.filter(this.data, item => item.id != object.id)
+        this.scrollToBottom();
+    }
+
+    onUpdatedChannel(object) {
+        console.info('object update', object)
+    }
+
 
     onError(error) {
         console.log(error);
@@ -84,30 +102,15 @@ export class ChatMessagePage {
 
 
     loadChannel(channelId: string) {
-        this.Channel.getChatChannel(channelId).then(data => {
-            console.log('channel', data);
 
-            this.users = data.users;
-
-            this.channel = data.obj;
-            console.log(this.channel)
-
-            this.initForm();
-
-            let chatMessage = Parse.Object.extend('ChatMessage');
-            this.query = new Parse.Query(chatMessage).equalTo('channel', this.channel);
-
-            this.query.subscribe().on('create', message => this.events.publish('addMessage', message));
-
-            this.doRefresh();
-        }).catch(this.onError);
     }
 
     initForm(): void {
         this.form = {
             channel: this.channel,
             user:    this.user,
-            message: ''
+            message: '',
+            image:   null
         };
     }
 
@@ -125,47 +128,58 @@ export class ChatMessagePage {
         }
     }
 
-    doRefresh(event?): void {
-        // Find
-        this.Message.find(this.channelId).then(data => {
-            this.data = [];
-            if (data) {
-                this.data = this.parseData(data);
+    public doRefresh(event?) {
+        this.loading = true;
+
+        this.query.find().then(messages => {
+            if (messages) {
+                this.data = [];
+                console.log(messages)
+                Promise
+                    .all(messages.map(chat => this.parseChat(chat)))
+                    .then(result => result.map(item => this.data.push(item)));
             } else {
                 this.showEmptyView = true;
+                this.showErrorView = false;
             }
-            console.info('data', this.data);
-            if (event) {
-                event.complete();
-            }
+
             this.loading = false;
             this.scrollToBottom();
+            if (event) event.complete();
+        }).catch(() => {
+            this.loading = false;
+            this.showEmptyView = false;
+            this.showErrorView = true;
         });
-
     }
 
-    parseData(data: any[]): any[] {
-        return _.sortBy(data, 'createdAt').map(item => {
-            console.info(this.user.id, item.user.id)
-            item.class = this.userClass(item.user);
-            return item;
-        });
+    parseChat(chat: any): Promise<any> {
+        let user = Parse.User.current();
+        return new Promise(resolve => {
+            let obj = {
+                id:        chat.id,
+                obj:       chat,
+                createdAt: chat.createdAt,
+                image:     chat.get('image') ? chat.get('image').get('image').url() : null,
+                message:   chat.get('message'),
+                class:     user.id === chat.get('user').id ? 'right' : 'left',
+                profile:   {
+                    name:  chat.get('profile').get('name'),
+                    photo: chat.get('profile').get('photo') ? chat.get('profile').get('photo').url() : 'assets/img/user.png',
+                }
+            }
+            resolve(obj);
 
-    }
-
-    userClass(user) {
-        console.log(user, this.user)
-        return user.id === this.user.id ? 'left' : 'right';
+        })
     }
 
 
     onSendMessage(): void {
-        if (this.form.message) {
+        if (this.form.message || this.form.image) {
             let form = this.form;
             this.initForm();
             this.Message.create(form).then(message => {
                 console.log('return messag', message);
-                //this.initForm();
             }).catch(error => {
                 this.util.toast('Error');
             });

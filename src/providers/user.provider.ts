@@ -3,16 +3,13 @@ import {Storage} from "@ionic/storage";
 import {ParsePushProvider} from "./parse-push.provider";
 import {IonicUtilProvider} from "./ionic-util.provider";
 import {IUserFollow} from "../models/user.model";
-import * as PouchDB from "pouchdb";
+
 import {IParams} from "../models/parse.params.model";
 import _ from "underscore";
 declare var Parse: any;
 
 @Injectable()
 export class UserProvider {
-    db: any;
-    dbFollowing: any;
-    dbFolllowers: any;
 
     data: any[] = [];
 
@@ -34,10 +31,6 @@ export class UserProvider {
     ) {
         this.cordova = this.util.cordova;
 
-        // Start
-        this.db           = new PouchDB('User');
-        this.dbFollowing  = new PouchDB('UserFollowing');
-        this.dbFolllowers = new PouchDB('UserFollowers');
 
         this._fields.map(field => {
             Object.defineProperty(this._ParseObject.prototype, field, {
@@ -97,44 +90,6 @@ export class UserProvider {
     updateAvatar(photo: string): Promise<any> {
         return Parse.Cloud.run('updateAvatar', {photo: photo});
     }
-
-    getProfileCache(username: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.findCache().then(data => resolve(_.find(data, {username: username})));
-        });
-    }
-
-    getCache(id: string): Promise<any> {
-        return this.db.get(id);
-    }
-
-    public findCache(params?: IParams): Promise<any> {
-        return new Promise(resolve => {
-            this.db.allDocs({include_docs: true}).then(data => {
-                console.log(data);
-                this.data = [];
-                if (data.total_rows) {
-                    data.rows.map(row => {
-                        //let doc = JSON.stringify(row.doc.data);
-                        row.doc.createdAt = new Date(row.doc.createdAt);
-                        this.data.push(row.doc);
-                    });
-
-                    if (params.username) {
-                        let _data = _.find(this.data, {username: params.username});
-                        console.log('cache username', _data);
-                        resolve(_data);
-                    } else {
-                        console.log('cache', this.data);
-                        resolve(this.data);
-                    }
-                } else {
-                    resolve(this.data);
-                }
-            });
-        });
-    }
-
 
     logout(): void {
         Parse.User.logOut();
@@ -255,40 +210,7 @@ export class UserProvider {
 
     getFollowing(username: string): Promise<any> {
         return Parse.Cloud.run('getFollowing', {username: username});
-        // return new Promise((resolve, reject) => {
-        //     this.cleanDBFollowing()
-        //         .then(() => Parse.Cloud.run('getFollowing', {username: username}))
-        //         .then(data => data.map(item => this.dbFollowing.put(item)))
-        //         .then(() => this.followingCache())
-        //         .then((data: any) => {
-        //             resolve(data);
-        //         }, reject);
-        // });
-    }
 
-    cleanDBFollowing(): Promise<any> {
-        this.data = [];
-        return new Promise(resolve => {
-            this.dbFollowing
-                .allDocs({include_docs: true})
-                .then(result => Promise.all(result.rows.map(row => this.dbFollowing.remove(row.doc))).then(resolve));
-        });
-    }
-
-
-    followingCache(): Promise<any> {
-        return new Promise(resolve => {
-            if (this.data.length > 0) {
-                resolve(this.data);
-            } else {
-                this.dbFollowing.allDocs({include_docs: true}).then(data => {
-                    if (data.total_rows) {
-                        this.data = data.rows.map(row => row.doc);
-                    }
-                    resolve(this.data);
-                });
-            }
-        });
     }
 
 

@@ -1,75 +1,50 @@
 import {Injectable} from "@angular/core";
 import {IChatChannel} from "../models/chat-channel.model";
-import * as PouchDB from "pouchdb";
 
 declare const Parse: any;
 
 @Injectable()
 export class ChatChannelProvider {
 
-    db: any;
     data: any[] = [];
 
     private _ParseObject: any = Parse.Object.extend('ChatChannel', {});
 
     constructor() {
 
-        this.db = new PouchDB('ChatChannel', {auto_compaction: true});
     }
 
     find(): Promise<any> {
-        return new Parse.Cloud.run('getChatChannels');
-        // return new Promise((resolve, reject) => {
-        //     this.cleanDB()
-        //         .then(() => Parse.Cloud.run('getChatChannels'))
-        //         .then(()=>this.cleanDB())
-        //         .then(data => data.map(item => this.db.put(item)))
-        //         .then(() => this.findCache())
-        //         .then(resolve)
-        //         .catch(reject);
-        // });
+        return new Parse.Query(this._ParseObject).include('profiles').find();
+
     }
 
-
-
-    cleanDB(): Promise<any> {
-        this.data = [];
-        return new Promise((resolve, reject) => {
-            this.db
-                .allDocs({include_docs: true})
-                .then(result => Promise.all(result.rows.map(row => this.db.remove(row.doc))))
-                .then(resolve)
-                .catch(reject);
-        });
-    }
-
-
-    findCache(): Promise<any> {
+    parseChannel(channel): Promise<any> {
         return new Promise(resolve => {
-            if (this.data.length > 0) {
-                resolve(this.data)
-            } else {
-                this.db.allDocs({include_docs: true}).then(data => {
-                    if (data.total_rows) {
-                        this.data = data.rows.map(row => row.doc);
-                    }
-                    resolve(this.data);
-                })
+            let obj = {
+                id:       channel.id,
+                obj:      channel,
+                title:    null,
+                message:  channel.get('message'),
+                profiles: []
             }
-        });
+            let user = Parse.User.current();
+            channel.relation('profiles').query().notEqualTo('user', user).find().then(profiles => {
+                obj.title = profiles.map(profile => profile.get('name')).join(', ');
+                obj.profiles = profiles.map(profile => profile.get('photo') ? profile.get('photo').url() : 'assets/img/user.png')
+                resolve(obj);
+            })
+        })
     }
 
-    getCache(id: string) {
-        return this.db.get(id);
-    }
 
     // Parse Crud
     get(objectId: string) {
-        return Parse.Query(this._ParseObject).get(objectId);
+        return new Parse.Query(this._ParseObject).get(objectId);
     }
 
     getChatChannel(objectId: string) {
-        return Parse.Cloud.run('getChatChannel',{channelId: objectId});
+        return Parse.Cloud.run('getChatChannel', {channelId: objectId});
     }
 
     create(params: {users: any[], message?: string}): Promise<any> {

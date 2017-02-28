@@ -34,26 +34,20 @@
 
         <ion-item *ngFor="let item of data" (click)="onPageMessage(item)">
             <ion-avatar item-left>
-                <!-- One Profile-->
-                <img *ngIf="item.profiles.length==1 && item.profiles[0].photo" [src]="item.profiles[0].photo">
-                <img *ngIf="item.profiles.length==1 && !item.profiles[0].photo" src="assets/img/user.png">
+                <!-- One Chat-->
+                <img *ngIf="item.profiles.length==1 && item.profiles[0]" [src]="item.profiles[0]">
 
-
-                <!-- Profile 1-->
-                <img class="img" *ngIf="item.profiles.length>1 && item.profiles[0].photo" [src]="item.profiles[0].photo">
-                <img class="img" *ngIf="item.profiles.length>1 && !item.profiles[0].photo" src="assets/img/user.png">
-
-
-                <!-- Profile 2-->
-                <img class="img2" *ngIf="item.profiles.length>1 && item.profiles[1].photo" [src]="item.profiles[1].photo">
-                <img class="img2" *ngIf="item.profiles.length>1 && !item.profiles[1].photo" src="assets/img/user.png">
-
+                <!-- Group Chat -->
+                <div *ngIf="item.profiles.length>1">
+                    <img class="img" *ngIf="item.profiles[0]" [src]="item.profiles[0]">
+                    <img class="img2" *ngIf="item.profiles[1]" [src]="item.profiles[1]">
+                </div>
             </ion-avatar>
 
-            <ion-note item-right *ngIf="item.message">{{item.message.createdAt | amTimeAgo}}</ion-note>
+            <ion-note item-right >{{item.createdAt | amTimeAgo}}</ion-note>
 
-            <h2 *ngFor="let profile of item.profiles">{{profile.username}}</h2>
-            <p *ngIf="item.message">{{item.message.message}}</p>
+            <h2>{{item.title}}</h2>
+            <p>{{item.message}}</p>
         </ion-item>
     </ion-list>
 

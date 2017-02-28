@@ -1,33 +1,38 @@
-import {Component} from "@angular/core";
-import {NavParams, ViewController} from "ionic-angular";
+import {Component, ViewChild} from "@angular/core";
+import {NavParams, Content, ViewController} from "ionic-angular";
 import {GalleryCommentProvider} from "../../providers/gallery-comment.provider";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {GalleryProvider} from "../../providers/gallery.provider";
 import _ from "underscore";
 import {AnalyticsProvider} from "../../providers/analytics.provider";
+
 declare const Parse: any;
+declare const $: any;
 
 @Component({
-    selector   : 'photo-comment-modal',
+    selector:    'photo-comment-modal',
     templateUrl: 'photo-comment-modal.html'
 })
 export class PhotoCommentModalComponent {
+    @ViewChild(Content) content: Content;
 
-    errorIcon: string      = 'ios-text-outline';
-    errorText: string      = '';
-    data                   = [];
-    loading: boolean       = true;
+    errorIcon: string = 'ios-text-outline';
+    errorText: string = '';
+    data = [];
+    loading: boolean = true;
     showEmptyView: boolean = false;
     showErrorView: boolean = false;
-    moreItem: boolean      = false;
+    moreItem: boolean = false;
+    query: any;
+    sending = false
     gallery: any;
     form: any;
     galleryId: string;
     user: any;
 
     params = {
-        limit    : 20,
-        page     : 1,
+        limit:     20,
+        page:      1,
         galleryId: null
     };
 
@@ -36,8 +41,7 @@ export class PhotoCommentModalComponent {
                 private provider: GalleryCommentProvider,
                 private util: IonicUtilProvider,
                 private Gallery: GalleryProvider,
-                private analytics: AnalyticsProvider,
-    ) {
+                private analytics: AnalyticsProvider,) {
         // Google Analytics
         this.analytics.view('PhotoCommentModalPage');
 
@@ -47,8 +51,6 @@ export class PhotoCommentModalComponent {
 
         this.user = Parse.User.current();
 
-        //this.gallery        = this.navparams.data.obj;
-        //this.onQuery();
     }
 
     //this.params.galleryId = this.gallery.id;
@@ -61,20 +63,63 @@ export class PhotoCommentModalComponent {
         this.params.galleryId = this.galleryId;
     }
 
+    onAddMessage(message) {
+        console.log('addMessage', message);
+        if (message) {
+            console.log('obj', message);
+            this.data.push(message);
+            this.scrollToBottom();
+
+        }
+    }
+
+    scrollToBottom(): void {
+        setTimeout(() => {
+            if (this.content.scrollToBottom) {
+                this.content.scrollToBottom(300)
+            }
+        }, 100);
+    }
+
+    // keep the input focused.
+    // for some reason it works best if this is separate from the send function
+    blurInput(e) {
+        //console.log(e);
+        if (!this.sending) {
+            return;
+        }
+        setTimeout(() => {
+            $('#messageBox input').focus();
+        }, 10);
+        setTimeout(() => {
+            $('#messageBox input').focus();
+        }, 1);
+        $('#messageBox input').focus();
+    }
+
     onGallery(galleryId: string) {
         this.util.onLoading();
         this.Gallery.getParse(galleryId).then(gallery => {
-                this.form.gallery = gallery;
-                return this.onQuery()
-            })
-            .then(() => this.util.endLoading())
-            .catch(error => {
-                this.util.toast('Error');
-                this.util.endLoading();
-                this.loading       = false;
-                this.showErrorView = true;
-            })
+            this.form.gallery = gallery;
+            // return this.onQuery()
+
+            let chatMessage = Parse.Object.extend('GalleryComment');
+            this.query = new Parse.Query(chatMessage).include('profile').equalTo('channel', gallery);
+
+            this.query.subscribe().on('create', message => this.onAddMessage);
+
+            this.onQuery();
+
+        })
+            .catch(this.onError)
         ;
+    }
+
+    onError(error) {
+        this.util.toast('Error');
+        this.util.endLoading();
+        this.loading = false;
+        this.showErrorView = true;
     }
 
     onQuery() {
@@ -89,16 +134,16 @@ export class PhotoCommentModalComponent {
                     this.data = this.parseData(data);
                     this.showErrorView = false;
                     this.showEmptyView = false;
-                    this.moreItem      = true;
+                    this.moreItem = true;
                 } else {
                     this.showEmptyView = true;
-                    this.moreItem      = false;
+                    this.moreItem = false;
                 }
 
                 this.loading = false;
                 resolve(data);
             }).catch(error => {
-                this.errorText     = error.message;
+                this.errorText = error.message;
                 this.showErrorView = true;
                 reject(this.errorText)
             });

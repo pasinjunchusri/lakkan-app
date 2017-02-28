@@ -202,9 +202,6 @@ export class TabAccountSettingsPage {
 
     logout(): void {
         this.User.logout();
-        this.User.cleanDBFollowing();
-        this.Gallery.cleanCache()
-        this.ChatChannel.cleanDB();
         this.app.getRootNav().setRoot(IntroPage);
     }
 

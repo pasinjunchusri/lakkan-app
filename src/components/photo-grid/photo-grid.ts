@@ -113,7 +113,7 @@ export class PhotoGridComponent implements OnInit {
 
     private cache(): void {
         console.log('Load cache', this.params);
-        this.provider.findCache(this.params).then(_data => {
+        this.provider.feed(this.params).then(_data => {
             console.log('cache', _data);
             if (_data.length) {
                 _.sortBy(_data, 'createdAt').reverse().map(item => this.data.push(item));
