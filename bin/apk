@@ -39,13 +39,10 @@ fi
 echo "       $2      Version: $3 "
 echo ""
 echo ""
-# echo "---> Ionic Build"
-# ionic build
 
 echo "---> Ionic Build build  $appname v$version"
-ionic build 
-#echo "---> ionic-app-scripts minify  $appname v$version"
-#npm run minify
+ionic build  --prod
+
 echo "---> Cordova build release  $appname v$version"
 cordova build android --release
 
@@ -54,7 +51,6 @@ echo ""
 echo "---> Zipaligning"
 
 mkdir -p releases/
-# rm releases/com.$company.$appname.v$version.apk
 ./zipalign -v 4 platforms/android/build/outputs/apk/android-release.apk releases/com.$company.$appname.v$version.apk
 
 
