@@ -11,7 +11,6 @@ export class TabSearchPage {
     @ViewChild(Content) content: Content;
 
     search: string = '';
-    placeholder: string = 'Search';
     username: string;
     type: string = 'photo';
     profile: any;
@@ -19,7 +18,7 @@ export class TabSearchPage {
     eventName: string = 'search';
 
     params = {
-        limit:     12,
+        limit:     24,
         page:      1,
         privacity: 'public',
         search:    '',
