@@ -1,9 +1,10 @@
 import {Component} from "@angular/core";
 import {ViewController, Events} from "ionic-angular";
+import {FormBuilder, Validators} from "@angular/forms";
 import {UserProvider} from "../../providers/user.provider";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {ParseFileProvider} from "../../providers/parse-file.provider";
-import {FormBuilder, Validators} from "@angular/forms";
+import {AnalyticsProvider} from "../../providers/analytics.provider";
 import * as _ from "underscore";
 
 
@@ -19,6 +20,7 @@ export class AccountEditModalPage {
     photo: any;
     _user: any;
     _eventName: string = 'photoprofile';
+    errors:[string];
 
     constructor(private viewCtrl: ViewController,
                 private ionic: IonicUtilProvider,
@@ -26,6 +28,7 @@ export class AccountEditModalPage {
                 private events: Events,
                 private util: IonicUtilProvider,
                 private ParseFile: ParseFileProvider,
+                private analytics: AnalyticsProvider,
                 private formBuilder: FormBuilder
     ) {
         this._user = new Parse.User.current().attributes;
@@ -35,6 +38,15 @@ export class AccountEditModalPage {
         if (this._user.photo) {
             this.photo = this._user.photo._url;
         }
+
+        // Translate Strings
+        this.util.translate('Name is required').then((res: string) => this.errors['nameRequired'] = res);
+        this.util.translate('Email is required').then((res: string) => this.errors['emailRequired'] = res);
+        this.util.translate('Email invalid').then((res: string) => this.errors['emailInvalid'] = res);
+        this.util.translate('Username is required').then((res: string) => this.errors['usernameRequired'] = res);
+        this.util.translate('Password is required').then((res: string) => this.errors['passwordRequired'] = res);
+        this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors['passwordRequiredMin'] = res);
+        this.util.translate("Password doesn't match").then((res: string) => this.errors['passwordRequiredMatch'] = res);
 
         // Change Photo user
         events.subscribe(this._eventName, imageCroped => {
@@ -49,6 +61,7 @@ export class AccountEditModalPage {
             })
             this.events.publish('photocrop:close');
         });
+
     }
 
 
@@ -90,17 +103,52 @@ export class AccountEditModalPage {
     }
 
     submitProfile(rForm: any) {
-        if (rForm.valid) {
-            this.ionic.onLoading();
-            this.User.update(this.form.value).then(result => {
-                console.log(result);
-                this.ionic.endLoading();
-                this.dismiss();
-            }).catch(error => {
-                console.log(error);
-                this.dismiss();
-                this.ionic.endLoading();
-            });
+
+        let newForm = this.form.value;
+        this.analytics.event('Auth', 'create user');
+
+        if (!newForm['name']) {
+            return this.util.toast(this.errors['nameRequired']);
+        }
+
+        if (!newForm['email']) {
+            return this.util.toast(this.errors['emailRequired']);
+        }
+
+        if (!this.util.validEmail(newForm['email'])) {
+            return this.util.toast(this.errors['emailInvalid']);
+        }
+
+        if (!newForm['username']) {
+            return this.util.toast(this.errors['usernameRequired']);
+        }
+
+        if (!newForm['password']) {
+            return this.util.toast(this.errors['passwordRequired']);
+        }
+
+        if (newForm['password'].length < 6) {
+            return this.util.toast(this.errors['passwordRequiredMin']);
+        }
+
+        if (newForm['password'] !== newForm['passwordConfirmation']) {
+            return this.util.toast(this.errors['passwordRequiredMatch']);
+        }
+
+        if (this.util.validPassword(newForm.password, newForm.passwordConfirmation)) {
+
+            if (rForm.valid) {
+                this.ionic.onLoading();
+                this.User.update(this.form.value).then(result => {
+                    console.log(result);
+                    this.ionic.endLoading();
+                    this.dismiss();
+                }).catch(error => {
+                    console.log(error);
+                    this.dismiss();
+                    this.ionic.endLoading();
+                });
+            }
         }
     }
 

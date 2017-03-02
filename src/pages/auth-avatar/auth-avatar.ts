@@ -13,7 +13,7 @@ import {UserDataProvider} from "../../providers/user-data.provider";
 declare const Parse: any;
 
 @Component({
-    selector   : 'auth-avatar',
+    selector:    'auth-avatar',
     templateUrl: 'auth-avatar.html'
 })
 export class AuthAvatarPage {
@@ -22,6 +22,7 @@ export class AuthAvatarPage {
     photo: any;
     submitted: boolean = false;
     _user: any;
+    errors: [string];
 
     constructor(private navCtrl: NavController,
                 private app: App,
@@ -30,25 +31,33 @@ export class AuthAvatarPage {
                 private util: IonicUtilProvider,
                 private ParseFile: ParseFileProvider,
                 private UserData: UserDataProvider,
-                private formBuilder: FormBuilder
-    ) {
+                private formBuilder: FormBuilder) {
         // Google Analytics
         this.analytics.view('AuthAvatarPage');
 
         this._user = new Parse.User.current()['attributes'];
+
+        // Translate Strings
+        this.util.translate('Name is required').then((res: string) => this.errors['nameRequired'] = res);
+        this.util.translate('Email is required').then((res: string) => this.errors['emailRequired'] = res);
+        this.util.translate('Email invalid').then((res: string) => this.errors['emailInvalid'] = res);
+        this.util.translate('Username is required').then((res: string) => this.errors['usernameRequired'] = res);
+        this.util.translate('Password is required').then((res: string) => this.errors['passwordRequired'] = res);
+        this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors['passwordRequiredMin'] = res);
+        this.util.translate("Password doesn't match").then((res: string) => this.errors['passwordRequiredMatch'] = res);
 
     }
 
     ionViewWillLoad() {
         // Validate user registration form
         this.form = this.formBuilder.group({
-            name    : ['', Validators.required],
-            email   : ['', Validators.required],
+            name:     ['', Validators.required],
+            email:    ['', Validators.required],
             username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-            website : [''],
-            gender  : [''],
+            website:  [''],
+            gender:   [''],
             birthday: [''],
-            phone   : [''],
+            phone:    [''],
         });
 
         _.each(this._user, (value, key) => {
@@ -85,14 +94,48 @@ export class AuthAvatarPage {
             .catch(this.onError);
     }
 
+
     public submitForm(rForm: any): void {
         this.submitted = true;
-        if (rForm.valid) {
-            this.util.onLoading();
-            this.User.update(this.form)
-                .then(result => this.util.endLoading())
-                .then(this.app.getRootNav().setRoot(TabsPage))
-                .catch(this.onError);
+        let newForm = this.form.value;
+        this.analytics.event('Auth', 'create user');
+
+        if (!newForm['name']) {
+            return this.util.toast(this.errors['nameRequired']);
+        }
+
+        if (!newForm['email']) {
+            return this.util.toast(this.errors['emailRequired']);
+        }
+
+        if (!this.util.validEmail(newForm['email'])) {
+            return this.util.toast(this.errors['emailInvalid']);
+        }
+
+        if (!newForm['username']) {
+            return this.util.toast(this.errors['usernameRequired']);
+        }
+
+        if (!newForm['password']) {
+            return this.util.toast(this.errors['passwordRequired']);
+        }
+
+        if (newForm['password'].length < 6) {
+            return this.util.toast(this.errors['passwordRequiredMin']);
+        }
+
+        if (newForm['password'] !== newForm['passwordConfirmation']) {
+            return this.util.toast(this.errors['passwordRequiredMatch']);
+        }
+
+        if (this.util.validPassword(newForm.password, newForm.passwordConfirmation)) {
+            if (rForm.valid) {
+                this.util.onLoading();
+                this.User.update(this.form)
+                    .then(result => this.util.endLoading())
+                    .then(this.app.getRootNav().setRoot(TabsPage))
+                    .catch(this.onError);
+            }
         }
     }
 

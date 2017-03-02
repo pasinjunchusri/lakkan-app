@@ -26,6 +26,7 @@ export class AuthRegisterPage {
     inputPasswordType: string  = 'password';
     inputPasswordIcon: string  = 'eye-off';
     inputPasswordShow: boolean = false;
+    errors:[string];
 
     constructor(private provider: UserProvider,
                 private util: IonicUtilProvider,
@@ -46,6 +47,15 @@ export class AuthRegisterPage {
         this.util.translate('Email').then((res: string) => { this.alertTranslate.email = res; });
         this.util.translate('Cancel').then((res: string) => { this.alertTranslate.cancel = res; });
         this.util.translate('Submit').then((res: string) => { this.alertTranslate.submit = res; });
+
+        // Translate Strings
+        this.util.translate('Name is required').then((res: string) => this.errors['nameRequired'] = res);
+        this.util.translate('Email is required').then((res: string) => this.errors['emailRequired'] = res);
+        this.util.translate('Email invalid').then((res: string) => this.errors['emailInvalid'] = res);
+        this.util.translate('Username is required').then((res: string) => this.errors['usernameRequired'] = res);
+        this.util.translate('Password is required').then((res: string) => this.errors['passwordRequired'] = res);
+        this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors['passwordRequiredMin'] = res);
+        this.util.translate("Password doesn't match").then((res: string) => this.errors['passwordRequiredMatch'] = res);
     }
 
     ionViewWillLoad() {
@@ -69,31 +79,40 @@ export class AuthRegisterPage {
         this.inputPasswordIcon = this.inputPasswordShow ? 'eye' : 'eye-off';
     }
 
+
     submitForm(): void {
         let newForm = this.formSignup.value;
         this.analytics.event('Auth', 'create user');
 
         if (!newForm['name']) {
-            return this.util.toast('Name is required');
+            return this.util.toast(this.errors['nameRequired']);
         }
 
         if (!newForm['email']) {
-            return this.util.toast('Email is required');
+            return this.util.toast(this.errors['emailRequired']);
+        }
+
+        if (!this.util.validEmail(newForm['email'])) {
+            return this.util.toast(this.errors['emailInvalid']);
         }
 
         if (!newForm['username']) {
-            return this.util.toast('Username is required');
+            return this.util.toast(this.errors['usernameRequired']);
+        }
+
+        if (!newForm['password']) {
+            return this.util.toast(this.errors['passwordRequired']);
         }
 
         if (newForm['password'].length < 6) {
-            return this.util.toast('Password should be at least 6 characters');
+            return this.util.toast(this.errors['passwordRequiredMin']);
         }
 
         if (newForm['password'] !== newForm['passwordConfirmation']) {
-            return this.util.toast("Password doesn't match");
+            return this.util.toast(this.errors['passwordRequiredMatch']);
         }
 
-        if (this.validPassword(newForm.password, newForm.passwordConfirmation)) {
+        if (this.util.validPassword(newForm.password, newForm.passwordConfirmation)) {
             this.util.onLoading();
 
             delete newForm['passwordConfirmation'];
@@ -120,17 +139,11 @@ export class AuthRegisterPage {
         }
     }
 
-    validPassword(password: string, confirm: string): boolean {
-        return (password == confirm) ? true : false;
-    }
-
     onPageTabs(): void {
         this.app.getRootNav().setRoot(TabsPage);
     }
 
     changePhoto(photo) {
-        //    this.util.onLoading('Uploading image...');
-        //    this.ParseFile.upload({base64: photo}).then(image => this.photo = image);
         this.photo = photo;
     }
 

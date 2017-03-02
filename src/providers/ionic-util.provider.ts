@@ -11,31 +11,30 @@ declare var Connection: any;
 @Injectable()
 export class IonicUtilProvider {
     private _loading: any;
-    public cordova: boolean  = false;
+    public cordova: boolean = false;
     public _widthPlatform: any;
     public _heightPlatform: any;
     private maxWidth: number = 640;
 
-    private textTranslated:any={};
+    private textTranslated: any = {};
 
     constructor(private platform: Platform,
                 private loadingCtrl: LoadingController,
                 private toastCtrl: ToastController,
                 public translateService: TranslateService,
-                private alertCtrl: AlertController
-    ) {
+                private alertCtrl: AlertController) {
 
         this.cordova = platform.is('cordova') ? true : false;
 
         console.log('Cordova', this.cordova);
 
-        this.translate('Cancel').then((res: string) =>  this.textTranslated.cancel = res);
-        this.translate('Retry').then((res: string) =>  this.textTranslated.retry = res);
-        this.translate('You are OffLine').then((res: string) =>  this.textTranslated.areOffline = res);
-        this.translate('Try repeat connect?').then((res: string) =>  this.textTranslated.reconect = res);
+        this.translate('Cancel').then((res: string) => this.textTranslated.cancel = res);
+        this.translate('Retry').then((res: string) => this.textTranslated.retry = res);
+        this.translate('You are OffLine').then((res: string) => this.textTranslated.areOffline = res);
+        this.translate('Try repeat connect?').then((res: string) => this.textTranslated.reconect = res);
 
         platform.ready().then(() => {
-            this._widthPlatform  = platform.width() <= this.maxWidth ? platform.width() : this.maxWidth;
+            this._widthPlatform = platform.width() <= this.maxWidth ? platform.width() : this.maxWidth;
             this._heightPlatform = platform.height();
         });
 
@@ -79,10 +78,11 @@ export class IonicUtilProvider {
         this._loading.dismiss();
     }
 
-    toast(message: string): void {
+    toast(message: string, duration: number = 3000, position: string = 'top'): void {
         let toast = this.toastCtrl.create({
             message:  message,
-            duration: 3000,
+            duration: duration,
+            position: position
         });
         toast.present();
     }
@@ -91,7 +91,7 @@ export class IonicUtilProvider {
         let browser = new InAppBrowser(url, '_system');
 //      browser.executeScript(...);
 //      browser.insertCSS(...);
-      browser.show();
+        browser.show();
     }
 
     translate(text: string): Promise<any> {
@@ -100,8 +100,17 @@ export class IonicUtilProvider {
         });
     }
 
+    validEmail(email: string) {
+        let filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+        return filter.test(email);
+    }
+
+    validPassword(password: string, confirm: string): boolean {
+        return (password == confirm) ? true : false;
+    }
+
     static getClientHeight(): number {
-        var body   = document.body, html = document.documentElement;
+        var body = document.body, html = document.documentElement;
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
         return height;
     }

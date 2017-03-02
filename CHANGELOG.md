@@ -1,4 +1,12 @@
-## [2.7.7](https://github.com/photogram/photogram2) (2017-02-21)
+## [2.7.9](https://github.com/photogram/photogram2) (2017-02-03)
+### News
+
+- Fix validate forms
+- Fix scss
+- Fix translates
+
+
+## [2.7.7/8](https://github.com/photogram/photogram2) (2017-03-02)
 ### News
 
 - Fix apk build
