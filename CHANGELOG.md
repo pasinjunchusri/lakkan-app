@@ -1,3 +1,9 @@
+## [2.7.10](https://github.com/photogram/photogram2) (2017-02-03)
+### News
+
+- Fix validate forms
+- Fix intro scss
+
 ## [2.7.9](https://github.com/photogram/photogram2) (2017-02-03)
 ### News
 

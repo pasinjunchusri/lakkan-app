@@ -8,10 +8,10 @@ import {AnalyticsProvider} from "../../providers/analytics.provider";
 import * as _ from "underscore";
 
 
-declare const Parse:any;
+declare const Parse: any;
 
 @Component({
-    selector   : 'page-account-edit-modal',
+    selector:    'page-account-edit-modal',
     templateUrl: 'account-edit-modal.html'
 })
 export class AccountEditModalPage {
@@ -20,7 +20,15 @@ export class AccountEditModalPage {
     photo: any;
     _user: any;
     _eventName: string = 'photoprofile';
-    errors:[string];
+    errors = {
+        nameRequired:          null,
+        emailRequired:         null,
+        emailInvalid:          null,
+        usernameRequired:      null,
+        passwordRequired:      null,
+        passwordRequiredMin:   null,
+        passwordRequiredMatch: null,
+    };
 
     constructor(private viewCtrl: ViewController,
                 private ionic: IonicUtilProvider,
@@ -29,8 +37,7 @@ export class AccountEditModalPage {
                 private util: IonicUtilProvider,
                 private ParseFile: ParseFileProvider,
                 private analytics: AnalyticsProvider,
-                private formBuilder: FormBuilder
-    ) {
+                private formBuilder: FormBuilder) {
         this._user = new Parse.User.current().attributes;
 
         console.log(Parse.User.current());
@@ -40,41 +47,39 @@ export class AccountEditModalPage {
         }
 
         // Translate Strings
-        this.util.translate('Name is required').then((res: string) => this.errors['nameRequired'] = res);
-        this.util.translate('Email is required').then((res: string) => this.errors['emailRequired'] = res);
-        this.util.translate('Email invalid').then((res: string) => this.errors['emailInvalid'] = res);
-        this.util.translate('Username is required').then((res: string) => this.errors['usernameRequired'] = res);
-        this.util.translate('Password is required').then((res: string) => this.errors['passwordRequired'] = res);
-        this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors['passwordRequiredMin'] = res);
-        this.util.translate("Password doesn't match").then((res: string) => this.errors['passwordRequiredMatch'] = res);
+        this.util.translate('Name is required').then((res: string) => this.errors.nameRequired = res);
+        this.util.translate('Email is required').then((res: string) => this.errors.emailRequired = res);
+        this.util.translate('Email invalid').then((res: string) => this.errors.emailInvalid = res);
+        this.util.translate('Username is required').then((res: string) => this.errors.usernameRequired = res);
+        this.util.translate('Password is required').then((res: string) => this.errors.passwordRequired = res);
+        this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors.passwordRequiredMin = res);
+        this.util.translate("Password doesn't match").then((res: string) => this.errors.passwordRequiredMatch = res);
 
         // Change Photo user
         events.subscribe(this._eventName, imageCroped => {
             this.util.onLoading();
-            this.ParseFile.upload({base64: imageCroped[0]}).then(image => {
-                this.User.updatePhoto(image).then(user => {
+            this.ParseFile.upload({base64: imageCroped[0]})
+                .then(this.User.updatePhoto)
+                .then(user => {
                     console.log(user);
                     this.photo = imageCroped[0];
                     this.util.endLoading();
                 });
-
-            })
             this.events.publish('photocrop:close');
         });
-
     }
 
 
     ionViewWillLoad() {
         // Validate user registration form
         this.form = this.formBuilder.group({
-            name    : ['', Validators.required],
-            email   : ['', Validators.required],
+            name:     ['', Validators.required],
+            email:    ['', Validators.required],
             username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-            website : [''],
-            gender  : ['male', Validators.required],
+            website:  [''],
+            gender:   ['male', Validators.required],
             birthday: [''],
-            phone   : [''],
+            phone:    [''],
         });
 
         _.each(this._user, (value, key) => {
@@ -89,16 +94,15 @@ export class AccountEditModalPage {
 
     changePhoto(photo) {
         this.util.onLoading('Uploading image...');
-        this.ParseFile.upload({base64: photo}).then(image => {
-            this.User.updatePhoto(image).then(user => {
-                this._user       = user;
-                this.photo      = photo;
+        this.ParseFile.upload({base64: photo})
+            .then(this.User.updatePhoto)
+            .then(user => {
+                this._user = user;
+                this.photo = photo;
                 this.util.endLoading();
                 this.util.toast('Avatar updated')
             }).catch(error => {
-                this.util.toast('Error: Not upload image')
-            });
-
+            this.util.toast('Error: Not upload image')
         });
     }
 
@@ -123,36 +127,22 @@ export class AccountEditModalPage {
             return this.util.toast(this.errors['usernameRequired']);
         }
 
-        if (!newForm['password']) {
-            return this.util.toast(this.errors['passwordRequired']);
-        }
-
-        if (newForm['password'].length < 6) {
-            return this.util.toast(this.errors['passwordRequiredMin']);
-        }
-
-        if (newForm['password'] !== newForm['passwordConfirmation']) {
-            return this.util.toast(this.errors['passwordRequiredMatch']);
-        }
-
-        if (this.util.validPassword(newForm.password, newForm.passwordConfirmation)) {
-
-            if (rForm.valid) {
-                this.ionic.onLoading();
-                this.User.update(this.form.value).then(result => {
-                    console.log(result);
-                    this.ionic.endLoading();
-                    this.dismiss();
-                }).catch(error => {
-                    console.log(error);
-                    this.dismiss();
-                    this.ionic.endLoading();
-                });
-            }
+        if (rForm.valid) {
+            this.ionic.onLoading();
+            this.User.update(this.form.value).then(result => {
+                console.log(result);
+                this.ionic.endLoading();
+                this.dismiss();
+            }).catch(error => {
+                console.log(error);
+                this.dismiss();
+                this.ionic.endLoading();
+            });
         }
     }
 
     dismiss() {
+        this.events.publish('profile:reload');
         this.viewCtrl.dismiss();
     }
 

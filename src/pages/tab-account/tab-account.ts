@@ -47,6 +47,7 @@ export class TabAccountPage {
 
         // More Item
         this.events.subscribe(this.eventName + ':moreItem', moreItem => this.moreItem = moreItem[0]);
+        this.events.subscribe('profile:reload', () => this.loadProfile());
     }
 
     ionViewDidLoad() {
@@ -65,20 +66,6 @@ export class TabAccountPage {
                 this.photo = 'assets/img/user.png';
             }
             this.loading = false;
-        });
-    }
-
-    changePhoto(photo) {
-        this.util.onLoading('Uploading image...');
-        this.ParseFile.upload({base64: photo}).then(image => {
-            this.User.updatePhoto(image).then(user => {
-                this.user  = user;
-                this.photo = photo;
-                this.util.endLoading();
-                this.util.toast('Avatar updated');
-            }).catch(error => {
-                this.util.toast('Error: Not upload image');
-            });
         });
     }
 

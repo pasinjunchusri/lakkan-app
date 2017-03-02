@@ -22,7 +22,15 @@ export class AuthAvatarPage {
     photo: any;
     submitted: boolean = false;
     _user: any;
-    errors: [string];
+    errors = {
+        nameRequired: null,
+        emailRequired: null,
+        emailInvalid:null,
+        usernameRequired:null,
+        passwordRequired:null,
+        passwordRequiredMin:null,
+        passwordRequiredMatch:null,
+    };
 
     constructor(private navCtrl: NavController,
                 private app: App,
@@ -38,13 +46,13 @@ export class AuthAvatarPage {
         this._user = new Parse.User.current()['attributes'];
 
         // Translate Strings
-        this.util.translate('Name is required').then((res: string) => this.errors['nameRequired'] = res);
-        this.util.translate('Email is required').then((res: string) => this.errors['emailRequired'] = res);
-        this.util.translate('Email invalid').then((res: string) => this.errors['emailInvalid'] = res);
-        this.util.translate('Username is required').then((res: string) => this.errors['usernameRequired'] = res);
-        this.util.translate('Password is required').then((res: string) => this.errors['passwordRequired'] = res);
-        this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors['passwordRequiredMin'] = res);
-        this.util.translate("Password doesn't match").then((res: string) => this.errors['passwordRequiredMatch'] = res);
+        this.util.translate('Name is required').then((res: string) => this.errors.nameRequired = res);
+        this.util.translate('Email is required').then((res: string) => this.errors.emailRequired = res);
+        this.util.translate('Email invalid').then((res: string) => this.errors.emailInvalid = res);
+        this.util.translate('Username is required').then((res: string) => this.errors.usernameRequired = res);
+        this.util.translate('Password is required').then((res: string) => this.errors.passwordRequired = res);
+        this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors.passwordRequiredMin = res);
+        this.util.translate("Password doesn't match").then((res: string) => this.errors.passwordRequiredMatch = res);
 
     }
 
