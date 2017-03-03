@@ -1,3 +1,8 @@
+## [2.7.11](https://github.com/photogram/photogram2) (2017-02-04)
+### News
+
+- Important fix for chat
+
 ## [2.7.10](https://github.com/photogram/photogram2) (2017-02-03)
 ### News
 

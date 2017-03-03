@@ -39,7 +39,7 @@ export class ChatChannelPage {
         this.data = [];
 
         let ParseObject = Parse.Object.extend('ChatChannel');
-        this.query = new Parse.Query(ParseObject).include('profiles');
+        this.query = new Parse.Query(ParseObject).containedIn('users', [Parse.User.current()]).include('profiles');
 
         this.query
             .subscribe()
