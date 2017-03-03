@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.agenciafoccus.photogram2" version="2.7.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.agenciafoccus.photogram2" version="2.7.12" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Photogram2</name>
     <description>Share photos of your moments</description>
     <author email="agfoccus@gmail.com" href="http://agenciafoccus.com.br/">Agencia Foccus</author>
@@ -34,7 +34,7 @@
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />
     <preference name="ParseAppId" value="myAppId" />
-    <preference name="ParseServerUrl" value="http://photogram.codevibe.io/parse/" />
+    <preference name="ParseServerUrl" value="https://photogram.codevibe.io/parse/" />
     <preference name="ParseGcmSenderId" value="285805785383" />
     <preference name="ParseMultiNotifications" value="true" />
     <platform name="android">

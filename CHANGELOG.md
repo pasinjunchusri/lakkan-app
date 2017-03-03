@@ -1,3 +1,8 @@
+## [2.7.12](https://github.com/photogram/photogram2) (2017-02-04)
+### News
+
+- Fix Photogram Push Notication
+
 ## [2.7.11](https://github.com/photogram/photogram2) (2017-02-04)
 ### News
 
