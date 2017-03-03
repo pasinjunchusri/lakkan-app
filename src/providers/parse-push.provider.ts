@@ -20,9 +20,7 @@ export class ParsePushProvider {
                 console.log("device installationId: " + id);
                 this.subscribeUser().then(user => {
                     console.log('User subscribe', user);
-                    this.on('chat', chat => {
-                        console.log('chat', chat);
-                    });
+                    this.on('chat', console.log);
                 });
             }, error => console.log);
         }

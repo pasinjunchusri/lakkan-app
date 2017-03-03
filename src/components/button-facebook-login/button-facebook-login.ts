@@ -8,6 +8,7 @@ import {ExternalLibProvider} from "./../../providers/external-lib.provider";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {TabsPage} from "./../../pages/tabs/tabs";
 import {AuthAvatarPage} from "../../pages/auth-avatar/auth-avatar";
+import {ParsePushProvider} from "../../providers/parse-push.provider";
 
 declare const Parse: any;
 declare const FB: any;
@@ -26,6 +27,7 @@ export class ButtonFacebookLoginComponent {
                 private lib: ExternalLibProvider,
                 private analytics: AnalyticsProvider,
                 private provider: UserProvider,
+                private Push: ParsePushProvider,
                 private navCtrl: NavController
     ) {
         // Define Facebook Browser and Native
@@ -172,6 +174,7 @@ export class ButtonFacebookLoginComponent {
     onPageTabs(): void {
         console.log('Page tabs');
         this.util.endLoading();
+        this.Push.init();
         this.app.getRootNav().setRoot(TabsPage);
     }
 
