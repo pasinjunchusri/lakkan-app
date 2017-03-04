@@ -49,16 +49,14 @@ echo ""
 echo ""
 
 echo "---> Ionic Build build  $appname v$version"
-ionic build  --prod
+#ionic build  --prod
 
 echo "---> Cordova build release  $appname v$version"
-cordova build android --release
+#cordova build android --release
 
 echo ""
 echo ""
 echo "---> Zipaligning"
-
-apksigner sign --ks [chave.keystore] build.apk
 
 mkdir -p releases/
 ./zipalign -v -p 4 platforms/android/build/outputs/apk/android-release.apk releases/com.$company.$appname.v$version.apk
