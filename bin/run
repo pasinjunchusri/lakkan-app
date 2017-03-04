@@ -4,4 +4,5 @@
 echo "Compilation Application"
 ionic build --prod
 echo "Build platform"
+cordova clean $*
 cordova run $*

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.agenciafoccus.photogram2" version="2.7.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.agenciafoccus.photogram2" version="2.7.15" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Photogram2</name>
     <description>Share photos of your moments</description>
     <author email="agfoccus@gmail.com" href="http://agenciafoccus.com.br/">Agencia Foccus</author>
@@ -33,10 +33,10 @@
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />
-    <preference name="ParseAppId" value="myAppId" />
+    <preference name="ParseAppId" value="Q2SzjjC9C1Ta68f67JYPq9925hhz10nA" />
     <preference name="ParseServerUrl" value="https://photogram.codevibe.io/parse/" />
+    <preference name="ParseClientKey" value="4D6C37D626175" />
     <preference name="ParseGcmSenderId" value="285805785383" />
-    <preference name="ParseMultiNotifications" value="true" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -89,12 +89,6 @@
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
-    </platform>
-    <platform name="android">
-        <preference name="CodePushDeploymentKey" value="0caInlOedY3vVKT7TL1xJyEZco-wEkfAzLMdz" />
-    </platform>
-    <platform name="ios">
-        <preference name="CodePushDeploymentKey" value="NdQaMVgX9dfT9lWjSRSetbBo5f-cEkfAzLMdz" />
     </platform>
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
