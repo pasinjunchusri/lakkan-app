@@ -49,10 +49,10 @@ echo ""
 echo ""
 
 echo "---> Ionic Build build  $appname v$version"
-#ionic build  --prod
+ionic build  --prod
 
 echo "---> Cordova build release  $appname v$version"
-#cordova build android --release
+cordova build android --release
 
 echo ""
 echo ""
