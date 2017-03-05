@@ -1,11 +1,11 @@
-import { Storage } from '@ionic/storage';
-import {Component} from '@angular/core';
+import {Storage} from "@ionic/storage";
+import {Component} from "@angular/core";
 import {ViewController} from "ionic-angular";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {TranslateService} from "ng2-translate";
-
 import {languages} from "../../config";
-import _ from 'underscore';
+import _ from "underscore";
+declare const Parse:any;
 
 @Component({
     selector   : 'language-modal',
@@ -14,7 +14,6 @@ import _ from 'underscore';
 export class LanguageModalComponent {
 
     _languages: any;
-    _placeholder: string;
     _words: string = '';
 
     constructor(private viewCtrl: ViewController,
@@ -23,7 +22,6 @@ export class LanguageModalComponent {
                 private storage: Storage
     ) {
         this._languages = _.sortBy(languages, 'name');
-        this.startTranslate();
     }
 
     doSearch() {
@@ -33,18 +31,14 @@ export class LanguageModalComponent {
         this._languages = _.sortBy(filter, 'name');
     }
 
-    startTranslate() {
-        // Translate Search Bar Placeholder
-        this.util.translate('Search').then((res: string) => this._placeholder = res);
-    }
 
     selectLanguage(lang: any) {
         this.util.onLoading();
         let langSelected = lang.code.split('_')[0];
         this.translate.use(langSelected);
         setTimeout(() => {
-            this.startTranslate();
             this.storage.set('lang', langSelected);
+            Parse.User.current().set('lang', langSelected).save();
             this.util.endLoading();
             this.dismiss();
         }, 1000);

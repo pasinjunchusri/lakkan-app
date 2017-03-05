@@ -54,19 +54,6 @@ export class AccountEditModalPage {
         this.util.translate('Password is required').then((res: string) => this.errors.passwordRequired = res);
         this.util.translate('Password should be at least 6 characters').then((res: string) => this.errors.passwordRequiredMin = res);
         this.util.translate("Password doesn't match").then((res: string) => this.errors.passwordRequiredMatch = res);
-
-        // Change Photo user
-        events.subscribe(this._eventName, imageCroped => {
-            this.util.onLoading();
-            this.ParseFile.upload({base64: imageCroped[0]})
-                .then(this.User.updatePhoto)
-                .then(user => {
-                    console.log(user);
-                    this.photo = imageCroped[0];
-                    this.util.endLoading();
-                });
-            this.events.publish('photocrop:close');
-        });
     }
 
 

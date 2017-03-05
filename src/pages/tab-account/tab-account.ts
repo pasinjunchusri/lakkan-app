@@ -3,10 +3,8 @@ import {App, Events, ModalController} from "ionic-angular";
 import {AccountEditModalPage} from "../account-edit-modal/account-edit-modal";
 import {TabAccountSettingsPage} from "../tab-account-settings/tab-account-settings";
 import {UserDataProvider} from "../../providers/user-data.provider";
-import {ParseFileProvider} from "../../providers/parse-file.provider";
-import {UserProvider} from "../../providers/user.provider";
-import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {AnalyticsProvider} from "../../providers/analytics.provider";
+declare const Parse:any;
 
 @Component({
     selector   : 'page-tab-account',
@@ -32,17 +30,14 @@ export class TabAccountPage {
     constructor(private userData: UserDataProvider,
                 private events: Events,
                 private modalCtrl: ModalController,
-                private ParseFile: ParseFileProvider,
-                private User: UserProvider,
                 private app: App,
-                private util: IonicUtilProvider,
                 private analytics: AnalyticsProvider,
     ) {
         // Google Analytics
         this.analytics.view('TabAccountPage');
 
-        this.user            = this.userData.current();
-        this.username        = this.user.username;
+        this.user            = new Parse.User.current();
+        this.username        = this.user.get('username');
         this.params.username = this.username;
 
         // More Item

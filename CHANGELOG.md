@@ -1,3 +1,14 @@
+## [2.7.16](https://github.com/photogram/photogram2) (2017-02-04)
+
+
+- Fix profile page
+- Fix set language in user login
+- Fix capture and crop image in app
+- User page removed username, to user fill
+- New about page content
+- New Firebase Analytics (http://ionicframework.com/docs/v2/native/firebase/)
+
+
 ## [2.7.13](https://github.com/photogram/photogram2) (2017-02-04)
 ### News
 

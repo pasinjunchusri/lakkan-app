@@ -68,8 +68,12 @@ export class AuthAvatarPage {
             phone:    [''],
         });
 
+        // Clear Username
+        delete this._user['username'];
+
         _.each(this._user, (value, key) => {
             console.log(key, value);
+
             if (this.form.controls[key]) {
                 this.form.controls[key].setValue(value);
             }

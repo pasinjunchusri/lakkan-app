@@ -5,8 +5,8 @@ import {Device} from "@ionic-native/device";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
 import {PARSE_APP_ID, PARSE_SERVER_URL, GOOGLE_ANALYTICS, PARSE_JAVASCRIPT_KEY} from "../config";
-import {ParsePushProvider} from "../providers/parse-push.provider";
 import {AnalyticsProvider} from "../providers/analytics.provider";
+import {UserProvider} from "../providers/user.provider";
 
 declare const Parse: any;
 
@@ -23,9 +23,8 @@ export class MyApp implements OnInit {
     }
 
     constructor(private platform: Platform,
-                private Push: ParsePushProvider,
                 private Analytics: AnalyticsProvider,
-    ) {
+                private User: UserProvider) {
 
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
@@ -38,12 +37,9 @@ export class MyApp implements OnInit {
             Analytics.appVersion(Device.version);
 
             // Start Parse User
-            let user = Parse.User.current();
-            console.log(user);
-            if (!user) {
+            if (!User.current()) {
                 this.rootPage = IntroPage;
             } else {
-                this.Push.init();
                 this.rootPage = TabsPage;
             }
         });

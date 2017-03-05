@@ -4,7 +4,7 @@
             <img *ngIf="item.user.photo" [src]="item.user.photo" width="40px" height="40px">
             <img *ngIf="!item.user.photo" src="assets/img/user.png">
         </ion-avatar>
-        <h2>{{item.user.name || item.user.username }}</h2>
+        <h2 (click)="openProfile(item.user.username)">{{item.user.name || item.user.username }}</h2>
 
         <ion-note item-right>{{item.createdAt | amTimeAgo}}</ion-note>
 

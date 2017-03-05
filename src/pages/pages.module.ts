@@ -183,11 +183,15 @@ export class PagesModule {
         // this language will be used as a fallback when a translation isn't found in the current language
         this.translate.setDefaultLang(language_default);
 
+        console.warn(language)
+
         // the lang to use, if the lang isn't available, it will use the current loader to get them
         this.storage.get('lang').then(lang => {
+            console.info(lang)
             if (lang) {
                 this.translate.use(lang);
             } else {
+                this.storage.set('lang', language);
                 this.translate.use(language);
             }
         });

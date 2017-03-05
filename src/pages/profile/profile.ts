@@ -60,22 +60,9 @@ export class ProfilePage {
             this.canEdit = true;
         }
 
-
-        this.loading = true;
-        this.User.getProfile(this.username).then(profile => {
-            if (profile) {
-                this.profile         = profile;
-                this.profile.loading = false;
-            } else {
-                this.loadProfile();
-            }
-            this.onSelectType();
-        });
+        this.loadProfile();
     }
 
-    ionViewWillEnter() {
-
-    }
 
     loadProfile() {
         this.loading         = true;
@@ -84,6 +71,7 @@ export class ProfilePage {
             this.profile         = profile;
             this.profile.loading = false;
             this.loading         = false;
+            this.onSelectType();
         }).catch(this.util.toast);
     }
 
