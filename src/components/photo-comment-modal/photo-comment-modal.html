@@ -12,6 +12,9 @@
 </ion-header>
 <ion-content>
   <loader *ngIf="loading"></loader>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <!-- error -->
   <div class="center" *ngIf="showErrorView" padding>
     <div class="error ">
@@ -33,16 +36,15 @@
   <div class="message-wrapper" *ngFor="let item of data">
       <div>
 
-          <img class="profile-pic" [ngClass]="item.class" *ngIf="item.user.photo" [src]="item.user.photo">
-          <img class="profile-pic" [ngClass]="item.class" *ngIf="!item.user.photo" src="assets/img/user.png">
+          <img class="profile-pic" [ngClass]="item.class"  [src]="item.photo">
 
           <div class="chat-bubble " [ngClass]="item.class">
 
-              <div class="message"> {{item.text}}</div>
+              <div class="message"> {{item.get('text')}}</div>
 
               <div class="message-detail">
-                  <span class="bold">{{item.user.name}}</span>,
-                  <span>{{item.createdAt | date:'HH:mm'}}</span>
+                  <span class="bold">{{item.get('profile').get('name')}}</span>,
+                  <span>{{item.createdAt | amTimeAgo }}</span>
               </div>
           </div>
 

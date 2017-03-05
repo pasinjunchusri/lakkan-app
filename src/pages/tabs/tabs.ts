@@ -4,7 +4,6 @@ import {TabSearchPage} from "../tab-search/tab-search";
 import {TabCapturePage} from "../tab-capture/tab-capture";
 import {TabActivityPage} from "../tab-activity/tab-activity";
 import {TabAccountPage} from "../tab-account/tab-account";
-import {NativeAudio} from "@ionic-native/native-audio";
 import {Tabs, Events} from "ionic-angular";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 
@@ -35,9 +34,6 @@ export class TabsPage {
         this.events.subscribe('tabHome', () => setTimeout(() => this.tabRef.select(0), 100));
         this.events.subscribe('clearActivity', () => this.tabActivityBadge = 0);
 
-        NativeAudio.preloadSimple('activity', 'assets/beep.mp3')
-            .then(() => console.log('Audio ok'))
-            .catch(console.log);
 
         // Activities for User
         let chatMessage = Parse.Object.extend('GalleryActivity');
@@ -50,8 +46,7 @@ export class TabsPage {
         // subscribe activity
         this.query.subscribe().on('create',
             activity => {
-                NativeAudio.play('activity');
-                this.util.toast(activity.get('fromUser').get('name') + ' ' + activity.get('action'))
+                // this.util.toast(activity.get('fromUser').get('name') + ' ' + activity.get('action'))
                 this.tabActivityBadge++
             });
     }

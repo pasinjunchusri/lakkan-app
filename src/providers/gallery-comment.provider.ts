@@ -32,10 +32,6 @@ export class GalleryCommentProvider {
         });
     }
 
-    feed(params: any): Promise<any> {
-        return Parse.Cloud.run('getComments', params);
-    }
-
     create(item: any): Promise<any> {
         return new this._ParseObject().save(item);
     }

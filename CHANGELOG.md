@@ -1,5 +1,12 @@
-## [2.7.16](https://github.com/photogram/photogram2) (2017-02-04)
+## [2.7.17](https://github.com/photogram/photogram2) (2017-02-05)
+### News 
 
+- New translations
+- Photo Comment migrate to Live Queries!!! Realtime comments!!!
+
+
+## [2.7.16](https://github.com/photogram/photogram2) (2017-02-05)
+### News
 
 - Fix profile page
 - Fix set language in user login
