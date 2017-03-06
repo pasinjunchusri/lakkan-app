@@ -1,3 +1,10 @@
+## [2.7.19](https://github.com/photogram/photogram2) (2017-02-05)
+### News 
+
+- Fix pt language
+- Fix username validation in register and edit profile
+
+
 ## [2.7.17](https://github.com/photogram/photogram2) (2017-02-05)
 ### News 
 

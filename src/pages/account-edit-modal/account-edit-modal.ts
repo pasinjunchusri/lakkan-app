@@ -62,7 +62,7 @@ export class AccountEditModalPage {
         this.form = this.formBuilder.group({
             name:     ['', Validators.required],
             email:    ['', Validators.required],
-            username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+          username            : ['', Validators.compose([Validators.required, Validators.minLength(4)])],
             website:  [''],
             gender:   ['male', Validators.required],
             birthday: [''],
