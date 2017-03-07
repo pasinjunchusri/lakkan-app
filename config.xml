@@ -33,10 +33,10 @@
   <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect"/>
   <preference name="xwalkMode" value="embedded"/>
   <preference name="xwalkMultipleApk" value="true"/>
-  <preference name="ParseAppId" value="Q2SzjjC9C1Ta68f67JYPq9925hhz10nA"/>
-  <preference name="ParseServerUrl" value="https://photogram.codevibe.io/parse/"/>
-  <preference name="ParseClientKey" value="4D6C37D626175"/>
-  <preference name="ParseGcmSenderId" value="285805785383"/>
+  <preference name="ParseAppId" value="YourParseAppID"/>
+  <preference name="ParseServerUrl" value="http://yourhost/parse/"/>
+  <preference name="ParseClientKey" value="YourClientId"/>
+  <preference name="ParseGcmSenderId" value="FirebaseSenderID"/>
   <platform name="android">
     <allow-intent href="market:*"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
