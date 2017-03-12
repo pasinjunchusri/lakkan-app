@@ -1,4 +1,3 @@
-import { Storage } from '@ionic/storage';
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 // Providers
@@ -18,32 +17,33 @@ import {ExternalLibProvider} from "./external-lib.provider";
 import {ChatChannelProvider} from "./chat-channel.provider";
 import {ChatMessageProvider} from "./chat-message.provider";
 import {AnalyticsProvider} from "./analytics.provider";
+import {LocalStorageProvider} from "./local-storage.provider";
 
 export const sharedProviders = [
-    IonicUtilProvider,
-    ExternalLibProvider,
-    LoggingProvider,
-    AuthProvider,
-    UserProvider,
-    UserDataProvider,
-    GalleryProvider,
-    GalleryAlbumProvider,
-    GalleryActivityProvider,
-    GalleryCommentProvider,
-    GallerFeedbackProvider,
-    ParseFileProvider,
-    ParsePushProvider,
-    ChatChannelProvider,
-    ChatMessageProvider,
-    AnalyticsProvider,
-    Storage,
+  IonicUtilProvider,
+  ExternalLibProvider,
+  LoggingProvider,
+  AuthProvider,
+  UserProvider,
+  UserDataProvider,
+  GalleryProvider,
+  GalleryAlbumProvider,
+  GalleryActivityProvider,
+  GalleryCommentProvider,
+  GallerFeedbackProvider,
+  ParseFileProvider,
+  ParsePushProvider,
+  ChatChannelProvider,
+  ChatMessageProvider,
+  AnalyticsProvider,
+  LocalStorageProvider,
 ];
 
 @NgModule({
-    imports     : [CommonModule],
-    exports     : [],
-    declarations: [],
-    providers   : [sharedProviders]
+  imports     : [CommonModule],
+  exports     : [],
+  declarations: [],
+  providers   : [sharedProviders]
 })
 export class ProvidersModule {
 }

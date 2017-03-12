@@ -1,10 +1,9 @@
 import {Injectable} from "@angular/core";
-import {Firebase} from "@ionic-native/firebase";
-import {Storage} from "@ionic/storage";
 import {Events} from "ionic-angular";
 import {ParsePushProvider} from "./parse-push.provider";
 import {IonicUtilProvider} from "./ionic-util.provider";
 import {IUserFollow} from "../models/user.model";
+import {LocalStorageProvider} from "./local-storage.provider";
 import _ from "underscore";
 declare var Parse: any;
 
@@ -17,7 +16,7 @@ export class UserProvider {
   constructor(private ParsePush: ParsePushProvider,
               private util: IonicUtilProvider,
               private events: Events,
-              private Storage: Storage) {
+              private Storage: LocalStorageProvider) {
     this.cordova = this.util.cordova;
 
   }
@@ -26,7 +25,6 @@ export class UserProvider {
     let user = Parse.User.current();
     if (user) {
       this.ParsePush.init();
-      Firebase.setUserId(user.id);
     }
     return user;
   }
@@ -86,7 +84,6 @@ export class UserProvider {
         .then(user => currentUser = user)
         .then(() => this.Storage.get('lang'))
         .then(this.setLanguage)
-        .then(() => (this.cordova) ? Firebase.setUserId(currentUser.id) : null)
         .then(() => this.ParsePush.init())
         .then(() => resolve(currentUser))
         .catch(reject);
@@ -138,7 +135,6 @@ export class UserProvider {
           _user => currentUser = _user)
         .then(() => this.Storage.get('lang'))
         .then(this.setLanguage)
-        .then(() => (this.cordova) ? Firebase.setUserId(currentUser.id) : null)
         .then(() => this.ParsePush.init())
         .then(() => resolve(currentUser))
         .catch(reject);

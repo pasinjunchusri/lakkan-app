@@ -1,3 +1,10 @@
+## [2.8.0](https://github.com/photogram/photogram2) (2017-02-05)
+### News 
+
+- Ionic 2.2.0 !
+- ionic-app-scripts 1.1.4
+- Removed ionic-storage, and migrate to LocalStorageProvider 
+
 ## [2.7.19](https://github.com/photogram/photogram2) (2017-02-05)
 ### News 
 

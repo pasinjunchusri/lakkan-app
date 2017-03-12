@@ -11,7 +11,8 @@ export class PhotoMapComponent {
     _map: GoogleMap;
     _currentPosition: GoogleMapsLatLng;
 
-    constructor(private platform: Platform) {
+    constructor(private platform: Platform,
+    private Geolocation: Geolocation) {
         platform.ready().then(() => {
             this.startMap();
         });
@@ -22,7 +23,7 @@ export class PhotoMapComponent {
         if (this._currentPosition) {
             this.loadMap(this._currentPosition);
         } else {
-            Geolocation.getCurrentPosition().then(position => {
+            this.Geolocation.getCurrentPosition().then(position => {
                 this._currentPosition = new GoogleMapsLatLng(position.coords.latitude, position.coords.longitude);
                 this.loadMap(this._currentPosition);
             })

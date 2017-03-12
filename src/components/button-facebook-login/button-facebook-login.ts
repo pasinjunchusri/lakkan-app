@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {App, NavController} from "ionic-angular";
+import {App} from "ionic-angular";
 import {Facebook} from "@ionic-native/facebook";
 import {FacebookService} from "ng2-facebook-sdk";
 import {UserProvider} from "../../providers/user.provider";
@@ -17,7 +17,7 @@ declare const FB: any;
 export class ButtonFacebookLoginComponent {
 
     facebook: any;
-    facebookNative: Facebook;
+    facebookNative: any;
     facebookInitialised: boolean = false;
     cordova: boolean             = false;
 
@@ -27,8 +27,7 @@ export class ButtonFacebookLoginComponent {
                 private lib: ExternalLibProvider,
                 private analytics: AnalyticsProvider,
                 private provider: UserProvider,
-                private Push: ParsePushProvider,
-                private navCtrl: NavController
+                private Push: ParsePushProvider
     ) {
         // Define Facebook Browser and Native
         this.facebookNative = Facebook;

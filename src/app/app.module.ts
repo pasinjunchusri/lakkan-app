@@ -3,7 +3,6 @@ import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {HttpModule} from "@angular/http";
 import {IonicApp, IonicModule, IonicErrorHandler} from "ionic-angular";
-import {Storage} from "@ionic/storage";
 import {MyApp} from "./app.component";
 import {APP_PAGES, PagesModule} from "../pages/pages.module";
 import {FacebookService} from "ng2-facebook-sdk";
@@ -40,7 +39,6 @@ import {ChatMessagePage} from "../pages/chat-message/chat-message";
     ],
     providers      : [
         FacebookService,
-        Storage,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ],
     bootstrap      : [IonicApp],

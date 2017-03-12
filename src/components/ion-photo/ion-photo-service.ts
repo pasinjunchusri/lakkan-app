@@ -27,7 +27,8 @@ export class IonPhotoService {
 
     constructor(private actionSheetCtrl: ActionSheetController,
                 private platform: Platform,
-                private translateService: TranslateService
+                private translateService: TranslateService,
+                private Camera: Camera
     ) {
         this._cordova = this.platform.is('cordova') ? true : false;
         // Translate
@@ -88,7 +89,7 @@ export class IonPhotoService {
                 sourceType  : Camera.PictureSourceType.CAMERA
             }
 
-            Camera.getPicture(_options).then((imageData) => {
+            this.Camera.getPicture(_options).then((imageData) => {
                 // imageData is a base64 encoded string
                 this._base64Image = imageData;
                 resolve(this._base64Image);
@@ -109,7 +110,7 @@ export class IonPhotoService {
                 maximumImagesCount: 1,
             };
 
-            Camera.getPicture(_options).then(imageData => {
+            this.Camera.getPicture(_options).then(imageData => {
                 // imageData is a base64 encoded string
                 this._base64Image = imageData;
                 resolve(this._base64Image);

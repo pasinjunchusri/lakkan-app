@@ -1,8 +1,8 @@
-import {Storage} from "@ionic/storage";
 import {Component} from "@angular/core";
 import {ViewController} from "ionic-angular";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {TranslateService} from "ng2-translate";
+import {LocalStorageProvider} from "../../providers/local-storage.provider";
 import {languages} from "../../config";
 import _ from "underscore";
 declare const Parse:any;
@@ -19,7 +19,7 @@ export class LanguageModalComponent {
     constructor(private viewCtrl: ViewController,
                 private util: IonicUtilProvider,
                 private translate: TranslateService,
-                private storage: Storage
+                private storage: LocalStorageProvider
     ) {
         this._languages = _.sortBy(languages, 'name');
     }
@@ -37,7 +37,7 @@ export class LanguageModalComponent {
         let langSelected = lang.code.split('_')[0];
         this.translate.use(langSelected);
         setTimeout(() => {
-            this.storage.set('lang', langSelected);
+            this.storage.set('lang', langSelected)
             Parse.User.current().set('lang', langSelected).save();
             this.util.endLoading();
             this.dismiss();

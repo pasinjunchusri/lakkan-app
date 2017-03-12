@@ -1,5 +1,5 @@
 import {PhoneContactPage} from './phone-contact/phone-contact';
-import {Storage} from '@ionic/storage';
+import {LocalStorageProvider} from '../providers/local-storage.provider';
 import {IonicModule, Config, Platform} from 'ionic-angular';
 import {NgModule} from '@angular/core';
 import {Http} from '@angular/http';
@@ -165,7 +165,7 @@ export class PagesModule {
     constructor(private translate: TranslateService,
                 private config: Config,
                 private platform: Platform,
-                private storage: Storage) {
+                private storage: LocalStorageProvider) {
         this.translateConfig();
         setTimeout(() => {
             this.androidPermission();
