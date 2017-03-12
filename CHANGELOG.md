@@ -1,4 +1,4 @@
-## [2.8.0](https://github.com/photogram/photogram2) (2017-02-05)
+## [2.8.0](https://github.com/photogram/photogram2) (2017-03-12)
 ### News 
 
 - Ionic 2.2.0 !
