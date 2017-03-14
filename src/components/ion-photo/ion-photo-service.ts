@@ -89,7 +89,7 @@ export class IonPhotoService {
                 sourceType  : Camera.PictureSourceType.CAMERA
             }
 
-            this.Camera.getPicture(_options).then((imageData) => {
+            Camera.getPicture(_options).then((imageData) => {
                 // imageData is a base64 encoded string
                 this._base64Image = imageData;
                 resolve(this._base64Image);
@@ -110,7 +110,7 @@ export class IonPhotoService {
                 maximumImagesCount: 1,
             };
 
-            this.Camera.getPicture(_options).then(imageData => {
+            Camera.getPicture(_options).then(imageData => {
                 // imageData is a base64 encoded string
                 this._base64Image = imageData;
                 resolve(this._base64Image);

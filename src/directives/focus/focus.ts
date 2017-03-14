@@ -8,8 +8,7 @@ import {Platform} from "ionic-angular";
 export class FocusDirective {
     constructor(private renderer: Renderer,
                 private elementRef: ElementRef,
-                private platform: Platform,
-                private Keyboard: Keyboard
+                private platform: Platform
     ) {
     }
 
@@ -18,7 +17,7 @@ export class FocusDirective {
         // we need to delay our call in order to work with ionic ...
         this.renderer.invokeElementMethod(element, 'focus', []);
         if (this.platform.is('cordova')) {
-            this.Keyboard.show();
+            Keyboard.show();
             element.getBoundingClientRect().top
         }
     }

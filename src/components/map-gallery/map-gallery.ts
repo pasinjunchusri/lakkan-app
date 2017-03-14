@@ -36,8 +36,7 @@ export class MapGalleryComponent {
                 private provider: GalleryProvider,
                 private navCtrl: NavController,
                 private lib: ExternalLibProvider,
-                private analytics: AnalyticsProvider,
-                private Geolocation: Geolocation,
+                private analytics: AnalyticsProvider
     ) {
         // Google Analytics
         this.analytics.view('TabSearchMapPage');
@@ -131,7 +130,7 @@ export class MapGalleryComponent {
     onMyPosition() {
         this.util.toast('Loading my position');
         // Get Current Location
-        this.Geolocation.getCurrentPosition().then((position) => {
+        Geolocation.getCurrentPosition().then((position) => {
 
             let latLng           = this.position(position.coords.latitude, position.coords.longitude);
             this.params.location = new Parse.GeoPoint(position.coords.latitude, position.coords.longitude);

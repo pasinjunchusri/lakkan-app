@@ -1,3 +1,8 @@
+## [2.8.1](https://github.com/photogram/photogram2) (2017-03-13)
+### News 
+
+- Downgrade ionic-native updates to fix errors
+
 ## [2.8.0](https://github.com/photogram/photogram2) (2017-03-12)
 ### News 
 
