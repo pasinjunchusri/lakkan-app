@@ -27,8 +27,7 @@ export class IonPhotoService {
 
     constructor(private actionSheetCtrl: ActionSheetController,
                 private platform: Platform,
-                private translateService: TranslateService,
-                private Camera: Camera
+                private translateService: TranslateService
     ) {
         this._cordova = this.platform.is('cordova') ? true : false;
         // Translate

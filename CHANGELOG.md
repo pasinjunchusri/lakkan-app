@@ -1,3 +1,8 @@
+## [2.8.2](https://github.com/photogram/photogram2) (2017-03-14)
+### News 
+
+- Fix Camera provider error thanks @twentyonegreece
+
 ## [2.8.1](https://github.com/photogram/photogram2) (2017-03-13)
 ### News 
 
