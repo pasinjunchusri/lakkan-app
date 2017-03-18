@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {InAppBrowser} from '@ionic-native/inappbrowser';
+import {InAppBrowser} from 'ionic-native';
 import {Platform, LoadingController, ToastController, AlertController} from 'ionic-angular';
 import {TranslateService} from 'ng2-translate';
 import * as _ from 'underscore';

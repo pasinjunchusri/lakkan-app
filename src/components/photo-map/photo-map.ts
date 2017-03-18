@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {GoogleMap, GoogleMapsLatLng, GoogleMapsEvent} from "@ionic-native/googlemap";
-import {Geolocation} from "@ionic-native/geolocation";
+import {Geolocation, GoogleMap, GoogleMapsLatLng, GoogleMapsEvent} from "ionic-native";
 import {Platform} from "ionic-angular";
 // http://www.joshmorony.com/integrating-native-google-maps-into-an-ionic-2-application/
 @Component({

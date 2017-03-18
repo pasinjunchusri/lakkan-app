@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {App} from "ionic-angular";
-import {Facebook} from "@ionic-native/facebook";
+import {Facebook} from "ionic-native";
 import {FacebookService} from "ng2-facebook-sdk";
 import {UserProvider} from "../../providers/user.provider";
 import {AnalyticsProvider} from "./../../providers/analytics.provider";

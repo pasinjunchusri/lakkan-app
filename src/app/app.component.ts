@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {Platform} from "ionic-angular";
-import {Splashscreen} from "@ionic-native/splashscreen";
-import {Device} from "@ionic-native/device";
+import {Device, Splashscreen} from "ionic-native";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
 import {PARSE_APP_ID, PARSE_SERVER_URL, GOOGLE_ANALYTICS, PARSE_JAVASCRIPT_KEY} from "../config";

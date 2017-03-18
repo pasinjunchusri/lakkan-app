@@ -11,7 +11,7 @@ import {LanguageModalComponent} from "../../components/language-modal/language-m
 import {UserProvider} from "../../providers/user.provider";
 import {AnalyticsProvider} from "../../providers/analytics.provider";
 import {FacebookService} from "ng2-facebook-sdk";
-import {Facebook} from "@ionic-native/facebook";
+import {Facebook} from 'ionic-native';
 
 declare const FB: any;
 

@@ -1,6 +1,6 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
 import {NavController} from "ionic-angular";
-import {Geolocation} from "@ionic-native/geolocation";
+import {Geolocation} from "ionic-native";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {GalleryProvider} from "../../providers/gallery.provider";
 import {ExternalLibProvider} from "../../providers/external-lib.provider";

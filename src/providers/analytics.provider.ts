@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {GoogleAnalytics} from "@ionic-native/googleanalytics";
+import {GoogleAnalytics} from 'ionic-native';
 import {Platform} from "ionic-angular";
 
 @Injectable()

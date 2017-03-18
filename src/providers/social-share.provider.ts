@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SocialSharing} from "@ionic-native/socialsharing";
+import {SocialSharing} from 'ionic-native';
 
 /*
  Generated class for the SocialShareProvider provider.
