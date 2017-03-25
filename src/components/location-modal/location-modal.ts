@@ -23,9 +23,7 @@ export class LocationModalComponent {
     }
 
     doSearch() {
-        this._languages = languages.filter(item => {
-            return item.name.toLowerCase().indexOf(this._words.toLowerCase()) > -1;
-        });
+        this._languages = languages.filter(item => item.name.toLowerCase().indexOf(this._words.toLowerCase()) > -1);
     }
 
     startTranslate() {
