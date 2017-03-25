@@ -1,7 +1,9 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-searchbar [(ngModel)]="words" (ionInput)="doSearch()" (ionCancel)="doCancel()"
-                       [placeholder]="placeholder"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="words"
+                       (ionInput)="doSearch()"
+                       (ionCancel)="doCancel()"
+                       placeholder="{{'Search user' | translate }}"></ion-searchbar>
 
         <ion-buttons start>
             <button ion-button (click)="dismiss()">
@@ -41,8 +43,8 @@
                 <img *ngIf="item.photo" [src]="item.photo">
             </ion-avatar>
             <ion-label>
-                <h2>{{item.username}}</h2>
-                <p>{{item.name}}</p>
+                <h2>{{item.name}}</h2>
+                <p>{{item.username}}</p>
             </ion-label>
             <ion-checkbox color="primary" [(ngModel)]="item.checked" item-right></ion-checkbox>
         </ion-item>

@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, ViewController, Events} from "ionic-angular";
+import {Events, NavController, ViewController} from "ionic-angular";
 import {UserProvider} from "../../providers/user.provider";
 import _ from "underscore";
 import {ChatChannelProvider} from "../../providers/chat-channel.provider";
@@ -11,18 +11,17 @@ import {AnalyticsProvider} from "../../providers/analytics.provider";
   templateUrl: 'chat-form.html'
 })
 export class ChatFormPage {
-  words: string = '';
-
-
+  
   errorIcon: string      = 'ios-images-outline';
   errorText: string      = '';
   data                   = [];
+  _cache                 = [];
   loading: boolean       = true;
   showEmptyView: boolean = false;
   showErrorView: boolean = false;
   moreItem: boolean      = false;
+  words: string          = '';
   search: string         = '';
-  placeholder: string    = 'Search user';
 
   params = {
     limit : 20,
@@ -64,6 +63,7 @@ export class ChatFormPage {
         console.log(data);
         if (data && data.length) {
           _.sortBy(data, 'createdAt').reverse().map(item => this.data.push(item));
+          this._cache = this.data;
 
           this.showErrorView = false;
           this.showEmptyView = false;
@@ -119,11 +119,12 @@ export class ChatFormPage {
 
   // Search
   doSearch() {
-    this.feed();
+    let filter = this._cache.filter(item => item.name.toLowerCase().indexOf(this.words.toLowerCase()) > -1);
+    this.data  = _.sortBy(filter, 'name');
   }
 
   doCancel() {
-    this.feed();
+    this.data = this._cache;
   }
 
   doInfinite(event) {
