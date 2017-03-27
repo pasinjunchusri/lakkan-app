@@ -15,7 +15,7 @@ export class ChatChannelProvider {
     }
 
     find(): Promise<any> {
-        return new Parse.Query(this._ParseObject).include('profiles').find();
+        return new Parse.Query('ChatChannel').containedIn('users', [Parse.User.current()]).include('profiles').find();
 
     }
 

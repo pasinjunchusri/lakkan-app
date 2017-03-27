@@ -67,6 +67,7 @@ import {BookmarkPhotoGridComponent} from '../components/bookmark-photo-grid/book
 import {UserListComponent} from '../components/user-list/user-list';
 import {MapGalleryComponent} from '../components/map-gallery/map-gallery';
 import {AuthAvatarPage} from "./auth-avatar/auth-avatar";
+import {ChatMessagePopoverPage} from "./chat-message-popover/chat-message-popover";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './i18n', '.json');
@@ -102,6 +103,7 @@ export const APP_PAGES = [
     ChatChannelPage,
     ChatFormPage,
     ChatMessagePage,
+    ChatMessagePopoverPage,
     ChatSharePhotoPage,
 
     // Modal

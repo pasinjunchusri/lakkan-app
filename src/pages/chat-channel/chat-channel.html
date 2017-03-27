@@ -32,7 +32,7 @@
     </ion-refresher>
     <ion-list>
 
-        <ion-item *ngFor="let item of data" (click)="onPageMessage(item)">
+        <ion-item *ngFor="let item of data" (click)="onPageMessage(item.id)">
             <ion-avatar item-left>
                 <!-- One Chat-->
                 <img *ngIf="item.profiles.length==1 && item.profiles[0]" [src]="item.profiles[0]">

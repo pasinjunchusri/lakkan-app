@@ -1,3 +1,11 @@
+## [2.8.4](https://github.com/photogram/photogram2) (2017-03-27)
+### News
+- Fixes for chat and new feature, destroy chat conversation
+
+### Upgrade
+- Ionic (2.3.0)
+- ionic-app-scripts (1.2.2)
+
 ## [2.8.2](https://github.com/photogram/photogram2) (2017-03-14)
 ### News 
 

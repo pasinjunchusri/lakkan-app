@@ -11,7 +11,7 @@ import {AnalyticsProvider} from "../../providers/analytics.provider";
   templateUrl: 'chat-form.html'
 })
 export class ChatFormPage {
-  
+
   errorIcon: string      = 'ios-images-outline';
   errorText: string      = '';
   data                   = [];
@@ -108,9 +108,10 @@ export class ChatFormPage {
       this.util.onLoading();
       this.Channel.create({users: users}).then(data => {
         console.log('saved', data);
-        this.events.publish('channel:update');
         this.util.endLoading();
         this.dismiss();
+        this.events.publish('channel:reload')
+        this.events.publish('channel:open', data.id)
       });
     } else {
       console.log('Select user first');
