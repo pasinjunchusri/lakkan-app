@@ -79,11 +79,11 @@ export class ChatChannelPage {
 
 
   scrollToBottom(): void {
-    // setTimeout(() => {
-    //     if (this.content.scrollToBottom) {
-    //         this.content.scrollToBottom(300)
-    //     }
-    // }, 100);
+    setTimeout(() => {
+        if (this.content.scrollToBottom) {
+            this.content.scrollToBottom(300)
+        }
+    }, 100);
   }
 
   public doRefresh(event?) {
