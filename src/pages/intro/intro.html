@@ -19,7 +19,7 @@
             pager='true'
             effect='slide'
             paginationType='progress'
-            (ionWillChange)="onSlideChangeStart($event)">
+            (ionSlideWillChange)="onSlideChangeStart($event)">
 
         <ion-slide *ngFor="let slide of slides">
             <div class="text-content">

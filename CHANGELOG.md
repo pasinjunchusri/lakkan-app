@@ -1,3 +1,20 @@
+## [2.9.0](https://github.com/photogram/photogram2) (2017-03-28)
+### News
+- Improvement in Facebook Brower 
+- Change Password Fixed
+- Improvement in Facebook Auth Page
+- Fix slide warning
+- Improvement Add Facebook Friends
+- Improvement Invite Contact Phones with SMS
+
+## Upgrade
+- Please upgrade your Server!
+
+## Cordova Plugins
+- Please add new plugins
+- cordova plugin add https://github.com/dbaq/cordova-plugin-contacts-phone-numbers.git
+- cordova plugin add https://github.com/cordova-sms/cordova-sms-plugin.git
+
 ## [2.8.4](https://github.com/photogram/photogram2) (2017-03-27)
 ### News
 - Fixes for chat and new feature, destroy chat conversation

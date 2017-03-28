@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {App, Events, NavController} from "ionic-angular";
-import _ from "underscore";
 import {IParams} from "../../models/parse.params.model";
 import {UserProvider} from "../../providers/user.provider";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
 import {IntroPage} from "../../pages/intro/intro";
 import {ProfilePage} from "../../pages/profile/profile";
+import _ from "underscore";
 
 @Component({
     selector   : 'user-list',

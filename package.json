@@ -9,7 +9,8 @@
     "minify": "ionic-app-scripts minify",
     "serve": "ionic serve ",
     "start": "ionic serve ",
-    "alr": "ionic run android -l -s -c"
+    "android": "ionic run android -l -s -c",
+    "iphone": "ionic run iphone -l -s -c"
   },
   "dependencies": {
     "@angular/common": "2.4.8",

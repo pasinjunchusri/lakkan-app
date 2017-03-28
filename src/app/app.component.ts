@@ -3,9 +3,10 @@ import {Platform} from "ionic-angular";
 import {Device, Splashscreen} from "ionic-native";
 import {TabsPage} from "../pages/tabs/tabs";
 import {IntroPage} from "../pages/intro/intro";
-import {PARSE_APP_ID, PARSE_SERVER_URL, GOOGLE_ANALYTICS, PARSE_JAVASCRIPT_KEY} from "../config";
+import {GOOGLE_ANALYTICS, PARSE_APP_ID, PARSE_JAVASCRIPT_KEY, PARSE_SERVER_URL} from "../config";
 import {AnalyticsProvider} from "../providers/analytics.provider";
 import {UserProvider} from "../providers/user.provider";
+import {ExternalLibProvider} from "../providers/external-lib.provider";
 
 declare const Parse: any;
 
@@ -23,9 +24,13 @@ export class MyApp implements OnInit {
 
   constructor(private platform: Platform,
               private Analytics: AnalyticsProvider,
+              private lib: ExternalLibProvider,
               private User: UserProvider) {
 
+
     platform.ready().then(() => {
+      // Define Facebook Browser and Native
+      this.lib.initFacebook();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       // StatusBar.styleDefault();

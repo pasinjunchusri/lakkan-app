@@ -68,6 +68,7 @@ import {UserListComponent} from '../components/user-list/user-list';
 import {MapGalleryComponent} from '../components/map-gallery/map-gallery';
 import {AuthAvatarPage} from "./auth-avatar/auth-avatar";
 import {ChatMessagePopoverPage} from "./chat-message-popover/chat-message-popover";
+import {FacebookUserListComponent} from "./facebook-user-list/facebook-user-list";
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './i18n', '.json');
@@ -97,7 +98,7 @@ export const APP_PAGES = [
     AuthAvatarPage,
     GmapsAutocompleteModalPage,
     PhoneContactPage,
-
+    FacebookUserListComponent,
 
     // Chat
     ChatChannelPage,
@@ -170,7 +171,7 @@ export class PagesModule {
                 private storage: LocalStorageProvider) {
         this.translateConfig();
         setTimeout(() => {
-            this.androidPermission();
+            // this.androidPermission();
         }, 1000);
     }
 

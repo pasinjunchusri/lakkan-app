@@ -61,6 +61,10 @@ export class UserProvider {
     return Parse.User.requestPasswordReset(email);
   }
 
+  getFacebookListUsers(users: string[]) {
+    return Parse.Cloud.run('getFacebookListUsers', {users: users});
+  }
+
   getProfile(username: string): Promise<any> {
     return Parse.Cloud.run('profile', {username: username});
   }
@@ -143,7 +147,7 @@ export class UserProvider {
 
 
   changePassword(password: string) {
-    return Parse.Cloud.run('changePassword', {password: password});
+    return Parse.Cloud.run('changePassword', {password});
   }
 
   destroy(data) {

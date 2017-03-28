@@ -1,15 +1,17 @@
 import {Component} from "@angular/core";
 import {IonicUtilProvider} from "../../providers/ionic-util.provider";
-import _ from "underscore";
 import {AnalyticsProvider} from "../../providers/analytics.provider";
+import _ from "underscore";
 
-//http://market.ionic.io/plugins/ionic-2-ionic-contacts-inviter
+// cordova plugin add https://github.com/dbaq/cordova-plugin-contacts-phone-numbers.git
+// cordova plugin add https://github.com/cordova-sms/cordova-sms-plugin.git
 declare const navigator: any;
+declare const sms: any;
 
 @Component({selector: 'page-phone-contact', templateUrl: 'phone-contact.html'})
 export class PhoneContactPage {
     Contacts: any           = navigator.contactsPhoneNumbers;
-    SMS: any                = navigator.sms;
+    SMS: any                = sms;
     data: any;
     loading: boolean        = false;
     showPermission: boolean = true;
@@ -28,10 +30,8 @@ export class PhoneContactPage {
         this.cordova = this.util.cordova;
         // Translate Search Bar Placeholder
         this.util.translate(this.placeholder).then((res: string) => this.placeholder = res);
-    }
 
-    ionViewDidLoad() {
-        this.loadContacts();
+      this.loadContacts();
     }
 
     loadContacts(val?: string) {
@@ -45,7 +45,7 @@ export class PhoneContactPage {
                 result = _.filter(contacts, (item) => (item['firstName'].toLowerCase().indexOf(val.toLowerCase()) > -1))
             }
 
-            let group = _.groupBy(_.sortBy(result, 'firstName'), (contact: any) => contact.firstName.substr(0, 1));
+            let group = _.groupBy(_.sortBy(result, 'firstName'), (contact: any) => contact.firstName? contact.firstName.substr(0, 1) : '');
 
             _.each(group, (value, key) => data.push({group: key, list: value}));
             this.data    = data;
@@ -74,7 +74,7 @@ export class PhoneContactPage {
         console.log(contact, phone);
         this.hasPermission().then(permission => {
                 if (permission) {
-                    this.SMS.send(phone, this._message)
+                    this.SMS.send(phone.normalizeNumber, this._message)
                 } else {
                     this.onErrorSMSPermison();
                 }
