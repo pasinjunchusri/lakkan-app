@@ -5,6 +5,7 @@ import {AnalyticsProvider} from "../../providers/analytics.provider";
 import {ChatFormPage} from "../chat-form/chat-form";
 import {ChatMessagePage} from "../chat-message/chat-message";
 import _ from "underscore";
+import {isNullOrUndefined} from "util";
 declare const Parse: any;
 
 @Component({
@@ -80,7 +81,7 @@ export class ChatChannelPage {
 
   scrollToBottom(): void {
     setTimeout(() => {
-        if (this.content.scrollToBottom) {
+        if (!isNullOrUndefined(this.content) && this.content.scrollToBottom) {
             this.content.scrollToBottom(300)
         }
     }, 100);

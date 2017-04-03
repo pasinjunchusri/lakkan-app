@@ -74,8 +74,9 @@ export class UserProvider {
   }
 
   logout(): void {
-    let user = Parse.User.current();
-    this.ParsePush.unsubscribe(user.get('username'));
+    //TODO: Logout function
+    //let user = Parse.User.current();
+    //this.ParsePush.unsubscribe(user.get('username'));
     this.events.unsubscribe('upload:gallery');
     Parse.User.logOut();
   }
@@ -139,7 +140,8 @@ export class UserProvider {
           _user => currentUser = _user)
         .then(() => this.Storage.get('lang'))
         .then(this.setLanguage)
-        .then(() => this.ParsePush.init())
+        //TODO: Register Push
+        //.then(() => this.ParsePush.init())
         .then(() => resolve(currentUser))
         .catch(reject);
     });

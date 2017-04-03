@@ -25,56 +25,59 @@
 }
 
 .background {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#00786c+0,c8dc3d+99 */
-  background: rgb(0, 120, 108); /* Old browsers */
-  background: -moz-linear-gradient(top, rgba(0, 120, 108, 1) 0%, rgba(200, 220, 61, 1) 99%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(0, 120, 108, 1) 0%, rgba(200, 220, 61, 1) 99%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(0, 120, 108, 1) 0%, rgba(200, 220, 61, 1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00786c', endColorstr='#c8dc3d', GradientType=0); /* IE6-9 */
-
-  ion-item, .ion-item, .item-ios, .item-md, .label-md {
-    background: transparent;
-    color: #fff;
-    border: none;
-    ion-icon {
-      color: #fff;
-    }
-  }
-
-  input, .text-input {
-    $placeholder-color: rgba(255,255,255,0.4) !default;
-    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-      color: $placeholder-color;
-    }
-    &::-moz-placeholder { /* Firefox 19+ */
-      color: $placeholder-color;
-    }
-    &:-ms-input-placeholder { /* IE 10+ */
-      color: $placeholder-color;
-    }
-    &:-moz-placeholder { /* Firefox 18- */
-      color: $placeholder-color;
-    }
-  }
-
-  .item-block:last-child, .item-inner {
-    border-bottom: 0.55px solid rgba(255, 255, 255, 0.18) !important;
-  }
-
-  .item-block:first-child {
-    border-top: none;
-  }
-
-  .form-error {
-    color: #f00;
-  }
-
-  [icon-left] ion-icon {
-    left: 20px;
-    position: absolute;
-    top: 0;
-    line-height: 35px;
-  }
+  background-image: url(../assets/img/splash2.png);
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100;White+to+Transparent */
+  //background-color: #dedede;
+  ///* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#00786c+0,c8dc3d+99 */
+  //background: rgb(0, 120, 108); /* Old browsers */
+  //background: -moz-linear-gradient(top, rgba(0, 120, 108, 1) 0%, rgba(200, 220, 61, 1) 99%); /* FF3.6-15 */
+  //background: -webkit-linear-gradient(top, rgba(0, 120, 108, 1) 0%, rgba(200, 220, 61, 1) 99%); /* Chrome10-25,Safari5.1-6 */
+  //background: linear-gradient(to bottom, rgba(0, 120, 108, 1) 0%, rgba(200, 220, 61, 1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  //filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00786c', endColorstr='#c8dc3d', GradientType=0); /* IE6-9 */
+  //
+  //ion-item, .ion-item, .item-ios, .item-md, .label-md {
+  //  background: transparent;
+  //  color: #fff;
+  //  border: none;
+  //  ion-icon {
+  //    color: #fff;
+  //  }
+  //}
+  //
+  //input, .text-input {
+  //  $placeholder-color: rgba(255,255,255,0.4) !default;
+  //  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  //    color: $placeholder-color;
+  //  }
+  //  &::-moz-placeholder { /* Firefox 19+ */
+  //    color: $placeholder-color;
+  //  }
+  //  &:-ms-input-placeholder { /* IE 10+ */
+  //    color: $placeholder-color;
+  //  }
+  //  &:-moz-placeholder { /* Firefox 18- */
+  //    color: $placeholder-color;
+  //  }
+  //}
+  //
+  //.item-block:last-child, .item-inner {
+  //  border-bottom: 0.55px solid rgba(255, 255, 255, 0.18) !important;
+  //}
+  //
+  //.item-block:first-child {
+  //  border-top: none;
+  //}
+  //
+  //.form-error {
+  //  color: #f00;
+  //}
+  //
+  //[icon-left] ion-icon {
+  //  left: 20px;
+  //  position: absolute;
+  //  top: 0;
+  //  line-height: 35px;
+  //}
 }
 
 .logo {

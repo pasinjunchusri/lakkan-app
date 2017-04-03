@@ -23,7 +23,7 @@
 
         <ion-slide *ngFor="let slide of slides">
             <div class="text-content">
-                <p>{{slide.title | translate}}</p>
+                <p style="color: black">{{slide.title | translate}}</p>
             </div>
             <div class="phone android ">
                 <img [src]="slide.image" class="slide-image"/>
@@ -34,7 +34,7 @@
 
              <div class="text-content">
                 <div class="container">
-                    <img class="logo" src="assets/img/logo.svg" alt="Photogram">
+                    <img style="background: transparent;margin-bottom: 40px;" src="assets/img/logo2.png" alt="Photogram">
                     <button ion-button block color="blue" round icon-left (click)="onLogin()">
                         <ion-icon name="person"></ion-icon>
                         {{'Login' | translate}}
@@ -46,7 +46,7 @@
                     <button-facebook-login></button-facebook-login>
                 </div>
 
-                <p  (click)="onTerms()" >{{'By logging in or registering, you are agreeing to our Terms and Conditions' | translate}}</p>
+                <p style="color: black;margin-top: 20px;" (click)="onTerms()" >{{'By logging in or registering, you are agreeing to our Terms and Conditions' | translate}}</p>
             </div>
         </ion-slide>
 
